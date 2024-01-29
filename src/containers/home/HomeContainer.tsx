@@ -15,7 +15,6 @@ const HomeContainer = () => {
     const selectItem = (id: number | '') => {
         const item = items.filter(item => item.id === id);
         dispatch(editActions.selectItem(item[0]));
-        // dispatch(formActions.toggle_form({ form: 'edit', value: true }))
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
 
 
@@ -27,6 +26,7 @@ const HomeContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     useEffect(() => {
+        dispatch(itemActions.initForm())
         dispatch(itemActions.getItem())
     }, [dispatch])
     return (

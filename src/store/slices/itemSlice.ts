@@ -70,6 +70,7 @@ const itemSlice = createSlice({
   initialState,
   reducers: {
     initForm: (state) => {
+      state.items = initialState.items;
       state.input = initialState.input;
       state.imageList = initialState.imageList;
     },
@@ -134,7 +135,6 @@ const itemSlice = createSlice({
 
       // state.status.message = message;
     },
-    
   },
 });
 export default itemSlice.reducer;

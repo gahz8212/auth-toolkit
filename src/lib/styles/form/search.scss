@@ -7,19 +7,31 @@
     right: 30px;
     transform: translateY(180px);
   }
+
   .search {
     position: relative;
     .searchInput {
       position: absolute;
-      // top: 200px;
+      width: 50px;
+      transition: 0.4s;
+      font-size: 2rem;
       &:focus {
-        & .material-symbols-outlined {
-          right: 0;
-        }
+        background-color: yellow;
+        width: 200px;
       }
     }
     .material-symbols-outlined {
       position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      height: 0;
+      margin: auto;
+      font-size: 2rem;
+      color: green;
+      &.focus {
+        transform: translateX(100px);
+      }
     }
   }
 }

@@ -103,7 +103,7 @@
       text-align: right;
       padding: 0.3rem;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
 
       label {
@@ -128,7 +128,7 @@
         }
       }
       [type="button"] {
-        background-color: darkorange;
+        background-color: cornflowerblue;
       }
     }
     .imageList {
@@ -142,7 +142,7 @@
         // margin: 0.1rem;
         transition: 0.5s;
         &:hover {
-          transform: scale(3);
+          transform: scale(1.5);
         }
         & + & {
           margin-right: 0.5rem;

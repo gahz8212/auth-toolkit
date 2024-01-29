@@ -1,6 +1,6 @@
 .item-list {
   width: 70%;
-  margin: 1rem auto;
+  margin: 2rem auto;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -42,16 +42,16 @@
     .info.text {
       background-color: lightgray;
       &.전장물 {
-        background-color: yellow;
+        background-color: powderblue;
       }
       &.회로물 {
-        background-color: green;
+        background-color: cornflowerblue;
       }
       &.기구물 {
-        background-color: darkcyan;
+        background-color: silver;
       }
       &.기타물 {
-        background-color: orange;
+        background-color: lightgoldenrodyellow;
       }
     }
     .info.image {

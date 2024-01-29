@@ -3,7 +3,7 @@ type Props = {
     // setVisible: React.Dispatch<React.SetStateAction<boolean | undefined>>
     visible: boolean | undefined;
 }
-const SearchComponent: React.FC<Props> = ({ visible }) => {
+const SearchComponent: React.FC<Props> = ({ visible, }) => {
     return (
         <div className={`search-container ${visible ? 'visible' : ''}`}>
             <div className="group">
@@ -34,14 +34,14 @@ const SearchComponent: React.FC<Props> = ({ visible }) => {
                 <button>△</button>
                 <button>▽</button>
             </div>
-            <div className="search">
 
+            <div className="search">
                 <input type="text" className='searchInput' />
-                <span className="material-symbols-outlined">
-                    search
-                </span>
-            </div>
+                {/* <span className={`material-symbols-outlined ${focus ? 'focus' : ''}`}> */}
+                search
+            </span>
         </div>
+        </div >
     );
 };
 

@@ -109,7 +109,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     <input type="file" id='excel' onChange={excel_onChange}></input>
                     {file ? <button type='button' onClick={excel_onSubmit}>엑셀등록</button> : <button type='submit'>등록</button>}
 
-                    <button type='button' onClick={formClose}>닫기</button>
+                    <button className='close' onClick={formClose}>닫기</button>
                 </div>
             </form>
         </div>
