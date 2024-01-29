@@ -1,0 +1,25 @@
+.search-container {
+  position: absolute;
+  top: -100px;
+  right: 30px;
+  transition: 1s;
+  &.visible {
+    right: 30px;
+    transform: translateY(180px);
+  }
+  .search {
+    position: relative;
+    .searchInput {
+      position: absolute;
+      // top: 200px;
+      &:focus {
+        & .material-symbols-outlined {
+          right: 0;
+        }
+      }
+    }
+    .material-symbols-outlined {
+      position: absolute;
+    }
+  }
+}
