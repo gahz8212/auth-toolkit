@@ -1,8 +1,19 @@
 .form-container {
+  z-index: 2;
   user-select: none;
   position: relative;
+  border: 3px solid red;
+  &.전장물 {
+    background-color: powderblue;
+  }
   &.회로물 {
-    background: green;
+    background-color: cornflowerblue;
+  }
+  &.기구물 {
+    background-color: silver;
+  }
+  &.기타물 {
+    background-color: lightgoldenrodyellow;
   }
   .form-title {
     background: green;
@@ -21,13 +32,11 @@
   .input-form {
     font-size: 0.9rem;
     border-radius: 8px;
-    position: absolute;
-    background-color: white;
+    // position: absolute;
+    // background-color: white;
     width: 300px;
-    border: 3px solid red;
     //   margin: 0 auto;
-    transform: translatex(20px);
-    z-index: 2;
+    // transform: translatex(20px);
 
     .inputs {
       // background: green;

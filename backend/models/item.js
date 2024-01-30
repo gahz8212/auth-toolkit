@@ -11,13 +11,17 @@ module.exports = class Item extends Sequelize.Model {
         descript: { type: Sequelize.STRING(200), allowNull: true },
         unit: {
           type: Sequelize.ENUM,
-          values: ["$", "￦", "￥"],
-          defaultValue: "￦",
+          values: ["$", "\\", "￥"],
+          defaultValue: "\\",
         },
         price: { type: Sequelize.FLOAT(11, 4), defaultValue: 0 },
         count: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 1 },
         use: { type: Sequelize.BOOLEAN, defaultValue: true },
-        supplyer: { type: Sequelize.STRING(10), allowNull: false },
+        supplyer: {
+          type: Sequelize.STRING(10),
+          allowNull: false,
+          defaultValue: "",
+        },
         column: {
           type: Sequelize.ENUM,
           values: ["CUR", "LOW", "UPP"],

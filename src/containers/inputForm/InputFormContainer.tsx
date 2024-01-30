@@ -9,7 +9,7 @@ import * as XLSX from 'xlsx';
 const InputFormContainer = () => {
     const dispatch = useDispatch()
     const { input, imageList } = useSelector(itemData)
-    const { file, data, status } = useSelector(ExcelData)
+    const { file, data: datas, status } = useSelector(ExcelData)
     const onChange = (e: any) => {
         let { name, value } = e.target;
         if (name === 'use') {
@@ -36,7 +36,7 @@ const InputFormContainer = () => {
         }
     ) => {
         dispatch(itemActions.addItem(item))
-        dispatch(itemActions.initForm())
+        // dispatch(itemActions.initForm())
     }
     const formClose = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: false }))
@@ -49,23 +49,37 @@ const InputFormContainer = () => {
             'text/csv',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
+
         if (selectedFile) {
             if (selectedFile && fileTypes.includes(selectedFile.type)) {
                 const reader = new FileReader();
                 reader.readAsArrayBuffer(selectedFile)
                 reader.onload = (e: ProgressEvent<FileReader>) => {
                     dispatch(ExcelAction.onChange(e.target?.result))
-
+                    convertExcelData(e.target?.result)
                 }
+
+
             }
         }
     }
+    const convertExcelData = (file: ArrayBuffer | undefined | string | null) => {
+
+        if (file) {
+
+            const workbook = XLSX.read(file, { type: 'buffer' });
+            const worksheetname = workbook.SheetNames[0];
+            const worksheets = workbook.Sheets[worksheetname];
+            const excelData = XLSX.utils.sheet_to_json(worksheets)
+            // console.log(excelData)
+            dispatch(ExcelAction.onSubmit(excelData))
+        }
+    }
     const excel_onSubmit = () => {
-        const workbook = XLSX.read(file, { type: 'buffer' });
-        const worksheetname = workbook.SheetNames[0];
-        const worksheets = workbook.Sheets[worksheetname];
-        const excelData = XLSX.utils.sheet_to_json(worksheets)
-        dispatch(ExcelAction.onSubmit(excelData))
+
+        if (datas) {
+            dispatch(itemActions.excelAdd(datas))
+        }
     }
     return (
         <InputFormComponent

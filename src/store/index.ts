@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import { authSaga } from "./sagas/authSaga";
 import { itemSaga } from "./sagas/itemSaga";
 import { editSaga } from "./sagas/editSaga";
+import { excelSaga } from "./sagas/excelSaga";
 import authSlice from "./slices/authSlice";
 import itemSlice from "./slices/itemSlice";
 import editSlice from "./slices/editSlice";
@@ -18,7 +19,7 @@ const reducers = combineReducers({
   excel: excelSlice,
 });
 function* rootSaga() {
-  yield all([call(authSaga), call(itemSaga), call(editSaga)]);
+  yield all([call(authSaga), call(itemSaga), call(editSaga), call(excelSaga)]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const getUser = () => {

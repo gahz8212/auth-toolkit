@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
-  file: ArrayBuffer | undefined | null;
+  file: ArrayBuffer | undefined | string | null;
   data: any[] | null;
   status: { error: string; loading: boolean };
 };

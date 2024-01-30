@@ -34,7 +34,6 @@ router.post("/item", async (req, res) => {
     count,
     use,
     supplyer,
-
     imageList,
   } = req.body;
   try {
@@ -124,6 +123,18 @@ router.delete("/delete/:id", async (req, res) => {
     return res.status(200).json("remove_ok");
   } catch (e) {
     console.error(e);
+    return res.status(400).json(e.message);
+  }
+});
+router.post("/excelAdd", async (req, res) => {
+  const datas = req.body;
+  try {
+    if (datas) {
+      const result = await Item.bulkCreate(datas);
+      console.log("result", result);
+      return res.status(200).json(result);
+    }
+  } catch (e) {
     return res.status(400).json(e.message);
   }
 });

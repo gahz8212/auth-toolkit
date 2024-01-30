@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { itemActions, itemData } from '../../store/slices/itemSlice';
 import { editActions } from '../../store/slices/editSlice';
-import HomeComponent from './HomeComponent';
 import { formSelector, formActions } from '../../store/slices/formSlice';
 import { ExcelData } from '../../store/slices/excelSlice';
+import HomeComponent from './HomeComponent';
 const HomeContainer = () => {
     const dispatch = useDispatch();
-    const { items } = useSelector(itemData);
+    const { items, status } = useSelector(itemData);
     const { input, edit, search } = useSelector(formSelector)
     const { data } = useSelector(ExcelData)
 
@@ -25,19 +25,28 @@ const HomeContainer = () => {
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
+
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(itemActions.getItem())
     }, [dispatch])
+    // useEffect(() => {
+    //     if (status.message === 'excelAdd_ok') {
+    //         dispatch(itemActions.addItems(data))
+
+    //     }
+    // }, [status, dispatch, data])
     return (
-        <HomeComponent items={items}
+        <HomeComponent
+            items={items}
             selectItem={selectItem}
             input={input}
             edit={edit}
             search={search}
             openAddForm={openAddForm}
             changePosition={changePosition}
-            datas={data}
+
+        // datas={data}
 
         />
 

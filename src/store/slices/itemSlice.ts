@@ -28,7 +28,7 @@ type State = {
   };
 
   imageList: { url: string }[];
-  status: { error: string; message: string };
+  status: { error: string; message: string; loading: boolean };
 };
 const initialState: State = {
   items: [],
@@ -36,7 +36,7 @@ const initialState: State = {
     category: "회로물",
     name: "",
     descript: "",
-    unit: "￦",
+    unit: "\\",
     price: 0,
     count: 0,
     use: true,
@@ -45,7 +45,7 @@ const initialState: State = {
   },
 
   imageList: [],
-  status: { error: "", message: "" },
+  status: { error: "", message: "", loading: false },
 };
 const inputSelector = (state: RootState) => {
   return state.item.input;
@@ -56,13 +56,15 @@ const imageListSelector = (state: RootState) => {
 const itemSelector = (state: RootState) => {
   return state.item.items;
 };
-
+const statusSelector = (state: RootState) => {
+  return state.item.status;
+};
 export const itemData = createSelector(
   inputSelector,
   imageListSelector,
   itemSelector,
-
-  (input, imageList, items) => ({ input, imageList, items })
+  statusSelector,
+  (input, imageList, items, status) => ({ input, imageList, items, status })
 );
 
 const itemSlice = createSlice({
@@ -77,7 +79,22 @@ const itemSlice = createSlice({
     changeField: (state, { payload: { name, value } }) => {
       state.input[name] = value;
     },
-
+    excelAdd: (state, action: PayloadAction<any[] | null>) => {
+      state.status.error = "";
+      state.status.message = "";
+      state.status.loading = true;
+    },
+    excelAddSuccess: (state, { payload: items }) => {
+      state.status.message = "";
+      state.status.error = "";
+      state.status.loading = false;
+      state.items = state.items.concat(items);
+    },
+    excelAddFailure: (state, { payload: error }) => {
+      state.status.message = "";
+      state.status.error = error;
+      state.status.loading = false;
+    },
     addImage: (state, action: PayloadAction<FormData>) => {
       state.status.error = "";
       state.status.message = "";
@@ -114,6 +131,9 @@ const itemSlice = createSlice({
     addItemFailure: (state, { payload: error }) => {
       state.status.message = "";
       state.status.error = error;
+    },
+    addItems: (state, { payload: items }) => {
+      state.items = state.items.concat(items);
     },
     getItem: (state) => {
       state.status.error = "";

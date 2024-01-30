@@ -31,14 +31,15 @@ type Props = {
     formClose: () => void;
     excel_onChange: (e: any) => void;
     excel_onSubmit: () => void;
-    file: ArrayBuffer | undefined | null;
+    file: ArrayBuffer | undefined | string | null;
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
     excel_onChange, excel_onSubmit, file }) => {
     return (
-        <div className="form-container">
+        <div className={`form-container ${input.category}`}>
             <form className='input-form' onSubmit={(e) => {
+
                 e.preventDefault();
                 addItem({
                     category: input.category,
@@ -71,18 +72,18 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
                         <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                     </div>
-                    <input type="number" name="count" value={input.count} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} />
+                    <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} />
                     <div className="currency">
 
-                        <input type="radio" id="￦_input" value="￦" name="unit" checked={input.unit === "￦"} onChange={onChange} />
+                        <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\"} onChange={onChange} />
                         <label htmlFor="￦_input">￦</label>
                         <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
                         <label htmlFor="$_input">$</label>
                         <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} />
                         <label htmlFor="￥_input">￥</label>
-                        <input type="number" name="price" value={input.price} onChange={onChange} min={0} placeholder='단가 입력' onFocus={e => e.target.select()} />
+                        <input type="number" name="price" value={input.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='단가 입력' onFocus={e => e.target.select()} />
                     </div>
-
+                    {/* //Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") */}
                     <div>
                     </div>
                     <div>

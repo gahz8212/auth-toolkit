@@ -37,10 +37,10 @@ const SearchComponent: React.FC<Props> = ({ visible, }) => {
 
             <div className="search">
                 <input type="text" className='searchInput' />
-                {/* <span className={`material-symbols-outlined ${focus ? 'focus' : ''}`}> */}
-                search
-            </span>
-        </div>
+                <span className={`material-symbols-outlined `}>
+                    search
+                </span>
+            </div>
         </div >
     );
 };

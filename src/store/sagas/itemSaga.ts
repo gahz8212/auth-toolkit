@@ -61,7 +61,7 @@ function* getItemSaga() {
         imageList: { url: string }[];
       }[];
     } = yield call(itemAPI.getItem);
-    yield put(itemActions.addItemSuccess(response.data));
+    yield put(itemActions.getItemSuccess(response.data));
   } catch (e: any) {
     yield put(itemActions.getItemFailure(e.response.data));
   }

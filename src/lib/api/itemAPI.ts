@@ -13,6 +13,7 @@ export const addItem = (item: {
   supplyer: string;
   imageList: { url: string }[];
 }) => {
+  console.log(item);
   return client.post("item/item", item);
 };
 export const getItem = () => {
@@ -21,10 +22,13 @@ export const getItem = () => {
 export const editItem = (item: {
   [key: string]: "" | number | string | { url: string }[] | boolean;
 }) => {
-  console.log(item);
   return client.post("/item/edit", item);
 };
 export const removeItem = (id: number | "") => {
   console.log("deleteID", id);
   return client.delete(`/item/delete/${id}`);
+};
+export const excelAdd = (datas: any[] | null) => {
+  console.log("datas", datas);
+  return client.post("/item/excelAdd", datas);
 };
