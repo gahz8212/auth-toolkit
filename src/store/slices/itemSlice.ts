@@ -26,7 +26,7 @@ type State = {
     supplyer: string;
     column: string;
   };
-
+  dummy: any[];
   imageList: { url: string }[];
   status: { error: string; message: string; loading: boolean };
 };
@@ -43,7 +43,7 @@ const initialState: State = {
     supplyer: "",
     column: "",
   },
-
+  dummy: [],
   imageList: [],
   status: { error: "", message: "", loading: false },
 };
@@ -59,12 +59,22 @@ const itemSelector = (state: RootState) => {
 const statusSelector = (state: RootState) => {
   return state.item.status;
 };
+const dummySelector = (state: RootState) => {
+  return state.item.dummy;
+};
 export const itemData = createSelector(
   inputSelector,
   imageListSelector,
   itemSelector,
   statusSelector,
-  (input, imageList, items, status) => ({ input, imageList, items, status })
+  dummySelector,
+  (input, imageList, items, status, dummy) => ({
+    input,
+    imageList,
+    items,
+    status,
+    dummy,
+  })
 );
 
 const itemSlice = createSlice({
@@ -154,6 +164,12 @@ const itemSlice = createSlice({
       state.status.message = "";
 
       // state.status.message = message;
+    },
+    filteredItems: (state, { payload: newItems }) => {
+      state.items = newItems;
+    },
+    originItems: (state) => {
+      state.items = state.dummy;
     },
   },
 });

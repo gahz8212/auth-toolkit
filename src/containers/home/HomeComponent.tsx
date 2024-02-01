@@ -3,7 +3,7 @@ import { useDrag } from 'react-use-gesture';
 import NavComponent from '../common/navigate/NavComponent';
 import InputFormContainer from '../inputForm/InputFormContainer';
 import EditFormContainer from "../editForm/EditFormContainer";
-import SearchComponent from '../search/SearchComponent';
+import SearchContainer from '../search/SearchContainer';
 type Props = {
     items: {
         id: number | '',
@@ -52,14 +52,27 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search
     const [visible, setVisible] = useState<boolean>()
     return (
         <div className='home-wraper'>
-            <SearchComponent visible={visible} />
+            <SearchContainer setVisible={setVisible} visible={visible} />
             <NavComponent setVisible={setVisible} visible={visible} />
-            <div {...inputPos()} style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
-                {input.visible && <InputFormContainer />}
-            </div>
-            <div {...editPos()} style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
-                {edit.visible && <EditFormContainer />}
-            </div>
+            {input.visible && <div >
+
+                <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 입력</span>
+                </div>
+                <div style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
+
+                    <InputFormContainer />
+                </div>
+            </div>}
+
+            {edit.visible && <div>
+                <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 수정</span>
+                </div>
+                <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
+                    <EditFormContainer />
+                </div>
+            </div>}
             <div className="item-list">
                 {items.map((item, index) =>
                     <div key={index} className={`infos ${selected === item.id ? 'selected' : ''}`} onClick={() => { selectItem(item.id); setSelected(item.id) }}>

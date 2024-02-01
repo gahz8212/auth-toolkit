@@ -56,7 +56,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 })
             }}>
                 <div className="inputs">
-                    <div className='form-title'>아이템 입력</div>
+                    {/* <div className='form-title'>아이템 입력</div> */}
                     <div className="category">
                         <input type="radio" id="회로물_input" name="category" value="회로물" checked={input.category === '회로물'} onChange={onChange} />
                         <label htmlFor="회로물_input">회로</label>

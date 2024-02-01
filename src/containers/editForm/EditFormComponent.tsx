@@ -55,18 +55,16 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     for (let key of keys) {
                         if (prev[key] !== next[key]) {
                             changedProps[key] = next[key]
-
                         }
                     }
                     const newItem = ({ id: next.id, ...changedProps })
                     console.log(newItem)
                     editItem(newItem)
                 }
-
                 }
             >
                 <div className="edits">
-                    <div className='form-title edit'>아이템 수정</div>
+                    {/* <div className='form-title edit'>아이템 수정</div> */}
                     <div className="category">
                         <input type="radio" id="회로물_edit" name="category" value="회로물" checked={next.category === '회로물'} onChange={onChange} />
                         <label htmlFor="회로물_edit">회로</label>
@@ -77,8 +75,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         <input type="radio" id="기타물_edit" name="category" value="기타물" checked={next.category === "기타물"} onChange={onChange} />
                         <label htmlFor="기타물_edit">기타</label>
                     </div>
-
-
                     <input type="text" name="name" value={next.name} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
                     <div>
 
