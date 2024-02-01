@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const { Item, Image } = require("../models");
+const { Op } = require("sequelize");
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
@@ -53,8 +54,8 @@ router.post("/item", async (req, res) => {
       )
     );
     item.addImages(image_promise.map((image) => image[0]));
-    const newItem = await Item.findAll({
-      where: { id: item.id },
+    const newItem = await Item.findOne({
+      where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
       attributes: [
         "id",
         "category",
@@ -130,9 +131,15 @@ router.post("/excelAdd", async (req, res) => {
   const datas = req.body;
   try {
     if (datas) {
-      const result = await Item.bulkCreate(datas);
-      console.log("result", result);
-      return res.status(200).json(result);
+      const results = await Item.bulkCreate(datas);
+      const resultIds = results.map((result) => result.id);
+
+      const finddatas = await Item.findAll({
+        where: { id: resultIds },
+        include: { model: Image },
+      });
+
+      return res.status(200).json(finddatas);
     }
   } catch (e) {
     return res.status(400).json(e.message);

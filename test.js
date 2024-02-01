@@ -69,6 +69,10 @@
 //   }
 // }
 // console.log(newarr);
-const arrs = [1, 2, 3, 4];
-const newarrs = arrs.splice(2, 1, 100);
-console.log(arrs);
+// const arrs = [1, 2, 3, 4];
+// const newarrs = arrs.splice(2, 1, 100);
+// console.log(arrs);
+const arrs = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
+const arr1 = { image: { url: "" } };
+const newarr = arrs.map((arr) => ({ ...arr, ...arr1 }));
+console.log(newarr);

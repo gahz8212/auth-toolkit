@@ -1,3 +1,4 @@
+import { execFile } from 'child_process';
 import React from 'react';
 type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>
@@ -32,10 +33,11 @@ type Props = {
     excel_onChange: (e: any) => void;
     excel_onSubmit: () => void;
     file: ArrayBuffer | undefined | string | null;
+    excelFile: React.LegacyRef<HTMLInputElement> | undefined
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file }) => {
+    excel_onChange, excel_onSubmit, file, excelFile }) => {
     return (
         <div className={`form-container ${input.category}`}>
             <form className='input-form' onSubmit={(e) => {
@@ -107,7 +109,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 <div className="input-submit">
 
                     <label htmlFor="excel"><img src="/images/excel_btn.png" alt=''  ></img></label>
-                    <input type="file" id='excel' onChange={excel_onChange}></input>
+                    <input type="file" id='excel' onChange={excel_onChange} ref={excelFile}></input>
                     {file ? <button type='button' onClick={excel_onSubmit}>엑셀등록</button> : <button type='submit'>등록</button>}
 
                     <button className='close' onClick={formClose}>닫기</button>

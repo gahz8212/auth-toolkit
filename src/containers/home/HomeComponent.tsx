@@ -54,10 +54,10 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search
         <div className='home-wraper'>
             <SearchComponent visible={visible} />
             <NavComponent setVisible={setVisible} visible={visible} />
-            <div {...inputPos()} style={{ position: 'absolute', top: input.position.y, left: input.position.x }}>
+            <div {...inputPos()} style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
                 {input.visible && <InputFormContainer />}
             </div>
-            <div {...editPos()} style={{ position: 'absolute', top: edit.position.y, left: edit.position.x }}>
+            <div {...editPos()} style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
                 {edit.visible && <EditFormContainer />}
             </div>
             <div className="item-list">
