@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
 import { SearchActions, SearchCondition } from '../../store/slices/searchSlice';
 import { itemActions, itemData } from '../../store/slices/itemSlice';
 import { useDispatch, useSelector } from 'react-redux'
 type Props = {
-    setVisible: React.Dispatch<React.SetStateAction<boolean | undefined>>
-    visible: boolean | undefined
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
+    const [focus, setFocus] = useState<boolean>(false)
     const dispatch = useDispatch();
     const { search } = useSelector(SearchCondition);
     const { items } = useSelector(itemData)
@@ -18,11 +19,12 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         } else {
             dispatch(SearchActions.checkCategory(name))
         }
+        dispatch(itemActions.backupItems())
     }
     useEffect(() => {
 
         const { all, ...rest } = search;
-        const conditions: string[] = ['기구물']
+        const conditions = []
         const keys = Object.keys(rest);
         for (let key of keys) {
             if (search[key]) {
@@ -31,22 +33,21 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         }
 
         // console.log(dummy)
-        const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat()
-        console.log(searchResult)
+        const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
+        // console.log(searchResult)
 
         dispatch(itemActions.filteredItems(searchResult))
-        // dispatch(itemActions.originItems())
 
-        if (search.circuit && search.electric && search.mechanical && search.etc) {
+        if (search.회로물 && search.전장물 && search.기구물 && search.기타물) {
             dispatch(SearchActions.onlyCheckAll(true))
         } else {
             dispatch(SearchActions.onlyCheckAll(false))
 
         }
-    }, [dispatch, search])
+    }, [search, dispatch])
     return (
         <div>
-            <SearchComponent setVisible={setVisible} visible={visible} onChange={onChange} search={search} />
+            <SearchComponent setVisible={setVisible} visible={visible} onChange={onChange} search={search} focus={focus} setFocus={setFocus} />
         </div>
     );
 };

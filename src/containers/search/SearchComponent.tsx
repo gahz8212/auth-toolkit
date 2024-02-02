@@ -1,17 +1,20 @@
 import React from 'react';
 type Props = {
-    setVisible: React.Dispatch<React.SetStateAction<boolean | undefined>>
-    visible: boolean | undefined;
+
     onChange: (e: any) => void;
     search: {
         all: boolean;
-        circuit: boolean;
-        electric: boolean;
-        mechanical: boolean;
-        etc: boolean;
-    }
+        회로물: boolean;
+        전장물: boolean;
+        기구물: boolean;
+        기타물: boolean;
+    };
+    focus: boolean;
+    setFocus: React.Dispatch<React.SetStateAction<boolean>>
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
-const SearchComponent: React.FC<Props> = ({ visible, onChange, search }) => {
+const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus }) => {
     return (
         <div className={`search-container ${visible ? 'visible' : ''}`}>
             <div className="group">
@@ -19,13 +22,13 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search }) => {
                     <input type="checkbox" name="all" id="all" onChange={onChange} checked={search.all === true} />
                     <label htmlFor="all">전체</label>
                 </div>
-                <input type="checkbox" name="circuit" id="group-회로물" onChange={onChange} checked={search.circuit === true} />
+                <input type="checkbox" name="회로물" id="group-회로물" onChange={onChange} checked={search.회로물 === true} />
                 <label htmlFor="group-회로물">회로물</label>
-                <input type="checkbox" name="electric" id="group-전장물" onChange={onChange} checked={search.electric === true} />
+                <input type="checkbox" name="전장물" id="group-전장물" onChange={onChange} checked={search.전장물 === true} />
                 <label htmlFor="group-전장물">전장물</label>
-                <input type="checkbox" name="mechanical" id="group-기구물" onChange={onChange} checked={search.mechanical === true} />
+                <input type="checkbox" name="기구물" id="group-기구물" onChange={onChange} checked={search.기구물 === true} />
                 <label htmlFor="group-기구물">기구물</label>
-                <input type="checkbox" name="etc" id="group-기타물" onChange={onChange} checked={search.etc === true} />
+                <input type="checkbox" name="기타물" id="group-기타물" onChange={onChange} checked={search.기타물 === true} />
                 <label htmlFor="group-기타물">기타</label>
             </div>
             <div className="sort">
@@ -43,11 +46,13 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search }) => {
                 <button>▽</button>
             </div>
 
-            <div className="search">
-                <input type="text" className='searchInput' />
-                <span className={`material-symbols-outlined `}>
+            <div className={`search ${focus ? 'focus' : ''}`}>
+                <input type="text" className='searchInput' onFocus={() => setFocus(!focus)} onBlur={() => setFocus(!focus)} />
+
+                <span className={`material-symbols-outlined `} onClick={() => setFocus(!focus)}>
                     search
                 </span>
+
             </div>
         </div >
     );

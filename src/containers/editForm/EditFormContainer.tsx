@@ -15,7 +15,7 @@ const EditFormContainer = () => {
 
     const onChange = (e: any) => {
         let { name, value } = e.target;
-
+        console.log(value)
         if (name === 'use') {
             value = value === '1' ? true : false
         }
@@ -28,7 +28,7 @@ const EditFormContainer = () => {
     }
     const editItem = (
         item: {
-            [key: string]: '' | number | string | { url: string }[] | boolean,
+            [key: string]: number | string | { url: string }[] | boolean,
         }
     ) => {
         dispatch(editActions.editItem(item))

@@ -6,7 +6,7 @@ import EditFormContainer from "../editForm/EditFormContainer";
 import SearchContainer from '../search/SearchContainer';
 type Props = {
     items: {
-        id: number | '',
+        id: number,
         category: string,
         name: string,
         descript: string,
@@ -17,7 +17,7 @@ type Props = {
         supplyer: string,
         Images: { url: string }[]
     }[];
-    selectItem: (id: number | '') => void;
+    selectItem: (id: number) => void;
     input: { visible: boolean; position: { x: number; y: number } };
     edit: { visible: boolean; position: { x: number; y: number } };
     search: { visible: boolean; position: { x: number; y: number } };
@@ -27,7 +27,7 @@ type Props = {
 }
 type subProps = {
     item: {
-        id: number | '',
+        id: number,
         category: string,
         name: string,
         descript: string,
@@ -52,8 +52,8 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search
     const [visible, setVisible] = useState<boolean>()
     return (
         <div className='home-wraper'>
-            <SearchContainer setVisible={setVisible} visible={visible} />
-            <NavComponent setVisible={setVisible} visible={visible} />
+            
+            
             {input.visible && <div >
 
                 <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
@@ -87,7 +87,7 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search
                         </div>
                     </div>)}
             </div>
-            <span onClick={openAddForm} className="material-symbols-outlined">
+            <span onClick={openAddForm} className="material-symbols-outlined write">
                 edit_document
             </span>
         </div >

@@ -1,11 +1,18 @@
 .nav {
-  //   background-color: yellow;
+  position: fixed;
+  top: 50px;
+  // background-color: green;
+  background: white;
+  height: 70px;
   width: 100%;
   list-style: none;
   display: flex;
   justify-content: space-around;
   align-items: center;
   transition: 1s;
+  z-index: 1;
+  // top: 70px;
+
   &.visible {
     width: 60%;
   }

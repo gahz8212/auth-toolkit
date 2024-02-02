@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
   items: {
-    id: number | "";
+    id: number;
     category: string;
     name: string;
     descript: string;
@@ -26,7 +26,7 @@ type State = {
     supplyer: string;
     column: string;
   };
-  dummy: any[];
+  backup: any[];
   imageList: { url: string }[];
   status: { error: string; message: string; loading: boolean };
 };
@@ -36,14 +36,14 @@ const initialState: State = {
     category: "회로물",
     name: "",
     descript: "",
-    unit: "\\",
+    unit: "\\\\",
     price: 0,
     count: 0,
     use: true,
     supplyer: "",
     column: "",
   },
-  dummy: [],
+  backup: [],
   imageList: [],
   status: { error: "", message: "", loading: false },
 };
@@ -60,7 +60,7 @@ const statusSelector = (state: RootState) => {
   return state.item.status;
 };
 const dummySelector = (state: RootState) => {
-  return state.item.dummy;
+  return state.item.backup;
 };
 export const itemData = createSelector(
   inputSelector,
@@ -68,12 +68,12 @@ export const itemData = createSelector(
   itemSelector,
   statusSelector,
   dummySelector,
-  (input, imageList, items, status, dummy) => ({
+  (input, imageList, items, status, backup) => ({
     input,
     imageList,
     items,
     status,
-    dummy,
+    backup,
   })
 );
 
@@ -99,6 +99,7 @@ const itemSlice = createSlice({
       state.status.error = "";
       state.status.loading = false;
       state.items = state.items.concat(items);
+      state.backup = state.items;
     },
     excelAddFailure: (state, { payload: error }) => {
       state.status.message = "";
@@ -137,6 +138,7 @@ const itemSlice = createSlice({
       state.status.message = "";
       state.status.error = "";
       state.items = state.items.concat(item);
+      state.backup = state.items;
     },
     addItemFailure: (state, { payload: error }) => {
       state.status.message = "";
@@ -153,6 +155,7 @@ const itemSlice = createSlice({
       state.items = items;
       state.status.error = "";
       state.status.message = "";
+      state.backup = state.items;
     },
     getItemFailure: (state, { payload: error }) => {
       state.status.error = error;
@@ -162,14 +165,15 @@ const itemSlice = createSlice({
       state.items = items;
       state.status.error = "";
       state.status.message = "";
+      state.backup = state.items;
 
       // state.status.message = message;
     },
     filteredItems: (state, { payload: newItems }) => {
       state.items = newItems;
     },
-    originItems: (state) => {
-      state.items = state.dummy;
+    backupItems: (state) => {
+      state.items = state.backup;
     },
   },
 });

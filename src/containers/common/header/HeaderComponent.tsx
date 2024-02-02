@@ -18,6 +18,7 @@ const HeaderComponent: React.FC<Props> = ({ auth, onLogout }) => {
 
             </div >
             <div className="space"></div>
+
         </>
     );
 };

@@ -40,6 +40,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
     excel_onChange, excel_onSubmit, file, excelFile }) => {
     return (
         <div className={`form-container ${input.category}`}>
+
             <form className='input-form' onSubmit={(e) => {
 
                 e.preventDefault();
@@ -77,7 +78,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} />
                     <div className="currency">
 
-                        <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\"} onChange={onChange} />
+                        <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
                         <label htmlFor="￦_input">￦</label>
                         <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
                         <label htmlFor="$_input">$</label>

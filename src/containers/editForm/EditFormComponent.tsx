@@ -1,8 +1,8 @@
 import React from 'react';
 type Props = {
     prev: {
-        [key: string]: string | '' | number | boolean | { url: string }[],
-        id: '' | number,
+        [key: string]: string | number | boolean | { url: string }[],
+        id: number,
         category: string,
         name: string,
         descript: string,
@@ -14,8 +14,8 @@ type Props = {
         Images: { url: string }[]
     };
     next: {
-        [key: string]: string | '' | number | boolean | { url: string }[],
-        id: '' | number,
+        [key: string]: string | number | boolean | { url: string }[],
+        id: number,
         category: string,
         name: string,
         descript: string,
@@ -34,8 +34,8 @@ type Props = {
     editItem: (item: {
         [key: string]: '' | number | string | { url: string }[] | boolean,
     }) => void;
-    removeItem: (id: number | '') => void;
-    removeImage: (id: number | '', url: string) => void;
+    removeItem: (id: number) => void;
+    removeImage: (id: number, url: string) => void;
     closeForm: () => void;
 }
 const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm }) => {
@@ -58,7 +58,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         }
                     }
                     const newItem = ({ id: next.id, ...changedProps })
-                    console.log(newItem)
+                    // console.log(newItem)
                     editItem(newItem)
                 }
                 }
@@ -83,7 +83,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     <input type="number" name="count" value={next.count} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} />
                     <div className="currency">
 
-                        <input type="radio" id="￦_edit" value="￦" name="unit" checked={next.unit === "￦"} onChange={onChange} />
+                        <input type="radio" id="￦_edit" value="\" name="unit" checked={next.unit === "\\"} onChange={onChange} />
                         <label htmlFor="￦_edit">￦</label>
                         <input type="radio" id="$_edit" value="$" name="unit" checked={next.unit === "$"} onChange={onChange} />
                         <label htmlFor="$_edit">$</label>

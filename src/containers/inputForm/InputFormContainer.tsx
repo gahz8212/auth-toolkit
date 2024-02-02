@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { itemActions, itemData } from '../../store/slices/itemSlice';
 import { imageInsert } from '../../lib/utils/createFormData'
@@ -14,6 +14,7 @@ const InputFormContainer = () => {
     const { file, data: datas, status } = useSelector(ExcelData)
     const onChange = (e: any) => {
         let { name, value } = e.target;
+        console.log(value)
         if (name === 'use') {
             value = value === '1' ? true : false
         }
@@ -80,6 +81,9 @@ const InputFormContainer = () => {
 
         }
     }
+    useEffect(() => {
+        console.log(input.unit)
+    }, [input])
     return (
         <InputFormComponent
             onChange={onChange}

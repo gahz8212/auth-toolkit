@@ -2,7 +2,7 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
   prev: {
-    id: "" | number;
+    id: number;
     category: string;
     name: string;
     descript: string;
@@ -15,8 +15,8 @@ type State = {
     Images: { url: string }[];
   };
   next: {
-    [key: string]: "" | string | number | boolean | { url: string }[];
-    id: "" | number;
+    [key: string]: string | number | boolean | { url: string }[];
+    id: number;
     category: string;
     name: string;
     descript: string;
@@ -38,11 +38,11 @@ type State = {
 
 const initialState: State = {
   prev: {
-    id: "",
+    id: -1,
     category: "",
     name: "",
     descript: "",
-    unit: "￦",
+    unit: "\\",
     price: 0,
     count: 0,
     use: false,
@@ -51,11 +51,11 @@ const initialState: State = {
     Images: [],
   },
   next: {
-    id: "",
+    id: -1,
     category: "",
     name: "",
     descript: "",
-    unit: "￦",
+    unit: "\\",
     price: 0,
     count: 0,
     use: false,
@@ -120,7 +120,7 @@ const editSlice = createSlice({
     editItem: (
       state,
       action: PayloadAction<{
-        [key: string]: "" | number | string | { url: string }[] | boolean;
+        [key: string]: number | string | { url: string }[] | boolean;
       }>
     ) => {
       state.status.loading = true;

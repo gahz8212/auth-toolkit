@@ -13,7 +13,8 @@ export const addItem = (item: {
   supplyer: string;
   imageList: { url: string }[];
 }) => {
-  console.log("addItem", item);
+  item.unit = item.unit.slice(0, 1);
+
   return client.post("item/item", item);
 };
 export const getItem = () => {
