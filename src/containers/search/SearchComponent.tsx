@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 type Props = {
 
     onChange: (e: any) => void;
@@ -15,13 +15,14 @@ type Props = {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus }) => {
+    const inputRef: React.LegacyRef<HTMLInputElement> | undefined = useRef(null);
     return (
-        <div className={`search-container ${visible ? 'visible' : ''}`}>
-            <div className="group">
-                <div>
-                    <input type="checkbox" name="all" id="all" onChange={onChange} checked={search.all === true} />
-                    <label htmlFor="all">전체</label>
-                </div>
+        <form className={`search-container ${visible ? 'visible' : ''}`}>
+            <div className="input-group">
+
+                <input type="checkbox" name="all" id="all" onChange={onChange} checked={search.all === true} />
+                <label htmlFor="all">전체</label>
+
                 <input type="checkbox" name="회로물" id="group-회로물" onChange={onChange} checked={search.회로물 === true} />
                 <label htmlFor="group-회로물">회로물</label>
                 <input type="checkbox" name="전장물" id="group-전장물" onChange={onChange} checked={search.전장물 === true} />
@@ -47,14 +48,20 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
             </div>
 
             <div className={`search ${focus ? 'focus' : ''}`}>
-                <input type="text" className='searchInput' onFocus={() => setFocus(!focus)} onBlur={() => setFocus(!focus)} />
+                <input type="text" className='searchInput'
+                    onFocus={() => setFocus(!focus)}
+                    onBlur={() => setFocus(!focus)}
+                    ref={inputRef}
+                    autoFocus />
 
-                <span className={`material-symbols-outlined `} onClick={() => setFocus(!focus)}>
+                <span className={`material-symbols-outlined `}
+                    onClick={() => inputRef.current?.focus()}
+                >
                     search
                 </span>
 
-            </div>
-        </div >
+            </div >
+        </form >
     );
 };
 

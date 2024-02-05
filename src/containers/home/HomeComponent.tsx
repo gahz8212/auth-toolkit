@@ -46,14 +46,14 @@ const ImageList: React.FC<subProps> = ({ item }) => {
 const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search, openAddForm, changePosition }) => {
     // console.log(edit)
     const [selected, setSelected] = useState<number | ''>()
-    const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0], y: params.offset[1] }) })
-    const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0], y: params.offset[1] }) })
+    const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) })
+    const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) })
 
     const [visible, setVisible] = useState<boolean>()
     return (
         <div className='home-wraper'>
-            
-            
+
+
             {input.visible && <div >
 
                 <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>

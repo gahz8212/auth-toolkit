@@ -1,41 +1,50 @@
 .nav {
+  z-index: 1;
   position: fixed;
-  top: 50px;
-  // background-color: green;
-  background: white;
-  height: 70px;
-  width: 100%;
   list-style: none;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  transition: 1s;
   z-index: 1;
-  // top: 70px;
+  height: 85px;
+  transition: 1s;
+  width: 100%;
+  background-color: white;
 
   &.visible {
-    width: 60%;
+    width: 65%;
   }
   li {
     position: relative;
-    &::after {
+    z-index: 1;
+
+    &.selected {
+      color: red;
+    }
+    &::before {
       content: "";
+      z-index: 0;
       display: block;
       width: 0%;
-      height: 4px;
+      height: 40px;
+      padding: 0 1rem;
+      opacity: 0;
       position: absolute;
-      background-color: black;
+      background-color: orange;
       bottom: -10px;
       left: 50%;
       transform: translateX(-50%);
       transition: 0.4s;
+      cursor: pointer;
     }
-    &:hover::after {
+    &:hover::before {
       width: 100%;
+      opacity: 0.3;
     }
     a {
       font-size: 1.2rem;
       font-weight: 700;
+      position: relative;
     }
   }
 }

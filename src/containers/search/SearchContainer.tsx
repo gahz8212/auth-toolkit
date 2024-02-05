@@ -22,7 +22,6 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         dispatch(itemActions.backupItems())
     }
     useEffect(() => {
-
         const { all, ...rest } = search;
         const conditions = []
         const keys = Object.keys(rest);
@@ -32,10 +31,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             }
         }
 
-        // console.log(dummy)
         const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
-        // console.log(searchResult)
-
         dispatch(itemActions.filteredItems(searchResult))
 
         if (search.회로물 && search.전장물 && search.기구물 && search.기타물) {

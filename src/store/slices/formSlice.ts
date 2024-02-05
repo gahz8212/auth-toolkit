@@ -11,8 +11,8 @@ type State = {
 };
 
 const initialState: State = {
-  input: { visible: false, position: { x: 0, y: 0 } },
-  edit: { visible: false, position: { x: 0, y: 0 } },
+  input: { visible: false, position: { x: 100, y: 150 } },
+  edit: { visible: false, position: { x: 100, y: 150 } },
   search: { visible: false, position: { x: 0, y: 0 } },
 };
 const inputFormSelector = (state: RootState) => {
@@ -47,7 +47,8 @@ const formSlice = createSlice({
       state[form].position = position;
     },
     initPosition: (state, { payload: form }) => {
-      state[form].position = initialState[form].position;
+      state[form].position.x = initialState[form].position.x;
+      state[form].position.y = initialState[form].position.y;
     },
   },
 });

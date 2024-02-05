@@ -6,9 +6,11 @@ import LoginForm from './pages/LoginForm';
 import JoinForm from './pages/JoinForm';
 import HomeForm from './pages/HomeForm'
 import './lib/styles/index.scss'
+import { Reset } from 'styled-reset';
 const App = () => {
   return (
     <Provider store={store}>
+      <Reset />
       <Routes>
         <Route path='/' element={<LoginForm />} />
         <Route path='/join' element={<JoinForm />} />

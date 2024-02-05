@@ -11,6 +11,7 @@ import editSlice from "./slices/editSlice";
 import formSlice from "./slices/formSlice";
 import excelSlice from "./slices/excelSlice";
 import searchSlice from "./slices/searchSlice";
+import pageSlice from "./slices/pageSlice";
 import { authActions } from "./slices/authSlice";
 const reducers = combineReducers({
   auth: authSlice,
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   form: formSlice,
   excel: excelSlice,
   search: searchSlice,
+  page: pageSlice,
 });
 function* rootSaga() {
   yield all([call(authSaga), call(itemSaga), call(editSaga), call(excelSaga)]);

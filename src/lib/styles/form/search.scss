@@ -1,31 +1,24 @@
 .search-container {
   position: fixed;
-  top: 0px;
-  right: 30px;
-  transition: 0.5s opacity, 1s transform;
-  z-index: 2;
-  opacity: 0;
-  &.visible {
-    right: 30px;
-    transform: translateY(80px);
-    opacity: 1;
-  }
-
+  right: 10px;
+  padding: 0.5rem;
+  right: 20px;
   .search {
     position: relative;
     height: 30px;
-    width: 50px;
-
+    z-index: 1;
     .searchInput {
       height: inherit;
-      width: inherit;
       font-size: 1.125rem;
       outline: none;
       box-sizing: border-box;
-      transition: 0.4s;
+      width: 40px;
+      border: none;
+      border-bottom: 3px solid green;
+      transition: 1s;
       &:focus {
-        background-color: yellow;
-        width: 100px;
+        border-color: green;
+        width: 200px;
       }
     }
     & .material-symbols-outlined {
@@ -33,14 +26,18 @@
       top: 0;
       bottom: 0;
       margin: auto 0;
-      height: 20px;
-      right: 5px;
+      height: 22px;
+      left: 15px;
       color: red;
       transition: 0.5s;
+      transition: 1s;
+      transform: translateX(0px);
+      opacity: 1;
       user-select: none;
     }
   }
   .search.focus .material-symbols-outlined {
     opacity: 0;
+    transform: translateX(170px);
   }
 }

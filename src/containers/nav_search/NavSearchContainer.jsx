@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
-import NavComponent from '../common/navigate/NavComponent';
+import NavContainer from '../common/navigate/NavContainer';
 import SearchContainer from '../search/SearchContainer';
 const NavSearchContainer = () => {
   const[visible,setVisible]=useState(false)
     return (
         <div>
-            <NavComponent setVisible={setVisible} visible={visible}/>
+            <NavContainer setVisible={setVisible} visible={visible}/>
             <SearchContainer setVisible={setVisible} visible={visible}/>
           
         </div>
