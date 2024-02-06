@@ -7,7 +7,7 @@ const SettingForm = () => {
         <div>
             <HeaderContainer />
             <NavSearchContainer />
-            <HomeContainer />
+            {/* <HomeContainer /> */}
         </div>
     );
 };
