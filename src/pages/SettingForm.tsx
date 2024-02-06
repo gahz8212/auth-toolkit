@@ -2,7 +2,7 @@ import React from 'react';
 import HeaderContainer from '../containers/common/header/HeaderContainer';
 import NavSearchContainer from '../containers/nav_search/NavSearchContainer';
 import HomeContainer from '../containers/home/HomeContainer';
-const HeaderForm = () => {
+const SettingForm = () => {
     return (
         <div>
             <HeaderContainer />
@@ -12,4 +12,4 @@ const HeaderForm = () => {
     );
 };
 
-export default HeaderForm;
+export default SettingForm;

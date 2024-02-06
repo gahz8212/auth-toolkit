@@ -6,17 +6,19 @@ import LoginForm from './pages/LoginForm';
 import JoinForm from './pages/JoinForm';
 import HomeForm from './pages/HomeForm'
 import './lib/styles/index.scss'
-import { Reset } from 'styled-reset';
+
 const App = () => {
   return (
-    <Provider store={store}>
-      <Reset />
-      <Routes>
-        <Route path='/' element={<LoginForm />} />
-        <Route path='/join' element={<JoinForm />} />
-        <Route path='/home' element={<HomeForm />} />
-      </Routes>
-    </Provider>
+
+
+    <Routes>
+      <Route path='/' element={<LoginForm />} />
+      <Route path='/join' element={<JoinForm />} />
+      <Route path='/home' element={<HomeForm />} />
+      <Route path='/settings' element={<HomeForm />} />
+      <Route path='/view' element={<HomeForm />} />
+    </Routes>
+
   );
 };
 

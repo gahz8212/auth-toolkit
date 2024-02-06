@@ -5,12 +5,14 @@ import store from './store'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import { Reset } from 'styled-reset';
 import { BrowserRouter } from 'react-router-dom';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+    <Reset />
     <Provider store={store}>
       <BrowserRouter>
         <App />
