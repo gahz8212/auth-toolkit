@@ -4,7 +4,6 @@ import HomeContainer from '../containers/home/HomeContainer';
 const HeaderForm = () => {
     return (
         <div>
-          
             <HomeContainer />
         </div>
     );
