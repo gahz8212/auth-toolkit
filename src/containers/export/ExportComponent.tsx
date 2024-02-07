@@ -38,18 +38,18 @@ const ExportComponent: React.FC<Props> = ({ model, setModel }) => {
                         <input type="file" name="orders" id="orders" />
                     </div>
                     <div className="selector">
-                        <input type="radio" name="" id="1m" />
-                        <label htmlFor="1m">JAN</label>
-                        <input type="radio" name="" id="1m" checked />
-                        <label htmlFor="1m">FEB</label>
-                        <input type="radio" name="" id="1m" />
-                        <label htmlFor="1m">MAR</label>
-                        <input type="radio" name="" id="1m" />
-                        <label htmlFor="1m">ARP</label>
-                        <input type="radio" name="" id="1m" />
-                        <label htmlFor="1m">MAY</label>
-                        <input type="radio" name="" id="1m" />
-                        <label htmlFor="1m">JUN</label>
+                        <input type="radio" name="month" id="m1" />
+                        <label htmlFor="m1">JAN</label>
+                        <input type="radio" name="month" id="m2" />
+                        <label htmlFor="m2">FEB</label>
+                        <input type="radio" name="month" id="m3" />
+                        <label htmlFor="m3">MAR</label>
+                        <input type="radio" name="month" id="m4" />
+                        <label htmlFor="m4">ARP</label>
+                        <input type="radio" name="month" id="m5" />
+                        <label htmlFor="m5">MAY</label>
+                        <input type="radio" name="month" id="m6" />
+                        <label htmlFor="m6">JUN</label>
                     </div>
 
                     <div className={`sumTable  ${model === 'parts' ? "model" : 'parts'}`}>
@@ -59,7 +59,7 @@ const ExportComponent: React.FC<Props> = ({ model, setModel }) => {
                             }}>
                                 arrow_back_ios
                             </span>}
-                            { <span className="material-symbols-outlined forward" onClick={() => {
+                            {<span className="material-symbols-outlined forward" onClick={() => {
                                 setModel('parts')
                             }}>
                                 arrow_forward_ios
