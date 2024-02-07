@@ -6,6 +6,7 @@ const db = {};
 const User = require("./user");
 const Item = require("./item");
 const Image = require("./image");
+const Order = require("./order");
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -17,9 +18,11 @@ db.sequelize = sequelize;
 db.User = User;
 db.Item = Item;
 db.Image = Image;
+db.Order = Order;
 User.init(sequelize);
 Item.init(sequelize);
 Image.init(sequelize);
+Order.init(sequelize);
 Item.associate(db);
 Image.associate(db);
 module.exports = db;

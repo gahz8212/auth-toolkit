@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useDrag } from 'react-use-gesture';
-import NavComponent from '../common/navigate/NavComponent';
 import InputFormContainer from '../inputForm/InputFormContainer';
 import EditFormContainer from "../editForm/EditFormContainer";
-import SearchContainer from '../search/SearchContainer';
+
 type Props = {
     items: {
         id: number,
@@ -49,7 +48,7 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) })
 
-    const [visible, setVisible] = useState<boolean>()
+    // const [visible, setVisible] = useState<boolean>()
     return (
         <div className='home-wraper'>
 
