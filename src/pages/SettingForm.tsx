@@ -5,8 +5,8 @@ import HomeContainer from '../containers/home/HomeContainer';
 const SettingForm = () => {
     return (
         <div>
-            <HeaderContainer />
-            <NavSearchContainer />
+            {/* <HeaderContainer />
+            <NavSearchContainer /> */}
             {/* <HomeContainer /> */}
         </div>
     );
