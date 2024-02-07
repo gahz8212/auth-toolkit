@@ -20,6 +20,7 @@ const App = () => {
         <Route path='/' element={<LoginForm />} />
         <Route path='/join' element={<JoinForm />} />
         <Route path='/home' element={<HomeForm />} />
+        <Route path='/Export' element={<ExportForm />} />
         <Route path='/settings' element={<SettingForm />} />
         <Route path='/view' element={<SettingForm />} />
       </Routes>
