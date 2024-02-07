@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import LoginForm from './pages/LoginForm';
 import JoinForm from './pages/JoinForm';
 import HomeForm from './pages/HomeForm'
+import ExportForm from './pages/ExportForm'
 import SettingForm from './pages/SettingForm';
 import { response } from './store/slices/authSlice';
 import HeaderContainer from './containers/common/header/HeaderContainer'

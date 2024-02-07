@@ -1,0 +1,148 @@
+.export-wrapper {
+  width: 100%;
+
+  .export-container {
+    margin: 4rem auto;
+    padding: 40px;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    .orderSheet {
+      padding: 1rem;
+      table {
+        th,
+        td {
+          width: 60px;
+          height: 30px;
+          border-collapse: collapse;
+          border: 1px solid gray;
+          align-items: center;
+        }
+        .order_count {
+          width: 50px;
+          height: 25px;
+          text-align: right;
+        }
+        th,
+        .model {
+          text-align: center;
+          font-weight: 700;
+        }
+        .model {
+          width: 180px;
+          text-wrap: wrap;
+        }
+      }
+    }
+  }
+  .summary {
+    // border: 1px solid black;
+    width: 500px;
+
+    .selector {
+      // background: yellow;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 1rem;
+
+      label {
+        margin-right: 0.5rem;
+      }
+    }
+    .sumTable {
+      display: flex;
+      justify-content: center;
+
+      &.model {
+        .modelTable {
+          transition: 0.5s;
+          transform: translateX(200px);
+          opacity: 1;
+        }
+        .partsTable {
+          transition: 0.5s;
+          transform: translateX(200px);
+          opacity: 0;
+        }
+        .back {
+          opacity: 1;
+        }
+        .forward {
+          opacity: 0;
+        }
+      }
+      &.parts {
+        .modelTable {
+          transition: 0.5s;
+          transform: translateX(-200px);
+          opacity: 0;
+        }
+        .partsTable {
+          transition: 0.5s;
+          transform: translateX(-200px);
+          opacity: 1;
+        }
+        .back {
+          opacity: 0;
+        }
+        .forward {
+          opacity: 1;
+        }
+      }
+
+      table {
+        width: 400px;
+        height: 450px;
+        max-height: 450px;
+        tr,
+        th,
+        td {
+          border-collapse: collapse;
+          border: 1px solid black;
+        }
+
+        td {
+          width: 30px;
+          // height: 40px;
+        }
+        .header {
+          height: 100px;
+        }
+        .body {
+          th:first-child {
+            width: 80%;
+          }
+        }
+      }
+    }
+    .buttons {
+      input[type="file"] {
+        display: none;
+      }
+    }
+  }
+  .arrow {
+    cursor: pointer;
+    user-select: none;
+
+    margin: 0 auto;
+    width: 500px;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+
+    display: flex;
+    justify-content: space-between;
+
+    .material-symbols-outlined {
+      font-size: 4rem;
+    }
+    & .forward {
+    }
+    & .back {
+      margin-left: 1rem;
+    }
+  }
+}
