@@ -14,8 +14,8 @@ const App = () => {
   const { auth } = useSelector(response)
   return (
     <>
-      {auth && <HeaderContainer />}
-      {auth && <NavSearchContainer />}
+      {<HeaderContainer />}
+      {<NavSearchContainer />}
       <Routes>
         <Route path='/' element={<LoginForm />} />
         <Route path='/join' element={<JoinForm />} />
