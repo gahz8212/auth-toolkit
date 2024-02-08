@@ -5,6 +5,7 @@ import { authSaga } from "./sagas/authSaga";
 import { itemSaga } from "./sagas/itemSaga";
 import { editSaga } from "./sagas/editSaga";
 import { excelSaga } from "./sagas/excelSaga";
+import { orderSaga } from "./sagas/orderSaga";
 import authSlice from "./slices/authSlice";
 import itemSlice from "./slices/itemSlice";
 import editSlice from "./slices/editSlice";
@@ -12,6 +13,7 @@ import formSlice from "./slices/formSlice";
 import excelSlice from "./slices/excelSlice";
 import searchSlice from "./slices/searchSlice";
 import pageSlice from "./slices/pageSlice";
+import orderSlice from "./slices/orderSlice";
 import { authActions } from "./slices/authSlice";
 const reducers = combineReducers({
   auth: authSlice,
@@ -21,9 +23,16 @@ const reducers = combineReducers({
   excel: excelSlice,
   search: searchSlice,
   page: pageSlice,
+  order: orderSlice,
 });
 function* rootSaga() {
-  yield all([call(authSaga), call(itemSaga), call(editSaga), call(excelSaga)]);
+  yield all([
+    call(authSaga),
+    call(itemSaga),
+    call(editSaga),
+    call(excelSaga),
+    call(orderSaga),
+  ]);
 }
 const sagaMiddleware = createSagaMiddleware();
 const getUser = () => {
@@ -38,7 +47,8 @@ const getUser = () => {
 const createStore = () => {
   const store = configureStore({
     reducer: reducers,
-    middleware: [sagaMiddleware],
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(sagaMiddleware),
   });
   sagaMiddleware.run(rootSaga);
 

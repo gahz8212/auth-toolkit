@@ -2,8 +2,11 @@ import React from 'react';
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
+    onChange: (e: any) => void;
+    orderInput: React.LegacyRef<HTMLInputElement> | undefined;
+
 }
-const ExportComponent: React.FC<Props> = ({ model, setModel }) => {
+const ExportComponent: React.FC<Props> = ({ model, setModel, onChange, orderInput }) => {
 
     return (
         <div className='export-wrapper'>
@@ -35,7 +38,7 @@ const ExportComponent: React.FC<Props> = ({ model, setModel }) => {
                 <div className="summary">
                     <div className='buttons'>
                         <label htmlFor="orders"><img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="orders" id="orders" />
+                        <input type="file" name="orders" id="orders" onChange={onChange} ref={orderInput} />
                     </div>
                     <div className="selector">
                         <input type="radio" name="month" id="m1" />
@@ -51,7 +54,6 @@ const ExportComponent: React.FC<Props> = ({ model, setModel }) => {
                         <input type="radio" name="month" id="m6" />
                         <label htmlFor="m6">JUN</label>
                     </div>
-
                     <div className={`sumTable  ${model === 'parts' ? "model" : 'parts'}`}>
                         <div className="arrow">
                             {<span className="material-symbols-outlined back" onClick={() => {
@@ -66,8 +68,6 @@ const ExportComponent: React.FC<Props> = ({ model, setModel }) => {
                             </span>}
 
                         </div>
-
-
                         <div className="modelTable">
 
                             <table>
