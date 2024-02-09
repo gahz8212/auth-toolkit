@@ -1,12 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const { Good } = require("../models");
-router.post("/input", async (req, res) => {
+const { Good,Order } = require("../models");
+router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
+    console.log(order);
+    const result = await Order.bulkCreate(order);
+    return res.status(200).json("order_input_ok");
+  } catch (e) {
+    console.error(e);
+    return res.status(400).json(e.message);
+  }
+});
+router.post("/goodinput", async (req, res) => {
+  try {
+    const { good } = req.body;
     // console.log(order);
-    const result=await Good.bulkCreate(order);
-    return res.status(200).json("order input ok");
+    const result = await Good.bulkCreate(good);
+    return res.status(200).json("good_input_ok");
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

@@ -19,6 +19,14 @@ const ExportContainer = () => {
                 const workbook = XLSX.read(e.target?.result, { type: 'buffer' })
                 const worksheetname = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[worksheetname]
+                // worksheet['A1'] = { t: 's', v: '' }
+                // worksheet['C1'] = { t: 's', v: '' }
+                // worksheet['A2'] = { t: 's', v: 'goods' }
+                // worksheet['!rows'] = [];
+                // worksheet['!rows'][0] = { hidden: true }
+                // console.log(worksheet['A1']);
+
+                // XLSX.writeFile(workbook, '/newfile.xlsx')
                 const orderData = XLSX.utils.sheet_to_json(worksheet)
                 dispatch(OrderAction.initForm())
                 dispatch(OrderAction.getData(orderData))
@@ -34,6 +42,9 @@ const ExportContainer = () => {
             if (result) {
                 dispatch(OrderAction.inputOrder(orderData));
             }
+        }
+        return () => {
+            dispatch(OrderAction.initForm())
         }
     }, [dispatch, orderData])
 
