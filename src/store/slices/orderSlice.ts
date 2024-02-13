@@ -3,19 +3,29 @@ import { RootState } from "..";
 type State = {
   orderFile: ArrayBuffer | undefined | null;
   orderData: any[] | null;
+  months: string[] | null;
   status: { error: string; loading: boolean; message: string };
 };
 const initialState: State = {
   orderFile: null,
   orderData: null,
+  months: null,
   status: { error: "", loading: false, message: "" },
 };
 const orderSelector = (state: RootState) => {
   return state.order.orderData;
 };
-export const OrderData = createSelector(orderSelector, (orderData) => ({
-  orderData,
-}));
+const monthSelector = (state: RootState) => {
+  return state.order.months;
+};
+export const OrderData = createSelector(
+  orderSelector,
+  monthSelector,
+  (orderData, months) => ({
+    orderData,
+    months,
+  })
+);
 const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -28,6 +38,9 @@ const orderSlice = createSlice({
     },
     getData: (state, { payload: data }) => {
       state.orderData = data;
+    },
+    getMonth: (state, { payload: months }) => {
+      state.months = months;
     },
     inputOrder: (state, action: PayloadAction<any[] | null>) => {
       state.status.loading = true;

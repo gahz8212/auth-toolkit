@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { Good,Order } = require("../models");
+const { Good, Order } = require("../models");
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
-    console.log(order);
+    // console.log(order);
+
+    await Order.destroy({ where: {} });
     const result = await Order.bulkCreate(order);
     return res.status(200).json("order_input_ok");
   } catch (e) {

@@ -1,6 +1,6 @@
 .export-wrapper {
   width: 100%;
-  overflow-x: hidden;
+  height: 80vh;
   .export-container {
     margin: 4rem auto;
     padding: 40px;
@@ -8,141 +8,159 @@
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
+    overflow: hidden;
     .orderSheet {
-      padding: 1rem;
+      overflow-y: auto;
+      height: 75vh;
       table {
-        th,
-        td {
-          width: 60px;
+        width: 500px;
+        .model {
+          width: 200px;
+        }
+        thead {
           height: 30px;
-          border-collapse: collapse;
-          border: 1px solid gray;
-          align-items: center;
+          th {
+            font-weight: 700;
+            width: 40px;
+          }
         }
-        .order_count {
-          width: 50px;
-          height: 25px;
-          text-align: right;
-        }
-        th,
-        .model {
-          text-align: center;
-          font-weight: 700;
-        }
-        .model {
-          width: 180px;
-          text-wrap: wrap;
-        }
-      }
-    }
-  }
-  .summary {
-    // border: 1px solid black;
-    width: 500px;
-
-    .selector {
-      // background: yellow;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 1rem;
-
-      label {
-        margin-right: 0.5rem;
-      }
-    }
-    .sumTable {
-      display: flex;
-      justify-content: center;
-
-      &.model {
-        .modelTable {
-          transition: 0.5s;
-          transform: translateX(200px);
-          opacity: 1;
-        }
-        .partsTable {
-          transition: 0.5s;
-          transform: translateX(200px);
-          opacity: 0;
-        }
-        .back {
-          opacity: 1;
-        }
-        .forward {
-          opacity: 0;
-        }
-      }
-      &.parts {
-        .modelTable {
-          transition: 0.5s;
-          transform: translateX(-200px);
-          opacity: 0;
-        }
-        .partsTable {
-          transition: 0.5s;
-          transform: translateX(-200px);
-          opacity: 1;
-        }
-        .back {
-          opacity: 0;
-        }
-        .forward {
-          opacity: 1;
-        }
-      }
-
-      table {
-        width: 400px;
-        height: 450px;
-        max-height: 450px;
-        tr,
-        th,
-        td {
-          border-collapse: collapse;
-          border: 1px solid black;
-        }
-
-        td {
-          width: 30px;
-          // height: 40px;
-        }
-        .header {
-          height: 100px;
-        }
-        .body {
-          th:first-child {
-            width: 80%;
+        tbody {
+          height: 100vh;
+          tr {
+            padding: 1rem;
+            .model {
+              cursor: pointer;
+              font-weight: 700;
+              &:hover {
+                background-color: yellow;
+              }
+            }
+            td {
+              input {
+                width: 40px;
+                text-align: right;
+                // border: none;
+                // border-bottom: 1px solid black;
+              }
+            }
           }
         }
       }
     }
-    .buttons {
-      input[type="file"] {
-        display: none;
+    .summary {
+      // border: 1px solid black;
+      width: 500px;
+      .buttons {
+        // margin: 0 auto;
+        // background-color: yellow;
+        width: 300px;
+      }
+      .selector {
+        // background: yellow;
+        margin: 0 auto;
+        width: 400px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 1rem;
+
+        label {
+          margin-right: 0.5rem;
+        }
+      }
+      .sumTable {
+        display: flex;
+        justify-content: center;
+
+        &.model {
+          .modelTable {
+            transition: 0.5s;
+            transform: translateX(200px);
+            opacity: 1;
+          }
+          .partsTable {
+            transition: 0.5s;
+            transform: translateX(200px);
+            opacity: 0;
+          }
+          .back {
+            opacity: 1;
+          }
+          .forward {
+            opacity: 0;
+          }
+        }
+        &.parts {
+          .modelTable {
+            transition: 0.5s;
+            transform: translateX(-200px);
+            opacity: 0;
+          }
+          .partsTable {
+            transition: 0.5s;
+            transform: translateX(-200px);
+            opacity: 1;
+          }
+          .back {
+            opacity: 0;
+          }
+          .forward {
+            opacity: 1;
+          }
+        }
+
+        table {
+          width: 400px;
+          height: 450px;
+          max-height: 450px;
+          tr,
+          th,
+          td {
+            border-collapse: collapse;
+            border: 1px solid black;
+          }
+
+          td {
+            width: 30px;
+            // height: 40px;
+          }
+          .header {
+            height: 100px;
+          }
+          .body {
+            th:first-child {
+              width: 80%;
+            }
+          }
+        }
+      }
+      .buttons {
+        input[type="file"] {
+          display: none;
+        }
       }
     }
-  }
-  .arrow {
-    cursor: pointer;
-    user-select: none;
+    .arrow {
+      cursor: pointer;
+      user-select: none;
 
-    margin: 0 auto;
-    width: 500px;
-    z-index: 1;
-    position: absolute;
-    top: 50%;
+      margin: 0 auto;
+      width: 500px;
+      z-index: 1;
+      position: absolute;
+      top: 50%;
 
-    display: flex;
-    justify-content: space-between;
+      display: flex;
+      justify-content: space-between;
 
-    .material-symbols-outlined {
-      font-size: 4rem;
-    }
-    & .forward {
-    }
-    & .back {
-      margin-left: 1rem;
+      .material-symbols-outlined {
+        font-size: 4rem;
+      }
+      & .forward {
+      }
+      & .back {
+        margin-left: 1rem;
+      }
     }
   }
 }

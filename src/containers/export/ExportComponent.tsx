@@ -2,57 +2,65 @@ import React from 'react';
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
-    onChange: (e: any) => void;
+    onChangeOrder: (e: any) => void;
+    onChangeGood: (e: any) => void;
     orderInput: React.LegacyRef<HTMLInputElement> | undefined;
+    partsInput: React.LegacyRef<HTMLInputElement> | undefined;
+    orderData: any[] | null;
+    months: string[] | null
 
 }
-const ExportComponent: React.FC<Props> = ({ model, setModel, onChange, orderInput }) => {
-
+const ExportComponent: React.FC<Props> = ({
+    model,
+    setModel,
+    onChangeOrder,
+    onChangeGood,
+    orderInput,
+    partsInput,
+    orderData,
+    months }) => {
     return (
         <div className='export-wrapper'>
             <div className="export-container">
-
                 <div className="orderSheet">
                     <table>
-                        <tr>
-                            <th className='month'>MODEL</th>
-                            <th className='month'>JAN</th>
-                            <th className='month'>FEB</th>
-                            <th className='month'>MAR</th>
-                            <th className='month'>APR</th>
-                            <th className='month'>MAY</th>
-                            <th className='month'>JUN</th>
-                        </tr>
-                        <tr>
-                            <td className='model'>AAAA</td>
-                            <td><input type="number" defaultValue={0} min={0} className="order_count"></input></td>
-                            <td><input type="number" defaultValue={0} min={0} className="order_count"></input></td>
-                            <td><input type="number" defaultValue={0} min={0} className="order_count"></input></td>
-                            <td><input type="number" defaultValue={0} min={0} className="order_count"></input></td>
-                            <td><input type="number" defaultValue={0} min={0} className="order_count"></input></td>
-                            <td><input type="number" defaultValue={0} min={0} className="order_count"></input></td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th className='model'>Model</th>
+                                {months?.map((month, idx) => (
+                                    <th key={idx}>{month}</th>
+                                ))}
+                            </tr>
 
+                        </thead>
+                        <tbody>
+                            {orderData?.map((order, idx) =>
+                                <tr key={idx}>
+                                    <td className='model'>{order.Item}</td>
+                                    {months?.map(month => <td>
+                                        <input type="text"
+                                            defaultValue={0}
+                                            min={0}
+                                            className="order_count"
+                                            value={order[month]} /></td>)}
+                                </tr>
+                            )}
+                        </tbody>
                     </table>
                 </div>
                 <div className="summary">
                     <div className='buttons'>
-                        <label htmlFor="orders"><img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="orders" id="orders" onChange={onChange} ref={orderInput} />
+                        <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
+                        <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
                     </div>
                     <div className="selector">
-                        <input type="radio" name="month" id="m1" />
-                        <label htmlFor="m1">JAN</label>
-                        <input type="radio" name="month" id="m2" />
-                        <label htmlFor="m2">FEB</label>
-                        <input type="radio" name="month" id="m3" />
-                        <label htmlFor="m3">MAR</label>
-                        <input type="radio" name="month" id="m4" />
-                        <label htmlFor="m4">ARP</label>
-                        <input type="radio" name="month" id="m5" />
-                        <label htmlFor="m5">MAY</label>
-                        <input type="radio" name="month" id="m6" />
-                        <label htmlFor="m6">JUN</label>
+                        {months?.map(month =>
+                            <>
+                                <input type="radio" name="month" id={month} />
+                                <label htmlFor={month}>{month}</label>
+                            </>)}
                     </div>
                     <div className={`sumTable  ${model === 'parts' ? "model" : 'parts'}`}>
                         <div className="arrow">
@@ -66,22 +74,16 @@ const ExportComponent: React.FC<Props> = ({ model, setModel, onChange, orderInpu
                             }}>
                                 arrow_forward_ios
                             </span>}
-
                         </div>
                         <div className="modelTable">
-
                             <table>
                                 <tr className='header'>
-
-
                                     <td colSpan={3}>
                                     </td>
                                 </tr>
                                 <tr className='body'>
-
                                     <th>제품</th>
                                     <th>수량</th>
-
                                 </tr>
                             </table>
                         </div>
@@ -94,13 +96,10 @@ const ExportComponent: React.FC<Props> = ({ model, setModel, onChange, orderInpu
 
                                     <th>부자재</th>
                                     <th>수량</th>
-
                                 </tr>
                             </table>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div >

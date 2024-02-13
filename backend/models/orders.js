@@ -3,7 +3,7 @@ module.exports = class Order extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        model: { type: Sequelize.STRING(50), allowNull: true },
+        Item: { type: Sequelize.STRING(50), allowNull: true },
         Jan: { type: Sequelize.INTEGER, allowNull: true },
         Feb: { type: Sequelize.INTEGER, allowNull: true },
         Mar: { type: Sequelize.INTEGER, allowNull: true },
@@ -21,7 +21,7 @@ module.exports = class Order extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        paranoid: true,
+        paranoid: false,
         modelName: "Order",
         tableName: "orders",
         charset: "utf8",
