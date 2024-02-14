@@ -8,6 +8,13 @@ router.post("/orderinput", async (req, res) => {
 
     await Order.destroy({ where: {} });
     const result = await Order.bulkCreate(order);
+
+    const datas = await Order.findAll({
+      where: {},
+      include: { model: Good,where:{} },
+    });
+    console.log(datas);
+
     return res.status(200).json("order_input_ok");
   } catch (e) {
     console.error(e);
@@ -18,6 +25,7 @@ router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
     // console.log(order);
+    await Good.destroy({ where: {} });
     const result = await Good.bulkCreate(good);
     return res.status(200).json("good_input_ok");
   } catch (e) {

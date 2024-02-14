@@ -56,6 +56,20 @@ const orderSlice = createSlice({
       state.status.loading = false;
       state.status.message = "";
     },
+    inputGood: (state, action: PayloadAction<any[] | null>) => {
+      state.status.loading = true;
+      state.status.error = "";
+    },
+    inputGoodSuccess: (state, { payload: message }) => {
+      state.status.loading = false;
+      state.status.error = "";
+      state.status.message = message;
+    },
+    inputGoodFailure: (state, { payload: error }) => {
+      state.status.error = error;
+      state.status.loading = false;
+      state.status.message = "";
+    },
   },
 });
 export default orderSlice.reducer;

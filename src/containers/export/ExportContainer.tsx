@@ -65,7 +65,6 @@ const ExportContainer = () => {
                 worksheetData.push(row.values)
             })
             const headers = worksheetData[0]
-            console.log(headers)
             const contents = worksheetData.slice(1);
             let GoodList: any[] = [];
             for (let content = 0; content < contents.length; content++) {
@@ -75,7 +74,9 @@ const ExportContainer = () => {
                     obj[headers[header]] = contents[content][header]
                 }
             }
-            console.log(GoodList)
+
+            dispatch(OrderAction.inputGood(GoodList))
+            if (partsInput.current) partsInput.current.value = ''
         }
     }
     // useEffect(() => {

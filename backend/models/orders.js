@@ -3,7 +3,7 @@ module.exports = class Order extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        Item: { type: Sequelize.STRING(50), allowNull: true },
+        Item: { type: Sequelize.STRING(50), allowNull: true, unique: true },
         Jan: { type: Sequelize.INTEGER, allowNull: true },
         Feb: { type: Sequelize.INTEGER, allowNull: true },
         Mar: { type: Sequelize.INTEGER, allowNull: true },
@@ -30,6 +30,9 @@ module.exports = class Order extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Order.belongsTo(db.Good);
+    db.Order.hasMany(db.Good, {
+      foreignKey: { name: "Itemname", type: Sequelize.STRING(50) },
+      sourceKey: "Item",
+    });
   }
 };
