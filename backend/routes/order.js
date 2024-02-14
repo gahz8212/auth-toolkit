@@ -11,7 +11,7 @@ router.post("/orderinput", async (req, res) => {
 
     const datas = await Order.findAll({
       where: {},
-      include: { model: Good,where:{} },
+      include: { model: Good },
     });
     console.log(datas);
 
