@@ -2,14 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import ExportComponent from './ExportComponent';
 import { useSelector, useDispatch } from 'react-redux'
 import { OrderAction, OrderData } from '../../store/slices/orderSlice';
+import { formActions, formSelector } from '../../store/slices/formSlice';
 // import * as XLSX from 'xlsx'
 import ExcelJS from 'exceljs';
 const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const partsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const dispatch = useDispatch()
-    const { orderData, months } = useSelector(OrderData)
+    const { orderData, months, invoiceData } = useSelector(OrderData)
     const [model, setModel] = useState<string>('model')
+    const { invoice } = useSelector(formSelector)
     const onChangeOrder = async (e: any) => {
         const selectedFile = e.target.files[0]
         const fileType = ['application/vnd.ms-excel', 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
@@ -45,6 +47,7 @@ const ExportContainer = () => {
                 return result
             })
             // console.log(filteredOrder)
+            console.log([...filteredOrder,...months])
             dispatch(OrderAction.getData(filteredOrder));
             dispatch(OrderAction.getMonth(months))
             dispatch(OrderAction.inputOrder(filteredOrder))
@@ -79,17 +82,13 @@ const ExportContainer = () => {
             if (partsInput.current) partsInput.current.value = ''
         }
     }
-    // useEffect(() => {
-    //     if (orderData) {
-    //         let result: boolean = window.confirm('실행 하시겠습니까?')
-    //         if (result) {
-    //             dispatch(OrderAction.inputOrder(orderData));
-    //         }
-    //     }
-    //     return () => {
-    //         dispatch(OrderAction.initForm())
-    //     }
-    // }, [dispatch, orderData])
+    const openInvoiceForm = () => {
+        dispatch(formActions.toggle_form({ form: 'invoice', value: !invoice.visible }))
+    }
+    const changePosition = (form: string, position: { x: number, y: number }) => {
+        dispatch(formActions.changePosition({ form, position }))
+    }
+
 
     return (
         <ExportComponent
@@ -100,7 +99,12 @@ const ExportContainer = () => {
             orderInput={orderInput}
             partsInput={partsInput}
             months={months}
-            orderData={orderData} />
+            orderData={orderData}
+            invoiceData={invoiceData}
+            invoiceForm={invoice}
+            openInvoiceForm={openInvoiceForm}
+            changePosition={changePosition}
+        />
         // <ExportComponent model={model} setModel={setModel} onChange={onChange} orderInput={orderInput} />
     );
 };

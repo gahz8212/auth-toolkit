@@ -7,13 +7,13 @@ type State = {
   };
   input: { visible: boolean; position: { x: number; y: number } };
   edit: { visible: boolean; position: { x: number; y: number } };
-  search: { visible: boolean; position: { x: number; y: number } };
+  invoice: { visible: boolean; position: { x: number; y: number } };
 };
 
 const initialState: State = {
   input: { visible: false, position: { x: 100, y: 150 } },
   edit: { visible: false, position: { x: 100, y: 150 } },
-  search: { visible: false, position: { x: 0, y: 0 } },
+  invoice: { visible: false, position: { x: 100, y: 100 } },
 };
 const inputFormSelector = (state: RootState) => {
   return state.form.input;
@@ -21,19 +21,19 @@ const inputFormSelector = (state: RootState) => {
 const editFormSelector = (state: RootState) => {
   return state.form.edit;
 };
-const searchFormSelector = (state: RootState) => {
-  return state.form.search;
+const invoiceFormSelector = (state: RootState) => {
+  return state.form.invoice;
 };
 
 export const formSelector = createSelector(
   inputFormSelector,
   editFormSelector,
-  searchFormSelector,
+  invoiceFormSelector,
   // positionSelector,
-  (input, edit, search) => ({
+  (input, edit, invoice) => ({
     input,
     edit,
-    search,
+    invoice,
   })
 );
 const formSlice = createSlice({

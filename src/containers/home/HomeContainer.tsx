@@ -8,7 +8,7 @@ import HomeComponent from './HomeComponent';
 const HomeContainer = () => {
     const dispatch = useDispatch();
     const { items, status } = useSelector(itemData);
-    const { input, edit, search } = useSelector(formSelector)
+    const { input, edit, } = useSelector(formSelector)
     const { data } = useSelector(ExcelData)
 
 
@@ -42,7 +42,7 @@ const HomeContainer = () => {
             selectItem={selectItem}
             input={input}
             edit={edit}
-            search={search}
+
             openAddForm={openAddForm}
             changePosition={changePosition}
 

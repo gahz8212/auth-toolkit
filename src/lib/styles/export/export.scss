@@ -50,6 +50,11 @@
     .summary {
       // border: 1px solid black;
       width: 500px;
+      .material-symbols-outlined {
+        font-size: 48px;
+        font-weight: 700;
+        color: cornflowerblue;
+      }
       .buttons {
         // margin: 0 auto;
         // background-color: yellow;
@@ -71,7 +76,28 @@
       .sumTable {
         display: flex;
         justify-content: center;
+        .arrow {
+          cursor: pointer;
+          user-select: none;
 
+          margin: 0 auto;
+          width: 500px;
+          z-index: 1;
+          position: absolute;
+          top: 50%;
+
+          display: flex;
+          justify-content: space-between;
+
+          .material-symbols-outlined {
+            font-size: 4rem;
+          }
+          & .forward {
+          }
+          & .back {
+            margin-left: 1rem;
+          }
+        }
         &.model {
           .modelTable {
             transition: 0.5s;
@@ -138,28 +164,6 @@
         input[type="file"] {
           display: none;
         }
-      }
-    }
-    .arrow {
-      cursor: pointer;
-      user-select: none;
-
-      margin: 0 auto;
-      width: 500px;
-      z-index: 1;
-      position: absolute;
-      top: 50%;
-
-      display: flex;
-      justify-content: space-between;
-
-      .material-symbols-outlined {
-        font-size: 4rem;
-      }
-      & .forward {
-      }
-      & .back {
-        margin-left: 1rem;
       }
     }
   }

@@ -1,0 +1,35 @@
+.invoice-container {
+  //   border: 1px solid black;
+  padding: 30px 10px;
+  background: lightgrey;
+  .invoice-rows {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    .invoice-item {
+      width: 200px;
+      //   background: yellow;
+      font-weight: 700;
+      margin-left: 0.4rem;
+    }
+    .invoice-count {
+      width: 40px;
+      //   background: yellow;
+      //   margin-left: 0.4rem;
+      text-align: right;
+    }
+    .invoice-price {
+      width: 40px;
+      //   background: yellow;
+      //   margin-left: 0.4rem;
+      text-align: right;
+    }
+    .invoice-amount {
+      width: 70px;
+      //   background: yellow;
+      //   margin-left: 0.4rem;
+      text-align: right;
+    }
+  }
+}

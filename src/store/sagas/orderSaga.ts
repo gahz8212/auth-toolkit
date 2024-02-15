@@ -3,7 +3,7 @@ import { OrderAction } from "../slices/orderSlice";
 import * as orderAPI from "../../lib/api/orderAPI";
 function* inputOrderSaga(action: { payload: any[] | null }) {
   try {
-    const response: { data: string } = yield call(
+    const response: { data: any[] } = yield call(
       orderAPI.orderInput,
       action.payload
     );

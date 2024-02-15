@@ -19,7 +19,7 @@ type Props = {
     selectItem: (id: number) => void;
     input: { visible: boolean; position: { x: number; y: number } };
     edit: { visible: boolean; position: { x: number; y: number } };
-    search: { visible: boolean; position: { x: number; y: number } };
+
     changePosition: (form: string, position: { x: number, y: number }) => void;
     openAddForm: () => void;
     // datas: any[] | null
@@ -42,7 +42,7 @@ type subProps = {
 const ImageList: React.FC<subProps> = ({ item }) => {
     return <img src={item.Images[0].url} alt={item.Images[0].url} width='100px' />
 }
-const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, search, openAddForm, changePosition }) => {
+const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, openAddForm, changePosition }) => {
     // console.log(edit)
     const [selected, setSelected] = useState<number | ''>()
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) })

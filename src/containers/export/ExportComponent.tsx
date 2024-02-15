@@ -1,4 +1,6 @@
 import React from 'react';
+import InvoiceContainer from '../invoiceForm/InvoiceContainer';
+import { useDrag } from 'react-use-gesture';
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
@@ -7,7 +9,11 @@ type Props = {
     orderInput: React.LegacyRef<HTMLInputElement> | undefined;
     partsInput: React.LegacyRef<HTMLInputElement> | undefined;
     orderData: any[] | null;
-    months: string[] | null
+    months: string[] | null;
+    invoiceData: any[] | null;
+    invoiceForm: { visible: boolean; position: { x: number; y: number } };
+    openInvoiceForm: () => void;
+    changePosition: (form: string, position: { x: number, y: number }) => void;
 
 }
 const ExportComponent: React.FC<Props> = ({
@@ -18,9 +24,24 @@ const ExportComponent: React.FC<Props> = ({
     orderInput,
     partsInput,
     orderData,
-    months }) => {
+    months,
+    invoiceData,
+    invoiceForm,
+    openInvoiceForm,
+    changePosition
+
+}) => {
+    const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) }))
     return (
         <div className='export-wrapper'>
+            {invoiceForm.visible && <div>
+                <div {...invoicePos()} style={{ color: 'black', position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>INVOICE</span>
+                </div>
+                <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 1 }}>
+                    <InvoiceContainer />
+                </div>
+            </div>}
             <div className="export-container">
                 <div className="orderSheet">
                     <table>
@@ -100,8 +121,11 @@ const ExportComponent: React.FC<Props> = ({
                             </table>
                         </div>
                     </div>
+                    {invoiceData && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
+                        list_alt_add
+                    </span>}
                 </div>
-            </div>
+                I</div>
         </div >
     );
 };

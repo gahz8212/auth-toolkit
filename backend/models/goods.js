@@ -37,7 +37,7 @@ module.exports = class Good extends Sequelize.Model {
   }
   static associate(db) {
     db.Good.belongsTo(db.Order, {
-      foreignKey: { name: "itemname", type: Sequelize.STRING(50) },
+      foreignKey: { name: "relationname", type: Sequelize.STRING(50) },
       targetKey: "Item",
     });
   }
