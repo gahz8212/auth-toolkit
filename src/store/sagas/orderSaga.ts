@@ -1,6 +1,15 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { OrderAction } from "../slices/orderSlice";
 import * as orderAPI from "../../lib/api/orderAPI";
+function* getOrderDataSaga() {
+  try {
+    const response: { data: any[] } = yield call(orderAPI.getOrderData);
+    yield put(OrderAction.getOrderDataSuccess(response.data));
+  } catch (e: any) {
+    console.error(e);
+    yield put(OrderAction.getOrderDataFailure(e.response.data));
+  }
+}
 function* inputOrderSaga(action: { payload: any[] | null }) {
   try {
     const response: { data: any[] } = yield call(
@@ -28,4 +37,5 @@ function* inputGoodSaga(action: { payload: any[] | null }) {
 export function* orderSaga() {
   yield takeLatest(OrderAction.inputOrder, inputOrderSaga);
   yield takeLatest(OrderAction.inputGood, inputGoodSaga);
+  yield takeLatest(OrderAction.getOrderData, getOrderDataSaga);
 }

@@ -1,35 +1,57 @@
 .invoice-container {
   //   border: 1px solid black;
   padding: 30px 10px;
-  background: lightgrey;
-  .invoice-rows {
-    width: 400px;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    .invoice-item {
-      width: 200px;
-      //   background: yellow;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: white;
+  table {
+    width: 500px;
+    thead {
+      height: 30px;
+      line-height: 2;
       font-weight: 700;
-      margin-left: 0.4rem;
+      border-bottom: 1px solid red;
+      th:nth-child(4) {
+        // background-color: green;
+        text-align: center;
+      }
     }
-    .invoice-count {
-      width: 40px;
-      //   background: yellow;
-      //   margin-left: 0.4rem;
-      text-align: right;
-    }
-    .invoice-price {
-      width: 40px;
-      //   background: yellow;
-      //   margin-left: 0.4rem;
-      text-align: right;
-    }
-    .invoice-amount {
-      width: 70px;
-      //   background: yellow;
-      //   margin-left: 0.4rem;
-      text-align: right;
+    tbody {
+      font-size: 1rem;
+      tr {
+        cursor: pointer;
+        &:hover {
+          background-color: yellow;
+        }
+        td {
+          height: 30px;
+          // background-color: yellow;
+          line-height: 2;
+          padding-right: 0.8rem;
+        }
+        td:nth-child(1) {
+          width: 200px;
+          font-weight: 700;
+          padding-left: 0.5rem;
+        }
+        td:nth-child(2) {
+          width: 50px;
+          text-align: right;
+        }
+        td:nth-child(3) {
+          width: 40px;
+          text-align: right;
+        }
+        td:nth-child(4) {
+          text-align: right;
+          width: 50px;
+        }
+        td:nth-child(5) {
+          // background: yellow;
+          text-align: right;
+          width: 60px;
+        }
+      }
     }
   }
 }

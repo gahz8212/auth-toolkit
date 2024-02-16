@@ -14,7 +14,11 @@ const ExportContainer = () => {
     const { invoice } = useSelector(formSelector)
     const onChangeOrder = async (e: any) => {
         const selectedFile = e.target.files[0]
-        const fileType = ['application/vnd.ms-excel', 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        const fileType = [
+            'application/vnd.ms-excel',
+            'text/csv',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
         if (selectedFile && fileType.includes(selectedFile.type)) {
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.load(selectedFile)
@@ -47,10 +51,10 @@ const ExportContainer = () => {
                 return result
             })
             // console.log(filteredOrder)
-            console.log([...filteredOrder,...months])
+            console.log([filteredOrder, months])
             dispatch(OrderAction.getData(filteredOrder));
             dispatch(OrderAction.getMonth(months))
-            dispatch(OrderAction.inputOrder(filteredOrder))
+            dispatch(OrderAction.inputOrder([filteredOrder, months]))
             if (orderInput.current) orderInput.current.value = ''
 
         }
@@ -58,7 +62,11 @@ const ExportContainer = () => {
     const onChangeGood = async (e: any) => {
 
         const selectedFile = e.target.files[0]
-        const fileType = ['application/vnd.ms-excel', 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+        const fileType = [
+            'application/vnd.ms-excel',
+            'text/csv',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
         if (selectedFile && fileType.includes(selectedFile.type)) {
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.load(selectedFile)
@@ -67,7 +75,8 @@ const ExportContainer = () => {
             worksheet?.eachRow({ includeEmpty: false }, (row) => {
                 worksheetData.push(row.values)
             })
-            const headers = worksheetData[0]
+            const headers = worksheetData[0];
+            // const months = headers.slice(1)
             const contents = worksheetData.slice(1);
             let GoodList: any[] = [];
             for (let content = 0; content < contents.length; content++) {
@@ -77,7 +86,7 @@ const ExportContainer = () => {
                     obj[headers[header]] = contents[content][header]
                 }
             }
-
+            // console.log(months)
             dispatch(OrderAction.inputGood(GoodList))
             if (partsInput.current) partsInput.current.value = ''
         }
@@ -89,7 +98,20 @@ const ExportContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
 
-
+    useEffect(() => {
+        if (!invoiceData) {
+            dispatch(OrderAction.getOrderData())
+        }
+    }, [dispatch, invoiceData])
+    useEffect(() => {
+        if (orderData) {
+            //좀 더 효율적으로 months를 가져오는 방법을 찾아보자.
+            const keys = Object.keys(orderData[0])
+            // console.log(keys.slice(3, 8))
+            dispatch(OrderAction.getMonth(keys.slice(3, 8)))
+            //local storage에 넣어보는건 어떨까?
+        }
+    }, [orderData, dispatch])
     return (
         <ExportComponent
             model={model}

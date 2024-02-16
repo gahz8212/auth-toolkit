@@ -29,10 +29,5 @@ module.exports = class Order extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    db.Order.hasMany(db.Good, {
-      foreignKey: { name: "relationname", type: Sequelize.STRING(50) },
-      sourceKey: "Item",
-    });
-  }
+
 };

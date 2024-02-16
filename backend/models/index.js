@@ -8,6 +8,7 @@ const Item = require("./item");
 const Image = require("./image");
 const Good = require("./goods");
 const Order = require("./orders");
+const OrderSheet = require("./ordersheet");
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -21,14 +22,14 @@ db.Item = Item;
 db.Image = Image;
 db.Good = Good;
 db.Order = Order;
+db.OrderSheet = OrderSheet;
 User.init(sequelize);
 Item.init(sequelize);
 Image.init(sequelize);
 Good.init(sequelize);
 Order.init(sequelize);
+OrderSheet.init(sequelize);
 Item.associate(db);
 Image.associate(db);
-Good.associate(db);
-Order.associate(db);
 
 module.exports = db;

@@ -77,6 +77,21 @@ const orderSlice = createSlice({
       state.status.loading = false;
       state.status.message = "";
     },
+    getOrderData: (state) => {
+      state.status.error = "";
+      state.status.loading = true;
+      state.status.message = "";
+    },
+    getOrderDataSuccess: (state, { payload: order }) => {
+      state.status.error = "";
+      state.status.loading = false;
+      state.orderData = order;
+    },
+    getOrderDataFailure: (state, { payload: error }) => {
+      state.status.error = error;
+      state.status.loading = false;
+      state.status.message = "";
+    },
   },
 });
 export default orderSlice.reducer;

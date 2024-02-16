@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InvoiceContainer from '../invoiceForm/InvoiceContainer';
 import { useDrag } from 'react-use-gesture';
 type Props = {
@@ -32,14 +32,15 @@ const ExportComponent: React.FC<Props> = ({
 
 }) => {
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) }))
+    const [selectedMonth, setSelectedMonth] = useState<string>('Feb')
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
                 <div {...invoicePos()} style={{ color: 'black', position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>INVOICE</span>
+                    <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>INVOICE</span>
                 </div>
                 <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 1 }}>
-                    <InvoiceContainer />
+                    <InvoiceContainer selectedMonth={selectedMonth} />
                 </div>
             </div>}
             <div className="export-container">
@@ -47,7 +48,7 @@ const ExportComponent: React.FC<Props> = ({
                     <table>
                         <thead>
                             <tr>
-                                <th className='model'>Model</th>
+                                <th className='model'>Item</th>
                                 {months?.map((month, idx) => (
                                     <th key={idx}>{month}</th>
                                 ))}
@@ -79,7 +80,8 @@ const ExportComponent: React.FC<Props> = ({
                     <div className="selector">
                         {months?.map(month =>
                             <>
-                                <input type="radio" name="month" id={month} />
+                                <input type="radio" name="month" id={month} value={month}
+                                    checked={month === selectedMonth} onChange={() => setSelectedMonth(month)} />
                                 <label htmlFor={month}>{month}</label>
                             </>)}
                     </div>
@@ -121,7 +123,7 @@ const ExportComponent: React.FC<Props> = ({
                             </table>
                         </div>
                     </div>
-                    {invoiceData && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
+                    {orderData && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
                         list_alt_add
                     </span>}
                 </div>

@@ -1,12 +1,21 @@
 const Sequelize = require("sequelize");
-module.exports = class Good extends Sequelize.Model {
+module.exports = class OrderSheet extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        largeCategory: { type: Sequelize.STRING(10) },
-        middleCategory: { type: Sequelize.STRING(10) },
+        Jan: { type: Sequelize.INTEGER, allowNull: true },
+        Feb: { type: Sequelize.INTEGER, allowNull: true },
+        Mar: { type: Sequelize.INTEGER, allowNull: true },
+        April: { type: Sequelize.INTEGER, allowNull: true },
+        May: { type: Sequelize.INTEGER, allowNull: true },
+        June: { type: Sequelize.INTEGER, allowNull: true },
+        Jul: { type: Sequelize.INTEGER, allowNull: true },
+        Aug: { type: Sequelize.INTEGER, allowNull: true },
+        Sep: { type: Sequelize.INTEGER, allowNull: true },
+        Oct: { type: Sequelize.INTEGER, allowNull: true },
+        Nov: { type: Sequelize.INTEGER, allowNull: true },
+        Dec: { type: Sequelize.INTEGER, allowNull: true },
         category: { type: Sequelize.STRING(30) },
-        groupName: { type: Sequelize.STRING(50) },
         name: { type: Sequelize.STRING(100), allowNull: false },
         descript: { type: Sequelize.STRING(200), allowNull: true },
         unit: {
@@ -21,15 +30,15 @@ module.exports = class Good extends Sequelize.Model {
         set: { type: Sequelize.STRING(3), defaultValue: "SET" },
         number: { type: Sequelize.INTEGER, allowNull: true },
         use: { type: Sequelize.BOOLEAN, defaultValue: true },
-        input_date: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
+        input_date: { type: Sequelize.DATEONLY, defaultValue: Sequelize.NOW },
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        paranoid: true,
-        modelName: "Good",
-        tableName: "goods",
+        paranoid: false,
+        tableName: "OrderSheet",
+        modelName: "ordersheets",
         charset: "utf8",
         collate: "utf8_general_ci",
       }
