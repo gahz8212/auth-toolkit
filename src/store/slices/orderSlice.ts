@@ -53,10 +53,10 @@ const orderSlice = createSlice({
       state.status.loading = true;
       state.status.error = "";
     },
-    inputOrderSuccess: (state, { payload: invoice }) => {
+    inputOrderSuccess: (state, { payload: order }) => {
       state.status.loading = false;
       state.status.error = "";
-      state.invoiceData = invoice;
+      state.orderData = order;
     },
     inputOrderFailure: (state, { payload: error }) => {
       state.status.error = error;
@@ -82,10 +82,10 @@ const orderSlice = createSlice({
       state.status.loading = true;
       state.status.message = "";
     },
-    getOrderDataSuccess: (state, { payload: order }) => {
+    getOrderDataSuccess: (state, { payload: invoiceData }) => {
       state.status.error = "";
       state.status.loading = false;
-      state.orderData = order;
+      state.invoiceData = invoiceData;
     },
     getOrderDataFailure: (state, { payload: error }) => {
       state.status.error = error;

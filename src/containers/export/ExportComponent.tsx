@@ -31,8 +31,13 @@ const ExportComponent: React.FC<Props> = ({
     changePosition
 
 }) => {
-    const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 150 }) }))
+    const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
     const [selectedMonth, setSelectedMonth] = useState<string>('Feb')
+
+    if (invoiceData) {
+        const keys = Object.keys(invoiceData[0]).slice(1, 6)
+        months = keys;
+    }
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
@@ -58,7 +63,7 @@ const ExportComponent: React.FC<Props> = ({
                         <tbody>
                             {orderData?.map((order, idx) =>
                                 <tr key={idx}>
-                                    <td className='model'>{order.Item}</td>
+                                    <td className='model'>{order.name}</td>
                                     {months?.map(month => <td>
                                         <input type="text"
                                             defaultValue={0}
@@ -74,8 +79,8 @@ const ExportComponent: React.FC<Props> = ({
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
-                        <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
+                        {/* <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} /> */}
                     </div>
                     <div className="selector">
                         {months?.map(month =>
@@ -123,7 +128,7 @@ const ExportComponent: React.FC<Props> = ({
                             </table>
                         </div>
                     </div>
-                    {orderData && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
+                    {invoiceData && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
                         list_alt_add
                     </span>}
                 </div>

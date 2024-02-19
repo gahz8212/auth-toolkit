@@ -76,7 +76,7 @@ const ExportContainer = () => {
                 worksheetData.push(row.values)
             })
             const headers = worksheetData[0];
-            // const months = headers.slice(1)
+
             const contents = worksheetData.slice(1);
             let GoodList: any[] = [];
             for (let content = 0; content < contents.length; content++) {
@@ -103,15 +103,7 @@ const ExportContainer = () => {
             dispatch(OrderAction.getOrderData())
         }
     }, [dispatch, invoiceData])
-    useEffect(() => {
-        if (orderData) {
-            //좀 더 효율적으로 months를 가져오는 방법을 찾아보자.
-            const keys = Object.keys(orderData[0])
-            // console.log(keys.slice(3, 8))
-            dispatch(OrderAction.getMonth(keys.slice(3, 8)))
-            //local storage에 넣어보는건 어떨까?
-        }
-    }, [orderData, dispatch])
+
     return (
         <ExportComponent
             model={model}

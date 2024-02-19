@@ -11,9 +11,9 @@ type State = {
 };
 
 const initialState: State = {
-  input: { visible: false, position: { x: 100, y: 150 } },
-  edit: { visible: false, position: { x: 100, y: 150 } },
-  invoice: { visible: false, position: { x: 100, y: 100 } },
+  input: { visible: false, position: { x: 100, y: 200 } },
+  edit: { visible: false, position: { x: 100, y: 200 } },
+  invoice: { visible: false, position: { x: 100, y: 200 } },
 };
 const inputFormSelector = (state: RootState) => {
   return state.form.input;

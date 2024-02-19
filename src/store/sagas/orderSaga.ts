@@ -5,6 +5,7 @@ function* getOrderDataSaga() {
   try {
     const response: { data: any[] } = yield call(orderAPI.getOrderData);
     yield put(OrderAction.getOrderDataSuccess(response.data));
+    yield put(OrderAction.inputOrderSuccess(response.data));
   } catch (e: any) {
     console.error(e);
     yield put(OrderAction.getOrderDataFailure(e.response.data));
@@ -28,10 +29,10 @@ function* inputGoodSaga(action: { payload: any[] | null }) {
       orderAPI.goodInput,
       action.payload
     );
-    yield put(OrderAction.inputOrderSuccess(response.data));
+    yield put(OrderAction.inputGoodSuccess(response.data));
   } catch (e: any) {
     console.error(e);
-    yield put(OrderAction.inputOrderFailure(e.response.data));
+    yield put(OrderAction.inputGoodFailure(e.response.data));
   }
 }
 export function* orderSaga() {

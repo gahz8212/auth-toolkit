@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { Good, Order, OrderSheet } = require("../models");
+const { Good, Order } = require("../models");
 const { sequelize } = require("../models");
 router.get("/getOrderData", async (req, res) => {
   try {
     const [order, metadata] = await sequelize.query(
       `
-    select * from orders
+    select * from ordersheet order by number1,number2
     `
     );
-    // console.log(ordersheet);
+    console.log(order);
     return res.status(200).json(order);
   } catch (e) {
     return res.status(400).json(e.message);
@@ -18,10 +18,10 @@ router.get("/getOrderData", async (req, res) => {
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
-    console.log(order[0]);
+    // console.log(order[0]);
     await Order.destroy({ where: {} });
     await Order.bulkCreate(order[0]);
-    const [result, metadata] = await sequelize.query(
+    const [results, metadata] = await sequelize.query(
       `
       SELECT 
       goods.category,
@@ -38,18 +38,100 @@ router.post("/orderinput", async (req, res) => {
       goods.weight,
       goods.cbm,
       goods.moq,
-      goods.set,
-      goods.number,
+      goods.sets,
+      goods.number1,
+      goods.number2,
       goods.use,
-      goods.input_date
+      date_format(goods.input_date,'%Y-%m-%d')
       FROM goods inner join orders on goods.groupName=orders.Item
       WHERE goods.use=1 
-      ORDER BY goods.number,orders.id
+      ORDER BY goods.number1,goods.number2, orders.id
       `
     );
-    await OrderSheet.destroy({ where: {} });
-    await OrderSheet.bulkCreate(result);
-    return res.status(200).json(result);
+
+    // await OrderSheet.destroy({ where: {} });
+    // await OrderSheet.bulkCreate(result);
+    await sequelize.query(`
+    drop table  if exists ordersheet
+    `);
+
+    await sequelize.query(`
+    create table if not exists ordersheet(
+      name varchar(50) primary key,
+      ${order[1][0]} integer null,
+      ${order[1][1]} integer null,
+      ${order[1][2]} integer null,
+      ${order[1][3]} integer null,
+      ${order[1][4]} integer null,
+      sets varchar(10),
+      cbm float(4,3),
+      weight float(4,1),
+      moq integer,
+      export_price float(5,2),
+     input_date date,
+     number1 integer,
+     number2 integer
+    )engine=innoDB default charset=utf8 collate=utf8_general_ci;
+    `);
+
+    let querystring = "";
+    results.forEach(async (result) => {
+      const values = Object.values(result);
+      querystring =
+        querystring +
+        ",(" +
+        [
+          "'" + values[1] + "'",
+          values[3] | 0,
+          values[4] | 0,
+          values[5] | 0,
+          values[6] | 0,
+          values[7] | 0,
+          "'" + values[14] + "'",
+          values[12],
+          values[11] | 0,
+          values[13] | 0,
+          values[10] | 0,
+          "'" + values[18] + "'",
+          values[15] | 0,
+          values[16] | 0,
+        ].toString() +
+        ")";
+    });
+    //0:category
+    //1:name
+    //2:descript
+    //3:order #1
+    //4:order #2
+    //5:order #3
+    //6:order #4
+    //7:order #5
+    //8:unit
+    //9:import_price
+    //10:export_price
+    //11:weight
+    //12:weight
+    //13:cbm
+    //14:sets
+    //15:number1
+    //16:number2
+    //17:use
+    //18:input_date
+
+    sequelize.query(
+      `insert into ordersheet (name,
+        ${order[1][0]},
+        ${order[1][1]},
+        ${order[1][2]},
+        ${order[1][3]},
+        ${order[1][4]},
+      sets,cbm,weight,moq,export_price,input_date,number1,number2) values ${querystring.slice(
+        //처음에 붙은 , 삭제처리
+        1
+      )}`
+    );
+
+    return res.status(200).json(results);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

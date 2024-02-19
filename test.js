@@ -76,7 +76,9 @@
 // const arr1 = { image: { url: "" } };
 // const newarr = arrs.map((arr) => ({ ...arr, ...arr1 }));
 // console.log(newarr);
-const user = { id: 1, name: "aaa" };
-delete user.name;
-user.name = "bbb";
-console.log(user);
+// const user = { id: 1, name: "aaa" };
+// delete user.name;
+// user.name = "bbb";
+// console.log(user);
+const date = new Date("Mon Dec 13 2021 09:00:00 GMT+0900 (대한민국 표준시)");
+console.log(date);
