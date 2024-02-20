@@ -18,10 +18,16 @@
     }
     tbody {
       font-size: 1rem;
+      height: 100px;
+      // background-color: yellow;
+
       tr {
         cursor: pointer;
         &:hover {
           background-color: yellow;
+        }
+        &:nth-child(2n + 1) {
+          background-color: rgba(128, 128, 128, 0.1);
         }
         td {
           height: 30px;
@@ -50,6 +56,18 @@
           // background: yellow;
           text-align: right;
           width: 60px;
+        }
+      }
+    }
+    tfoot {
+      border-top: 2px solid cornflowerblue;
+      // font-weight: 700;
+      tr {
+        background: yellowgreen;
+        line-height: 2;
+        td {
+          text-align: left;
+          width: 100px;
         }
       }
     }

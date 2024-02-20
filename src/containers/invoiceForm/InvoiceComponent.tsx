@@ -2,9 +2,10 @@ import { table } from 'console';
 import React from 'react';
 type Props = {
     invoiceData: any[] | undefined;
+    totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[]
     selectedMonth: string
 }
-const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth }) => {
+const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalResult }) => {
     const datas = (
         invoiceData?.map(data => <tr className='invoice-rows'>
             <td className='invoice-item'>{data.name}</td>
@@ -19,7 +20,13 @@ const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth }) => {
 
         </tr>)
     )
-
+    const footer = (totalResult?.map(result => <tr className='invoice-total'>
+        {result[selectedMonth] && <th>TOTAL</th>}
+        {result[selectedMonth] && <th>{result[selectedMonth].carton}C/T</th>}
+        {result[selectedMonth] && <th>{result[selectedMonth].weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</th>}
+        {result[selectedMonth] && <th>{result[selectedMonth].cbm.toFixed(1)}CBM</th>}
+        {result[selectedMonth] && <th>${result[selectedMonth].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</th>}
+    </tr>))
     return (
         <div className='invoice-container'>
 
@@ -35,7 +42,8 @@ const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth }) => {
                     {React.Children.toArray(datas)}
                 </tbody>
                 <tfoot>
-                    <th></th>
+
+                    {React.Children.toArray(footer)}
                 </tfoot>
             </table>
         </div>
