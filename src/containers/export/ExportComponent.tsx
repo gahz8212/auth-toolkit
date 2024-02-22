@@ -40,7 +40,6 @@ const ExportComponent: React.FC<Props> = ({
     }
     // console.log('orderData at component', orderData)
     const orderdata = orderData?.map(data =>
-
         <div className='tr'>
             <div className='td'>{data.name}</div>
             {months?.map(month =>
@@ -51,17 +50,14 @@ const ExportComponent: React.FC<Props> = ({
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
-                <div {...invoicePos()} style={{ color: 'black', position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                <div {...invoicePos()} style={{ color: 'black', position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 3, textAlign: 'center', width: '300px' }}>
                     <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>INVOICE</span>
                 </div>
-                <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 1 }}>
+                <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2 }}>
                     <InvoiceContainer selectedMonth={selectedMonth} />
                 </div>
             </div>}
             <div className="export-container">
-
-
-
                 <div className="orderSheet">
                     <div className='table'>
                         <div className='thead'>
@@ -85,8 +81,8 @@ const ExportComponent: React.FC<Props> = ({
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
-                        {/* <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} /> */}
+                        <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
                     </div>
                     <div className="selector">
                         {months?.map(month =>
@@ -134,7 +130,7 @@ const ExportComponent: React.FC<Props> = ({
                             </table>
                         </div>
                     </div>
-                    {invoiceData && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
+                    {(invoiceData || orderData) && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
                         list_alt_add
                     </span>}
                 </div>
