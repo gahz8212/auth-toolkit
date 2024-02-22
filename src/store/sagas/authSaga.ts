@@ -27,7 +27,7 @@ function* checkSaga() {
     const response: { data: { id: number; name: string } } = yield call(
       authAPI.check
     );
-    console.log(response.data);
+    // console.log(response.data);
     yield put(authActions.checkSuccess(response.data));
   } catch (e: any) {
     yield put(authActions.checkFailure(e.response.data));

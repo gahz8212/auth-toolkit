@@ -10,37 +10,87 @@
     align-items: flex-start;
     overflow: hidden;
     .orderSheet {
-      overflow-y: auto;
-      height: 75vh;
-      table {
-        width: 500px;
-        .model {
-          width: 200px;
-        }
-        thead {
-          height: 30px;
-          th {
-            font-weight: 700;
-            width: 40px;
-          }
-        }
-        tbody {
-          height: 100vh;
-          tr {
-            padding: 1rem;
-            .model {
-              cursor: pointer;
+      position: relative;
+      z-index: 1;
+      .table {
+        .thead {
+          width: 630px;
+          // background-color: yellow;
+          .tr {
+            display: flex;
+            height: 40px;
+            padding: 0.5rem 1rem;
+            .th {
               font-weight: 700;
-              &:hover {
-                background-color: yellow;
+              line-height: 0.7;
+              text-align: center;
+              padding: 1rem;
+              &:nth-child(1) {
+                text-align: left;
+
+                width: 330px;
+              }
+              &:nth-child(2) {
+                width: 60px;
+                // background-color: yellow;
+              }
+              &:nth-child(3) {
+                width: 60px;
+                // background-color: yellow;
+              }
+              &:nth-child(4) {
+                width: 60px;
+                // background-color: yellow;
+              }
+              &:nth-child(5) {
+                width: 60px;
+                // background-color: yellow;
+              }
+              &:nth-child(6) {
+                width: 60px;
+                // background-color: yellow;
               }
             }
-            td {
-              input {
-                width: 40px;
-                text-align: right;
-                // border: none;
-                // border-bottom: 1px solid black;
+          }
+        }
+        .tbody {
+          overflow-y: auto;
+          height: 70vh;
+          width: 647px;
+          // background-color: green;
+          .tr {
+            // background: yellow;
+            display: flex;
+            padding: 0.2rem 1rem;
+            &:nth-child(2n + 1) {
+              background: rgba(128, 128, 128, 0.1);
+            }
+            &:hover {
+              background: yellow;
+            }
+            .td {
+              text-align: right;
+              padding: 0.3rem 1rem;
+
+              &:nth-child(1) {
+                text-align: left;
+                width: 330px;
+                // text-wrap: nowrap;
+              }
+              &:nth-child(2) {
+                width: 60px;
+              }
+              &:nth-child(3) {
+                width: 60px;
+              }
+              &:nth-child(4) {
+                width: 60px;
+              }
+              &:nth-child(5) {
+                width: 60px;
+              }
+              &:nth-child(6) {
+                width: 60px;
               }
             }
           }

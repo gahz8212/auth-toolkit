@@ -3,7 +3,7 @@ export const imageInsert = async (e: any, imageList: { url: string }[]) => {
   const imageArray = e.target.files;
   const formData = new FormData();
   const notConflictImages = [];
-  console.log(imageArray)
+  // console.log(imageArray)
 
     const ableCount = 3 - imageList.length;
     if (ableCount > 0) {

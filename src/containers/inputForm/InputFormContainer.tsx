@@ -14,7 +14,7 @@ const InputFormContainer = () => {
     const { file, data: datas, status } = useSelector(ExcelData)
     const onChange = (e: any) => {
         let { name, value } = e.target;
-        console.log(value)
+        // console.log(value)
         if (name === 'use') {
             value = value === '1' ? true : false
         }
@@ -42,7 +42,7 @@ const InputFormContainer = () => {
     const formClose = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: false }))
         dispatch(ExcelAction.initForm())
-        console.log(excelFile.current)
+        // console.log(excelFile.current)
     }
     const excel_onChange = (e: any) => {
         const selectedFile = e.target.files[0];
@@ -81,9 +81,7 @@ const InputFormContainer = () => {
 
         }
     }
-    useEffect(() => {
-        console.log(input.unit)
-    }, [input])
+
     return (
         <InputFormComponent
             onChange={onChange}

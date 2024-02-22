@@ -38,6 +38,16 @@ const ExportComponent: React.FC<Props> = ({
         const keys = Object.keys(invoiceData[0]).slice(1, 6)
         months = keys;
     }
+    // console.log('orderData at component', orderData)
+    const orderdata = orderData?.map(data =>
+
+        <div className='tr'>
+            <div className='td'>{data.name}</div>
+            {months?.map(month =>
+                <div className='td'>{data[month]}</div>)}
+        </div>
+    )
+
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
@@ -49,32 +59,28 @@ const ExportComponent: React.FC<Props> = ({
                 </div>
             </div>}
             <div className="export-container">
-                <div className="orderSheet">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th className='model'>Item</th>
-                                {months?.map((month, idx) => (
-                                    <th key={idx}>{month}</th>
-                                ))}
-                            </tr>
 
-                        </thead>
-                        <tbody>
-                            {orderData?.map((order, idx) =>
-                                <tr key={idx}>
-                                    <td className='model'>{order.name}</td>
-                                    {months?.map(month => <td>
-                                        <input type="text"
-                                            defaultValue={0}
-                                            min={0}
-                                            className="order_count"
-                                            value={order[month]} /></td>)}
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+
+
+                <div className="orderSheet">
+                    <div className='table'>
+                        <div className='thead'>
+                            <div className='tr'>
+                                <div className='th model'>Item</div>
+                                {months?.map((month, idx) => (
+                                    <div className='th' key={idx}>{month}</div>
+                                ))}
+                            </div>
+
+                        </div>
+                        <div className='tbody'>
+                            {React.Children.toArray(orderdata)}
+                        </div>
+                    </div>
                 </div>
+
+
+
                 <div className="summary">
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>

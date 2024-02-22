@@ -97,7 +97,7 @@ const authSlice = createSlice({
       state.status.message = "";
     },
     checkSuccess: (state, { payload: auth }) => {
-      console.log("auth", auth);
+      // console.log("auth", auth);
       state.status.auth = auth;
       state.status.error = "";
     },

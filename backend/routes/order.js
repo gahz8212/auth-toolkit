@@ -160,7 +160,7 @@ router.post("/orderinput", async (req, res) => {
     //     1
     //   )}`
     // );
-
+    // console.log(results);
     return res.status(200).json(results);
   } catch (e) {
     console.error(e);

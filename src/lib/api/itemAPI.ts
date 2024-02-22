@@ -26,10 +26,10 @@ export const editItem = (item: {
   return client.post("/item/edit", item);
 };
 export const removeItem = (id: number | "") => {
-  console.log("deleteID", id);
+  // console.log("deleteID", id);
   return client.delete(`/item/delete/${id}`);
 };
 export const excelAdd = (datas: any[] | null) => {
-  console.log("exceldatas", datas);
+  // console.log("exceldatas", datas);
   return client.post("/item/excelAdd", datas);
 };

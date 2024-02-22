@@ -1,4 +1,4 @@
-import { table } from 'console';
+
 import React from 'react';
 type Props = {
     invoiceData: any[] | undefined;
@@ -7,45 +7,41 @@ type Props = {
 }
 const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalResult }) => {
     const datas = (
-        invoiceData?.map(data => <tr className='invoice-rows'>
-            <td className='invoice-item'>{data.name}</td>
-
-
-            {data[selectedMonth] && <td className='invoice-count'>{data[selectedMonth].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>}
-            {data[selectedMonth] && <td className='invoice-weight'>{data.weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>}
-            {data[selectedMonth] && <td className='invoice-cbm'>{data.cbm.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>}
-
-
-            {data.export_price && <td className='invoice-price'>${data.export_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>}
-
-        </tr>)
+        invoiceData?.map(data => <div className='invoice-rows'>
+            <div className='invoice-data'>{data.name}</div>
+            {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq) * data.weight?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</div>}
+            {data[selectedMonth] && <div className='invoice-data'>${(data.export_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+        </div>)
     )
-    const footer = (totalResult?.map(result => <tr className='invoice-total'>
-        {result[selectedMonth] && <th>TOTAL</th>}
-        {result[selectedMonth] && <th>{result[selectedMonth].carton}C/T</th>}
-        {result[selectedMonth] && <th>{result[selectedMonth].weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</th>}
-        {result[selectedMonth] && <th>{result[selectedMonth].cbm.toFixed(1)}CBM</th>}
-        {result[selectedMonth] && <th>${result[selectedMonth].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</th>}
-    </tr>))
+    const footer = (totalResult?.map(result => <div className='tr'>
+        {result[selectedMonth] && <div className='th'>TOTAL</div>}
+        {result[selectedMonth] && <div className='th'>{result[selectedMonth].carton}C/T</div>}
+        {result[selectedMonth] && <div className='th'>{result[selectedMonth].weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</div>}
+        {result[selectedMonth] && <div className='th'>{result[selectedMonth].cbm.toFixed(1)}CBM</div>}
+        {result[selectedMonth] && <div className='th'>${result[selectedMonth].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+    </div>))
     return (
         <div className='invoice-container'>
 
-            <table>
-                <thead>
-                    <th>Item</th>
-                    <th>수량</th>
-                    <th>무게</th>
-                    <th>CBM</th>
-                    <th>수출가격</th>
-                </thead>
-                <tbody>
+            <div className='table'>
+                <div className='thead'>
+                    <div className='tr'>
+                        <div className='th'>Item</div>
+                        <div className='th'>수량</div>
+                        <div className='th'>카톤</div>
+                        <div className='th'>무게</div>
+                        <div className='th'>수출가격</div>
+                    </div>
+                </div>
+                <div className='tbody'>
                     {React.Children.toArray(datas)}
-                </tbody>
-                <tfoot>
-
+                </div>
+                <div className='tfoot'>
                     {React.Children.toArray(footer)}
-                </tfoot>
-            </table>
+                </div>
+            </div>
         </div>
         // <div className='invoice-container'>
         //     {invoiceData?.map(data => <div className='invoice-rows'>

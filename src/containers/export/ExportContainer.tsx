@@ -51,7 +51,7 @@ const ExportContainer = () => {
                 return result
             })
             // console.log(filteredOrder)
-            console.log([filteredOrder, months])
+            // console.log([filteredOrder, months])
             dispatch(OrderAction.getData(filteredOrder));
             dispatch(OrderAction.getMonth(months))
             dispatch(OrderAction.inputOrder([filteredOrder, months]))

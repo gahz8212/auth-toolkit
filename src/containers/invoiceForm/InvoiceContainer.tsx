@@ -1,22 +1,22 @@
 import React from 'react';
 import InvoiceComponent from './InvoiceComponent';
 import { useDispatch, useSelector } from 'react-redux'
-import { OrderAction, OrderData } from '../../store/slices/orderSlice';
+import { OrderData } from '../../store/slices/orderSlice';
 type Props = {
     selectedMonth: string
 }
 const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
 
-    const { invoiceData } = useSelector(OrderData)
-    const filteredInvoiceData = invoiceData?.filter((data) => data[selectedMonth])
+    const { invoiceData, orderData } = useSelector(OrderData)
 
+    //body 에 들어가는 데이터 객체    
+    const filteredInvoiceData = orderData?.filter((data) => data[selectedMonth])
 
+    // 하단 total에 들어가는 데이터 객체
+    // invoiceData는 헤더만 추출하기 위해 필요
     let totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[] = [];
-
-    if (invoiceData) {
-
-        const headers = Object.keys(invoiceData[0]).slice(1, 6)
-
+    if (orderData) {
+        const headers = Object.keys(orderData[0]).slice(1, 6)
 
         totalResult =
             headers.map(header => {
@@ -24,7 +24,7 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
                 let weight = 0;
                 let cbm = 0;
                 let price = 0;
-                invoiceData?.forEach(invoice => {
+                orderData?.forEach(invoice => {
                     carton += invoice[header] / invoice.moq;
                     weight += invoice.weight * invoice[header] / invoice.moq;
                     cbm += invoice.cbm * invoice[header] / invoice.moq;
