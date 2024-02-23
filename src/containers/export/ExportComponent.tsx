@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import InvoiceContainer from '../invoiceForm/InvoiceContainer';
 import { useDrag } from 'react-use-gesture';
 type Props = {
@@ -31,21 +31,52 @@ const ExportComponent: React.FC<Props> = ({
     changePosition
 
 }) => {
+    const dragItem: any = useRef();
+    const dragOverItem: any = useRef();
+    let dragItemKey = '';
+    let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
     const [selectedMonth, setSelectedMonth] = useState<string>('Feb')
-
+    let orderdata;
     if (invoiceData) {
         const keys = Object.keys(invoiceData[0]).slice(1, 6)
         months = keys;
+        // console.log('orderData at component', orderData)
+        const onDragStart = (index: number, column: number) => {
+            dragItem.current = index;
+            dragItemKey = months ? months[column] : '';
+            console.log('dragstart', dragItem.current, dragItemKey)
+        }
+        const onDragEnter = (index: number, column: number) => {
+            dragOverItem.current = index;
+            dragOverItemKey = months ? months[column] : '';
+            console.log('dragenter', dragOverItem, dragOverItemKey)
+        }
+        const onDrop = () => {
+            const copyList: { [key: string]: number }[] = [...invoiceData]
+
+            console.log(copyList[2].Feb)
+            // copyList[dragOverItem.current][dragOverItemKey] = 1
+            copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey]
+            // let originData = copyList[dragOverItem.current][dragOverItemKey]
+            // copyList[dragItem.current][dragItemKey] = originData
+            dragItem.current = null;
+            dragOverItem.current = null;
+        }
+        orderdata = orderData?.map((data, tr) =>
+            <div className='tr'>
+                <div className='td'>{data.name}</div>
+                {months?.map((month, td) =>
+                    <div className='td'
+                        draggable
+                        onDragStart={() => { onDragStart(tr, td) }}
+                        onDragEnter={() => { onDragEnter(tr, td) }}
+                        onDragEnd={onDrop}
+
+                    >{data[month]}</div>)}
+            </div>
+        )
     }
-    // console.log('orderData at component', orderData)
-    const orderdata = orderData?.map(data =>
-        <div className='tr'>
-            <div className='td'>{data.name}</div>
-            {months?.map(month =>
-                <div className='td'>{data[month]}</div>)}
-        </div>
-    )
 
     return (
         <div className='export-wrapper'>
