@@ -9,7 +9,7 @@ const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const partsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const dispatch = useDispatch()
-    const { orderData, months, invoiceData } = useSelector(OrderData)
+    const { orderData, months } = useSelector(OrderData)
     const [model, setModel] = useState<string>('model')
     const { invoice } = useSelector(formSelector)
     const onChangeOrder = async (e: any) => {
@@ -53,10 +53,9 @@ const ExportContainer = () => {
             // console.log(filteredOrder)
             // console.log([filteredOrder, months])
             dispatch(OrderAction.getData(filteredOrder));
-            dispatch(OrderAction.getMonth(months))
+            // dispatch(OrderAction.getMonth(months))
             dispatch(OrderAction.inputOrder([filteredOrder, months]))
             if (orderInput.current) orderInput.current.value = ''
-
         }
     }
     const onChangeGood = async (e: any) => {
@@ -99,11 +98,10 @@ const ExportContainer = () => {
     }
 
     useEffect(() => {
-        if (!invoiceData) {
+        if (!orderData) {
             dispatch(OrderAction.getOrderData())
         }
-    }, [dispatch, invoiceData])
-
+    }, [dispatch, orderData])
     return (
         <ExportComponent
             model={model}
@@ -114,12 +112,11 @@ const ExportContainer = () => {
             partsInput={partsInput}
             months={months}
             orderData={orderData}
-            invoiceData={invoiceData}
+            // invoiceData={invoiceData}
             invoiceForm={invoice}
             openInvoiceForm={openInvoiceForm}
             changePosition={changePosition}
         />
-        // <ExportComponent model={model} setModel={setModel} onChange={onChange} orderInput={orderInput} />
     );
 };
 

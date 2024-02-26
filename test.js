@@ -80,5 +80,23 @@
 // delete user.name;
 // user.name = "bbb";
 // console.log(user);
-const date = new Date("Mon Dec 13 2021 09:00:00 GMT+0900 (대한민국 표준시)");
-console.log(date);
+// const date = new Date("Mon Dec 13 2021 09:00:00 GMT+0900 (대한민국 표준시)");
+// console.log(date);
+const datas = [
+  { name: "aaa", feb: 101, march: 99, april: 104, moq: 10 },
+  { name: "bbb", feb: 100, march: 90, april: 90, moq: 90 },
+];
+// headers.map((header) => console.log(header));
+const modifiedData = datas.map((data) => ({
+  name: data.name,
+  moq: data.moq,
+}));
+const headers = Object.keys(datas[0]).slice(1, 4);
+const extraDatas = headers.map((header) =>
+  modifiedData.map((data) => ({ [header]: data[header] % data.moq }))
+);
+
+// console.log(modifiedData[0].concat({ feb: 1 }));
+const obj1 = { feb: 1 };
+const obj2 = { april: 2 };
+console.log({ ...obj1, ...obj2 });

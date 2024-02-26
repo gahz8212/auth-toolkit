@@ -4,14 +4,14 @@ type State = {
   orderFile: ArrayBuffer | undefined | null;
   orderData: any[] | null;
   months: string[] | null;
-  invoiceData: any[] | null;
+  // invoiceData: any[] | null;
   status: { error: string; loading: boolean; message: string };
 };
 const initialState: State = {
   orderFile: null,
   orderData: null,
   months: null,
-  invoiceData: null,
+  // invoiceData: null,
   status: { error: "", loading: false, message: "" },
 };
 const orderSelector = (state: RootState) => {
@@ -20,17 +20,21 @@ const orderSelector = (state: RootState) => {
 const monthSelector = (state: RootState) => {
   return state.order.months;
 };
-const invoiceSelector = (state: RootState) => {
-  return state.order.invoiceData;
-};
+// const invoiceSelector = (state: RootState) => {
+//   return state.order.invoiceData;
+// };
 export const OrderData = createSelector(
   orderSelector,
   monthSelector,
-  invoiceSelector,
-  (orderData, months, invoiceData) => ({
+  // invoiceSelector,
+  (
+    orderData,
+    months
+    // invoiceData
+  ) => ({
     orderData,
     months,
-    invoiceData,
+    // invoiceData,
   })
 );
 const orderSlice = createSlice({
@@ -85,7 +89,7 @@ const orderSlice = createSlice({
     getOrderDataSuccess: (state, { payload: invoiceData }) => {
       state.status.error = "";
       state.status.loading = false;
-      state.invoiceData = invoiceData;
+      state.orderData = invoiceData;
     },
     getOrderDataFailure: (state, { payload: error }) => {
       state.status.error = error;

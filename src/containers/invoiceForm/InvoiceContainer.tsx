@@ -7,7 +7,7 @@ type Props = {
 }
 const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
 
-    const { invoiceData, orderData } = useSelector(OrderData)
+    const {  orderData } = useSelector(OrderData)
 
     //body 에 들어가는 데이터 객체    
     const filteredInvoiceData = orderData?.filter((data) => data[selectedMonth])

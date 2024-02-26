@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import InvoiceContainer from '../invoiceForm/InvoiceContainer';
 import { useDrag } from 'react-use-gesture';
+import { OrderAction } from '../../store/slices/orderSlice'
+import { useDispatch } from 'react-redux'
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
@@ -10,9 +12,9 @@ type Props = {
     partsInput: React.LegacyRef<HTMLInputElement> | undefined;
     orderData: any[] | null;
     months: string[] | null;
-    invoiceData: any[] | null;
-    invoiceForm: { visible: boolean; position: { x: number; y: number } };
+    // invoiceData: any[] | null;
     openInvoiceForm: () => void;
+    invoiceForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
 
 }
@@ -25,7 +27,7 @@ const ExportComponent: React.FC<Props> = ({
     partsInput,
     orderData,
     months,
-    invoiceData,
+    // invoiceData,
     invoiceForm,
     openInvoiceForm,
     changePosition
@@ -33,35 +35,41 @@ const ExportComponent: React.FC<Props> = ({
 }) => {
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
+    const dispatch = useDispatch();
     let dragItemKey = '';
     let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
-    const [selectedMonth, setSelectedMonth] = useState<string>('Feb')
+
+
     let orderdata;
-    if (invoiceData) {
-        const keys = Object.keys(invoiceData[0]).slice(1, 6)
+    console.log(orderdata)
+    const [selectedMonth, setSelectedMonth] = useState<string>('')
+    if (orderData) {
+        const keys = Object.keys(orderData[0]).slice(1, 6)
         months = keys;
-        // console.log('orderData at component', orderData)
+        // setSelectedMonth('Feb')
+        // console.log(firstMonth)
+        // const onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        //     const list = JSON.parse(JSON.stringify(invoiceData))
+        //     const { name, value } = e.target;
+        //     list[index][name] = parseInt(value);
+        //     console.log(list)
+        // }
         const onDragStart = (index: number, column: number) => {
             dragItem.current = index;
             dragItemKey = months ? months[column] : '';
-            console.log('dragstart', dragItem.current, dragItemKey)
         }
         const onDragEnter = (index: number, column: number) => {
             dragOverItem.current = index;
             dragOverItemKey = months ? months[column] : '';
-            console.log('dragenter', dragOverItem, dragOverItemKey)
         }
         const onDrop = () => {
-            const copyList: { [key: string]: number }[] = [...invoiceData]
-
-            console.log(copyList[2].Feb)
-            // copyList[dragOverItem.current][dragOverItemKey] = 1
-            copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey]
-            // let originData = copyList[dragOverItem.current][dragOverItemKey]
-            // copyList[dragItem.current][dragItemKey] = originData
+            const copyList: { [key: string]: number | string | null }[] = JSON.parse(JSON.stringify(orderData))
+            copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey];
+            copyList[dragItem.current][dragItemKey] = null
             dragItem.current = null;
             dragOverItem.current = null;
+            dispatch(OrderAction.getData(copyList))
         }
         orderdata = orderData?.map((data, tr) =>
             <div className='tr'>
@@ -73,7 +81,9 @@ const ExportComponent: React.FC<Props> = ({
                         onDragEnter={() => { onDragEnter(tr, td) }}
                         onDragEnd={onDrop}
 
-                    >{data[month]}</div>)}
+                    >{data[month]}
+                        {/* <input type="number" name={`${month}`} value={data[month]} onChange={(e) => { onChange(e, tr) }} /> */}
+                    </div>)}
             </div>
         )
     }
@@ -116,12 +126,12 @@ const ExportComponent: React.FC<Props> = ({
                         <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
                     </div>
                     <div className="selector">
-                        {months?.map(month =>
-                            <>
+                        {months?.map((month, index) =>
+                            <div key={index}>
                                 <input type="radio" name="month" id={month} value={month}
                                     checked={month === selectedMonth} onChange={() => setSelectedMonth(month)} />
                                 <label htmlFor={month}>{month}</label>
-                            </>)}
+                            </div>)}
                     </div>
                     <div className={`sumTable  ${model === 'parts' ? "model" : 'parts'}`}>
                         <div className="arrow">
@@ -161,7 +171,7 @@ const ExportComponent: React.FC<Props> = ({
                             </table>
                         </div>
                     </div>
-                    {(invoiceData || orderData) && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
+                    {(orderData) && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
                         list_alt_add
                     </span>}
                 </div>
