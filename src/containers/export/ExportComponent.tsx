@@ -3,6 +3,7 @@ import InvoiceContainer from '../invoiceForm/InvoiceContainer';
 import { useDrag } from 'react-use-gesture';
 import { OrderAction } from '../../store/slices/orderSlice'
 import { useDispatch } from 'react-redux'
+import PackingContainer from '../packingListForm/PackingContainer';
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
@@ -14,7 +15,9 @@ type Props = {
     months: string[] | null;
     // invoiceData: any[] | null;
     openInvoiceForm: () => void;
+    openPackingForm: () => void;
     invoiceForm: { visible: boolean; position: { x: number; y: number } };
+    packingForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
 
 }
@@ -29,7 +32,9 @@ const ExportComponent: React.FC<Props> = ({
     months,
     // invoiceData,
     invoiceForm,
+    packingForm,
     openInvoiceForm,
+    openPackingForm,
     changePosition
 
 }) => {
@@ -39,22 +44,16 @@ const ExportComponent: React.FC<Props> = ({
     let dragItemKey = '';
     let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
+    const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
 
 
     let orderdata;
-    console.log(orderdata)
+    // console.log(orderdata)
     const [selectedMonth, setSelectedMonth] = useState<string>('')
     if (orderData) {
         const keys = Object.keys(orderData[0]).slice(1, 6)
         months = keys;
-        // setSelectedMonth('Feb')
-        // console.log(firstMonth)
-        // const onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-        //     const list = JSON.parse(JSON.stringify(invoiceData))
-        //     const { name, value } = e.target;
-        //     list[index][name] = parseInt(value);
-        //     console.log(list)
-        // }
+
         const onDragStart = (index: number, column: number) => {
             dragItem.current = index;
             dragItemKey = months ? months[column] : '';
@@ -98,6 +97,17 @@ const ExportComponent: React.FC<Props> = ({
                     <InvoiceContainer selectedMonth={selectedMonth} />
                 </div>
             </div>}
+            {packingForm.visible && <div>
+                <div {...packingPos()} style={{ color: 'black', position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 3, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>PACKING</span>
+                </div>
+                <div style={{ position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 2 }}>
+                    <PackingContainer
+                        selectedMonth={selectedMonth}
+                    />
+                </div>
+            </div>}
+
             <div className="export-container">
                 <div className="orderSheet">
                     <div className='table'>
@@ -174,8 +184,11 @@ const ExportComponent: React.FC<Props> = ({
                     {(orderData) && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
                         list_alt_add
                     </span>}
+                    {(orderData) && <span className="material-symbols-outlined" onClick={() => openPackingForm()}>
+                        list_alt_add
+                    </span>}
                 </div>
-                I</div>
+            </div>
         </div >
     );
 };

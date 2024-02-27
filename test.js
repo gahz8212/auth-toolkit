@@ -83,20 +83,53 @@
 // const date = new Date("Mon Dec 13 2021 09:00:00 GMT+0900 (대한민국 표준시)");
 // console.log(date);
 const datas = [
-  { name: "aaa", feb: 101, march: 99, april: 104, moq: 10 },
-  { name: "bbb", feb: 100, march: 90, april: 90, moq: 90 },
+  {
+    name: "aaa",
+    feb: 5,
+    march: 99,
+    april: 104,
+    moq: 10,
+    number1: 1,
+    number2: 10,
+  },
+  {
+    name: "bbb",
+    feb: 90,
+    march: 90,
+    april: 90,
+    moq: 90,
+    number1: 1,
+    number2: 3,
+  },
 ];
-// headers.map((header) => console.log(header));
-const modifiedData = datas.map((data) => ({
-  name: data.name,
-  moq: data.moq,
-}));
 const headers = Object.keys(datas[0]).slice(1, 4);
-const extraDatas = headers.map((header) =>
-  modifiedData.map((data) => ({ [header]: data[header] % data.moq }))
-);
-
-// console.log(modifiedData[0].concat({ feb: 1 }));
-const obj1 = { feb: 1 };
-const obj2 = { april: 2 };
-console.log({ ...obj1, ...obj2 });
+const newData = [];
+for (let data of datas) {
+  let obj1 = {};
+  let obj2 = {};
+  for (let header of headers) {
+    if (data[header] - (data[header] % data.moq))
+      obj1 = {
+        ...obj1,
+        ...{
+          name: data.name,
+          [header]: Math.floor(data[header] - (data[header] % data.moq)),
+          number1: data.number1,
+          number2: data.number2,
+        },
+      };
+    if (data[header] % data.moq) {
+      obj2 = {
+        ...obj2,
+        ...{
+          name: data.name,
+          [header]: Math.floor(data[header] % data.moq),
+          number1: data.number1,
+          number2: datas.length + 100,
+        },
+      };
+    }
+  }
+  newData.push(obj1, obj2);
+}
+console.log(newData);
