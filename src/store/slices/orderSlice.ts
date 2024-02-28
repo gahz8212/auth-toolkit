@@ -3,14 +3,20 @@ import { RootState } from "..";
 type State = {
   orderFile: ArrayBuffer | undefined | null;
   orderData: any[] | null;
+  packingData: any[] | null;
+  palletData: any[] | null;
   months: string[] | null;
-  // invoiceData: any[] | null;
+  dummyItems: any[] | null;
+
   status: { error: string; loading: boolean; message: string };
 };
 const initialState: State = {
   orderFile: null,
   orderData: null,
+  packingData: null,
+  palletData: null,
   months: null,
+  dummyItems: null,
   // invoiceData: null,
   status: { error: "", loading: false, message: "" },
 };
@@ -20,21 +26,17 @@ const orderSelector = (state: RootState) => {
 const monthSelector = (state: RootState) => {
   return state.order.months;
 };
-// const invoiceSelector = (state: RootState) => {
-//   return state.order.invoiceData;
-// };
+const dummyItemSelector = (state: RootState) => {
+  return state.order.dummyItems;
+};
 export const OrderData = createSelector(
   orderSelector,
   monthSelector,
-  // invoiceSelector,
-  (
-    orderData,
-    months
-    // invoiceData
-  ) => ({
+  dummyItemSelector,
+  (orderData, months, dummyItems) => ({
     orderData,
     months,
-    // invoiceData,
+    dummyItems,
   })
 );
 const orderSlice = createSlice({
@@ -61,11 +63,25 @@ const orderSlice = createSlice({
       state.status.loading = false;
       state.status.error = "";
       state.orderData = order;
+      state.packingData = order;
     },
     inputOrderFailure: (state, { payload: error }) => {
       state.status.error = error;
       state.status.loading = false;
       state.status.message = "";
+    },
+    getDummyItem: (state) => {
+      state.status.loading = true;
+      state.status.error = "";
+    },
+    getDummyItemSuccess: (state, { payload: dummyItems }) => {
+      state.status.loading = false;
+      state.status.error = "";
+      state.dummyItems = dummyItems;
+    },
+    getDummyItemFailure: (state, { payload: error }) => {
+      state.status.loading = false;
+      state.status.error = error;
     },
     inputGood: (state, action: PayloadAction<any[] | null>) => {
       state.status.loading = true;

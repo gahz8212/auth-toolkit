@@ -100,10 +100,19 @@
     .summary {
       // border: 1px solid black;
       width: 500px;
-      .material-symbols-outlined {
-        font-size: 48px;
-        font-weight: 700;
-        color: cornflowerblue;
+      .forms {
+        width: 300px;
+        margin: 0.7rem auto;
+        .material-symbols-outlined {
+          font-size: 48px;
+          font-weight: 700;
+          color: cornflowerblue;
+          cursor: pointer;
+        }
+        .material-symbols-outlined.packing {
+          color: tomato;
+          margin-left: 1.5rem;
+        }
       }
       .buttons {
         // margin: 0 auto;
@@ -141,11 +150,14 @@
 
           .material-symbols-outlined {
             font-size: 4rem;
-          }
-          & .forward {
-          }
-          & .back {
-            margin-left: 1rem;
+            color: green;
+            font-weight: 700;
+            transition: 1s;
+            &.forward {
+            }
+            &.back {
+              margin-left: 1rem;
+            }
           }
         }
         &.model {

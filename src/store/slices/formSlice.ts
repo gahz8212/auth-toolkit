@@ -9,6 +9,7 @@ type State = {
   edit: { visible: boolean; position: { x: number; y: number } };
   invoice: { visible: boolean; position: { x: number; y: number } };
   packing: { visible: boolean; position: { x: number; y: number } };
+  addItem: { visible: boolean; position: { x: number; y: number } };
 };
 
 const initialState: State = {
@@ -16,6 +17,7 @@ const initialState: State = {
   edit: { visible: false, position: { x: 100, y: 200 } },
   invoice: { visible: false, position: { x: 100, y: 200 } },
   packing: { visible: false, position: { x: 100, y: 200 } },
+  addItem: { visible: false, position: { x: 100, y: 200 } },
 };
 const inputFormSelector = (state: RootState) => {
   return state.form.input;
@@ -29,16 +31,21 @@ const invoiceFormSelector = (state: RootState) => {
 const packingFormSelector = (state: RootState) => {
   return state.form.packing;
 };
+const addItemFormSelector = (state: RootState) => {
+  return state.form.addItem;
+};
 export const formSelector = createSelector(
   inputFormSelector,
   editFormSelector,
   invoiceFormSelector,
   packingFormSelector,
-  (input, edit, invoice, packing) => ({
+  addItemFormSelector,
+  (input, edit, invoice, packing, addItem) => ({
     input,
     edit,
     invoice,
     packing,
+    addItem,
   })
 );
 const formSlice = createSlice({

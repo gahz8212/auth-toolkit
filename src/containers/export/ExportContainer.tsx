@@ -11,7 +11,7 @@ const ExportContainer = () => {
     const dispatch = useDispatch()
     const { orderData, months } = useSelector(OrderData)
     const [model, setModel] = useState<string>('model')
-    const { invoice, packing } = useSelector(formSelector)
+    const { invoice, packing, addItem } = useSelector(formSelector)
     const onChangeOrder = async (e: any) => {
         const selectedFile = e.target.files[0]
         const fileType = [
@@ -96,6 +96,13 @@ const ExportContainer = () => {
     const openPackingForm = () => {
         dispatch(formActions.toggle_form({ form: 'packing', value: !packing.visible }))
     }
+    const openAddItemForm = () => {
+
+
+        // alert('db 가져오는 중')
+        dispatch(formActions.toggle_form({ form: 'addItem', value: !addItem.visible }))
+        dispatch(OrderAction.getDummyItem())
+    }
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
@@ -118,8 +125,10 @@ const ExportContainer = () => {
             // invoiceData={invoiceData}
             invoiceForm={invoice}
             packingForm={packing}
+            addItemForm={addItem}
             openInvoiceForm={openInvoiceForm}
             openPackingForm={openPackingForm}
+            openAddItemForm={openAddItemForm}
             changePosition={changePosition}
         />
     );

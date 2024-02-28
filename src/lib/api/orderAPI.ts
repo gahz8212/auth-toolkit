@@ -8,3 +8,6 @@ export const goodInput = (good: any[] | null) => {
 export const getOrderData = () => {
   return client.get("/order/getOrderData");
 };
+export const getDummyItem = () => {
+  return client.get("/order/getDummyItem");
+};

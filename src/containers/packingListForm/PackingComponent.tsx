@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 type Props = {
 
     selectedMonth: string;
@@ -7,8 +7,8 @@ type Props = {
 }
 const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalResult }) => {
 
+    let newData: { [key: string]: number | string }[] = []
     if (packingData && selectedMonth) {
-        let newData: { [key: string]: number | string }[] = []
         const headers = Object.keys(packingData[0]).slice(1, 6)
         for (let data of packingData) {
             let origin = {};
@@ -21,23 +21,50 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
                     extra = { ...extra, ...{ name: data.name } }
                 }
             }
-            newData.push(origin, extra)
+            if (Object.keys(origin).length) {
+
+                newData.push(origin)
+            }
+            if (Object.keys(extra).length) {
+                newData.push(extra)
+
+            }
         }
-        console.log(newData)
+        // console.log(newData)
+
+
+
+
+
+
+
+
+
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
+    const dragItem = useRef<number>(0);
+    const dragOverItem = useRef<number>(0);
+    const dragItemStart = (index: number) => {
+        dragItem.current = index
+    }
+    const dragItemEnter = (index: number) => {
+        dragOverItem.current = index
+    }
+    const drop = () => {
+        const newList = JSON.parse(JSON.stringify(newData));
+        let target = newList[dragOverItem.current]
+        newList[dragOverItem.current] = newList[dragItem.current]
+        newList[dragItem.current] = target
+        console.log(newList)
+    }
     const datas = (
-        packingData?.map(data => <div className='packing-rows'>
+        packingData?.map((data, index) => <div className='packing-rows'
+            draggable
+            onDragStart={() => { dragItemStart(index) }}
+            onDragEnter={() => { dragItemEnter(index) }}
+            onDragEnd={drop}
+        >
             <div className='packing-data'>{data.name}</div>
             {/* {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {/* {data[selectedMonth] && <div className='invoice-data'>${(data.export_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}

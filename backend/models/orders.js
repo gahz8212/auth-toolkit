@@ -10,7 +10,7 @@ module.exports = class Order extends Sequelize.Model {
         April: { type: Sequelize.INTEGER, allowNull: true },
         May: { type: Sequelize.INTEGER, allowNull: true },
         June: { type: Sequelize.INTEGER, allowNull: true },
-        Jul: { type: Sequelize.INTEGER, allowNull: true },
+        July: { type: Sequelize.INTEGER, allowNull: true },
         Aug: { type: Sequelize.INTEGER, allowNull: true },
         Sep: { type: Sequelize.INTEGER, allowNull: true },
         Oct: { type: Sequelize.INTEGER, allowNull: true },

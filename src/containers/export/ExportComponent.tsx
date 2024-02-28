@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import InvoiceContainer from '../invoiceForm/InvoiceContainer';
+import PackingContainer from '../packingListForm/PackingContainer';
+import AddItemContainer from '../forms/addItemForm/AddItemContainer';
 import { useDrag } from 'react-use-gesture';
 import { OrderAction } from '../../store/slices/orderSlice'
 import { useDispatch } from 'react-redux'
-import PackingContainer from '../packingListForm/PackingContainer';
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
@@ -16,8 +17,10 @@ type Props = {
     // invoiceData: any[] | null;
     openInvoiceForm: () => void;
     openPackingForm: () => void;
+    openAddItemForm: () => void;
     invoiceForm: { visible: boolean; position: { x: number; y: number } };
     packingForm: { visible: boolean; position: { x: number; y: number } };
+    addItemForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
 
 }
@@ -33,8 +36,10 @@ const ExportComponent: React.FC<Props> = ({
     // invoiceData,
     invoiceForm,
     packingForm,
+    addItemForm,
     openInvoiceForm,
     openPackingForm,
+    openAddItemForm,
     changePosition
 
 }) => {
@@ -45,11 +50,13 @@ const ExportComponent: React.FC<Props> = ({
     let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
     const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
+    const addItemPos = useDrag((params => { changePosition('addItem', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
 
 
     let orderdata;
     // console.log(orderdata)
     const [selectedMonth, setSelectedMonth] = useState<string>('')
+
     if (orderData) {
         const keys = Object.keys(orderData[0]).slice(1, 6)
         months = keys;
@@ -86,7 +93,6 @@ const ExportComponent: React.FC<Props> = ({
             </div>
         )
     }
-
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
@@ -104,6 +110,16 @@ const ExportComponent: React.FC<Props> = ({
                 <div style={{ position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 2 }}>
                     <PackingContainer
                         selectedMonth={selectedMonth}
+                    />
+                </div>
+            </div>}
+            {addItemForm.visible && <div>
+                <div {...addItemPos()} style={{ color: 'black', position: 'fixed', top: addItemForm.position.y, left: addItemForm.position.x, zIndex: 3, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>ADD</span>
+                </div>
+                <div style={{ position: 'fixed', top: addItemForm.position.y, left: addItemForm.position.x, zIndex: 2 }}>
+                    <AddItemContainer
+                    // selectedMonth={selectedMonth}
                     />
                 </div>
             </div>}
@@ -132,6 +148,7 @@ const ExportComponent: React.FC<Props> = ({
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
+                        <button onClick={openAddItemForm}>추가 입력</button>
                         <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
                     </div>
@@ -181,12 +198,14 @@ const ExportComponent: React.FC<Props> = ({
                             </table>
                         </div>
                     </div>
-                    {(orderData) && <span className="material-symbols-outlined" onClick={() => openInvoiceForm()}>
-                        list_alt_add
-                    </span>}
-                    {(orderData) && <span className="material-symbols-outlined" onClick={() => openPackingForm()}>
-                        list_alt_add
-                    </span>}
+                    <div className='forms'>
+                        {(orderData) && <span className="material-symbols-outlined invoice" onClick={openInvoiceForm}>
+                            list_alt_add
+                        </span>}
+                        {(orderData) && <span className="material-symbols-outlined packing" onClick={openPackingForm}>
+                            list_alt_add
+                        </span>}
+                    </div>
                 </div>
             </div>
         </div >
