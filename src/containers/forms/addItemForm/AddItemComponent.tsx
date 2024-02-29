@@ -1,10 +1,19 @@
 import React from 'react';
-
-const AddItemComponent = () => {
+type Props = {
+    dummyItems: any[] | null;
+}
+const AddItemComponent: React.FC<Props> = ({ dummyItems }) => {
+    console.log('dummyItems', dummyItems)
     return (
-        <div>
+        <>
             PARTS / DUMMIES
-        </div>
+            <div style={{
+                height: '400px', overflowY: 'auto', background: 'white', padding: '1rem'
+            }}>
+
+                {dummyItems?.map(item => <div style={{ padding: '.3rem' }}>{item.NAME}</div>)}
+            </div >
+        </>
     );
 };
 

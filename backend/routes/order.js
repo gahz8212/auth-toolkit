@@ -25,7 +25,9 @@ router.get("/getDummyItem", async (req, res) => {
     await sequelize.query(
       `
       CREATE TABLE if not exists dummies 
-      (SELECT groupname,NAME FROM goods  WHERE goods.use=TRUE ORDER BY NUMBER1,NUMBER2);
+      (SELECT groupname,NAME ,NUMBER1,NUMBER2 FROM goods  WHERE goods.use=TRUE AND NUMBER1 IS NOT NULL AND 
+        CATEGORY IN ('RDT','EDT','NOBARK')  
+        ORDER BY goods.NUMBER1,goods.NUMBER2);
     `
     );
     await sequelize.query(
@@ -40,7 +42,9 @@ router.get("/getDummyItem", async (req, res) => {
       add primary key(groupname);
     `
     );
-    const [results] = await sequelize.query(`select * from dummies`);
+    const [results] = await sequelize.query(
+      `select * from dummies ORDER BY NUMBER1,NUMBER2`
+    );
     // console.log(results);
     return res.status(200).json(results);
   } catch (e) {
@@ -50,7 +54,7 @@ router.get("/getDummyItem", async (req, res) => {
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
-    // console.log(order[0]);
+
     await sequelize.query(
       `
     delete from orders;

@@ -8,7 +8,7 @@ const AddItemContainer = () => {
 
     return (
         <div>
-            <AddItemComponent />
+            <AddItemComponent dummyItems={dummyItems}/>
         </div>
     );
 };
