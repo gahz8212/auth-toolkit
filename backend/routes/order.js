@@ -64,14 +64,14 @@ router.post("/orderinput", async (req, res) => {
     const [results, metadata] = await sequelize.query(
       `
       SELECT 
-      goods.category,
       goods.name,
-      goods.descript,
       orders.${order[1][0]}, 
       orders.${order[1][1]}, 
       orders.${order[1][2]},
       orders.${order[1][3]},
       orders.${order[1][4]},
+      goods.descript,
+      goods.category,
       goods.unit,
       goods.import_price,
       goods.export_price,
