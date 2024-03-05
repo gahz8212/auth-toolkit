@@ -1,6 +1,11 @@
 .export-wrapper {
   width: 100%;
   height: 80vh;
+  .selectedForm {
+    &:hover {
+      z-index: 6;
+    }
+  }
   .export-container {
     margin: 4rem auto;
     padding: 40px;

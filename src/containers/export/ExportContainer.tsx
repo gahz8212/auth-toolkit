@@ -5,6 +5,7 @@ import { OrderAction, OrderData } from '../../store/slices/orderSlice';
 import { formActions, formSelector } from '../../store/slices/formSlice';
 // import * as XLSX from 'xlsx'
 import ExcelJS from 'exceljs';
+import { connect } from 'http2';
 const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const partsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
@@ -12,6 +13,36 @@ const ExportContainer = () => {
     const { orderData, months } = useSelector(OrderData)
     const [model, setModel] = useState<string>('model')
     const { invoice, packing, addItem } = useSelector(formSelector)
+    const onChangeParts = async (e: any) => {
+        const selectedFile = e.target.files[0];
+        const fileType = [
+            'application/vnd.ms-excel',
+            'text/csv',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+        if (selectedFile && fileType.includes(selectedFile.type)) {
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(selectedFile);
+            const worksheet = workbook.worksheets[workbook.worksheets.length - 1];
+            const worksheetData: any[] = [];
+            worksheet?.eachRow({ includeEmpty: false }, (row) => {
+                worksheetData.push(row.values)
+            })
+            const headers = worksheetData[0];
+            const contents = worksheetData.slice(2);
+            // console.log(headers)
+            // console.log(contents)
+            let parts = [];
+            for (let content = 0; content < contents.length - 1; content++) {
+                const obj: { [key: string]: any } = {};
+                parts.push(obj)
+                for (let header = 1; header < headers.length; header++) {
+                    obj[headers[header]] = contents[content][header]
+                }
+            }
+            console.log(parts)
+
+        }
+    }
     const onChangeOrder = async (e: any) => {
         const selectedFile = e.target.files[0]
         const fileType = [
@@ -39,7 +70,6 @@ const ExportContainer = () => {
                     obj[headers[header]] = contents[content][header]
                 }
             }
-            // console.log(orderSheet)
             const filteredOrder = orderSheet.filter(order => {
                 let result = false;
                 for (let header = 2; header < headers.length; header++) {
@@ -50,10 +80,7 @@ const ExportContainer = () => {
                 }
                 return result
             })
-            // console.log(filteredOrder)
-            // console.log([filteredOrder, months])
             dispatch(OrderAction.getData(filteredOrder));
-            // dispatch(OrderAction.getMonth(months))
             dispatch(OrderAction.inputOrder([filteredOrder, months]))
             if (orderInput.current) orderInput.current.value = ''
         }
@@ -91,6 +118,7 @@ const ExportContainer = () => {
         }
     }
     const openInvoiceForm = () => {
+
         dispatch(formActions.toggle_form({ form: 'invoice', value: !invoice.visible }))
     }
     const openPackingForm = () => {
@@ -112,10 +140,18 @@ const ExportContainer = () => {
             dispatch(OrderAction.getOrderData())
         }
     }, [dispatch, orderData])
+    useEffect(() => {
+        return () => {
+            dispatch(formActions.initPosition('invoice'))
+            dispatch(formActions.initPosition('packing'))
+            dispatch(formActions.initPosition('addItem'))
+        }
+    }, [dispatch])
     return (
         <ExportComponent
             model={model}
             setModel={setModel}
+            onChangeParts={onChangeParts}
             onChangeOrder={onChangeOrder}
             onChangeGood={onChangeGood}
             orderInput={orderInput}

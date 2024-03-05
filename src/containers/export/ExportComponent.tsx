@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
+    onChangeParts: (e: any) => void;
     onChangeOrder: (e: any) => void;
     onChangeGood: (e: any) => void;
     orderInput: React.LegacyRef<HTMLInputElement> | undefined;
@@ -27,6 +28,7 @@ type Props = {
 const ExportComponent: React.FC<Props> = ({
     model,
     setModel,
+    onChangeParts,
     onChangeOrder,
     onChangeGood,
     orderInput,
@@ -54,7 +56,6 @@ const ExportComponent: React.FC<Props> = ({
 
 
     let orderdata;
-    // console.log(orderdata)
     const [selectedMonth, setSelectedMonth] = useState<string>('')
 
     if (orderData) {
@@ -96,16 +97,53 @@ const ExportComponent: React.FC<Props> = ({
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
-                <div {...invoicePos()} style={{ color: 'black', position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 3, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>INVOICE</span>
+                <div {...invoicePos()}
+
+                    style={{
+                        color: 'black',
+                        position: 'fixed',
+                        top: invoiceForm.position.y,
+                        left: invoiceForm.position.x,
+                        zIndex: 6,
+                        width: '520px',
+                        cursor: 'pointer',
+                    }}>
+                    <span style={{
+                        display: 'block',
+                        background: 'transparent',
+                        width: '100%',
+                        height: '50px',
+                        fontWeight: '700',
+                        paddingTop: '0.5rem',
+                        userSelect: 'none',
+                        textAlign: "center"
+                    }}>INVOICE</span>
+                    {/* <div className="spacer" style={{ height: '10px', background: 'green' }}></div> */}
                 </div>
                 <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2 }}>
                     <InvoiceContainer selectedMonth={selectedMonth} />
                 </div>
             </div>}
             {packingForm.visible && <div>
-                <div {...packingPos()} style={{ color: 'black', position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 3, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>PACKING</span>
+                <div {...packingPos()} style={{
+                    color: 'black',
+                    width: '520px',
+                    cursor: 'pointer',
+                    position: 'fixed',
+                    top: packingForm.position.y,
+                    left: packingForm.position.x,
+                    zIndex: 4,
+                    textAlign: 'center'
+                }}>
+                    <span style={{
+                        display: 'inline-block',
+                        height: '50px',
+                        width: '500px',
+                        fontWeight: '700',
+                        paddingTop: '0.5rem',
+                        userSelect: 'none',
+                        textAlign: "center"
+                    }}>PACKING</span>
                 </div>
                 <div style={{ position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 2 }}>
                     <PackingContainer
@@ -148,9 +186,11 @@ const ExportComponent: React.FC<Props> = ({
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
-                        <button onClick={openAddItemForm}>추가 입력</button>
-                        <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
+                        <label htmlFor="parts">부자재 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeParts} ref={partsInput} />
+                        {/* <button onClick={openAddItemForm}>추가 입력</button> */}
+                        {/* <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} /> */}
                     </div>
                     <div className="selector">
                         {months?.map((month, index) =>

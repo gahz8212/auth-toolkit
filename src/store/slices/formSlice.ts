@@ -60,7 +60,9 @@ const formSlice = createSlice({
     },
     initPosition: (state, { payload: form }) => {
       state[form].position.x = initialState[form].position.x;
+      state[form].visible = false;
       state[form].position.y = initialState[form].position.y;
+      state[form].visible = false;
     },
   },
 });
