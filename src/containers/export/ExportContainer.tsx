@@ -5,7 +5,6 @@ import { OrderAction, OrderData } from '../../store/slices/orderSlice';
 import { formActions, formSelector } from '../../store/slices/formSlice';
 // import * as XLSX from 'xlsx'
 import ExcelJS from 'exceljs';
-import { connect } from 'http2';
 const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const partsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
