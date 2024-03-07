@@ -54,13 +54,17 @@ router.get("/getDummyItem", async (req, res) => {
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
+    console.log(order[0]);
 
-    await sequelize.query(
-      `
-    delete from orders;
-    `
-    );
-    await Order.bulkCreate(order[0]);
+    // await sequelize.query(
+    //   `
+    // delete from orders;
+    // `
+    // );
+    // await Order.update(order[0])
+    order[0].map(async (order) => {
+      await Order.update(order, { where: { Item: order.Item } });
+    });
     const [results, metadata] = await sequelize.query(
       `
       SELECT 
