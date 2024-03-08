@@ -83,10 +83,10 @@ router.post("/orderinput", async (req, res) => {
       goods.number1,
       goods.number2,
       goods.use,
-      date_format(goods.input_date,'%Y-%m-%d')
+      date_format(goods.input_date,'%Y-%m-%d') as input_date
       FROM goods right join orders on goods.groupName=orders.Item
       WHERE goods.use=1 
-      ORDER BY goods.number1,goods.number2, orders.id
+      ORDER BY goods.number1,goods.number2
       `
     );
 

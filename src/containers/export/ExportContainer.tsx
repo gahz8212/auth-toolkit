@@ -66,16 +66,12 @@ const ExportContainer = () => {
                 orderSheet.push(obj)
                 for (let header = 1; header < headers.length; header++) {
                     if (contents[content][header] === 'TOTAL') break;
-                    if (header === 1) {
 
-                        obj[headers[header]] = contents[content][header]
-                    } else {
-                        obj[headers[header]] = contents[content][header] | 0
+                    obj[headers[header]] = contents[content][header]
 
-                    }
                 }
             }
-            console.log('orderSheet', orderSheet)
+            // console.log('orderSheet', orderSheet)
             const filteredOrder = orderSheet.filter(order => {
                 let result = false;
                 for (let header = 2; header < headers.length; header++) {
