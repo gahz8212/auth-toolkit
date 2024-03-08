@@ -65,11 +65,17 @@ const ExportContainer = () => {
                 orderSheet.push(obj)
                 for (let header = 1; header < headers.length; header++) {
                     if (contents[content][header] === 'TOTAL') break;
+<<<<<<< HEAD
                     obj[headers[header]] = contents[content][header]
 
+=======
+
+                    obj[headers[header]] = contents[content][header]
+
+>>>>>>> 3cb9e06 (good과goodlist order와 orderlist 검토 중)
                 }
             }
-            console.log('orderSheet', orderSheet)
+            // console.log('orderSheet', orderSheet)
             const filteredOrder = orderSheet.filter(order => {
                 let result = false;
                 for (let header = 2; header < headers.length; header++) {
