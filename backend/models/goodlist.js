@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-module.exports = class Good extends Sequelize.Model {
+module.exports = class GoodList extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -7,7 +7,6 @@ module.exports = class Good extends Sequelize.Model {
         middleCategory: { type: Sequelize.STRING(10) },
         category: { type: Sequelize.STRING(30) },
         groupName: { type: Sequelize.STRING(50) },
-        name: { type: Sequelize.STRING(100), allowNull: false },
         descript: { type: Sequelize.STRING(200), allowNull: true },
         unit: {
           type: Sequelize.STRING(3),
@@ -23,14 +22,15 @@ module.exports = class Good extends Sequelize.Model {
         number2: { type: Sequelize.INTEGER, allowNull: true },
         use: { type: Sequelize.BOOLEAN, defaultValue: true },
         input_date: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
+        goodId: { type: Sequelize.INTEGER },
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        paranoid: true,
-        modelName: "Good",
-        tableName: "goods",
+        paranoid: false,
+        modelName: "GoodList",
+        tableName: "goodLists",
         charset: "utf8",
         collate: "utf8_general_ci",
       }

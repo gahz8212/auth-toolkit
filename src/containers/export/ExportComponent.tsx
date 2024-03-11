@@ -186,11 +186,11 @@ const ExportComponent: React.FC<Props> = ({
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
-                        <label htmlFor="parts">부자재 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeParts} ref={partsInput} />
+                        {/* <label htmlFor="parts">부자재 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeParts} ref={partsInput} /> */}
                         {/* <button onClick={openAddItemForm}>추가 입력</button> */}
-                        {/* <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} /> */}
+                        <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
                     </div>
                     <div className="selector">
                         {months?.map((month, index) =>

@@ -12,7 +12,7 @@ const path = require("path");
 const app = express();
 passportConfig();
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("db연결됨.");
   })
