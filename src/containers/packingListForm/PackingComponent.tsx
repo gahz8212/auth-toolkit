@@ -15,33 +15,19 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
             let extra = {}
             for (let header of headers) {
                 if (data[header] - data[header] / data.moq) {
-                    origin = { ...origin, ...{ name: data.name } }
+                    origin = { ...origin, ...{ itemName: data.itemName } }
                 }
                 if ((data[header]) % data.moq) {
-                    extra = { ...extra, ...{ name: data.name } }
+                    extra = { ...extra, ...{ itemName: data.itemName } }
                 }
             }
             if (Object.keys(origin).length) {
-
                 newData.push(origin)
             }
             if (Object.keys(extra).length) {
                 newData.push(extra)
-
             }
         }
-        // console.log(newData)
-
-
-
-
-
-
-
-
-
-
-
     }
     const dragItem = useRef<number>(0);
     const dragOverItem = useRef<number>(0);
@@ -65,7 +51,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
             onDragEnter={() => { dragItemEnter(index) }}
             onDragEnd={drop}
         >
-            <div className='packing-data'>{data.name}</div>
+            <div className='packing-data'>{data.itemName}</div>
             {/* {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {/* {data[selectedMonth] && <div className='invoice-data'>${(data.export_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}

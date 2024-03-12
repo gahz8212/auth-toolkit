@@ -28,8 +28,7 @@ const ExportContainer = () => {
             })
             const headers = worksheetData[0];
             const contents = worksheetData.slice(2);
-            // console.log(headers)
-            // console.log(contents)
+
             let parts = [];
             for (let content = 0; content < contents.length - 1; content++) {
                 const obj: { [key: string]: any } = {};
@@ -66,13 +65,8 @@ const ExportContainer = () => {
                 orderSheet.push(obj)
                 for (let header = 1; header < headers.length; header++) {
                     if (contents[content][header] === 'TOTAL') break;
-                    if (header === 1) {
+                    obj[headers[header]] = contents[content][header]
 
-                        obj[headers[header]] = contents[content][header]
-                    } else {
-                        obj[headers[header]] = contents[content][header] | 0
-
-                    }
                 }
             }
             console.log('orderSheet', orderSheet)
@@ -104,7 +98,7 @@ const ExportContainer = () => {
             await workbook.xlsx.load(selectedFile)
             const worksheet = workbook.worksheets[0];
             const worksheetData: any[] = []
-            worksheet?.eachRow({ includeEmpty: false }, (row) => {
+            worksheet?.eachRow({ includeEmpty: true }, (row) => {
                 worksheetData.push(row.values)
             })
             const headers = worksheetData[0];

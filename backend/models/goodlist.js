@@ -6,7 +6,7 @@ module.exports = class GoodList extends Sequelize.Model {
         largeCategory: { type: Sequelize.STRING(10) },
         middleCategory: { type: Sequelize.STRING(10) },
         category: { type: Sequelize.STRING(30) },
-        groupName: { type: Sequelize.STRING(50) },
+        // itemName: { type: Sequelize.STRING(50), allowNull: false },
         descript: { type: Sequelize.STRING(200), allowNull: true },
         unit: {
           type: Sequelize.STRING(3),
@@ -22,7 +22,6 @@ module.exports = class GoodList extends Sequelize.Model {
         number2: { type: Sequelize.INTEGER, allowNull: true },
         use: { type: Sequelize.BOOLEAN, defaultValue: true },
         input_date: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
-        goodId: { type: Sequelize.INTEGER },
       },
       {
         sequelize,
@@ -30,10 +29,13 @@ module.exports = class GoodList extends Sequelize.Model {
         underscored: false,
         paranoid: false,
         modelName: "GoodList",
-        tableName: "goodLists",
+        freezeTableName: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
     );
+  }
+  static associate(db) {
+    db.GoodList.belongsTo(db.Good, { foreignKey: "groupName" });
   }
 };

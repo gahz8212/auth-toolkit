@@ -5,9 +5,9 @@ module.exports = class Item extends Sequelize.Model {
       {
         category: {
           type: Sequelize.ENUM,
-          values: ["회로물", "기구물", "전장물", "기타물"],
+          values: ["결합", "회로", "기구", "전장", "기타"],
         },
-        name: { type: Sequelize.STRING(50), allowNull: null },
+        partsName: { type: Sequelize.STRING(50), allowNull: null },
         descript: { type: Sequelize.STRING(200), allowNull: true },
         unit: {
           type: Sequelize.ENUM,
@@ -15,17 +15,11 @@ module.exports = class Item extends Sequelize.Model {
           defaultValue: "\\",
         },
         price: { type: Sequelize.FLOAT(11, 4), defaultValue: 0 },
-        count: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 1 },
         use: { type: Sequelize.BOOLEAN, defaultValue: true },
         supplyer: {
           type: Sequelize.STRING(10),
           allowNull: false,
           defaultValue: "",
-        },
-        column: {
-          type: Sequelize.ENUM,
-          values: ["CUR", "LOW", "UPP"],
-          defaultValue: "CUR",
         },
       },
       {
@@ -34,7 +28,7 @@ module.exports = class Item extends Sequelize.Model {
         underscored: false,
         paranoid: true,
         modelName: "Item",
-        tableName: "items",
+        freezeTableName: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
@@ -42,5 +36,6 @@ module.exports = class Item extends Sequelize.Model {
   }
   static associate(db) {
     db.Item.hasMany(db.Image);
+    db.Item.hasMany(db.ItemList);
   }
 };

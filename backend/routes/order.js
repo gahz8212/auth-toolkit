@@ -54,7 +54,7 @@ router.get("/getDummyItem", async (req, res) => {
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
-    console.log(order[0]);
+    // console.log(order[0]);
 
     await sequelize.query(
       `
@@ -65,28 +65,28 @@ router.post("/orderinput", async (req, res) => {
     const [results, metadata] = await sequelize.query(
       `
       SELECT 
-      goods.name,
-      orders.${order[1][0]}, 
-      orders.${order[1][1]}, 
-      orders.${order[1][2]},
-      orders.${order[1][3]},
-      orders.${order[1][4]},
-      goods.descript,
-      goods.category,
-      goods.unit,
-      goods.import_price,
-      goods.export_price,
-      goods.weight,
-      goods.cbm,
-      goods.moq,
-      goods.sets,
-      goods.number1,
-      goods.number2,
-      goods.use,
-      date_format(goods.input_date,'%Y-%m-%d')
-      FROM goods right join orders on goods.groupName=orders.Item
-      WHERE goods.use=1 
-      ORDER BY goods.number1,goods.number2, orders.id
+      G.itemName,
+      O.${order[1][0]}, 
+      O.${order[1][1]}, 
+      O.${order[1][2]},
+      O.${order[1][3]},
+      O.${order[1][4]},
+      L.descript,
+      L.category,
+      L.unit,
+      L.import_price,
+      L.export_price,
+      L.weight,
+      L.cbm,
+      L.moq,
+      L.sets,
+      L.number1,
+      L.number2,
+      L.use,
+      date_format(L.input_date,'%Y-%m-%d')
+      FROM good G inner join goodlist L on G.groupName=L.groupName right join orders O on G.groupName=O.Item
+      WHERE L.use=1 
+      ORDER BY L.number1,L.number2
       `
     );
 
@@ -97,26 +97,28 @@ router.post("/orderinput", async (req, res) => {
     await sequelize.query(`
   create table ordersheet (
     SELECT 
-    goods.name,
-    orders.${order[1][0]}, 
-    orders.${order[1][1]}, 
-    orders.${order[1][2]},
-    orders.${order[1][3]},
-    orders.${order[1][4]},
-    goods.unit,
-    goods.import_price,
-    goods.export_price,
-    goods.weight,
-    goods.cbm,
-    goods.moq,
-    goods.sets,
-    goods.number1,
-    goods.number2,
-    goods.use,
-    date_format(goods.input_date,'%Y-%m-%d')
-    FROM goods inner join orders on goods.groupName=orders.Item
-    WHERE goods.use=1 
-    ORDER BY goods.number1,goods.number2, orders.id
+    G.itemName ,
+    O.${order[1][0]}, 
+    O.${order[1][1]}, 
+    O.${order[1][2]},
+    O.${order[1][3]},
+    O.${order[1][4]},
+    L.descript,
+    L.category,
+    L.unit,
+    L.import_price,
+    L.export_price,
+    L.weight,
+    L.cbm,
+    L.moq,
+    L.sets,
+    L.number1,
+    L.number2,
+    L.use,
+    date_format(L.input_date,'%Y-%m-%d')
+    FROM good G inner join goodlist L on G.groupName=L.groupName right join orders O on G.groupName=O.Item
+    WHERE L.use=1 
+    ORDER BY L.number1,L.number2
   )
   `);
 
@@ -129,10 +131,10 @@ router.post("/orderinput", async (req, res) => {
 router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
-    console.log(good);
+    // console.log(good);
     await sequelize.query(
       `
-    delete from goodLists;
+    delete from goodlist;
     `
     );
     await GoodList.bulkCreate(good);

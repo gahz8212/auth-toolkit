@@ -5,8 +5,7 @@ module.exports = class Good extends Sequelize.Model {
       {
         groupName: {
           type: Sequelize.STRING(50),
-          unique: true,
-          allowNull: false,
+          primaryKey: true,
         },
         itemName: {
           type: Sequelize.STRING(50),
@@ -20,10 +19,14 @@ module.exports = class Good extends Sequelize.Model {
         underscored: false,
         paranoid: false,
         modelName: "Good",
-        tableName: "goods",
+        freezeTableName: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
     );
+  }
+  static associate(db) {
+    db.Good.hasMany(db.GoodList, { foreignKey: "groupName" });
+    db.Good.hasMany(db.ItemList, { foreignKey: "itemName" });
   }
 };

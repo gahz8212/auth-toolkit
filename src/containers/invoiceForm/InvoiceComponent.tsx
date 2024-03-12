@@ -8,7 +8,7 @@ type Props = {
 const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalResult }) => {
     const datas = (
         invoiceData?.map(data => <div className='invoice-rows'>
-            <div className='invoice-data'>{data.name}</div>
+            <div className='invoice-data'>{data.itemName}</div>
             {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
             {/* {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {/* {data[selectedMonth] && <div className='invoice-data'>{Math.round(data[selectedMonth] / data.moq * data.weight)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</div>} */}

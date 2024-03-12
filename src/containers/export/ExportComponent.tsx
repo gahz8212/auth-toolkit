@@ -61,39 +61,39 @@ const ExportComponent: React.FC<Props> = ({
     if (orderData) {
         const keys = Object.keys(orderData[0]).slice(1, 6)
         months = keys;
-
-        const onDragStart = (index: number, column: number) => {
-            dragItem.current = index;
-            dragItemKey = months ? months[column] : '';
-        }
-        const onDragEnter = (index: number, column: number) => {
-            dragOverItem.current = index;
-            dragOverItemKey = months ? months[column] : '';
-        }
-        const onDrop = () => {
-            const copyList: { [key: string]: number | string | null }[] = JSON.parse(JSON.stringify(orderData))
-            copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey];
-            copyList[dragItem.current][dragItemKey] = null
-            dragItem.current = null;
-            dragOverItem.current = null;
-            dispatch(OrderAction.getData(copyList))
-        }
-        orderdata = orderData?.map((data, tr) =>
-            <div className='tr'>
-                <div className='td'>{data.name}</div>
-                {months?.map((month, td) =>
-                    <div className='td'
-                        draggable
-                        onDragStart={() => { onDragStart(tr, td) }}
-                        onDragEnter={() => { onDragEnter(tr, td) }}
-                        onDragEnd={onDrop}
-
-                    >{data[month]}
-                        {/* <input type="number" name={`${month}`} value={data[month]} onChange={(e) => { onChange(e, tr) }} /> */}
-                    </div>)}
-            </div>
-        )
     }
+    const onDragStart = (index: number, column: number) => {
+        dragItem.current = index;
+        dragItemKey = months ? months[column] : '';
+    }
+    const onDragEnter = (index: number, column: number) => {
+        dragOverItem.current = index;
+        dragOverItemKey = months ? months[column] : '';
+    }
+    const onDrop = () => {
+        const copyList: { [key: string]: number | string | null }[] = JSON.parse(JSON.stringify(orderData))
+        copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey];
+        copyList[dragItem.current][dragItemKey] = null
+        dragItem.current = null;
+        dragOverItem.current = null;
+        dispatch(OrderAction.getData(copyList))
+    }
+    orderdata = orderData?.map((data, tr) =>
+        <div className='tr'>
+            <div className='td'>{data.itemName}</div>
+            {months?.map((month, td) =>
+                <div className='td'
+                    draggable
+                    onDragStart={() => { onDragStart(tr, td) }}
+                    onDragEnter={() => { onDragEnter(tr, td) }}
+                    onDragEnd={onDrop}
+
+                >{data[month]}
+                    {/* <input type="number" name={`${month}`} value={data[month]} onChange={(e) => { onChange(e, tr) }} /> */}
+                </div>)}
+        </div>
+    )
+    // }
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
