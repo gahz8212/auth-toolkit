@@ -4,27 +4,23 @@ type State = {
   items: {
     id: number;
     category: string;
-    name: string;
+    partsName: string;
     descript: string;
     unit: string;
     price: number;
-    count: number;
     use: boolean;
     supplyer: string;
     Images: { url: string }[];
-    column: string;
   }[];
   input: {
     [key: string]: string | number | boolean;
     category: string;
-    name: string;
+    partsName: string;
     descript: string;
     unit: string;
     price: number;
-    count: number;
     use: boolean;
     supplyer: string;
-    column: string;
   };
   backup: any[];
   imageList: { url: string }[];
@@ -33,15 +29,14 @@ type State = {
 const initialState: State = {
   items: [],
   input: {
-    category: "회로물",
-    name: "",
+    category: "회로",
+    partsName: "",
     descript: "",
     unit: "\\\\",
     price: 0,
-    count: 0,
+
     use: true,
     supplyer: "",
-    column: "",
   },
   backup: [],
   imageList: [],
@@ -121,11 +116,11 @@ const itemSlice = createSlice({
       state,
       action: PayloadAction<{
         category: string;
-        name: string;
+        partsName: string;
         descript: string;
         unit: string;
         price: number;
-        count: number;
+
         use: boolean;
         supplyer: string;
         imageList: { url: string }[];

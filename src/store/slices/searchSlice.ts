@@ -3,17 +3,19 @@ import { RootState } from "..";
 type State = {
   [key: string]: boolean;
   all: boolean;
-  회로물: boolean;
-  전장물: boolean;
-  기구물: boolean;
-  기타물: boolean;
+  결합: boolean;
+  회로: boolean;
+  전장: boolean;
+  기구: boolean;
+  기타: boolean;
 };
 const initialState: State = {
   all: true,
-  회로물: true,
-  전장물: true,
-  기구물: true,
-  기타물: true,
+  결합: true,
+  회로: true,
+  전장: true,
+  기구: true,
+  기타: true,
 };
 const searchSelector = (state: RootState) => {
   return state.search;
@@ -33,10 +35,11 @@ const searchSlice = createSlice({
     },
     checkAll: (state, { payload: value }) => {
       state.all = value;
-      state.회로물 = value;
-      state.전장물 = value;
-      state.기구물 = value;
-      state.기타물 = value;
+      state.결합 = value;
+      state.회로 = value;
+      state.전장 = value;
+      state.기구 = value;
+      state.기타 = value;
     },
     checkCategory: (state, { payload: category }) => {
       state[category] = !state[category];

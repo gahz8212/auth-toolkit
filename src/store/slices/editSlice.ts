@@ -4,28 +4,28 @@ type State = {
   prev: {
     id: number;
     category: string;
-    name: string;
+    partsName: string;
     descript: string;
     unit: string;
     price: number;
-    count: number;
+
     use: boolean;
     supplyer: string;
-    column: string;
+
     Images: { url: string }[];
   };
   next: {
     [key: string]: string | number | boolean | { url: string }[];
     id: number;
     category: string;
-    name: string;
+    partsName: string;
     descript: string;
     unit: string;
     price: number;
-    count: number;
+
     use: boolean;
     supplyer: string;
-    column: string;
+
     Images: { url: string }[];
   };
 
@@ -40,27 +40,27 @@ const initialState: State = {
   prev: {
     id: -1,
     category: "",
-    name: "",
+    partsName: "",
     descript: "",
     unit: "\\",
     price: 0,
-    count: 0,
+
     use: false,
     supplyer: "",
-    column: "",
+
     Images: [],
   },
   next: {
     id: -1,
     category: "",
-    name: "",
+    partsName: "",
     descript: "",
     unit: "\\",
     price: 0,
-    count: 0,
+
     use: false,
     supplyer: "",
-    column: "",
+
     Images: [],
   },
 

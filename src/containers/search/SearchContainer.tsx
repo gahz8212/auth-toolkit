@@ -34,7 +34,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
         dispatch(itemActions.filteredItems(searchResult))
 
-        if (search.회로물 && search.전장물 && search.기구물 && search.기타물) {
+        if (search.결합 &&search.회로 && search.전장 && search.기구 && search.기타) {
             dispatch(SearchActions.onlyCheckAll(true))
         } else {
             dispatch(SearchActions.onlyCheckAll(false))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDrag } from 'react-use-gesture';
 import InputFormContainer from '../inputForm/InputFormContainer';
 import EditFormContainer from "../editForm/EditFormContainer";
@@ -7,11 +7,10 @@ type Props = {
     items: {
         id: number,
         category: string,
-        name: string,
+        partsName: string,
         descript: string,
         unit: string,
         price: number,
-        count: number,
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
@@ -19,20 +18,18 @@ type Props = {
     selectItem: (id: number) => void;
     input: { visible: boolean; position: { x: number; y: number } };
     edit: { visible: boolean; position: { x: number; y: number } };
-
     changePosition: (form: string, position: { x: number, y: number }) => void;
     openAddForm: () => void;
-    // datas: any[] | null
+
 }
 type subProps = {
     item: {
         id: number,
         category: string,
-        name: string,
+        partsName: string,
         descript: string,
         unit: string,
         price: number,
-        count: number,
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
@@ -47,7 +44,22 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, openAd
     const [selected, setSelected] = useState<number | ''>()
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) })
+    const dragItem: any = useRef();
+    const dragOverItem: any = useRef()
 
+    const onDragStart = (index: number) => {
+        dragItem.current = index;
+        console.log('start', index)
+    }
+    const onDragEnter = (index: number) => {
+        dragOverItem.current = index
+        console.log('end', index)
+    }
+    const onDrop = () => { }
+    console.log(dragOverItem.current, dragItem.current)
+    dragItem.current = null;
+    dragOverItem.current = null;
+    // alert(dragOverItem.current + '에 ' + dragItem.current + '이 결합됨')
     // const [visible, setVisible] = useState<boolean>()
     return (
         <div className='home-wraper'>
@@ -74,10 +86,18 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, openAd
             </div>}
             <div className="item-list">
                 {items.map((item, index) =>
-                    <div key={index} className={`infos ${selected === item.id ? 'selected' : ''}`} onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                    <div
+                        key={index}
+                        className={`infos ${selected === item.id ? 'selected' : ''}`}
+                        onClick={() => { selectItem(item.id); setSelected(item.id) }}
+                        draggable
+                        onDragStart={() => { onDragStart(item.id) }}
+                        onDragEnter={() => { onDragEnter(item.id) }}
+                        onDragEnd={onDrop}
+                    >
                         <div className={`info text ${item.category}`}>
                             <div>{item.category}</div>
-                            <div>{item.name}</div>
+                            <div>{item.partsName}</div>
                             <div>{item.unit === '\\' ? '￦' : item.unit}{item.price}</div>
                         </div>
                         <div className="info image">
