@@ -10,6 +10,8 @@ const Image = require("./image");
 const Good = require("./good");
 const GoodList = require("./goodlist");
 const Order = require("./orders");
+const GoodBackup = require("./good-backup");
+const ItemBackup = require("./item-backup");
 
 // const OrderSheet = require("./ordersheet");
 const sequelize = new Sequelize(
@@ -27,6 +29,8 @@ db.Image = Image;
 db.Good = Good;
 db.GoodList = GoodList;
 db.Order = Order;
+db.GoodBackup = GoodBackup;
+db.ItemBackup = ItemBackup;
 // db.OrderSheet = OrderSheet;
 User.init(sequelize);
 Item.init(sequelize);
@@ -34,11 +38,15 @@ ItemList.init(sequelize);
 Image.init(sequelize);
 Good.init(sequelize);
 GoodList.init(sequelize);
+GoodBackup.init(sequelize);
+ItemBackup.init(sequelize);
 Order.init(sequelize);
 
 Image.associate(db);
 Item.associate(db);
 ItemList.associate(db);
+ItemBackup.associate(db);
 Good.associate(db);
 GoodList.associate(db);
+GoodBackup.associate(db);
 module.exports = db;

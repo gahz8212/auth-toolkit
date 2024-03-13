@@ -1,4 +1,4 @@
-import { execFile } from 'child_process';
+
 import React from 'react';
 type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>
@@ -7,11 +7,10 @@ type Props = {
 
     input: {
         category: string,
-        name: string,
+        partsName: string,
         descript: string,
         unit: string,
         price: number,
-        count: number,
         use: boolean,
         supplyer: string,
 
@@ -20,11 +19,10 @@ type Props = {
     imageList: { url: string }[];
     addItem: (item: {
         category: string,
-        name: string,
+        partsName: string,
         descript: string,
         unit: string,
         price: number,
-        count: number,
         use: boolean,
         supplyer: string,
         imageList: { url: string }[]
@@ -46,11 +44,11 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 e.preventDefault();
                 addItem({
                     category: input.category,
-                    name: input.name,
+                    partsName: input.partsName,
                     descript: input.descript,
                     unit: input.unit,
                     price: input.price,
-                    count: input.count,
+
                     use: input.use,
                     supplyer: input.supplyer,
                     imageList
@@ -59,23 +57,25 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 <div className="inputs">
                     {/* <div className='form-title'>아이템 입력</div> */}
                     <div className="category">
-                        <input type="radio" id="회로물_input" name="category" value="회로물" checked={input.category === '회로물'} onChange={onChange} />
+                        <input type="radio" id="결합물_input" name="category" value="결합" checked={input.category === '결합'} onChange={onChange} />
+                        <label htmlFor="결합물_input">결합</label>
+                        <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange} />
                         <label htmlFor="회로물_input">회로</label>
-                        <input type="radio" id="전장물_input" name="category" value="전장물" checked={input.category === "전장물"} onChange={onChange} />
+                        <input type="radio" id="전장물_input" name="category" value="전장" checked={input.category === "전장"} onChange={onChange} />
                         <label htmlFor="전장물_input">전장</label>
-                        <input type="radio" id="기구물_input" name="category" value="기구물" checked={input.category === "기구물"} onChange={onChange} />
+                        <input type="radio" id="기구물_input" name="category" value="기구" checked={input.category === "기구"} onChange={onChange} />
                         <label htmlFor="기구물_input">기구</label>
-                        <input type="radio" id="기타물_input" name="category" value="기타물" checked={input.category === "기타물"} onChange={onChange} />
+                        <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
                         <label htmlFor="기타물_input">기타</label>
                     </div>
 
 
-                    <input type="text" name="name" value={input.name} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
+                    <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
                     <div>
 
                         <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                     </div>
-                    <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} />
+                    {/* <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
                     <div className="currency">
 
                         <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
@@ -84,7 +84,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         <label htmlFor="$_input">$</label>
                         <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} />
                         <label htmlFor="￥_input">￥</label>
-                        <input type="number" name="price" value={input.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='단가 입력' onFocus={e => e.target.select()} />
+                        <input type="number" name="price" value={input.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='단가 입력' step={0.1} onFocus={e => e.target.select()} />
                     </div>
                     {/* //Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") */}
                     <div>

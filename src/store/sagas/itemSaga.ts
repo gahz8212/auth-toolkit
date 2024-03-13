@@ -15,11 +15,10 @@ function* addImageSaga(action: { payload: FormData }) {
 function* addItemSaga(action: {
   payload: {
     category: string;
-    name: string;
+    partsName: string;
     descript: string;
     unit: string;
     price: number;
-    count: number;
     use: boolean;
     supplyer: string;
     imageList: { url: string }[];
@@ -29,14 +28,13 @@ function* addItemSaga(action: {
     const response: {
       data: {
         category: string;
-        name: string;
+        partsName: string;
         descript: string;
         unit: string;
         price: number;
-        count: number;
         use: boolean;
         supplyer: string;
-        column: string;
+
         imageList: { url: string }[];
       };
     } = yield call(itemAPI.addItem, action.payload);
@@ -50,14 +48,13 @@ function* getItemSaga() {
     const response: {
       data: {
         category: string;
-        name: string;
+        partsName: string;
         descript: string;
         unit: string;
         price: number;
-        count: number;
         use: boolean;
         supplyer: string;
-        column: string;
+
         imageList: { url: string }[];
       }[];
     } = yield call(itemAPI.getItem);

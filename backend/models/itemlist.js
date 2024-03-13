@@ -10,7 +10,7 @@ module.exports = class ItemList extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        paranoid: true,
+        paranoid: false,
         modelName: "ItemList",
         freezeTableName: true,
         charset: "utf8",
@@ -20,6 +20,6 @@ module.exports = class ItemList extends Sequelize.Model {
   }
   static associate(db) {
     db.ItemList.belongsTo(db.Item);
-    db.ItemList.belongsTo(db.Good,{foreignKey:'itemName'});
+    db.ItemList.belongsTo(db.Good, { foreignKey: "itemName" });
   }
 };

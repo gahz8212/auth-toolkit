@@ -15,7 +15,7 @@ const EditFormContainer = () => {
 
     const onChange = (e: any) => {
         let { name, value } = e.target;
-        console.log(value)
+        // console.log(value)
         if (name === 'use') {
             value = value === '1' ? true : false
         }

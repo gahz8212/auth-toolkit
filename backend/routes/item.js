@@ -28,26 +28,26 @@ router.post("/images", upload.array("images"), async (req, res) => {
 router.post("/item", async (req, res) => {
   const {
     category,
-    name,
+    partsName,
     descript,
     unit,
     price,
-    count,
     use,
     supplyer,
     imageList,
   } = req.body;
+
   try {
     const item = await Item.create({
       category,
-      name,
+      partsName,
       descript,
       unit,
       price,
-      count,
       use,
       supplyer,
     });
+    // console.log(item);
     const image_promise = await Promise.all(
       imageList.map((image) =>
         Image.create({ url: image.url, ItemId: item.id })
@@ -59,11 +59,10 @@ router.post("/item", async (req, res) => {
       attributes: [
         "id",
         "category",
-        "name",
+        "partsName",
         "descript",
         "unit",
         "price",
-        "count",
         "use",
         "supplyer",
       ],
@@ -82,11 +81,10 @@ router.get("/items", async (req, res) => {
       attributes: [
         "id",
         "category",
-        "name",
+        "partsName",
         "descript",
         "unit",
         "price",
-        "count",
         "use",
         "supplyer",
       ],

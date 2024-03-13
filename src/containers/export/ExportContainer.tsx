@@ -73,7 +73,7 @@ const ExportContainer = () => {
 
                 }
             }
-            // console.log('orderSheet', orderSheet)
+
             const filteredOrder = orderSheet.filter(order => {
                 let result = false;
                 for (let header = 2; header < headers.length; header++) {

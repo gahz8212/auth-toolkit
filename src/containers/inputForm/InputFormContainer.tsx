@@ -27,11 +27,10 @@ const InputFormContainer = () => {
     const addItem = (
         item: {
             category: string,
-            name: string,
+            partsName: string,
             descript: string,
             unit: string,
             price: number,
-            count: number,
             use: boolean,
             supplyer: string,
             imageList: { url: string }[]

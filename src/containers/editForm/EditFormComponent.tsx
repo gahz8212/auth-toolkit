@@ -4,11 +4,11 @@ type Props = {
         [key: string]: string | number | boolean | { url: string }[],
         id: number,
         category: string,
-        name: string,
+        partsName: string,
         descript: string,
         unit: string,
         price: number,
-        count: number,
+
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
@@ -17,11 +17,11 @@ type Props = {
         [key: string]: string | number | boolean | { url: string }[],
         id: number,
         category: string,
-        name: string,
+        partsName: string,
         descript: string,
         unit: string,
         price: number,
-        count: number,
+
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
@@ -66,21 +66,23 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                 <div className="edits">
                     {/* <div className='form-title edit'>아이템 수정</div> */}
                     <div className="category">
-                        <input type="radio" id="회로물_edit" name="category" value="회로물" checked={next.category === '회로물'} onChange={onChange} />
+                        <input type="radio" id="결합물_edit" name="category" value="결합" checked={next.category === '결합'} onChange={onChange} />
+                        <label htmlFor="결합물_edit">결합</label>
+                        <input type="radio" id="회로물_edit" name="category" value="회로" checked={next.category === '회로'} onChange={onChange} />
                         <label htmlFor="회로물_edit">회로</label>
-                        <input type="radio" id="전장물_edit" name="category" value="전장물" checked={next.category === "전장물"} onChange={onChange} />
+                        <input type="radio" id="전장물_edit" name="category" value="전장" checked={next.category === "전장"} onChange={onChange} />
                         <label htmlFor="전장물_edit">전장</label>
-                        <input type="radio" id="기구물_edit" name="category" value="기구물" checked={next.category === "기구물"} onChange={onChange} />
+                        <input type="radio" id="기구물_edit" name="category" value="기구" checked={next.category === "기구"} onChange={onChange} />
                         <label htmlFor="기구물_edit">기구</label>
-                        <input type="radio" id="기타물_edit" name="category" value="기타물" checked={next.category === "기타물"} onChange={onChange} />
+                        <input type="radio" id="기타물_edit" name="category" value="기타" checked={next.category === "기타"} onChange={onChange} />
                         <label htmlFor="기타물_edit">기타</label>
                     </div>
-                    <input type="text" name="name" value={next.name} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
+                    <input type="text" name="partsName" value={next.partsName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
                     <div>
 
                         <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                     </div>
-                    <input type="number" name="count" value={next.count} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} />
+                    {/* <input type="number" name="count" value={next.count} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
                     <div className="currency">
 
                         <input type="radio" id="￦_edit" value="\" name="unit" checked={next.unit === "\\"} onChange={onChange} />

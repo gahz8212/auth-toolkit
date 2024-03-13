@@ -41,17 +41,20 @@
 
     .info.text {
       background-color: lightgray;
-      &.전장물 {
-        background-color: powderblue;
+      &.결합 {
+        background-color: tomato;
       }
-      &.회로물 {
+      &.전장 {
+        background-color: orange;
+      }
+      &.회로 {
         background-color: cornflowerblue;
       }
-      &.기구물 {
-        background-color: silver;
+      &.기구 {
+        background-color: khaki;
       }
-      &.기타물 {
-        background-color: lightgoldenrodyellow;
+      &.기타 {
+        background-color: darkolivegreen;
       }
     }
     .info.image {
