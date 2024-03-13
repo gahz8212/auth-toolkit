@@ -65,20 +65,12 @@ const ExportContainer = () => {
                 orderSheet.push(obj)
                 for (let header = 1; header < headers.length; header++) {
                     if (contents[content][header] === 'TOTAL') break;
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    obj[headers[header]] = contents[content][header]
-
-=======
 
                     obj[headers[header]] = contents[content][header]
 
->>>>>>> 3cb9e06 (good과goodlist order와 orderlist 검토 중)
-=======
 
-                    obj[headers[header]] = contents[content][header]
 
->>>>>>> origin/backend-rebuild
+
                 }
             }
             // console.log('orderSheet', orderSheet)
