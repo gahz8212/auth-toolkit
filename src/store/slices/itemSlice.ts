@@ -7,7 +7,8 @@ type State = {
     partsName: string;
     descript: string;
     unit: string;
-    price: number;
+    im_price: number;
+    ex_price: number;
     use: boolean;
     supplyer: string;
     Images: { url: string }[];
@@ -18,7 +19,8 @@ type State = {
     partsName: string;
     descript: string;
     unit: string;
-    price: number;
+    im_price: number;
+    ex_price: number;
     use: boolean;
     supplyer: string;
   };
@@ -33,7 +35,8 @@ const initialState: State = {
     partsName: "",
     descript: "",
     unit: "\\\\",
-    price: 0,
+    im_price: 0,
+    ex_price: 0,
 
     use: true,
     supplyer: "",
@@ -119,7 +122,8 @@ const itemSlice = createSlice({
         partsName: string;
         descript: string;
         unit: string;
-        price: number;
+        im_price: number;
+        ex_price: number;
 
         use: boolean;
         supplyer: string;

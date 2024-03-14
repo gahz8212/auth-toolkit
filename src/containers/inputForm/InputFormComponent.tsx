@@ -10,7 +10,8 @@ type Props = {
         partsName: string,
         descript: string,
         unit: string,
-        price: number,
+        im_price: number;
+        ex_price: number;
         use: boolean,
         supplyer: string,
 
@@ -22,7 +23,8 @@ type Props = {
         partsName: string,
         descript: string,
         unit: string,
-        price: number,
+        im_price: number;
+        ex_price: number;
         use: boolean,
         supplyer: string,
         imageList: { url: string }[]
@@ -47,8 +49,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     partsName: input.partsName,
                     descript: input.descript,
                     unit: input.unit,
-                    price: input.price,
-
+                    im_price: input.im_price,
+                    ex_price: input.ex_price,
                     use: input.use,
                     supplyer: input.supplyer,
                     imageList
@@ -65,6 +67,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         <label htmlFor="전장물_input">전장</label>
                         <input type="radio" id="기구물_input" name="category" value="기구" checked={input.category === "기구"} onChange={onChange} />
                         <label htmlFor="기구물_input">기구</label>
+                        <input type="radio" id="포장물_input" name="category" value="포장" checked={input.category === "포장"} onChange={onChange} />
+                        <label htmlFor="포장물_input">포장</label>
                         <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
                         <label htmlFor="기타물_input">기타</label>
                     </div>
@@ -84,7 +88,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         <label htmlFor="$_input">$</label>
                         <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} />
                         <label htmlFor="￥_input">￥</label>
-                        <input type="number" name="price" value={input.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='단가 입력' step={0.1} onFocus={e => e.target.select()} />
+                        <input type="number" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' step={0.1} onFocus={e => e.target.select()} />
+                        <input type="number" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' step={0.1} onFocus={e => e.target.select()} />
                     </div>
                     {/* //Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") */}
                     <div>

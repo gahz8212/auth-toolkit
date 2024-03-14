@@ -7,7 +7,8 @@ export const addItem = (item: {
   partsName: string;
   descript: string;
   unit: string;
-  price: number;
+  im_price: number;
+  ex_price: number;
   use: boolean;
   supplyer: string;
   imageList: { url: string }[];

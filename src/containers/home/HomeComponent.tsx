@@ -10,7 +10,8 @@ type Props = {
         partsName: string,
         descript: string,
         unit: string,
-        price: number,
+        im_price: number;
+        ex_price: number;
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
@@ -29,7 +30,8 @@ type subProps = {
         partsName: string,
         descript: string,
         unit: string,
-        price: number,
+        im_price: number;
+        ex_price: number;
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
@@ -98,7 +100,8 @@ const HomeComponent: React.FC<Props> = ({ items, selectItem, input, edit, openAd
                         <div className={`info text ${item.category}`}>
                             <div>{item.category}</div>
                             <div>{item.partsName}</div>
-                            <div>{item.unit === '\\' ? '￦' : item.unit}{item.price}</div>
+                            <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
+                            <div>{item.unit === '\\' ? '￦' : item.unit}{item.ex_price}</div>
                         </div>
                         <div className="info image">
                             {item.Images?.length && <ImageList item={item} />}

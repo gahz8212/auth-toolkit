@@ -7,7 +7,8 @@ type Props = {
         partsName: string,
         descript: string,
         unit: string,
-        price: number,
+        im_price: number;
+        ex_price: number;
 
         use: boolean,
         supplyer: string,
@@ -20,7 +21,8 @@ type Props = {
         partsName: string,
         descript: string,
         unit: string,
-        price: number,
+        im_price: number;
+        ex_price: number;
 
         use: boolean,
         supplyer: string,
@@ -74,6 +76,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         <label htmlFor="전장물_edit">전장</label>
                         <input type="radio" id="기구물_edit" name="category" value="기구" checked={next.category === "기구"} onChange={onChange} />
                         <label htmlFor="기구물_edit">기구</label>
+                        <input type="radio" id="포장물_edit" name="category" value="포장" checked={next.category === "포장"} onChange={onChange} />
+                        <label htmlFor="포장물_edit">포장</label>
                         <input type="radio" id="기타물_edit" name="category" value="기타" checked={next.category === "기타"} onChange={onChange} />
                         <label htmlFor="기타물_edit">기타</label>
                     </div>
@@ -84,20 +88,18 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     </div>
                     {/* <input type="number" name="count" value={next.count} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
                     <div className="currency">
-
                         <input type="radio" id="￦_edit" value="\" name="unit" checked={next.unit === "\\"} onChange={onChange} />
                         <label htmlFor="￦_edit">￦</label>
                         <input type="radio" id="$_edit" value="$" name="unit" checked={next.unit === "$"} onChange={onChange} />
                         <label htmlFor="$_edit">$</label>
                         <input type="radio" id="￥_edit" value="￥" name="unit" checked={next.unit === "￥"} onChange={onChange} />
                         <label htmlFor="￥_edit">￥</label>
-                        <input type="number" name="price" value={next.price} onChange={onChange} min={0} placeholder='단가 입력' onFocus={e => e.target.select()} />
-                    </div>
-
-                    <div>
+                        <input type="number" name="im_price" value={next.im_price} onChange={onChange} min={0} placeholder='입고단가 입력' step={0.1} onFocus={e => e.target.select()} />
+                        <input type="number" name="ex_price" value={next.ex_price} onChange={onChange} min={0} placeholder='출고단가 입력' step={0.1} onFocus={e => e.target.select()} />
                     </div>
                     <div>
-
+                    </div>
+                    <div>
                         <div className="uses">
                             <input type="text" name="supplyer" value={next.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} />
                             <input id='use_edit' type="radio" name="use" value={1} onChange={onChange} checked={next.use === true} />
