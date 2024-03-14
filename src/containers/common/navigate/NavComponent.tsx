@@ -8,7 +8,6 @@ type Props = {
     changePage: (page: string) => void;
 }
 const NavComponent: React.FC<Props> = ({ visible, setVisible, page, changePage }) => {
-    console.log(page)
     return (
 
 

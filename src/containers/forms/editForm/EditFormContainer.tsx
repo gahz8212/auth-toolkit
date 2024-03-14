@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editActions, editData } from '../../store/slices/editSlice';
-import { itemActions, itemData } from '../../store/slices/itemSlice';
-import { formSelector, formActions } from '../../store/slices/formSlice';
-import { imageInsert } from '../../lib/utils/createFormData'
+import { editActions, editData } from '../../../store/slices/editSlice';
+import { itemActions, itemData } from '../../../store/slices/itemSlice';
+import { formSelector, formActions } from '../../../store/slices/formSlice';
+import { imageInsert } from '../../../lib/utils/createFormData'
 
 import EditFormComponent from './EditFormComponent';
 

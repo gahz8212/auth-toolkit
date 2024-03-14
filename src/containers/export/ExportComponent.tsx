@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import InvoiceContainer from '../invoiceForm/InvoiceContainer';
-import PackingContainer from '../packingListForm/PackingContainer';
+import InvoiceContainer from '../forms/invoiceForm/InvoiceContainer';
+import PackingContainer from '../forms/packingListForm/PackingContainer';
 import AddItemContainer from '../forms/addItemForm/AddItemContainer';
 import { useDrag } from 'react-use-gesture';
 import { OrderAction } from '../../store/slices/orderSlice'
