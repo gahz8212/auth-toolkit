@@ -43,8 +43,36 @@ const HomeComponent: React.FC<Props> = ({ input, edit, openAddForm, changePositi
                     <EditFormContainer />
                 </div>
             </div>}
+            <div style={{ height: '90px' }}></div>
 
-            
+
+            <div style={{ position: 'fixed', zIndex: 2, margin: '0 5rem' }}>
+                <div style={{ display: 'flex', position: 'fixed', boxSizing: 'border-box' }}>
+                    <div className="left">
+                        <div className="model_name"
+                            style={{
+                                width: '200px', height: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'yellow', borderTop: '1px solid black', borderLeft: '1px solid black', borderBottom: '1px solid black',
+                            }}>H2O</div>
+                    </div>
+                    <div className="right" style={{ display: 'flex', flexWrap: 'wrap', width: '1100px', height: '120px', background: 'white' }}>
+                        <div className="model_number" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderTop: '1px solid black', background: 'yellow' }}>1820</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderTop: '1px solid black', background: 'yellow' }}>PLUS_선택+만들기</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid black' }}>결합물 생성</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid black' }}>결합물 생성</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid black' }}>PAC</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid black', borderTop: '1px solid black', borderLeft: '1px solid black' }}>결합물 생성</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px solid black' }}>결합물 생성</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px solid black' }}>결합물 생성</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px solid black' }}>결합물 생성</div>
+                        <div className="model_option" style={{ width: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px solid black' }}>결합물 생성</div>
+                    </div>
+                </div>
+                <div style={{ height: '120px' }}></div>
+                <div style={{ height: '200px', width: '200px', textAlign: 'center', border: '1px solid gray' }}>aaa</div>
+                <div style={{ height: '200px', width: '200px', textAlign: 'center', border: '1px solid gray' }}>bbb</div>
+                <div style={{ height: '200px', width: '200px', textAlign: 'center', border: '1px solid gray' }}>ccc</div>
+            </div>
+
             <CardContainer />
 
             <span onClick={openAddForm} className="material-symbols-outlined write">

@@ -48,6 +48,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem }) => {
         dragOverItem.current = null;
     }
     return (
+
         <div className="item-list">
             {items.map((item, index) =>
                 <div
