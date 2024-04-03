@@ -12,8 +12,8 @@ const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalRe
             {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
             {/* {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {/* {data[selectedMonth] && <div className='invoice-data'>{Math.round(data[selectedMonth] / data.moq * data.weight)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</div>} */}
-            {data[selectedMonth] && <div className='invoice-data'>${(data.export_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-            {data[selectedMonth] && <div className='invoice-data'>${(data.export_price * data[selectedMonth])?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {data[selectedMonth] && <div className='invoice-data'>${(data.ex_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {data[selectedMonth] && <div className='invoice-data'>${(data.ex_price * data[selectedMonth])?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
         </div>)
     )
     const footer = (totalResult?.map(result => <div className='tr'>

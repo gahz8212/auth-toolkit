@@ -53,7 +53,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
         >
             <div className='packing-data'>{data.itemName}</div>
             {/* {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
-            {/* {data[selectedMonth] && <div className='invoice-data'>${(data.export_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
+            {/* {data[selectedMonth] && <div className='invoice-data'>${(data.ex_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
             {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq * data.weight).toFixed(1)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
             {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq * data.cbm).toFixed(2)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}

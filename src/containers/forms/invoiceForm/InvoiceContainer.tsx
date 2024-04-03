@@ -28,7 +28,7 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
                     carton += invoice[header] / invoice.moq;
                     weight += invoice.weight * invoice[header] / invoice.moq;
                     cbm += invoice.cbm * invoice[header] / invoice.moq;
-                    price += invoice[header] * invoice.export_price;
+                    price += invoice[header] * invoice.ex_price;
                 }
                 )
                 return { [header]: { carton, weight, cbm, price } };
