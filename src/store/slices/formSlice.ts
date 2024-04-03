@@ -13,8 +13,8 @@ type State = {
 };
 
 const initialState: State = {
-  input: { visible: false, position: { x: 100, y: 200 } },
-  edit: { visible: false, position: { x: 100, y: 200 } },
+  input: { visible: false, position: { x: 250, y: 300 } },
+  edit: { visible: false, position: { x: 250, y: 300 } },
   invoice: { visible: false, position: { x: 100, y: 200 } },
   packing: { visible: false, position: { x: 100, y: 200 } },
   addItem: { visible: false, position: { x: 100, y: 200 } },

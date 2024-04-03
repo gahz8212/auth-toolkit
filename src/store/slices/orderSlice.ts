@@ -64,6 +64,7 @@ const orderSlice = createSlice({
       state.status.error = "";
       state.orderData = order;
       state.packingData = order;
+      state.months=Object.keys(order[0]).slice(1, 6)
     },
     inputOrderFailure: (state, { payload: error }) => {
       state.status.error = error;

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Item, Image } = require("../models");
+const { Item, Image, sequelize } = require("../models");
 const { Op } = require("sequelize");
 const upload = multer({
   storage: multer.diskStorage({
@@ -89,7 +89,7 @@ router.get("/items", async (req, res) => {
         "use",
         "supplyer",
       ],
-      order: [["id", "ASC"]],
+      order: [["id", "asc"]],
       include: { model: Image, attributes: ["url"] },
     });
 

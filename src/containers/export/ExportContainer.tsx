@@ -138,7 +138,7 @@ const ExportContainer = () => {
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
-
+ 
     useEffect(() => {
         if (!orderData) {
             dispatch(OrderAction.getOrderData())
@@ -162,7 +162,6 @@ const ExportContainer = () => {
             partsInput={partsInput}
             months={months}
             orderData={orderData}
-            // invoiceData={invoiceData}
             invoiceForm={invoice}
             packingForm={packing}
             addItemForm={addItem}

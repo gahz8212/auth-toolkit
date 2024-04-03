@@ -15,8 +15,8 @@ type Props = {
 
 const HomeComponent: React.FC<Props> = ({ input, edit, openAddForm, changePosition }) => {
 
-    const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) })
-    const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) })
+    const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+    const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
 
 
 

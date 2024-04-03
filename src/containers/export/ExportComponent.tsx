@@ -15,7 +15,7 @@ type Props = {
     partsInput: React.LegacyRef<HTMLInputElement> | undefined;
     orderData: any[] | null;
     months: string[] | null;
-    // invoiceData: any[] | null;
+
     openInvoiceForm: () => void;
     openPackingForm: () => void;
     openAddItemForm: () => void;
@@ -35,7 +35,7 @@ const ExportComponent: React.FC<Props> = ({
     partsInput,
     orderData,
     months,
-    // invoiceData,
+
     invoiceForm,
     packingForm,
     addItemForm,
@@ -56,12 +56,10 @@ const ExportComponent: React.FC<Props> = ({
 
 
     let orderdata;
-    const [selectedMonth, setSelectedMonth] = useState<string>('')
 
-    if (orderData) {
-        const keys = Object.keys(orderData[0]).slice(1, 6)
-        months = keys;
-    }
+    const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
+
+
     const onDragStart = (index: number, column: number) => {
         dragItem.current = index;
         dragItemKey = months ? months[column] : '';
@@ -121,7 +119,7 @@ const ExportComponent: React.FC<Props> = ({
                     {/* <div className="spacer" style={{ height: '10px', background: 'green' }}></div> */}
                 </div>
                 <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2 }}>
-                    <InvoiceContainer selectedMonth={selectedMonth} />
+                    <InvoiceContainer selectedMonth={selectedMonth || months![0]} />
                 </div>
             </div>}
             {packingForm.visible && <div>
@@ -147,7 +145,7 @@ const ExportComponent: React.FC<Props> = ({
                 </div>
                 <div style={{ position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 2 }}>
                     <PackingContainer
-                        selectedMonth={selectedMonth}
+                        selectedMonth={selectedMonth || months![0]}
                     />
                 </div>
             </div>}
@@ -196,7 +194,8 @@ const ExportComponent: React.FC<Props> = ({
                         {months?.map((month, index) =>
                             <div key={index}>
                                 <input type="radio" name="month" id={month} value={month}
-                                    checked={month === selectedMonth} onChange={() => setSelectedMonth(month)} />
+                                    defaultChecked={month === months[0]}
+                                    onChange={() => setSelectedMonth(month)} />
                                 <label htmlFor={month}>{month}</label>
                             </div>)}
                     </div>

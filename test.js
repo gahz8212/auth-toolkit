@@ -48,3 +48,5 @@ const model = "h2o1820".slice(0, index);
 const number = "h2o1820".slice(index);
 const result = model + " " + number;
 console.log(result);
+let results=null;
+console.log(results|{a:'aaa'})
