@@ -36,7 +36,7 @@ module.exports = class Item extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Item.hasMany(db.Image);
+    db.Item.hasMany(db.Image,{as:'images'});
     db.Item.hasMany(db.ItemList);
     db.Item.belongsToMany(db.Item, { through: "relations", as: "upper" });
   }

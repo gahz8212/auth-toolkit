@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Item, Image, sequelize } = require("../models");
+const { Item, Image, Good, GoodList } = require("../models");
 const { Op } = require("sequelize");
 const upload = multer({
   storage: multer.diskStorage({
@@ -76,23 +76,37 @@ router.post("/item", async (req, res) => {
 });
 router.get("/items", async (req, res) => {
   try {
-    const items = await Item.findAll({
-      where: {},
-      attributes: [
-        "id",
-        "category",
-        "partsName",
-        "descript",
-        "unit",
-        "im_price",
-        "ex_price",
-        "use",
-        "supplyer",
-      ],
-      order: [["id", "asc"]],
-      include: { model: Image, attributes: ["url"] },
-    });
-
+    const items = await Promise.all([
+      // GoodList.findAll({
+      //   where: { use: true },
+      //   attributes: [
+      //     "id",
+      //     "category",
+      //     "partsName",
+      //     "descript",
+      //     "unit",
+      //     "im_price",
+      //     "ex_price",
+      //     "use",
+      //   ],
+      // }),
+      Item.findAll({
+        where: {},
+        attributes: [
+          "id",
+          "category",
+          "partsName",
+          "descript",
+          "unit",
+          "im_price",
+          "ex_price",
+          "use",
+        ],
+        order: [["id", "asc"]],
+        include: { model: Image, as: "images", attributes: ["url"] },
+      }),
+    ]).then((unionReturn) => unionReturn.flat());
+    console.log(items);
     return res.status(200).json(items);
   } catch (e) {
     console.error(e);
