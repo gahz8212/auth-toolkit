@@ -6,6 +6,9 @@
   width: 300px;
   position: relative;
   z-index: 2;
+  &.제품 {
+    background-color: lemonchiffon;
+  }
   &.결합 {
     background-color: tomato;
   }
@@ -29,7 +32,6 @@
     // background: green;
     width: 300px;
     margin: 25px auto;
-    .category,
     .currency,
     .uses,
     input[type="text"],
@@ -91,6 +93,19 @@
       margin-left: 1rem;
       input[type="file"] {
         display: none;
+      }
+    }
+    .category {
+      input[type="radio"] {
+        width: 20px;
+        margin: 0;
+      }
+      label {
+        width: 40px;
+        // background: yellow;
+      }
+      .sub {
+        margin-top: 0.4rem;
       }
     }
     input[type="radio"] {
