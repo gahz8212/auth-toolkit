@@ -5,7 +5,7 @@ module.exports = class Item extends Sequelize.Model {
       {
         category: {
           type: Sequelize.ENUM,
-          values: ["결합","회로", "기구", "전장","포장", "기타"],
+          values: ["결합", "회로", "기구", "전장", "포장", "기타"],
         },
         partsName: { type: Sequelize.STRING(50), allowNull: null },
         descript: { type: Sequelize.STRING(200), allowNull: true },
@@ -36,7 +36,7 @@ module.exports = class Item extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Item.hasMany(db.Image,{as:'images'});
+    db.Item.hasMany(db.Image);
     db.Item.hasMany(db.ItemList);
     db.Item.belongsToMany(db.Item, { through: "relations", as: "upper" });
   }

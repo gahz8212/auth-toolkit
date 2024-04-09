@@ -59,18 +59,22 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 <div className="inputs">
                     {/* <div className='form-title'>아이템 입력</div> */}
                     <div className="category">
+                        <input type="radio" id="제품_input" name="category" value="제품" checked={input.category === '제품'} onChange={onChange} />
+                        <label htmlFor="제품_input">제품</label>
                         <input type="radio" id="결합물_input" name="category" value="결합" checked={input.category === '결합'} onChange={onChange} />
                         <label htmlFor="결합물_input">결합</label>
-                        <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange} />
-                        <label htmlFor="회로물_input">회로</label>
-                        <input type="radio" id="전장물_input" name="category" value="전장" checked={input.category === "전장"} onChange={onChange} />
-                        <label htmlFor="전장물_input">전장</label>
-                        <input type="radio" id="기구물_input" name="category" value="기구" checked={input.category === "기구"} onChange={onChange} />
-                        <label htmlFor="기구물_input">기구</label>
-                        <input type="radio" id="포장물_input" name="category" value="포장" checked={input.category === "포장"} onChange={onChange} />
-                        <label htmlFor="포장물_input">포장</label>
-                        <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
-                        <label htmlFor="기타물_input">기타</label>
+                        <div className='sub'>
+                            <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange} />
+                            <label htmlFor="회로물_input">회로</label>
+                            <input type="radio" id="전장물_input" name="category" value="전장" checked={input.category === "전장"} onChange={onChange} />
+                            <label htmlFor="전장물_input">전장</label>
+                            <input type="radio" id="기구물_input" name="category" value="기구" checked={input.category === "기구"} onChange={onChange} />
+                            <label htmlFor="기구물_input">기구</label>
+                            <input type="radio" id="포장물_input" name="category" value="포장" checked={input.category === "포장"} onChange={onChange} />
+                            <label htmlFor="포장물_input">포장</label>
+                            <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
+                            <label htmlFor="기타물_input">기타</label>
+                        </div>
                     </div>
 
 

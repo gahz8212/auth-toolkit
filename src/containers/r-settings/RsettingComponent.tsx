@@ -1,82 +1,55 @@
-import React, { useState, useRef } from 'react';
-import { OrderAction, OrderData } from '../../store/slices/orderSlice';
-import { useDispatch, useSelector } from 'react-redux';
-const RsettingComponent = () => {
-    const dispatch = useDispatch();
-    const { orderData } = useSelector(OrderData)
-    const dragItem: any = useRef();
-    const dragOverItem: any = useRef();
-    let sourceKey: string = ''
-    let targetKey: string = ''
-    let row;
-    if (orderData) {
 
-        const keys = Object.keys(orderData[0]).slice(1, 4)
-        console.log(keys)
-        const dragStart = (index: any, column: number) => {
-            dragItem.current = index
-            sourceKey = keys[column]
+import React from 'react';
+import { useDrag } from 'react-use-gesture';
+import InputFormContainer from '../forms/inputForm/InputFormContainer';
+import EditFormContainer from "../forms/editForm/EditFormContainer";
+import CardContainer from '../common/card/CardContainer';
 
-        }
-        const dragEnter = (index: any, column: number) => {
-            dragOverItem.current = index
-            targetKey = keys[column]
-        }
-        const drop = () => {
-            const copyList: { [key: string]: string | number }[] = Array.from(orderData)
-            console.log(copyList === orderData)
+type Props = {
 
-            let targetValue = copyList[dragOverItem.current][targetKey]
-            console.log(targetValue)
-            // copyList[dragOverItem.current][targetKey] = copyList[dragItem.current][sourceKey]
-           
+    input: { visible: boolean; position: { x: number; y: number } };
+    edit: { visible: boolean; position: { x: number; y: number } };
+    changePosition: (form: string, position: { x: number, y: number }) => void;
+    openAddForm: () => void;
 
-            // dragItem.current = null;
-            // dragOverItem.current = null;
-            // setList(copyList)
-        }
-        row = orderData?.map((el, index, row) => <div
-            style={{ display: 'flex' }}>
-            <div style={{ width: '100px', textAlign: 'center' }}>{el.id}</div>
-            <div style={{ width: '100px', textAlign: 'center' }}>{el.model}</div>
+}
 
-            <div style={{ width: '50px', textAlign: 'center' }}
-                draggable
-                onDragStart={() => dragStart(index, 0)}
-                onDragEnter={() => dragEnter(index, 0)}
-                onDragEnd={drop}>{el.Feb}</div>
+const RsettingComponent: React.FC<Props> = ({ input, edit, openAddForm, changePosition }) => {
 
-            <div style={{ width: '50px', textAlign: 'center' }}
-                draggable
-                onDragStart={() => dragStart(index, 1)}
-                onDragEnter={() => dragEnter(index, 1)}
-                onDragEnd={drop}>{el.Mar}</div>
-            <div style={{ width: '50px', textAlign: 'center' }}
-                draggable
-                onDragStart={() => dragStart(index, 2)}
-                onDragEnter={() => dragEnter(index, 2)}
-                onDragEnd={drop}>{el.April}</div>
-        </div>)
-    }
+    const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+    const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+
+
+
     return (
-        <div className='table-wrapper'>
-            <div style={{ width: '350px' }}>
-                <div>
-                    <div style={{ display: 'flex' }} >
-                        <div style={{ width: '100px', textAlign: 'center' }}>id</div>
-                        <div style={{ width: '100px', textAlign: 'center' }}>model</div>
-                        <div style={{ width: '50px', textAlign: 'center' }}>feb</div>
-                        <div style={{ width: '50px', textAlign: 'center' }}>march</div>
-                        <div style={{ width: '50px', textAlign: 'center' }}>april</div>
-                    </div>
-                </div>
-                <div>
-                    {React.Children.toArray(row)}
-                </div>
+        <div className='home-wraper'>
 
-            </div>
+
+            {input.visible && <div >
+
+                <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 입력</span>
+                </div>
+                <div style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
+
+                    <InputFormContainer />
+                </div>
+            </div>}
+
+            {edit.visible && <div>
+                <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 수정</span>
+                </div>
+                <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
+                    <EditFormContainer />
+                </div>
+            </div>}
+            <div style={{ height: '90px' }}></div>
+            <CardContainer />
+            <span onClick={openAddForm} className="material-symbols-outlined write">
+                edit_document
+            </span>
         </div >
     );
 };
-
 export default RsettingComponent;

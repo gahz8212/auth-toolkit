@@ -25,7 +25,7 @@ router.get("/getDummyItem", async (req, res) => {
     await sequelize.query(
       `
       CREATE TABLE if not exists dummies 
-      (SELECT groupname,NAME ,NUMBER1,NUMBER2 FROM goods  WHERE goods.use=TRUE AND NUMBER1 IS NOT NULL AND 
+      (SELECT partsName,NAME ,NUMBER1,NUMBER2 FROM goods  WHERE goods.use=TRUE AND NUMBER1 IS NOT NULL AND 
         CATEGORY IN ('RDT','EDT','NOBARK')  
         ORDER BY goods.NUMBER1,goods.NUMBER2);
     `
@@ -39,7 +39,7 @@ router.get("/getDummyItem", async (req, res) => {
     await sequelize.query(
       `
       alter table if exists dummies
-      add primary key(groupname);
+      add primary key(partsName);
     `
     );
     const [results] = await sequelize.query(
@@ -84,7 +84,7 @@ router.post("/orderinput", async (req, res) => {
       L.number2,
       L.use,
       date_format(L.input_date,'%Y-%m-%d')
-      FROM good G inner join goodlist L on G.groupName=L.groupName right join orders O on G.groupName=O.Item
+      FROM good G inner join goodlist L on G.groupName=L.partsName right join orders O on G.groupName=O.Item
       WHERE L.use=1 
       ORDER BY L.number1,L.number2
       `
@@ -116,7 +116,7 @@ router.post("/orderinput", async (req, res) => {
     L.number2,
     L.use,
     date_format(L.input_date,'%Y-%m-%d')
-    FROM good G inner join goodlist L on G.groupName=L.groupName right join orders O on G.groupName=O.Item
+    FROM good G inner join goodlist L on G.groupName=L.partsName right join orders O on G.groupName=O.Item
     WHERE L.use=1 
     ORDER BY L.number1,L.number2
   )

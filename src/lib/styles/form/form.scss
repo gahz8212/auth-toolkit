@@ -3,6 +3,9 @@
   user-select: none;
   position: relative;
   border: 3px solid red;
+  &.제품 {
+    background-color: lemonchiffon;
+  }
   &.결합 {
     background-color: tomato;
   }
@@ -48,7 +51,6 @@
       // background: green;
       width: 300px;
       margin: 25px auto;
-      .category,
       .currency,
       .uses,
       input[type="text"],
@@ -75,7 +77,7 @@
       }
       label {
         display: inline-block;
-        width: 60px;
+        width: 40px;
         text-align: center;
         // background-color: yellowgreen;
       }
@@ -88,6 +90,9 @@
         // background: yellow;
         width: 90%;
         margin: 0 auto;
+      }
+      input[type="radio"] {
+        width: 30px;
       }
       .file {
         width: 90%;
@@ -107,8 +112,18 @@
         }
         margin-left: 1rem;
       }
+    }
+    .category {
       input[type="radio"] {
         width: 20px;
+        margin: 0;
+      }
+      label {
+        width: 40px;
+        // background: yellow;
+      }
+      .sub {
+        margin-top: 0.4rem;
       }
     }
     input[type="file"] {

@@ -46,7 +46,7 @@ const HomeComponent: React.FC<Props> = ({ input, edit, openAddForm, changePositi
             <div style={{ height: '90px' }}></div>
 
 
-            <div style={{ position: 'fixed', zIndex: 2, margin: '0 5rem' }}>
+            {/* <div style={{ position: 'fixed', zIndex: 2, margin: '0 5rem' }}>
                 <div style={{ display: 'flex', position: 'fixed', boxSizing: 'border-box' }}>
                     <div className="left">
                         <div className="model_name"
@@ -71,7 +71,7 @@ const HomeComponent: React.FC<Props> = ({ input, edit, openAddForm, changePositi
                 <div style={{ height: '200px', width: '200px', textAlign: 'center', border: '1px solid gray' }}>aaa</div>
                 <div style={{ height: '200px', width: '200px', textAlign: 'center', border: '1px solid gray' }}>bbb</div>
                 <div style={{ height: '200px', width: '200px', textAlign: 'center', border: '1px solid gray' }}>ccc</div>
-            </div>
+            </div> */}
 
             <CardContainer />
 
