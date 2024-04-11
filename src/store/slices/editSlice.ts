@@ -3,13 +3,13 @@ import { RootState } from "..";
 type State = {
   prev: {
     id: number;
+    type: string;
     category: string;
     partsName: string;
     descript: string;
     unit: string;
     im_price: number;
     ex_price: number;
-
     use: boolean;
     supplyer: string;
 
@@ -18,6 +18,7 @@ type State = {
   next: {
     [key: string]: string | number | boolean | { url: string }[];
     id: number;
+    type: string;
     category: string;
     partsName: string;
     descript: string;
@@ -41,6 +42,7 @@ type State = {
 const initialState: State = {
   prev: {
     id: -1,
+    type: "",
     category: "",
     partsName: "",
     descript: "",
@@ -55,6 +57,7 @@ const initialState: State = {
   },
   next: {
     id: -1,
+    type: "",
     category: "",
     partsName: "",
     descript: "",

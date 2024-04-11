@@ -6,6 +6,7 @@ type Props = {
         | React.ChangeEvent<HTMLTextAreaElement>) => void;
 
     input: {
+        type: string,
         category: string,
         partsName: string,
         descript: string,
@@ -19,6 +20,7 @@ type Props = {
     insertImage: (e: any) => void;
     imageList: { url: string }[];
     addItem: (item: {
+        type: string,
         category: string,
         partsName: string,
         descript: string,
@@ -35,6 +37,8 @@ type Props = {
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
 
+
+
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
     excel_onChange, excel_onSubmit, file, excelFile }) => {
@@ -45,6 +49,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
                 e.preventDefault();
                 addItem({
+                    type: input.type,
                     category: input.category,
                     partsName: input.partsName,
                     descript: input.descript,
@@ -59,12 +64,46 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 <div className="inputs">
                     {/* <div className='form-title'>아이템 입력</div> */}
                     <div className="category">
-                        <input type="radio" id="제품_input" name="category" value="제품" checked={input.category === '제품'} onChange={onChange} />
+                        <input type="radio" id="제품_input" name="type" value="good"
+                            checked={input.type === 'good'}
+                            onChange={onChange} />
                         <label htmlFor="제품_input">제품</label>
-                        <input type="radio" id="결합물_input" name="category" value="결합" checked={input.category === '결합'} onChange={onChange} />
+                        <input type="radio" id="결합물_input" name="type" value="assy"
+                            checked={input.type === 'assy'}
+                            onChange={onChange} />
                         <label htmlFor="결합물_input">결합</label>
-                        <div className='sub'>
-                            <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange} />
+                        <input type="radio" id="부품물_input" name="type" value="parts"
+                            checked={input.type === 'parts'}
+                            onChange={onChange} />
+                        <label htmlFor="부품물_input">부품</label>
+
+
+                        {input.type === 'good' && <div className={`sub ${input.type}`}>
+                            <input type="radio" id="EDT_input" name="category" value="EDT"
+                                checked={input.category === 'EDT'}
+                                onChange={onChange}
+
+                            />
+                            <label htmlFor="EDT_input">EDT</label>
+                            <input type="radio" id="NOBARK_input" name="category" value="NOBARK" checked={input.category === "NOBARK"} onChange={onChange} />
+                            <label htmlFor="NOBARK_input">NOBARK</label>
+                            <input type="radio" id="LAUNCHER_input" name="category" value="LAUNCHER" checked={input.category === "LAUNCHER"} onChange={onChange} />
+                            <label htmlFor="LAUNCHER_input">LAUNCHER</label>
+                            <input type="radio" id="RDT_input" name="category" value="RDT" checked={input.category === "RDT"} onChange={onChange} />
+                            <label htmlFor="RDT_input">RDT</label>
+                            <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
+                            <label htmlFor="기타물_input">기타</label>
+                        </div>}
+                        {input.type === 'assy' && <div className={`sub ${input.type}`}>
+                            <input type="radio" id="자체물_input" name="category" value="자체" checked={input.category === '자체'} onChange={onChange} />
+                            <label htmlFor="자체물_input">자체 결합</label>
+                            <input type="radio" id="외주물_input" name="category" value="외주" checked={input.category === "외주"} onChange={onChange} />
+                            <label htmlFor="외주물_input">외주 결합</label>
+
+                        </div>}
+                        {input.type === 'parts' && <div className={`sub ${input.type}`}>
+                            <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange}
+                            />
                             <label htmlFor="회로물_input">회로</label>
                             <input type="radio" id="전장물_input" name="category" value="전장" checked={input.category === "전장"} onChange={onChange} />
                             <label htmlFor="전장물_input">전장</label>
@@ -74,7 +113,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <label htmlFor="포장물_input">포장</label>
                             <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
                             <label htmlFor="기타물_input">기타</label>
-                        </div>
+                        </div>}
                     </div>
 
 
@@ -124,8 +163,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
                     <button className='close' onClick={formClose}>닫기</button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 };
 

@@ -3,6 +3,7 @@ import { RootState } from "..";
 type State = {
   items: {
     id: number;
+    type: string;
     category: string;
     partsName: string;
     descript: string;
@@ -15,6 +16,7 @@ type State = {
   }[];
   input: {
     [key: string]: string | number | boolean;
+    type: string;
     category: string;
     partsName: string;
     descript: string;
@@ -31,6 +33,7 @@ type State = {
 const initialState: State = {
   items: [],
   input: {
+    type: "parts",
     category: "회로",
     partsName: "",
     descript: "",
@@ -86,6 +89,9 @@ const itemSlice = createSlice({
     },
     changeField: (state, { payload: { name, value } }) => {
       state.input[name] = value;
+    },
+    changeInitial: (state, { payload: { name, value } }) => {
+      console.log(value);
     },
     excelAdd: (state, action: PayloadAction<any[] | null>) => {
       state.status.error = "";

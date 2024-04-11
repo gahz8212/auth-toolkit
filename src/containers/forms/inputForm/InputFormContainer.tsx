@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { itemActions, itemData } from '../../../store/slices/itemSlice';
 import { imageInsert } from '../../../lib/utils/createFormData'
@@ -8,8 +8,9 @@ import InputFormComponent from './InputFormComponent';
 import * as XLSX from 'xlsx';
 
 const InputFormContainer = () => {
-    const excelFile = useRef<HTMLInputElement>(null)
     const dispatch = useDispatch()
+    const excelFile = useRef<HTMLInputElement>(null)
+
     const { input, imageList } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
     const onChange = (e: any) => {
@@ -19,13 +20,19 @@ const InputFormContainer = () => {
             value = value === '1' ? true : false
         }
         dispatch(itemActions.changeField({ name, value }))
+        // console.log(name)
+        if (name === 'type') {
+            dispatch(itemActions.changeInitial({ name, value }))
+        }
     }
+
     const insertImage = async (e: any) => {
         const formData = imageInsert(e, imageList)
         dispatch(itemActions.addImage(await formData))
     }
     const addItem = (
         item: {
+            type: string,
             category: string,
             partsName: string,
             descript: string,
@@ -94,6 +101,8 @@ const InputFormContainer = () => {
             excel_onSubmit={excel_onSubmit}
             file={file}
             excelFile={excelFile}
+
+
         />
 
 
