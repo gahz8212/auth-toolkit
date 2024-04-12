@@ -3,6 +3,7 @@ export const addImage = (images: FormData) => {
   return client.post("item/images", images);
 };
 export const addItem = (item: {
+  type:string;
   category: string;
   partsName: string;
   descript: string;

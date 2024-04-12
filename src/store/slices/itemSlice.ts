@@ -4,6 +4,8 @@ type State = {
   items: {
     id: number;
     type: string;
+    groupType: string;
+    groupName: string;
     category: string;
     partsName: string;
     descript: string;
@@ -17,6 +19,8 @@ type State = {
   input: {
     [key: string]: string | number | boolean;
     type: string;
+    groupType: string;
+    groupName: string;
     category: string;
     partsName: string;
     descript: string;
@@ -33,14 +37,15 @@ type State = {
 const initialState: State = {
   items: [],
   input: {
-    type: "parts",
+    type: "PARTS",
+    groupType: "",
+    groupName: "",
     category: "회로",
     partsName: "",
     descript: "",
     unit: "\\\\",
     im_price: 0,
     ex_price: 0,
-
     use: true,
     supplyer: "",
   },
@@ -90,8 +95,15 @@ const itemSlice = createSlice({
     changeField: (state, { payload: { name, value } }) => {
       state.input[name] = value;
     },
-    changeInitial: (state, { payload: { name, value } }) => {
-      console.log(value);
+    changeInitial: (state, { payload: { value } }) => {
+      // console.log(value);
+      if (value === "SET") {
+        state.input.category = "EDT";
+      } else if (value === "ASSY") {
+        state.input.category = "자체";
+      } else {
+        state.input.category = "회로";
+      }
     },
     excelAdd: (state, action: PayloadAction<any[] | null>) => {
       state.status.error = "";
@@ -124,13 +136,13 @@ const itemSlice = createSlice({
     addItem: (
       state,
       action: PayloadAction<{
+        type: string;
         category: string;
         partsName: string;
         descript: string;
         unit: string;
         im_price: number;
         ex_price: number;
-
         use: boolean;
         supplyer: string;
         imageList: { url: string }[];

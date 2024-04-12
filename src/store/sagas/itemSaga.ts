@@ -14,6 +14,7 @@ function* addImageSaga(action: { payload: FormData }) {
 }
 function* addItemSaga(action: {
   payload: {
+    type: string;
     category: string;
     partsName: string;
     descript: string;
@@ -28,6 +29,7 @@ function* addItemSaga(action: {
   try {
     const response: {
       data: {
+        type: string;
         category: string;
         partsName: string;
         descript: string;
@@ -36,7 +38,6 @@ function* addItemSaga(action: {
         ex_price: number;
         use: boolean;
         supplyer: string;
-
         imageList: { url: string }[];
       };
     } = yield call(itemAPI.addItem, action.payload);
@@ -49,6 +50,7 @@ function* getItemSaga() {
   try {
     const response: {
       data: {
+        type: string;
         category: string;
         partsName: string;
         descript: string;

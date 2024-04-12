@@ -7,6 +7,8 @@ type Props = {
 
     input: {
         type: string,
+        groupType: string,
+        groupName: string,
         category: string,
         partsName: string,
         descript: string,
@@ -21,6 +23,8 @@ type Props = {
     imageList: { url: string }[];
     addItem: (item: {
         type: string,
+        groupType: string,
+        groupName: string,
         category: string,
         partsName: string,
         descript: string,
@@ -50,6 +54,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 e.preventDefault();
                 addItem({
                     type: input.type,
+                    groupType: input.groupType,
+                    groupName: input.groupName,
                     category: input.category,
                     partsName: input.partsName,
                     descript: input.descript,
@@ -64,25 +70,24 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                 <div className="inputs">
                     {/* <div className='form-title'>아이템 입력</div> */}
                     <div className="category">
-                        <input type="radio" id="제품_input" name="type" value="good"
-                            checked={input.type === 'good'}
+                        <input type="radio" id="제품_input" name="type" value="SET"
+                            checked={input.type === 'SET'}
                             onChange={onChange} />
                         <label htmlFor="제품_input">제품</label>
-                        <input type="radio" id="결합물_input" name="type" value="assy"
-                            checked={input.type === 'assy'}
+                        <input type="radio" id="결합물_input" name="type" value="ASSY"
+                            checked={input.type === 'ASSY'}
                             onChange={onChange} />
                         <label htmlFor="결합물_input">결합</label>
-                        <input type="radio" id="부품물_input" name="type" value="parts"
-                            checked={input.type === 'parts'}
+                        <input type="radio" id="부품물_input" name="type" value="PARTS"
+                            checked={input.type === 'PARTS'}
                             onChange={onChange} />
                         <label htmlFor="부품물_input">부품</label>
 
 
-                        {input.type === 'good' && <div className={`sub ${input.type}`}>
+                        {input.type === 'SET' && <div className={`sub ${input.type}`}>
                             <input type="radio" id="EDT_input" name="category" value="EDT"
                                 checked={input.category === 'EDT'}
                                 onChange={onChange}
-
                             />
                             <label htmlFor="EDT_input">EDT</label>
                             <input type="radio" id="NOBARK_input" name="category" value="NOBARK" checked={input.category === "NOBARK"} onChange={onChange} />
@@ -93,15 +98,67 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <label htmlFor="RDT_input">RDT</label>
                             <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
                             <label htmlFor="기타물_input">기타</label>
+                            <select name="groupType" onChange={onChange}  >
+                                <option value="">제품군을 선택 하세요</option>
+                                <option value="1125">1125</option>
+                                <option value="190">190</option>
+                                <option value="BARKBOSS">BARKBOSS</option>
+                                <option value="BTB">BTB</option>
+                                <option value="360">360</option>
+                                <option value="DOG">DOG</option>
+                                <option value="H2O">H2O</option>
+                                <option value="IDT">IDT</option>
+                                <option value="SPT">SPT</option>
+                                <option value="RAPT">RAPT</option>
+                                <option value="MR">MR</option>
+                                <option value="RH PRO">RH PRO</option>
+                                <option value="TC1">TC1</option>
+                                <option value="B/L">B/L</option>
+                                <option value="D/L">D/L</option>
+                            </select>
+                            <input type="text" name="groupName" value={input.groupName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
+                            {/* selection */}
+                            <div>
+                                <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
+                            </div>
+
+                            <div className="currency">
+                                <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                                <label htmlFor="￦_input">￦</label>
+                                <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
+                                <label htmlFor="$_input">$</label>
+                                {/* <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} /> */}
+                                {/* <label htmlFor="￥_input">￥</label> */}
+                                <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                <div>
+
+                                    <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div className="uses">
+                                    {/* <input type="text" name="supplyer" value={input.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} /> */}
+                                    <select name="supplyer" id="supplyer" onChange={onChange}>
+                                        <option value="자체">자체</option>
+                                        <option value="유성엔지니어링">유성엔지니어링</option>
+                                    </select>
+                                    <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={input.use === true} />
+                                    <label htmlFor="use">사용</label>
+                                    <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
+                                    <label htmlFor="no-use">미사용</label>
+                                </div>
+                            </div>
                         </div>}
-                        {input.type === 'assy' && <div className={`sub ${input.type}`}>
+                        {input.type === 'ASSY' && <div className={`sub ${input.type}`}>
                             <input type="radio" id="자체물_input" name="category" value="자체" checked={input.category === '자체'} onChange={onChange} />
                             <label htmlFor="자체물_input">자체 결합</label>
                             <input type="radio" id="외주물_input" name="category" value="외주" checked={input.category === "외주"} onChange={onChange} />
                             <label htmlFor="외주물_input">외주 결합</label>
 
                         </div>}
-                        {input.type === 'parts' && <div className={`sub ${input.type}`}>
+                        {input.type === 'PARTS' && <div className={`sub ${input.type}`}>
                             <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange}
                             />
                             <label htmlFor="회로물_input">회로</label>
@@ -117,13 +174,12 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     </div>
 
 
-                    <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
-                    <div>
-
+                    {/* <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} /> */}
+                    {/* <div>
                         <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
-                    </div>
+                    </div> */}
                     {/* <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
-                    <div className="currency">
+                    {/* <div className="currency">
 
                         <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
                         <label htmlFor="￦_input">￦</label>
@@ -133,11 +189,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         <label htmlFor="￥_input">￥</label>
                         <input type="number" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' step={0.1} onFocus={e => e.target.select()} />
                         <input type="number" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' step={0.1} onFocus={e => e.target.select()} />
-                    </div>
+                    </div> */}
                     {/* //Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") */}
-                    <div>
-                    </div>
-                    <div>
+
+                    {/* <div>
 
                         <div className="uses">
                             <input type="text" name="supplyer" value={input.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} />
@@ -146,7 +201,9 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
                             <label htmlFor="no-use">미사용</label>
                         </div>
-                    </div>
+                    </div> */}
+
+
                     <div className='file'>
                         <label htmlFor="file_input">그림 선택</label>
                         <input type="file" id="file_input" name="images" onChange={insertImage} multiple accept='image/*' />

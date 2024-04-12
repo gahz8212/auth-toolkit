@@ -4,6 +4,8 @@ type State = {
   prev: {
     id: number;
     type: string;
+    groupType: string;
+    groupName: string;
     category: string;
     partsName: string;
     descript: string;
@@ -19,6 +21,8 @@ type State = {
     [key: string]: string | number | boolean | { url: string }[];
     id: number;
     type: string;
+    groupType: string;
+    groupName: string;
     category: string;
     partsName: string;
     descript: string;
@@ -43,6 +47,8 @@ const initialState: State = {
   prev: {
     id: -1,
     type: "",
+    groupType: '',
+    groupName: '',
     category: "",
     partsName: "",
     descript: "",
@@ -58,6 +64,8 @@ const initialState: State = {
   next: {
     id: -1,
     type: "",
+    groupType: '',
+    groupName: '',
     category: "",
     partsName: "",
     descript: "",

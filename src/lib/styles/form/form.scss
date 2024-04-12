@@ -41,16 +41,16 @@
   .input-form {
     font-size: 0.9rem;
     border-radius: 8px;
-    // position: absolute;
-    // background-color: white;
     width: 300px;
-    //   margin: 0 auto;
-    // transform: translatex(20px);
+
 
     .inputs {
       // background: green;
       width: 300px;
       margin: 25px auto;
+      select {
+        margin: 0.4rem 1rem 0rem;
+      }
       .currency,
       .uses,
       input[type="text"],
