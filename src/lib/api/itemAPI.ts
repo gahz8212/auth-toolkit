@@ -3,7 +3,9 @@ export const addImage = (images: FormData) => {
   return client.post("item/images", images);
 };
 export const addItem = (item: {
-  type:string;
+  type: string;
+  groupType: string;
+  groupName: string;
   category: string;
   partsName: string;
   descript: string;
@@ -15,6 +17,7 @@ export const addItem = (item: {
   imageList: { url: string }[];
 }) => {
   item.unit = item.unit.slice(0, 1);
+  // console.log(item);
 
   return client.post("item/item", item);
 };

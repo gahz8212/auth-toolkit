@@ -137,6 +137,8 @@ const itemSlice = createSlice({
       state,
       action: PayloadAction<{
         type: string;
+        groupType:string;
+        groupName:string;
         category: string;
         partsName: string;
         descript: string;

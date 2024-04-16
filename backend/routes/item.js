@@ -27,49 +27,62 @@ router.post("/images", upload.array("images"), async (req, res) => {
 });
 router.post("/item", async (req, res) => {
   const {
+    type,
+    groupType,
+    groupName,
     category,
     partsName,
     descript,
     unit,
-    price,
+    im_price,
+    ex_price,
     use,
     supplyer,
     imageList,
   } = req.body;
 
   try {
-    const item = await Item.create({
-      category,
-      partsName,
-      descript,
-      unit,
-      price,
-      use,
-      supplyer,
-    });
-    // console.log(item);
-    const image_promise = await Promise.all(
-      imageList.map((image) =>
-        Image.create({ url: image.url, ItemId: item.id })
-      )
-    );
-    item.addImages(image_promise.map((image) => image[0]));
-    const newItem = await Item.findOne({
-      where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
-      attributes: [
-        "id",
-        "category",
-        "partsName",
-        "descript",
-        "unit",
-        "price",
-        "use",
-        "supplyer",
-      ],
-      include: { model: Image, attributes: ["url"] },
-    });
+    let item;
+    //set가 들어오면 goodlist에
+    //assy나 item이 들어오면 item에 입력
+    //image는 image의 goodId에 입력
+    if (type === "SET") {
+      console.log(`${type}${groupType}${groupName}${category}가 들어옴`);
+      return;
+    } else {
+      item = await Item.create({
+        category,
+        partsName,
+        descript,
+        unit,
+        im_price,
+        ex_price,
+        use,
+        supplyer,
+      });
+      const image_promise = await Promise.all(
+        imageList.map((image) =>
+          Image.create({ url: image.url, ItemId: item.id })
+        )
+      );
+      item.addImages(image_promise.map((image) => image[0]));
+      const newItem = await Item.findOne({
+        where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
+        attributes: [
+          "id",
+          "category",
+          "partsName",
+          "descript",
+          "unit",
+          "price",
+          "use",
+          "supplyer",
+        ],
+        include: { model: Image, attributes: ["url"] },
+      });
 
-    return res.status(200).json(newItem);
+      return res.status(200).json(newItem);
+    }
   } catch (e) {
     return res.status(400).json(e.message);
   }

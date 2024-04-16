@@ -15,6 +15,8 @@ function* addImageSaga(action: { payload: FormData }) {
 function* addItemSaga(action: {
   payload: {
     type: string;
+    groupType: string;
+    groupName: string;
     category: string;
     partsName: string;
     descript: string;
@@ -30,6 +32,8 @@ function* addItemSaga(action: {
     const response: {
       data: {
         type: string;
+        groupType: string;
+        groupName: string;
         category: string;
         partsName: string;
         descript: string;
@@ -51,11 +55,14 @@ function* getItemSaga() {
     const response: {
       data: {
         type: string;
+        groupType: string;
+        groupName: string;
         category: string;
         partsName: string;
         descript: string;
         unit: string;
-        price: number;
+        im_price: number;
+        ex_price: number;
         use: boolean;
         supplyer: string;
 

@@ -157,6 +157,27 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <input type="radio" id="외주물_input" name="category" value="외주" checked={input.category === "외주"} onChange={onChange} />
                             <label htmlFor="외주물_input">외주 결합</label>
 
+
+                            <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
+                            {/* selection */}
+                            <div>
+                                <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
+                            </div>
+
+                            <div className="currency">
+                                <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                                <label htmlFor="￦_input">￦</label>
+                                <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
+                                <label htmlFor="$_input">$</label>
+                                {/* <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} /> */}
+                                {/* <label htmlFor="￥_input">￥</label> */}
+                                <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                <div>
+                                    <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                            </div>
+
+
                         </div>}
                         {input.type === 'PARTS' && <div className={`sub ${input.type}`}>
                             <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange}

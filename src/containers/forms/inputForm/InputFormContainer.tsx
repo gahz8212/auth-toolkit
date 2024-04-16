@@ -33,6 +33,8 @@ const InputFormContainer = () => {
     const addItem = (
         item: {
             type: string,
+            groupType:string,
+            groupName:string,
             category: string,
             partsName: string,
             descript: string,
