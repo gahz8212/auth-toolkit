@@ -6,7 +6,7 @@ import { editActions } from '../../../store/slices/editSlice';
 import { formSelector, formActions } from '../../../store/slices/formSlice';
 const CardContainer = () => {
     const dispatch = useDispatch();
-    const { items, status } = useSelector(itemData);
+    const { items, status, itemImageList } = useSelector(itemData);
     const selectItem = (id: number | '') => {
         const item = items.filter(item => item.id === id);
         dispatch(editActions.selectItem(item[0]));
@@ -18,7 +18,7 @@ const CardContainer = () => {
     }, [dispatch])
     return (
         <div>
-            <CardComponent selectItem={selectItem} items={items} />
+            <CardComponent selectItem={selectItem} items={items} itemImageList={itemImageList}/>
         </div>
     );
 };

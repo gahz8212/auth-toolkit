@@ -10,31 +10,23 @@ type Props = {
         ex_price: number;
         use: boolean,
         supplyer: string,
-        Images: { url: string }[]
+        // Images: { url: string }[]
     }[];
     selectItem: (id: number) => void;
+    itemImageList: { ItemId: number, url: string }[];
 }
 type subProps = {
-    item: {
-        id: number,
-        category: string,
-        partsName: string,
-        descript: string,
-        unit: string,
-        im_price: number;
-        ex_price: number;
-        use: boolean,
-        supplyer: string,
-        Images: { url: string }[]
-    }
+    url: string;
 
 }
-const ImageList: React.FC<subProps> = ({ item }) => {
-    return <img src={item.Images[0].url} alt={item.Images[0].url} width='100px' />
+const ImageList: React.FC<subProps> = ({ url }) => {
+    return <img src={url} alt={url} width='100px' />
 }
-const CardComponent: React.FC<Props> = ({ items, selectItem }) => {
+const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList }) => {
     const [selected, setSelected] = useState<number | ''>()
+    const [image, setImage] = useState<string[]>()
     const dragItem: any = useRef();
+
     const dragOverItem: any = useRef();
     const onDragStart = (index: number) => {
         dragItem.current = index;
@@ -46,6 +38,11 @@ const CardComponent: React.FC<Props> = ({ items, selectItem }) => {
         console.log(dragOverItem.current, dragItem.current)
         dragItem.current = null;
         dragOverItem.current = null;
+    }
+    const onItemHover = (itemId: number) => {
+        setImage(itemImageList.filter(image => image.ItemId === itemId).map(image => image.url))
+
+
     }
     return (
 
@@ -59,6 +56,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem }) => {
                     onDragStart={() => { onDragStart(item.id) }}
                     onDragEnter={() => { onDragEnter(item.id) }}
                     onDragEnd={onDrop}
+                    onMouseEnter={() => onItemHover(item.id)}
                 >
                     <div className={`info text ${item.category}`}>
                         <div>{item.category}</div>
@@ -67,7 +65,9 @@ const CardComponent: React.FC<Props> = ({ items, selectItem }) => {
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.ex_price}</div>
                     </div>
                     <div className="info image">
-                        {item.Images?.length && <ImageList item={item} />}
+                        {
+
+                            image && <ImageList url={image[0]} />}
                     </div>
                 </div>)}
         </div>

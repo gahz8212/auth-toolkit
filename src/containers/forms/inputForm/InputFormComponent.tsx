@@ -159,7 +159,6 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
 
                             <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
-                            {/* selection */}
                             <div>
                                 <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>

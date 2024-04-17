@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Item, Image, Good, GoodList } = require("../models");
+const { Item, Image, Good, GoodList, sequelize } = require("../models");
 const { Op } = require("sequelize");
 const upload = multer({
   storage: multer.diskStorage({
@@ -74,7 +74,8 @@ router.post("/item", async (req, res) => {
           "partsName",
           "descript",
           "unit",
-          "price",
+          im_price,
+          ex_price,
           "use",
           "supplyer",
         ],
@@ -89,38 +90,55 @@ router.post("/item", async (req, res) => {
 });
 router.get("/items", async (req, res) => {
   try {
-    const items = await Promise.all([
-      GoodList.findAll({
-        where: { use: true },
-        attributes: [
-          "id",
-          "category",
-          "partsName",
-          "descript",
-          "unit",
-          "im_price",
-          "ex_price",
-          "use",
-        ],
-      }),
-      Item.findAll({
-        where: {},
-        attributes: [
-          "id",
-          "category",
-          "partsName",
-          "descript",
-          "unit",
-          "im_price",
-          "ex_price",
-          "use",
-        ],
-        order: [["id", "asc"]],
-        include: { model: Image, attributes: ["url"] },
-      }),
-    ]).then((unionReturn) => unionReturn.flat());
-    // console.log(items);
-    return res.status(200).json(items);
+    const [items] = await sequelize.query(
+      `
+      select item.id,item.category,item.partsName ,item.im_price,item.unit,item.ex_price
+      from item 
+      where item.use=true
+      union
+      select goodlist.id,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
+      from goodlist inner join good on goodlist.groupName=good.groupName
+      where goodlist.use=true
+
+      order by id asc;
+      `
+    );
+    const [images] = await sequelize.query(`
+    select * from images
+    `);
+    // const items = await Promise.all([
+    //   GoodList.findAll({
+    //     where: { use: true },
+    //     attributes: [
+    //       "id",
+    //       "category",
+    //       "groupName",
+    //       "descript",
+    //       "unit",
+    //       "im_price",
+    //       "ex_price",
+    //       "use",
+    //     ],
+    //     order: [["id", "asc"]],
+    //   }),
+    //   Item.findAll({
+    //     where: {},
+    //     attributes: [
+    //       "id",
+    //       "category",
+    //       "partsName",
+    //       "descript",
+    //       "unit",
+    //       "im_price",
+    //       "ex_price",
+    //       "use",
+    //     ],
+    //     order: [["id", "asc"]],
+    //     include: { model: Image, attributes: ["url"] },
+    //   }),
+    // ]).then((unionReturn) => unionReturn.flat());
+    // console.log(images);
+    return res.status(200).json([items, images]);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

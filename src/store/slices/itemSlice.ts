@@ -32,6 +32,7 @@ type State = {
   };
   backup: any[];
   imageList: { url: string }[];
+  itemImageList: { ItemId:number,url: string }[];
   status: { error: string; message: string; loading: boolean };
 };
 const initialState: State = {
@@ -51,6 +52,7 @@ const initialState: State = {
   },
   backup: [],
   imageList: [],
+  itemImageList: [],
   status: { error: "", message: "", loading: false },
 };
 const inputSelector = (state: RootState) => {
@@ -58,6 +60,9 @@ const inputSelector = (state: RootState) => {
 };
 const imageListSelector = (state: RootState) => {
   return state.item.imageList;
+};
+const itemImageListSelector = (state: RootState) => {
+  return state.item.itemImageList;
 };
 const itemSelector = (state: RootState) => {
   return state.item.items;
@@ -71,12 +76,14 @@ const dummySelector = (state: RootState) => {
 export const itemData = createSelector(
   inputSelector,
   imageListSelector,
+  itemImageListSelector,
   itemSelector,
   statusSelector,
   dummySelector,
-  (input, imageList, items, status, backup) => ({
+  (input, imageList,itemImageList, items, status, backup) => ({
     input,
     imageList,
+    itemImageList,
     items,
     status,
     backup,
@@ -137,8 +144,8 @@ const itemSlice = createSlice({
       state,
       action: PayloadAction<{
         type: string;
-        groupType:string;
-        groupName:string;
+        groupType: string;
+        groupName: string;
         category: string;
         partsName: string;
         descript: string;
@@ -171,7 +178,8 @@ const itemSlice = createSlice({
       state.status.message = "";
     },
     getItemSuccess: (state, { payload: items }) => {
-      state.items = items;
+      state.items = items[0];
+      state.itemImageList = items[1];
       state.status.error = "";
       state.status.message = "";
       state.backup = state.items;
