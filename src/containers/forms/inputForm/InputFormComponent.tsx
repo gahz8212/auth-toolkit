@@ -47,42 +47,46 @@ type Props = {
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
     excel_onChange, excel_onSubmit, file, excelFile }) => {
     return (
-        <div className={`form-container ${input.category}`}>
+        <div className={`form-type ${input.type}`}>
+            <div className={`form-category ${input.category}`}>
 
-            <form className='input-form' onSubmit={(e) => {
+                <form className='input-form' onSubmit={(e) => {
 
-                e.preventDefault();
-                addItem({
-                    type: input.type,
-                    groupType: input.groupType,
-                    groupName: input.groupName,
-                    category: input.category,
-                    partsName: input.partsName,
-                    descript: input.descript,
-                    unit: input.unit,
-                    im_price: input.im_price,
-                    ex_price: input.ex_price,
-                    use: input.use,
-                    supplyer: input.supplyer,
-                    imageList
-                })
-            }}>
-                <div className="inputs">
-                    {/* <div className='form-title'>아이템 입력</div> */}
-                    <div className="category">
-                        <input type="radio" id="제품_input" name="type" value="SET"
-                            checked={input.type === 'SET'}
-                            onChange={onChange} />
-                        <label htmlFor="제품_input">제품</label>
-                        <input type="radio" id="결합물_input" name="type" value="ASSY"
-                            checked={input.type === 'ASSY'}
-                            onChange={onChange} />
-                        <label htmlFor="결합물_input">결합</label>
-                        <input type="radio" id="부품물_input" name="type" value="PARTS"
-                            checked={input.type === 'PARTS'}
-                            onChange={onChange} />
-                        <label htmlFor="부품물_input">부품</label>
+                    e.preventDefault();
+                    addItem({
+                        type: input.type,
+                        groupType: input.groupType,
+                        groupName: input.groupName,
+                        category: input.category,
+                        partsName: input.partsName,
+                        descript: input.descript,
+                        unit: input.unit,
+                        im_price: input.im_price,
+                        ex_price: input.ex_price,
+                        use: input.use,
+                        supplyer: input.supplyer,
+                        imageList
+                    })
+                }}>
 
+
+                    <div className="selection">
+                        <div className='main_category'>
+                            <input type="radio" id="제품_input" name="type" value="SET"
+                                checked={input.type === 'SET'}
+                                onChange={onChange} />
+                            <label htmlFor="제품_input">제품</label>
+                            <input type="radio" id="결합물_input" name="type" value="ASSY"
+                                checked={input.type === 'ASSY'}
+                                onChange={onChange} />
+                            <label htmlFor="결합물_input">결합</label>
+                            <input type="radio" id="부품물_input" name="type" value="PARTS"
+                                checked={input.type === 'PARTS'}
+                                onChange={onChange} />
+                            <label htmlFor="부품물_input">부품</label>
+                        </div>
+
+                <div className='optional_category'>
 
                         {input.type === 'SET' && <div className={`sub ${input.type}`}>
                             <input type="radio" id="EDT_input" name="category" value="EDT"
@@ -98,6 +102,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <label htmlFor="RDT_input">RDT</label>
                             <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
                             <label htmlFor="기타물_input">기타</label>
+
+
                             <select name="groupType" onChange={onChange}  >
                                 <option value="">제품군을 선택 하세요</option>
                                 <option value="1125">1125</option>
@@ -116,39 +122,39 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <option value="B/L">B/L</option>
                                 <option value="D/L">D/L</option>
                             </select>
-                            <input type="text" name="groupName" value={input.groupName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
-                            {/* selection */}
+
                             <div>
+                                <input type="text" name="groupName" value={input.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />
+                                <input type="text" name="groupName" value={input.groupName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
                                 <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>
 
+
                             <div className="currency">
-                                <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
-                                <label htmlFor="￦_input">￦</label>
-                                <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
-                                <label htmlFor="$_input">$</label>
-                                {/* <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} /> */}
-                                {/* <label htmlFor="￥_input">￥</label> */}
-                                <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                <div>
-
+                                <div className='im_price'>
+                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                                    <label htmlFor="￦_input">￦</label>
+                                    <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
+                                    <label htmlFor="$_input">$</label>
+                                    <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                                {/* <div className="ex_price">
+                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                                    <label htmlFor="￦_input">￦</label>
+                                    <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
+                                    <label htmlFor="$_input">$</label>
                                     <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                </div>
+                                </div> */}
                             </div>
-
-
-                            <div>
-                                <div className="uses">
-                                    {/* <input type="text" name="supplyer" value={input.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} /> */}
-                                    <select name="supplyer" id="supplyer" onChange={onChange}>
-                                        <option value="자체">자체</option>
-                                        <option value="유성엔지니어링">유성엔지니어링</option>
-                                    </select>
-                                    <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={input.use === true} />
-                                    <label htmlFor="use">사용</label>
-                                    <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
-                                    <label htmlFor="no-use">미사용</label>
-                                </div>
+                            <div className="uses">
+                                <select name="supplyer" id="supplyer" onChange={onChange}>
+                                    <option value="자체">자체</option>
+                                    <option value="유성엔지니어링">유성엔지니어링</option>
+                                </select>
+                                <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={input.use === true} />
+                                <label htmlFor="use">사용</label>
+                                <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
+                                <label htmlFor="no-use">미사용</label>
                             </div>
                         </div>}
                         {input.type === 'ASSY' && <div className={`sub ${input.type}`}>
@@ -214,34 +220,34 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
                     {/* <div>
 
-                        <div className="uses">
+<div className="uses">
                             <input type="text" name="supplyer" value={input.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} />
                             <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={input.use === true} />
                             <label htmlFor="use">사용</label>
                             <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
                             <label htmlFor="no-use">미사용</label>
+                            </div>
+                        </div> */}
                         </div>
-                    </div> */}
-
-
                     <div className='file'>
                         <label htmlFor="file_input">그림 선택</label>
                         <input type="file" id="file_input" name="images" onChange={insertImage} multiple accept='image/*' />
                     </div>
-                </div>
-                <div className="imageList">
-                    {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url} /></div>)}
-                </div>
-                <div className="input-submit">
 
-                    <label htmlFor="excel"><img src="/images/excel_btn.png" alt=''  ></img></label>
-                    <input type="file" id='excel' onChange={excel_onChange} ref={excelFile}></input>
-                    {file ? <button type='button' onClick={excel_onSubmit}>엑셀등록</button> : <button type='submit'>등록</button>}
+                    <div className="imageList">
+                        {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url} /></div>)}
+                    </div>
+                    <div className="input-submit">
 
-                    <button className='close' onClick={formClose}>닫기</button>
-                </div>
-            </form >
-        </div >
+                        <label htmlFor="excel"><img src="/images/excel_btn.png" alt=''  ></img></label>
+                        <input type="file" id='excel' onChange={excel_onChange} ref={excelFile}></input>
+                        {file ? <button type='button' onClick={excel_onSubmit}>엑셀등록</button> : <button type='submit'>등록</button>}
+
+                        <button className='close' onClick={formClose}>닫기</button>
+                    </div>
+                </form >
+            </div >
+        </div>
     );
 };
 

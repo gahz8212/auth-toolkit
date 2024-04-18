@@ -9,7 +9,8 @@ const CardContainer = () => {
     const { items, status, itemImageList } = useSelector(itemData);
     const selectItem = (id: number | '') => {
         const item = items.filter(item => item.id === id);
-        dispatch(editActions.selectItem(item[0]));
+        console.log(item[0])
+        // dispatch(editActions.selectItem(item[0]));
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
     }
     useEffect(() => {
@@ -18,7 +19,7 @@ const CardContainer = () => {
     }, [dispatch])
     return (
         <div>
-            <CardComponent selectItem={selectItem} items={items} itemImageList={itemImageList}/>
+            <CardComponent selectItem={selectItem} items={items} itemImageList={itemImageList} />
         </div>
     );
 };

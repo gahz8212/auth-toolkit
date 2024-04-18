@@ -14,7 +14,7 @@ type State = {
     ex_price: number;
     use: boolean;
     supplyer: string;
-    Images: { url: string }[];
+    // Images: { url: string }[];
   }[];
   input: {
     [key: string]: string | number | boolean;
@@ -32,7 +32,7 @@ type State = {
   };
   backup: any[];
   imageList: { url: string }[];
-  itemImageList: { ItemId:number,url: string }[];
+  itemImageList: { ItemId: number; GoodName: string; url: string }[];
   status: { error: string; message: string; loading: boolean };
 };
 const initialState: State = {
@@ -80,7 +80,7 @@ export const itemData = createSelector(
   itemSelector,
   statusSelector,
   dummySelector,
-  (input, imageList,itemImageList, items, status, backup) => ({
+  (input, imageList, itemImageList, items, status, backup) => ({
     input,
     imageList,
     itemImageList,
