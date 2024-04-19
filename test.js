@@ -50,13 +50,94 @@
 // console.log(result);
 // let results=null;
 // console.log(results|{a:'aaa'})
-const results = [
-  { id: 35, url: "aaa" },
-  { id: 35, url: "ccc" },
-  { id: 36, url: "" },
-  { id: 35, url: "bbb" },
+// const results = [
+//   { id: 35, url: "aaa" },
+//   { id: 35, url: "ccc" },
+//   { id: 36, url: "" },
+//   { id: 35, url: "bbb" },
+// ];
+// const url = results
+//   .filter((result) => result.id === 35)
+//   .map((result) => result.url);
+// console.log(url);
+const objarr = [
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" },
+  { category: "aaa" },
+  { category: "ccc" },
+  { category: "aaa" },
+  { category: "bbb" }
 ];
-const url = results
-  .filter((result) => result.id === 35)
-  .map((result) => result.url);
-console.log(url);
+const arr = [];
+objarr.forEach((obj) => {
+  if (!arr.includes(obj.category)) {
+    arr.push(obj.category);
+  }
+});
+console.log(arr);

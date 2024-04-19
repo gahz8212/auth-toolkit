@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { itemActions, itemData } from '../../../store/slices/itemSlice';
 import { imageInsert } from '../../../lib/utils/createFormData'
@@ -9,22 +9,50 @@ import * as XLSX from 'xlsx';
 
 const InputFormContainer = () => {
     const dispatch = useDispatch()
+    const [goodType, setGoodType] = useState<{ category: string, type: string }[]>([])
     const excelFile = useRef<HTMLInputElement>(null)
 
-    const { input, imageList } = useSelector(itemData)
+    const { input, imageList, items } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
     const onChange = (e: any) => {
         let { name, value } = e.target;
-        // console.log(value)
         if (name === 'use') {
             value = value === '1' ? true : false
         }
         dispatch(itemActions.changeField({ name, value }))
-        // console.log(name)
         if (name === 'type') {
             dispatch(itemActions.changeInitial({ name, value }))
         }
+
     }
+    const insertGroupType = () => {
+        // dispatch(itemActions.changeField({ name:'groupType', value:input.new_groupType }))
+
+    }
+    items.forEach(item => {
+        goodType?.forEach(good => {
+            console.log('nextType')
+            if (!good.category.includes(item.groupType) && item.groupName !== null) {
+                // const nextType = ({ category: item.category, type: item.groupType });
+            }
+        })
+
+
+    })
+    // items.forEach(item => {
+    //     goodType?.forEach(type => {
+    //         if (!type.category.includes(item.groupType) && item.groupName !== null) {
+    //             const nextType = ({ category: item.category, type: item.groupType })
+    //             console.log(nextType)
+    //             // setGoodType([nextType, ...goodType])
+
+    //         }
+    //     })
+    // })
+
+    // if (!goodType?.includes(item.groupType) && item.groupName !== null) {
+    // }
+
 
     const insertImage = async (e: any) => {
         const formData = imageInsert(e, imageList)
@@ -33,8 +61,8 @@ const InputFormContainer = () => {
     const addItem = (
         item: {
             type: string,
-            groupType:string,
-            groupName:string,
+            groupType: string,
+            groupName: string,
             category: string,
             partsName: string,
             descript: string,
@@ -103,6 +131,7 @@ const InputFormContainer = () => {
             excel_onSubmit={excel_onSubmit}
             file={file}
             excelFile={excelFile}
+            insertGroupType={insertGroupType}
 
 
         />

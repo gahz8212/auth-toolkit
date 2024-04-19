@@ -47,7 +47,7 @@ router.post("/item", async (req, res) => {
     //assy나 item이 들어오면 item에 입력
     //image는 image의 goodId에 입력
     if (type === "SET") {
-      console.log(`${type}${groupType}${groupName}${category}가 들어옴`);
+      // console.log(`${type}${groupType}${groupName}${category}가 들어옴`);
       return;
     } else {
       item = await Item.create({
@@ -93,12 +93,12 @@ router.get("/items", async (req, res) => {
     const [items] = await sequelize.query(
       `
       select item.id,item.category,item.partsName ,item.im_price,item.unit,item.ex_price,
-      null groupName
+      null groupName,null groupType
       from item 
       where item.use=true
       union
       select goodlist.id,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
-      ,goodlist.groupName
+      ,goodlist.groupName,goodlist.groupType
       from goodlist inner join good on goodlist.groupName=good.groupName
       where goodlist.use=true
       order by id asc;
