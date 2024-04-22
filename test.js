@@ -132,12 +132,33 @@ const objarr = [
   { category: "aaa" },
   { category: "ccc" },
   { category: "aaa" },
-  { category: "bbb" }
+  { category: "bbb" },
 ];
+// const arr = [];
+// objarr.forEach((obj) => {
+//   if (!arr.includes(obj.category)) {
+//     arr.push(obj.category);
+//   }
+// });
+// console.log(arr);
+let state;
 const arr = [];
-objarr.forEach((obj) => {
-  if (!arr.includes(obj.category)) {
-    arr.push(obj.category);
+const obj1 = [
+  { category: "edt", type: "spt" },
+  { category: "edt", type: "spt" },
+  { category: "edt", type: "spt" },
+  { category: "edt", type: "dog" },
+];
+
+const result = obj1.map((obj) => {
+  let newArr = arr.map((arr) => JSON.stringify(arr));
+
+  // console.log(newArr);
+  // console.log(JSON.stringify(obj));
+  if (!newArr.includes(JSON.stringify(obj))) {
+    return obj;
+  } else {
+    return;
   }
 });
-console.log(arr);
+console.log(result);
