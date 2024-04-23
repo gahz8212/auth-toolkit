@@ -63,19 +63,22 @@
     .sub {
       margin-top: 0.4rem;
       &.SET {
-        label {
-          width: 30px;
-        }
-        label:nth-of-type(2) {
-          width: 70px;
-        }
-        label:nth-of-type(4) {
-          width: 80px;
+        .categories {
+          label {
+            width: 30px;
+          }
+
+          label:nth-of-type(2) {
+            width: 70px;
+          }
+          label:nth-of-type(4) {
+            width: 80px;
+          }
         }
         select {
           margin: 0 auto;
           width: 150px;
-          margin: 0.4rem 1rem 0rem;
+          // margin: 0.4rem 1rem 0rem;
         }
       }
     }
@@ -86,16 +89,35 @@
   border-radius: 8px;
   width: 300px;
 
-  select {
+  .currency {
+    // .im_price,
+    .ex_price {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      input[type="radio"] {
+        width: 20px;
+      }
+    }
   }
-  .currency,
-  .uses,
-  input[type="text"],
-  input[type="number"],
-  textarea {
+  .uses {
     display: flex;
     justify-content: center;
     align-items: center;
+    select#supplyer {
+      width: 170px;
+    }
+    input[type="radio"] {
+      width: 20px;
+      margin: 0 5px;
+    }
+    label {
+      width: 40px;
+      // background: yellow;
+    }
+    label:nth-of-type(2) {
+      width: 70px;
+    }
   }
   input[type="text"],
   input[type="number"],

@@ -7,7 +7,7 @@ type State = {
     groupType: string;
     groupName: string;
     category: string;
-    partsName: string;
+    itemName: string;
     descript: string;
     unit: string;
     im_price: number;
@@ -22,7 +22,7 @@ type State = {
     groupType: string;
     groupName: string;
     category: string;
-    partsName: string;
+    itemName: string;
     descript: string;
     unit: string;
     im_price: number;
@@ -42,13 +42,13 @@ const initialState: State = {
     groupType: "",
     groupName: "",
     category: "회로",
-    partsName: "",
+    itemName: "",
     descript: "",
     unit: "\\\\",
     im_price: 0,
     ex_price: 0,
     use: true,
-    supplyer: "",
+    supplyer: "자체",
   },
   backup: [],
   imageList: [],
@@ -147,7 +147,7 @@ const itemSlice = createSlice({
         groupType: string;
         groupName: string;
         category: string;
-        partsName: string;
+        itemName: string;
         descript: string;
         unit: string;
         im_price: number;

@@ -7,7 +7,7 @@ type State = {
     groupType: string;
     groupName: string;
     category: string;
-    partsName: string;
+    itemName: string;
     descript: string;
     unit: string;
     im_price: number;
@@ -24,7 +24,7 @@ type State = {
     groupType: string;
     groupName: string;
     category: string;
-    partsName: string;
+    itemName: string;
     descript: string;
     unit: string;
     im_price: number;
@@ -50,7 +50,7 @@ const initialState: State = {
     groupType: '',
     groupName: '',
     category: "",
-    partsName: "",
+    itemName: "",
     descript: "",
     unit: "\\",
     im_price: 0,
@@ -67,7 +67,7 @@ const initialState: State = {
     groupType: '',
     groupName: '',
     category: "",
-    partsName: "",
+    itemName: "",
     descript: "",
     unit: "\\",
     im_price: 0,

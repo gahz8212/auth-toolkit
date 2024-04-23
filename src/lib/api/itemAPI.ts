@@ -7,7 +7,7 @@ export const addItem = (item: {
   groupType: string;
   groupName: string;
   category: string;
-  partsName: string;
+  itemName: string;
   descript: string;
   unit: string;
   im_price: number;

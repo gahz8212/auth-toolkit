@@ -10,7 +10,7 @@ type Props = {
         groupType: string,
         groupName: string,
         category: string,
-        partsName: string,
+        itemName: string,
         descript: string,
         unit: string,
         im_price: number;
@@ -26,7 +26,7 @@ type Props = {
         groupType: string,
         groupName: string,
         category: string,
-        partsName: string,
+        itemName: string,
         descript: string,
         unit: string,
         im_price: number;
@@ -39,6 +39,7 @@ type Props = {
     excel_onChange: (e: any) => void;
     excel_onSubmit: () => void;
     insertGroupType: () => void;
+    goodType: { category: string, type: string }[]
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
 
@@ -46,7 +47,8 @@ type Props = {
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile,insertGroupType }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType }) => {
+
     return (
         <div className={`form-type ${input.type}`}>
             <div className={`form-category ${input.category}`}>
@@ -59,7 +61,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         groupType: input.groupType,
                         groupName: input.groupName,
                         category: input.category,
-                        partsName: input.partsName,
+                        itemName: input.itemName,
                         descript: input.descript,
                         unit: input.unit,
                         im_price: input.im_price,
@@ -90,66 +92,57 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
                         {input.type === 'SET' && <div className={`sub ${input.type}`}>
 
-                            <input type="radio" id="EDT_input" name="category" value="EDT"
-                                checked={input.category === 'EDT'}
-                                onChange={onChange}
-                            />
-                            <label htmlFor="EDT_input">EDT</label>
-                            <input type="radio" id="NOBARK_input" name="category" value="NOBARK" checked={input.category === "NOBARK"} onChange={onChange} />
-                            <label htmlFor="NOBARK_input">NOBARK</label>
-                            <input type="radio" id="RDT_input" name="category" value="RDT" checked={input.category === "RDT"} onChange={onChange} />
-                            <label htmlFor="RDT_input">RDT</label>
-                            <br />
-                            <input type="radio" id="LAUNCHER_input" name="category" value="LAUNCHER" checked={input.category === "LAUNCHER"} onChange={onChange} />
-                            <label htmlFor="LAUNCHER_input">LAUNCHER</label>
-                            <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
-                            <label htmlFor="기타물_input">기타</label>
-                            <br />
+                            <div className="categories">
+                                <input type="radio" id="EDT_input" name="category" value="EDT"
+                                    checked={input.category === 'EDT'}
+                                    onChange={onChange}
+                                />
+                                <label htmlFor="EDT_input">EDT</label>
+                                <input type="radio" id="NOBARK_input" name="category" value="NOBARK" checked={input.category === "NOBARK"} onChange={onChange} />
+                                <label htmlFor="NOBARK_input">NOBARK</label>
+                                <input type="radio" id="RDT_input" name="category" value="RDT" checked={input.category === "RDT"} onChange={onChange} />
+                                <label htmlFor="RDT_input">RDT</label>
+                                <br />
+                                <input type="radio" id="LAUNCHER_input" name="category" value="LAUNCHER" checked={input.category === "LAUNCHER"} onChange={onChange} />
+                                <label htmlFor="LAUNCHER_input">LAUNCHER</label>
+                                <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
+                                <label htmlFor="기타물_input">기타</label>
+                                <br />
+                            </div>
 
 
                             <select name="groupType" onChange={onChange}  >
-                                <option value="">제품군을 선택 하세요</option>
-                                <option value="1125">1125</option>
-                                <option value="190">190</option>
-                                <option value="BARKBOSS">BARKBOSS</option>
-                                <option value="BTB">BTB</option>
-                                <option value="360">360</option>
-                                <option value="DOG">DOG</option>
-                                <option value="H2O">H2O</option>
-                                <option value="IDT">IDT</option>
-                                <option value="SPT">SPT</option>
-                                <option value="RAPT">RAPT</option>
-                                <option value="MR">MR</option>
-                                <option value="RH PRO">RH PRO</option>
-                                <option value="TC1">TC1</option>
-                                <option value="B/L">B/L</option>
-                                <option value="D/L">D/L</option>
+                                <option value="">제품군 선택</option>
+                                {goodType.filter(type => type.category === input.category).map(type => (
+                                    <option value={type.type} key={type.type} selected={input.groupType === type.type}>{type.type}</option>
+                                ))}
                                 <option value="New">새로운 제품군</option>
                             </select>
+                       
                             {input.groupType === 'New' && (<div><input type="text" name="new_groupType" id="" placeholder='새로운 제품군 입력'
                                 onChange={onChange} /><button onClick={() => { insertGroupType() }}>+</button></div>)}
                             <div>
                                 <input type="text" name="groupName" value={input.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />
-                                <input type="text" name="groupName" value={input.groupName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
+                                <input type="text" name="itemName" value={input.itemName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
                                 <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>
 
 
                             <div className="currency">
-                                <div className='im_price'>
+                                {/* <div className='im_price'>
                                     <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
                                     <label htmlFor="￦_input">￦</label>
                                     <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
                                     <label htmlFor="$_input">$</label>
                                     <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                </div>
-                                {/* <div className="ex_price">
+                                </div> */}
+                                <div className="ex_price">
                                     <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
                                     <label htmlFor="￦_input">￦</label>
                                     <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
                                     <label htmlFor="$_input">$</label>
                                     <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                </div> */}
+                                </div>
                             </div>
                             <div className="uses">
                                 <select name="supplyer" id="supplyer" onChange={onChange}>
@@ -169,7 +162,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <label htmlFor="외주물_input">외주 결합</label>
 
 
-                            <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
+                            <input type="text" name="partsName" value={input.itemName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
                             <div>
                                 <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>

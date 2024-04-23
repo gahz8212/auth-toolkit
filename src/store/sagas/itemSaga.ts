@@ -18,7 +18,7 @@ function* addItemSaga(action: {
     groupType: string;
     groupName: string;
     category: string;
-    partsName: string;
+    itemName: string;
     descript: string;
     unit: string;
     im_price: number;
@@ -35,7 +35,7 @@ function* addItemSaga(action: {
         groupType: string;
         groupName: string;
         category: string;
-        partsName: string;
+        itemName: string;
         descript: string;
         unit: string;
         im_price: number;
@@ -58,7 +58,7 @@ function* getItemSaga() {
         groupType: string;
         groupName: string;
         category: string;
-        partsName: string;
+        itemName: string;
         descript: string;
         unit: string;
         im_price: number;

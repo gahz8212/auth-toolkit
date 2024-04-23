@@ -3,7 +3,7 @@ type Props = {
     items: {
         id: number,
         category: string,
-        partsName: string,
+        itemName: string,
         groupName: string,
         descript: string,
         unit: string,
@@ -73,7 +73,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList }) =>
                 >
                     <div className={`info text ${item.category}`}>
                         <div>{item.category}</div>
-                        <div>{item.partsName}</div>
+                        <div>{item.itemName}</div>
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.ex_price}</div>
                     </div>

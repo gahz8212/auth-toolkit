@@ -4,7 +4,7 @@ type Props = {
         [key: string]: string | number | boolean | { url: string }[],
         id: number,
         category: string,
-        partsName: string,
+        itemName: string,
         descript: string,
         unit: string,
         im_price: number;
@@ -18,7 +18,7 @@ type Props = {
         [key: string]: string | number | boolean | { url: string }[],
         id: number,
         category: string,
-        partsName: string,
+        itemName: string,
         descript: string,
         unit: string,
         im_price: number;
@@ -85,7 +85,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             <label htmlFor="기타물_edit">기타</label>
                         </div>
                     </div>
-                    <input type="text" name="partsName" value={next.partsName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
+                    <input type="text" name="partsName" value={next.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
                     <div>
 
                         <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>

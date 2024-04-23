@@ -10,22 +10,26 @@ import * as XLSX from 'xlsx';
 const InputFormContainer = () => {
     const dispatch = useDispatch()
     const excelFile = useRef<HTMLInputElement>(null)
+    const [goodType, setGoodType] = useState<{ category: string, type: string }[]>([])
 
     const { input, imageList, items } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
+
+    
     const onChange = (e: any) => {
         let { name, value } = e.target;
         if (name === 'use') {
             value = value === '1' ? true : false
         }
-        dispatch(itemActions.changeField({ name, value }))
         if (name === 'type') {
             dispatch(itemActions.changeInitial({ name, value }))
         }
+        dispatch(itemActions.changeField({ name, value }))
 
     }
     const insertGroupType = () => {
-        // dispatch(itemActions.changeField({ name:'groupType', value:input.new_groupType }))
+        setGoodType([{ category: input.category.toString(), type: input.new_groupType.toString() }, ...goodType])
+        dispatch(itemActions.changeField({ name: 'groupType', value: input.new_groupType }))
 
     }
 
@@ -40,7 +44,7 @@ const InputFormContainer = () => {
             groupType: string,
             groupName: string,
             category: string,
-            partsName: string,
+            itemName: string,
             descript: string,
             unit: string,
             im_price: number;
@@ -94,22 +98,17 @@ const InputFormContainer = () => {
 
         }
     }
-    const [goodType, setGoodType] = useState<{ category: string, type: string }[]>([])
-    let arr: any = []
-    useEffect(() => {
-        const results = items.filter(item => item.groupType !== null).map(item =>
-            ({ category: item.category, type: item.groupType }))
-        // console.log(results)
-        results.forEach(result => {
-            let json_type = goodType.map(type => JSON.stringify(type))
-            console.log(json_type)
-            if (!json_type.includes(JSON.stringify(result))) {
-                arr.push(result)
-            }
+
+    const results = items.filter((item: any) => item.groupType !== null).map((item: any) =>
+        ({ category: item.category, type: item.groupType }))
+    results.forEach((result) => {
+        const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
+        if (!json_arr.includes(JSON.stringify(result))) {
+            setGoodType([result, ...goodType])
         }
-        )
-        console.log(arr)
-    }, [items, goodType, arr])
+    })
+
+
     return (
         <InputFormComponent
             onChange={onChange}
@@ -123,6 +122,8 @@ const InputFormContainer = () => {
             file={file}
             excelFile={excelFile}
             insertGroupType={insertGroupType}
+            goodType={goodType}
+
         />
 
 

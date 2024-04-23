@@ -71,7 +71,7 @@ router.post("/item", async (req, res) => {
         attributes: [
           "id",
           "category",
-          "partsName",
+          "itemName",
           "descript",
           "unit",
           im_price,
@@ -92,7 +92,7 @@ router.get("/items", async (req, res) => {
   try {
     const [items] = await sequelize.query(
       `
-      select item.id,item.category,item.partsName ,item.im_price,item.unit,item.ex_price,
+      select item.id,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
       null groupName,null groupType
       from item 
       where item.use=true
