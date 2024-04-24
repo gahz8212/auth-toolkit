@@ -15,10 +15,10 @@ const InputFormContainer = () => {
     const { input, imageList, items } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
-    
+
     const onChange = (e: any) => {
         let { name, value } = e.target;
-        if (name === 'use') {
+        if (name === 'use' || name === 'set') {
             value = value === '1' ? true : false
         }
         if (name === 'type') {

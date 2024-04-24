@@ -31,7 +31,7 @@ router.post("/item", async (req, res) => {
     groupType,
     groupName,
     category,
-    partsName,
+    itemName,
     descript,
     unit,
     im_price,
@@ -52,7 +52,7 @@ router.post("/item", async (req, res) => {
     } else {
       item = await Item.create({
         category,
-        partsName,
+        itemName,
         descript,
         unit,
         im_price,

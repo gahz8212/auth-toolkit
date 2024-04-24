@@ -14,6 +14,11 @@ type State = {
     ex_price: number;
     use: boolean;
     supplyer: string;
+    weight: number;
+    cbm: number;
+    moq: number;
+    set: boolean;
+
     // Images: { url: string }[];
   }[];
   input: {
@@ -29,6 +34,10 @@ type State = {
     ex_price: number;
     use: boolean;
     supplyer: string;
+    weight: number;
+    cbm: number;
+    moq: number;
+    set: boolean;
   };
   backup: any[];
   imageList: { url: string }[];
@@ -44,11 +53,15 @@ const initialState: State = {
     category: "회로",
     itemName: "",
     descript: "",
-    unit: "\\\\",
+    unit: "$",
     im_price: 0,
     ex_price: 0,
     use: true,
     supplyer: "자체",
+    weight: 0,
+    cbm: 0,
+    moq: 0,
+    set: true,
   },
   backup: [],
   imageList: [],

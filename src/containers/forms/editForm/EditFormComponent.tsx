@@ -85,7 +85,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             <label htmlFor="기타물_edit">기타</label>
                         </div>
                     </div>
-                    <input type="text" name="partsName" value={next.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
+                    <input type="text" name="itemName" value={next.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
                     <div>
 
                         <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>

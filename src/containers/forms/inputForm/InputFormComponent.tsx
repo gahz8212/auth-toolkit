@@ -118,7 +118,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 ))}
                                 <option value="New">새로운 제품군</option>
                             </select>
-                       
+
                             {input.groupType === 'New' && (<div><input type="text" name="new_groupType" id="" placeholder='새로운 제품군 입력'
                                 onChange={onChange} /><button onClick={() => { insertGroupType() }}>+</button></div>)}
                             <div>
@@ -137,13 +137,35 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
                                 </div> */}
                                 <div className="ex_price">
-                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
-                                    <label htmlFor="￦_input">￦</label>
-                                    <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
+
+                                    <label htmlFor="ex_price">price</label>
                                     <label htmlFor="$_input">$</label>
-                                    <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    <input type="text" name="ex_price" id="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                                <div className="sets">
+                                    <div className="input">
+                                        <label htmlFor="set">set</label>
+                                        <input type="radio" name="set" id="set" value="1" onChange={onChange} />
+                                        <label htmlFor="ea">ea</label>
+                                        <input type="radio" name="set" id="ea" value="0" onChange={onChange} />
+                                    </div>
                                 </div>
                             </div>
+                            <div className="packingInfo">
+
+                                <label htmlFor="weight">weight</label>
+                                <input type="text" name="weight" id="weight" onChange={onChange} />
+
+
+                                <label htmlFor="cbm">cbm</label>
+                                <input type="text" name="cbm" id="cbm" onChange={onChange} />
+
+
+                                <label htmlFor="moq">moq</label>
+                                <input type="text" name="moq" id="moq" onChange={onChange} />
+
+                            </div>
+
                             <div className="uses">
                                 <select name="supplyer" id="supplyer" onChange={onChange}>
                                     <option value="자체">자체</option>
@@ -162,7 +184,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <label htmlFor="외주물_input">외주 결합</label>
 
 
-                            <input type="text" name="partsName" value={input.itemName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
+                            <input type="text" name="itemName" value={input.itemName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
                             <div>
                                 <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>
@@ -197,7 +219,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         </div>}
 
 
-                        {/* <input type="text" name="partsName" value={input.partsName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} /> */}
+                        {/* <input type="text" name="partsName" value={input.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} /> */}
                         {/* <div>
                         <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                     </div> */}

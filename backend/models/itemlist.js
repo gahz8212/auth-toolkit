@@ -3,7 +3,7 @@ module.exports = class ItemList extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        partsName: { type: Sequelize.STRING(50), allowNull: null },
+        itemName: { type: Sequelize.STRING(50), allowNull: null },
         point: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
       },
       {

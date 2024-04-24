@@ -90,16 +90,60 @@
   width: 300px;
 
   .currency {
-    // .im_price,
+    display: flex;
+    justify-content: space-around;
     .ex_price {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      input[type="radio"] {
-        width: 20px;
+      label {
+        width: 10px;
+        &:nth-of-type(1) {
+          width: 40px;
+        }
+      }
+      input[type="text"] {
+        width: 40px;
+      }
+    }
+    .sets {
+      border: 1px solid black;
+      border-radius: 10px;
+      width: 100px;
+
+      .input {
+        width: 90px;
+
+        margin: 0 auto;
+        line-height: 2;
+        label {
+          width: 20px;
+          &:nth-of-type(1) {
+            width: 20px;
+            margin-left: 2px;
+          }
+          &:nth-of-type(2) {
+            margin-left: 8px;
+          }
+        }
+        input[type="radio"] {
+          // width: 20px;
+          margin: 0;
+        }
       }
     }
   }
+
+  .packingInfo {
+    display: flex;
+    align-items: center;
+    label {
+      &:nth-of-type(1) {
+        width: 45px;
+      }
+    }
+    input[type="text"] {
+      width: 40px;
+    }
+  }
+
   .uses {
     display: flex;
     justify-content: center;

@@ -7,7 +7,7 @@ module.exports = class ItemBackup extends Sequelize.Model {
           type: Sequelize.ENUM,
           values: ["결합", "회로", "기구", "전장", "기타"],
         },
-        partsName: { type: Sequelize.STRING(50), allowNull: null },
+        itemName: { type: Sequelize.STRING(50), allowNull: null },
         descript: { type: Sequelize.STRING(200), allowNull: true },
         unit: {
           type: Sequelize.ENUM,

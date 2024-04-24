@@ -14,6 +14,10 @@ type State = {
     ex_price: number;
     use: boolean;
     supplyer: string;
+    weight: number;
+    cbm: number;
+    moq: number;
+    set: boolean;
 
     Images: { url: string }[];
   };
@@ -32,6 +36,10 @@ type State = {
 
     use: boolean;
     supplyer: string;
+    weight: number;
+    cbm: number;
+    moq: number;
+    set: boolean;
 
     Images: { url: string }[];
   };
@@ -47,8 +55,8 @@ const initialState: State = {
   prev: {
     id: -1,
     type: "",
-    groupType: '',
-    groupName: '',
+    groupType: "",
+    groupName: "",
     category: "",
     itemName: "",
     descript: "",
@@ -58,14 +66,18 @@ const initialState: State = {
 
     use: false,
     supplyer: "",
+    weight: 0,
+    cbm: 0,
+    moq: 0,
+    set: true,
 
     Images: [],
   },
   next: {
     id: -1,
     type: "",
-    groupType: '',
-    groupName: '',
+    groupType: "",
+    groupName: "",
     category: "",
     itemName: "",
     descript: "",
@@ -75,7 +87,10 @@ const initialState: State = {
 
     use: false,
     supplyer: "",
-
+    weight: 0,
+    cbm: 0,
+    moq: 0,
+    set: true,
     Images: [],
   },
 
