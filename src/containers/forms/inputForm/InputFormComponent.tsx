@@ -17,6 +17,10 @@ type Props = {
         ex_price: number;
         use: boolean,
         supplyer: string,
+        set: boolean,
+        weight: number,
+        cbm: number,
+        moq: number
 
     };
     insertImage: (e: any) => void;
@@ -33,6 +37,10 @@ type Props = {
         ex_price: number;
         use: boolean,
         supplyer: string,
+        set: boolean,
+        weight: number,
+        cbm: number,
+        moq: number,
         imageList: { url: string }[]
     }) => void;
     formClose: () => void;
@@ -68,6 +76,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         ex_price: input.ex_price,
                         use: input.use,
                         supplyer: input.supplyer,
+                        set: input.set,
+                        weight: input.weight,
+                        cbm: input.cbm,
+                        moq: input.moq,
                         imageList
                     })
                 }}>
@@ -114,7 +126,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <select name="groupType" onChange={onChange}  >
                                 <option value="">제품군 선택</option>
                                 {goodType.filter(type => type.category === input.category).map(type => (
-                                    <option value={type.type} key={type.type} selected={input.groupType === type.type}>{type.type}</option>
+                                    <option value={type.type} key={type.type} defaultChecked={input.groupType === type.type}>{type.type}</option>
                                 ))}
                                 <option value="New">새로운 제품군</option>
                             </select>
@@ -129,13 +141,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
 
                             <div className="currency">
-                                {/* <div className='im_price'>
-                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
-                                    <label htmlFor="￦_input">￦</label>
-                                    <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
-                                    <label htmlFor="$_input">$</label>
-                                    <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                </div> */}
+                        
                                 <div className="ex_price">
 
                                     <label htmlFor="ex_price">price</label>
@@ -145,7 +151,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <div className="sets">
                                     <div className="input">
                                         <label htmlFor="set">set</label>
-                                        <input type="radio" name="set" id="set" value="1" onChange={onChange} />
+                                        <input type="radio" name="set" id="set" value="1" onChange={onChange} defaultChecked={input.set} />
                                         <label htmlFor="ea">ea</label>
                                         <input type="radio" name="set" id="ea" value="0" onChange={onChange} />
                                     </div>
@@ -184,22 +190,23 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             <label htmlFor="외주물_input">외주 결합</label>
 
 
-                            <input type="text" name="itemName" value={input.itemName} onChange={onChange} placeholder='D.T. 이름 입력' onFocus={e => e.target.select()} />
+                            <input type="text" name="itemName" value={input.itemName} onChange={onChange} placeholder='결합물 이름 입력' onFocus={e => e.target.select()} />
                             <div>
-                                <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
+                                <textarea name="descript" value={input.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>
 
                             <div className="currency">
-                                <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                               
+                                <label htmlFor="￦_input">입고가격</label>
                                 <label htmlFor="￦_input">￦</label>
-                                <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
-                                <label htmlFor="$_input">$</label>
-                                {/* <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} /> */}
-                                {/* <label htmlFor="￥_input">￥</label> */}
                                 <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                <div>
-                                    <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                                </div>
+
+
+                              
+                                <label htmlFor="$_input">출고가격</label>
+                                <label htmlFor="$_input">$</label>
+                                <input type="text" name="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+
                             </div>
 
 
@@ -253,7 +260,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         <input type="file" id="file_input" name="images" onChange={insertImage} multiple accept='image/*' />
                     </div>
 
-                    <div className="imageList">
+                    <div className={`imageList imageList?"open":""`}>
                         {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url} /></div>)}
                     </div>
                     <div className="input-submit">

@@ -108,7 +108,7 @@ const itemSlice = createSlice({
   initialState,
   reducers: {
     initForm: (state) => {
-      state.items = initialState.items;
+      // state.items = initialState.items;
       state.input = initialState.input;
       state.imageList = initialState.imageList;
     },

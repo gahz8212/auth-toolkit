@@ -62,17 +62,19 @@
     }
     .sub {
       margin-top: 0.4rem;
+
       &.SET {
         .categories {
+          margin-bottom: 0.5rem;
           label {
             width: 30px;
-          }
 
-          label:nth-of-type(2) {
-            width: 70px;
-          }
-          label:nth-of-type(4) {
-            width: 80px;
+            &:nth-of-type(2) {
+              width: 70px;
+            }
+            &:nth-of-type(4) {
+              width: 80px;
+            }
           }
         }
         select {
@@ -252,12 +254,13 @@
     }
   }
   .imageList {
-    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    // background: yellow;
-
+    transition: 1s;
+    &.open {
+      height: 50px;
+    }
     .image {
       // margin: 0.1rem;
       transition: 0.5s;

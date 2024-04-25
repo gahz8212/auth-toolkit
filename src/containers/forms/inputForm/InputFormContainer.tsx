@@ -107,7 +107,9 @@ const InputFormContainer = () => {
             setGoodType([result, ...goodType])
         }
     })
-
+    useEffect(() => {
+        dispatch(itemActions.initForm())
+    }, [dispatch])
 
     return (
         <InputFormComponent
