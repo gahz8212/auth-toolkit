@@ -11,6 +11,7 @@ const InputFormContainer = () => {
     const dispatch = useDispatch()
     const excelFile = useRef<HTMLInputElement>(null)
     const [goodType, setGoodType] = useState<{ category: string, type: string }[]>([])
+    const [supplyer, setSupplyer] = useState<string[]>([])
 
     const { input, imageList, items } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
@@ -22,14 +23,24 @@ const InputFormContainer = () => {
             value = value === '1' ? true : false
         }
         if (name === 'type') {
+            dispatch(itemActions.initForm())
             dispatch(itemActions.changeInitial({ name, value }))
         }
         dispatch(itemActions.changeField({ name, value }))
 
     }
     const insertGroupType = () => {
+        // if (input.new_groupType.toString()) {
         setGoodType([{ category: input.category.toString(), type: input.new_groupType.toString() }, ...goodType])
         dispatch(itemActions.changeField({ name: 'groupType', value: input.new_groupType }))
+        // }
+    }
+    const insertSupplyer = () => {
+        if (input.new_supplyer.toString()) {
+            setSupplyer([input.new_supplyer.toString(), ...supplyer])
+            dispatch(itemActions.changeField({ name: 'supplyer', value: input.new_supplyer }))
+
+        }
 
     }
 
@@ -107,6 +118,13 @@ const InputFormContainer = () => {
             setGoodType([result, ...goodType])
         }
     })
+    const supplyers = items.filter((item: any) => item.supplyer !== null).map((item: any) =>
+        item.supplyer)
+    supplyers.forEach(result => {
+        if (result !== "" && !supplyer.includes(result)) {
+            setSupplyer([result, ...supplyer])
+        }
+    })
     useEffect(() => {
         dispatch(itemActions.initForm())
     }, [dispatch])
@@ -124,7 +142,9 @@ const InputFormContainer = () => {
             file={file}
             excelFile={excelFile}
             insertGroupType={insertGroupType}
+            insertSupplyer={insertSupplyer}
             goodType={goodType}
+            supplyers={supplyer}
 
         />
 

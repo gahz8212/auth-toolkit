@@ -203,7 +203,7 @@
               border: 5px dashed darkturquoise;
               border-radius: 8px;
               background: white;
-              margin: 0 auto;
+              margin-left: 0.5rem;
               margin-bottom: 1rem;
             }
             .currency {
@@ -231,19 +231,54 @@
           }
           &.PARTS {
             .categories {
+              margin-bottom: 0.5rem;
             }
             .input_text {
+              margin: 1rem auto;
+              margin-left: 20px;
             }
             .currency {
+              width: 90%;
+              margin: 0 auto;
               label {
                 &:nth-of-type(1) {
-                  background-color: yellow;
+                  margin-right: 10px;
+                }
+                &:nth-last-of-type(1) {
                   margin-right: 10px;
                 }
               }
               input[type="text"] {
                 width: 40px;
               }
+              .uses_price_combine {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .ex_price {
+                  width: 55%;
+                }
+                .uses {
+                  width: 45%;
+                  label {
+                    vertical-align: middle;
+                    margin: 0;
+                    // background-color: yellow;
+                  }
+                  input[type="radio"] {
+                    vertical-align: middle;
+                    margin: 0;
+                  }
+                }
+              }
+            }
+            .supplyer {
+              label {
+                margin-right: 0.5rem;
+              }
+              text-align: right;
+              margin-top: 1rem;
+              margin-right: 0.5rem;
             }
           }
         }

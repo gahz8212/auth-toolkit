@@ -21,7 +21,6 @@ type Props = {
         weight: number,
         cbm: number,
         moq: number
-
     };
     insertImage: (e: any) => void;
     imageList: { url: string }[];
@@ -47,7 +46,10 @@ type Props = {
     excel_onChange: (e: any) => void;
     excel_onSubmit: () => void;
     insertGroupType: () => void;
-    goodType: { category: string, type: string }[]
+    insertSupplyer: () => void;
+    goodType: { category: string, type: string }[];
+    supplyers: string[];
+
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
 
@@ -55,7 +57,7 @@ type Props = {
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -126,7 +128,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <select name="groupType" onChange={onChange}  >
                                     <option value="">제품군 선택</option>
                                     {goodType.filter(type => type.category === input.category).map(type => (
-                                        <option value={type.type} key={type.type} defaultChecked={input.groupType === type.type}>{type.type}</option>
+                                        <option value={type.type} key={type.type} selected={input.groupType === type.type}>{type.type}</option>
                                     ))}
                                     <option value="New">새로운 제품군</option>
                                 </select>
@@ -236,46 +238,60 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <label htmlFor="기타물_input">기타</label>
                             </div>
 
-                        <div className="input_text">
-
-                            <input type="text" name="partsName" value={input.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
-                            <div>
-                                <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
+                            <div className="input_text">
+                                <input type="text" name="itemName" value={input.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
+                                <div>
+                                    <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        {/* <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
-                        <div className="currency">
+                            {/* <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
+                            <div className="currency">
 
-                            <div className="im_price">
-                                <label htmlFor="im_price">입고 가격</label>
-                                <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
-                                <label htmlFor="￦_input">￦</label>
-                                <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
-                                <label htmlFor="$_input">$</label>
-                                <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} />
-                                <label htmlFor="￥_input">￥</label>
-                                <input type="text" name="im_price" id="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} defaultValue={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-                            </div>
+                                <div className="im_price">
+                                    <label htmlFor="im_price">입고 가격</label>
+                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                                    <label htmlFor="￦_input">￦</label>
+                                    <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
+                                    <label htmlFor="$_input">$</label>
+                                    <input type="radio" id="￥_input" value="￥" name="unit" checked={input.unit === "￥"} onChange={onChange} />
+                                    <label htmlFor="￥_input">￥</label>
+                                    <input type="text" name="im_price" id="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                                <div className='uses_price_combine'>
 
-                            <div className="ex_price">
-                                <label htmlFor="ex_price">출고 가격</label>
-                                <label htmlFor="$_input">$</label>
-                                <input type="text" name="ex_price" id="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} defaultValue={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    <div className="ex_price">
+                                        <label htmlFor="ex_price">출고 가격</label>
+                                        <label htmlFor="$_input">$</label>
+                                        <input type="text" name="ex_price" id="ex_price" value={input.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    </div>
+
+                                    <div className="uses">
+                                        <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={input.use === true} />
+                                        <label htmlFor="use">사용</label>
+                                        <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
+                                        <label htmlFor="no-use">미사용</label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            {<div className="supplyer">
+                                <label htmlFor="supplyer">공급자</label>
+                                <select name="supplyer" id="supplyer" onChange={onChange}>
+                                    <option value="">공급자 선택</option>
+                                    {supplyers &&
+                                        supplyers.map(supplyer => (
+                                            <option key={supplyer} value={supplyer} selected={supplyer === input.supplyer}>{supplyer}</option>))}
+                                    <option value="New">신규 업체</option>
+                                </select>
+
+                                {input.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
+                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)}
+                            </div>}
                         </div>}
                         {/* //Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") */}
 
-                        {/* <div>
 
-<div className="uses">
-                            <input type="text" name="supplyer" value={input.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} />
-                            <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={input.use === true} />
-                            <label htmlFor="use">사용</label>
-                            <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={input.use === false} />
-                            <label htmlFor="no-use">미사용</label>
-                            </div>
-                        </div> */}
+
+
                     </div>
                     <div className='file'>
                         <label htmlFor="file_input">그림 선택</label>

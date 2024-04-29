@@ -93,12 +93,12 @@ router.get("/items", async (req, res) => {
     const [items] = await sequelize.query(
       `
       select item.id,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
-      null groupName,null groupType
+      null groupName,null groupType,supplyer
       from item 
       where item.use=true
       union
       select goodlist.id,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
-      ,goodlist.groupName,goodlist.groupType
+      ,goodlist.groupName,goodlist.groupType,null supplyer
       from goodlist inner join good on goodlist.groupName=good.groupName
       where goodlist.use=true
       order by id asc;
