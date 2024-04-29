@@ -141,24 +141,26 @@ const objarr = [
 //   }
 // });
 // console.log(arr);
-let state;
-const arr = [];
-const obj1 = [
-  { category: "edt", type: "spt" },
-  { category: "edt", type: "spt" },
-  { category: "edt", type: "spt" },
-  { category: "edt", type: "dog" },
-];
 
-const result = obj1.map((obj) => {
-  let newArr = arr.map((arr) => JSON.stringify(arr));
+// function setState(state) {
+//   return state;
+// }
+// let arr = [];
+// const obj1 = [
+//   { category: "edt", type: "spt" },
+//   { category: "edt", type: "spt" },
+//   { category: "edt", type: "spt" },
+//   { category: "edt", type: "dog" },
+// ];
 
-  // console.log(newArr);
-  // console.log(JSON.stringify(obj));
-  if (!newArr.includes(JSON.stringify(obj))) {
-    return obj;
-  } else {
-    return;
-  }
-});
-console.log(result);
+// obj1.forEach((obj) => {
+//   let newArr = arr.map((arr) => JSON.stringify(arr));
+//   if (!newArr.includes(JSON.stringify(obj))) {
+//     return arr.push(obj);
+//   } else {
+//     return null;
+//   }
+// });
+// console.log(setState(arr));
+const arr=["c","a","d"];
+console.log(arr.sort((a,b)=>b-a))

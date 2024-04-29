@@ -125,10 +125,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
 
                             <div className="input_text">
-                                <select name="groupType" onChange={onChange}  >
+                                <select value={input.groupType} name="groupType" onChange={onChange}  >
                                     <option value="">제품군 선택</option>
                                     {goodType.filter(type => type.category === input.category).map(type => (
-                                        <option value={type.type} key={type.type} selected={input.groupType === type.type}>{type.type}</option>
+                                        <option value={type.type} key={type.type} >{type.type}</option>
                                     ))}
                                     <option value="New">새로운 제품군</option>
                                 </select>
@@ -275,7 +275,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             </div>
                             {<div className="supplyer">
                                 <label htmlFor="supplyer">공급자</label>
-                                <select name="supplyer" id="supplyer" onChange={onChange}>
+                                <select value={input.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
                                     <option value="">공급자 선택</option>
                                     {supplyers &&
                                         supplyers.map(supplyer => (

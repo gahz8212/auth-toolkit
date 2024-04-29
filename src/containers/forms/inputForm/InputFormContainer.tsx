@@ -30,14 +30,14 @@ const InputFormContainer = () => {
 
     }
     const insertGroupType = () => {
-        // if (input.new_groupType.toString()) {
-        setGoodType([{ category: input.category.toString(), type: input.new_groupType.toString() }, ...goodType])
-        dispatch(itemActions.changeField({ name: 'groupType', value: input.new_groupType }))
-        // }
+        if (input.new_groupType.toString()) {
+            setGoodType([{ category: input.category.toString(), type: input.new_groupType.toString() }, ...goodType])
+            dispatch(itemActions.changeField({ name: 'groupType', value: input.new_groupType }))
+        }
     }
     const insertSupplyer = () => {
         if (input.new_supplyer.toString()) {
-            setSupplyer([input.new_supplyer.toString(), ...supplyer])
+            setSupplyer([input.new_supplyer.toString(), ...supplyer].sort())
             dispatch(itemActions.changeField({ name: 'supplyer', value: input.new_supplyer }))
 
         }
@@ -115,14 +115,14 @@ const InputFormContainer = () => {
     results.forEach((result) => {
         const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
         if (!json_arr.includes(JSON.stringify(result))) {
-            setGoodType([result, ...goodType])
+            setGoodType([result, ...goodType].sort())
         }
     })
     const supplyers = items.filter((item: any) => item.supplyer !== null).map((item: any) =>
         item.supplyer)
     supplyers.forEach(result => {
         if (result !== "" && !supplyer.includes(result)) {
-            setSupplyer([result, ...supplyer])
+            setSupplyer([result, ...supplyer].sort())
         }
     })
     useEffect(() => {
