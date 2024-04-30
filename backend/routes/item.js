@@ -29,35 +29,96 @@ router.post("/item", async (req, res) => {
   const {
     type,
     groupType,
-    groupName,
-    category,
-    itemName,
     descript,
+    category,
     unit,
     im_price,
     ex_price,
+    weight,
+    cbm,
+    moq,
+    sets,
     use,
     supplyer,
+    groupName,
+    itemName,
     imageList,
   } = req.body;
 
   try {
     let item;
+    let good;
     //set가 들어오면 goodlist에
     //assy나 item이 들어오면 item에 입력
     //image는 image의 goodId에 입력
     if (type === "SET") {
-      // console.log(`${type}${groupType}${groupName}${category}가 들어옴`);
+      console.log(
+        'type:',type,
+        'groupType:',groupType,
+        'descript:',descript,
+        'category:',category,
+        'unit:',unit,
+        'im_price:',im_price,
+        'ex_price:',ex_price,
+        'weight:',weight,
+        'cbm:',cbm,
+        'moq:',moq,
+        'set:',sets,
+        'use:',use,
+        'supplyer:',supplyer,
+        'groupName:',groupName,
+        'itemName:',itemName,
+      )
+      good = await Good.create({
+        groupName,
+        itemName,
+      });
+      item = await GoodList.create({
+        type,
+        groupType,
+        descript,
+        category,
+        unit,
+        im_price,
+        ex_price,
+        weight,
+        cbm,
+        moq,
+        sets,
+        use,
+        supplyer,
+        groupName,
+        itemName,
+      });
       return;
-    } else {
+    } else if (type === "ASSY") {
       item = await Item.create({
         category,
+        type,
         itemName,
         descript,
         unit,
         im_price,
         ex_price,
         use,
+        weight,
+        cbm,
+        moq,
+        supplyer,
+      });
+    } else {
+      item = await Item.create({
+        category,
+        type,
+        itemName,
+        descript,
+        unit,
+        im_price,
+        ex_price,
+        use,
+        weight,
+        cbm,
+        moq,
         supplyer,
       });
       const image_promise = await Promise.all(
@@ -74,12 +135,12 @@ router.post("/item", async (req, res) => {
           "itemName",
           "descript",
           "unit",
-          im_price,
-          ex_price,
+          "im_price",
+          "ex_price",
           "use",
           "supplyer",
         ],
-        include: { model: Image, attributes: ["url"] },
+        // include: { model: Image, attributes: ["url"] },
       });
 
       return res.status(200).json(newItem);
@@ -92,16 +153,17 @@ router.get("/items", async (req, res) => {
   try {
     const [items] = await sequelize.query(
       `
-      select item.id,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
-      null groupName,null groupType,supplyer
-      from item 
-      where item.use=true
-      union
       select goodlist.id,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
-      ,goodlist.groupName,goodlist.groupType,null supplyer
+      ,goodlist.groupName,goodlist.groupType,null supplyer,goodlist.weight,goodlist.cbm,goodlist.moq,goodlist.sets,goodlist.use
       from goodlist inner join good on goodlist.groupName=good.groupName
       where goodlist.use=true
-      order by id asc;
+      union
+      select item.id,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
+      null groupName,null groupType,supplyer,null weight,null cbm,null moq,null sets,item.use
+      from item 
+      where item.use=true
+      order by id desc;
+    
       `
     );
     const [images] = await sequelize.query(`

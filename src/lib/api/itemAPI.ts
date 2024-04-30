@@ -14,10 +14,14 @@ export const addItem = (item: {
   ex_price: number;
   use: boolean;
   supplyer: string;
+  weight: number;
+  cbm: number;
+  moq: number;
+  set: boolean;
   imageList: { url: string }[];
 }) => {
   item.unit = item.unit.slice(0, 1);
-  // console.log(item);
+  // 원 단위인 ////을 //로 바꿔주기 위해서
 
   return client.post("item/item", item);
 };

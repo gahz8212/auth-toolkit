@@ -18,17 +18,11 @@
   }
   .input-form {
     .form-category {
-      &.자체 {
-        background-color: cornflowerblue;
-      }
-      &.외주 {
-        background-color: yellow;
-      }
       &.회로 {
         background-color: cornflowerblue;
       }
       &.전장 {
-        background-color: yellow;
+        background-color:lightpink
       }
       &.기구 {
         background-color: khaki;
@@ -40,7 +34,7 @@
         background-color: cornflowerblue;
       }
       &.NOBARK {
-        background-color: yellow;
+        background-color: lightgoldenrodyellow;
       }
       &.LAUNCHER {
         background-color: khaki;
@@ -272,14 +266,14 @@
                 }
               }
             }
-            .supplyer {
-              label {
-                margin-right: 0.5rem;
-              }
-              text-align: right;
-              margin-top: 1rem;
+          }
+          .supplyer {
+            label {
               margin-right: 0.5rem;
             }
+            text-align: right;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
           }
         }
       }

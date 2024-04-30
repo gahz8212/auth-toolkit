@@ -50,14 +50,14 @@ const initialState: State = {
     type: "PARTS",
     groupType: "",
     groupName: "",
-    category: "회로",
+    category: "",
     itemName: "",
     descript: "",
     unit: "$",
     im_price: 0,
     ex_price: 0,
     use: true,
-    supplyer: "자체",
+    supplyer: "",
     weight: 0,
     cbm: 0,
     moq: 0,
@@ -119,8 +119,9 @@ const itemSlice = createSlice({
       // console.log(value);
       if (value === "SET") {
         state.input.category = "EDT";
+        state.input.supplyer = "자체";
       } else if (value === "ASSY") {
-        state.input.category = "자체";
+        state.input.category = "회로";
       } else {
         state.input.category = "회로";
       }
@@ -167,6 +168,10 @@ const itemSlice = createSlice({
         ex_price: number;
         use: boolean;
         supplyer: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        set: boolean;
         imageList: { url: string }[];
       }>
     ) => {

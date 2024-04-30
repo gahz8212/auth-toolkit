@@ -25,6 +25,10 @@ function* addItemSaga(action: {
     ex_price: number;
     use: boolean;
     supplyer: string;
+    weight: number;
+    cbm: number;
+    moq: number;
+    set: boolean;
     imageList: { url: string }[];
   };
 }) {
@@ -42,6 +46,10 @@ function* addItemSaga(action: {
         ex_price: number;
         use: boolean;
         supplyer: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        set: boolean;
         imageList: { url: string }[];
       };
     } = yield call(itemAPI.addItem, action.payload);

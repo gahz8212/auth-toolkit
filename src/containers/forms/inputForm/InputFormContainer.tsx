@@ -10,7 +10,11 @@ import * as XLSX from 'xlsx';
 const InputFormContainer = () => {
     const dispatch = useDispatch()
     const excelFile = useRef<HTMLInputElement>(null)
-    const [goodType, setGoodType] = useState<{ category: string, type: string }[]>([])
+    const [goodType, setGoodType] = useState<{
+        category: string, type: string,
+
+
+    }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
 
     const { input, imageList, items } = useSelector(itemData)
@@ -62,6 +66,10 @@ const InputFormContainer = () => {
             ex_price: number;
             use: boolean,
             supplyer: string,
+            weight: number;
+            cbm: number;
+            moq: number;
+            set: boolean;
             imageList: { url: string }[]
         }
     ) => {
@@ -110,8 +118,11 @@ const InputFormContainer = () => {
         }
     }
 
-    const results = items.filter((item: any) => item.groupType !== null).map((item: any) =>
-        ({ category: item.category, type: item.groupType }))
+    const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
+
+
+        return ({ category: item.category, type: item.groupType })
+    })
     results.forEach((result) => {
         const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
         if (!json_arr.includes(JSON.stringify(result))) {
@@ -125,6 +136,7 @@ const InputFormContainer = () => {
             setSupplyer([result, ...supplyer].sort())
         }
     })
+
     useEffect(() => {
         dispatch(itemActions.initForm())
     }, [dispatch])

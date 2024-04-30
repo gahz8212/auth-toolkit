@@ -77,10 +77,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     ex_price: input.ex_price,
                     use: input.use,
                     supplyer: input.supplyer,
-                    set: input.set,
                     weight: input.weight,
                     cbm: input.cbm,
                     moq: input.moq,
+                    set: input.set,
                     imageList
                 })
             }}>
@@ -187,10 +187,17 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                         </div>}
                         {input.type === 'ASSY' && <div className={`sub ${input.type}`}>
                             <div className="categories">
-                                <input type="radio" id="자체물_input" name="category" value="자체" checked={input.category === '자체'} onChange={onChange} />
-                                <label htmlFor="자체물_input">자체 결합</label>
-                                <input type="radio" id="외주물_input" name="category" value="외주" checked={input.category === "외주"} onChange={onChange} />
-                                <label htmlFor="외주물_input">외주 결합</label>
+                                <input type="radio" id="회로물_input" name="category" value="회로" checked={input.category === '회로'} onChange={onChange}
+                                />
+                                <label htmlFor="회로물_input">회로</label>
+                                <input type="radio" id="전장물_input" name="category" value="전장" checked={input.category === "전장"} onChange={onChange} />
+                                <label htmlFor="전장물_input">전장</label>
+                                <input type="radio" id="기구물_input" name="category" value="기구" checked={input.category === "기구"} onChange={onChange} />
+                                <label htmlFor="기구물_input">기구</label>
+                                <input type="radio" id="포장물_input" name="category" value="포장" checked={input.category === "포장"} onChange={onChange} />
+                                <label htmlFor="포장물_input">포장</label>
+                                <input type="radio" id="기타물_input" name="category" value="기타" checked={input.category === "기타"} onChange={onChange} />
+                                <label htmlFor="기타물_input">기타</label>
                             </div>
 
                             <div className="input_text">
@@ -220,6 +227,19 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 </div>
 
                             </div>
+                            {<div className="supplyer">
+                                <label htmlFor="supplyer">공급자</label>
+                                <select value={input.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
+                                    <option value="">공급자 선택</option>
+                                    {supplyers &&
+                                        supplyers.map(supplyer => (
+                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))}
+                                    <option value="New">신규 업체</option>
+                                </select>
+
+                                {input.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
+                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)}
+                            </div>}
 
 
                         </div>}
@@ -279,7 +299,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     <option value="">공급자 선택</option>
                                     {supplyers &&
                                         supplyers.map(supplyer => (
-                                            <option key={supplyer} value={supplyer} selected={supplyer === input.supplyer}>{supplyer}</option>))}
+                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))}
                                     <option value="New">신규 업체</option>
                                 </select>
 
@@ -287,7 +307,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)}
                             </div>}
                         </div>}
-                        {/* //Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") */}
+
 
 
 
