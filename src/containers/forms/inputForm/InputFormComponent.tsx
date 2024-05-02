@@ -307,12 +307,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)}
                             </div>}
                         </div>}
-
-
-
-
-
                     </div>
+                    
                     <div className='file'>
                         <label htmlFor="file_input">그림 선택</label>
                         <input type="file" id="file_input" name="images" onChange={insertImage} multiple accept='image/*' />

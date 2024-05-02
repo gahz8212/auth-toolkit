@@ -10,7 +10,7 @@ const CardContainer = () => {
     const selectItem = (id: number | '') => {
         const item = items.filter(item => item.id === id);
         console.log(item[0])
-        // dispatch(editActions.selectItem(item[0]));
+        dispatch(editActions.selectItem(item[0]));
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
     }
     useEffect(() => {

@@ -3,30 +3,42 @@ type Props = {
     prev: {
         [key: string]: string | number | boolean | { url: string }[],
         id: number,
+        type: string,
+        groupType: string,
+        groupName: string,
         category: string,
         itemName: string,
         descript: string,
         unit: string,
         im_price: number;
         ex_price: number;
-
         use: boolean,
         supplyer: string,
-        Images: { url: string }[]
+        set: boolean,
+        weight: number,
+        cbm: number,
+        moq: number
+        // Images: { url: string }[]
     };
     next: {
         [key: string]: string | number | boolean | { url: string }[],
         id: number,
+        type: string,
+        groupType: string,
+        groupName: string,
         category: string,
         itemName: string,
         descript: string,
         unit: string,
         im_price: number;
         ex_price: number;
-
         use: boolean,
         supplyer: string,
-        Images: { url: string }[]
+        set: boolean,
+        weight: number,
+        cbm: number,
+        moq: number
+        // Images: { url: string }[]
 
 
     };
@@ -39,93 +51,271 @@ type Props = {
     removeItem: (id: number) => void;
     removeImage: (id: number, url: string) => void;
     closeForm: () => void;
+    goodType: { category: string, type: string }[];
+    supplyers: string[];
 }
-const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm }) => {
+const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers }) => {
 
     return (
-        <div className={`form-container ${next.category}`}>
+        <div className={`form-type ${prev.type}`}>
 
-            <form className={`edit-form`}
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    // console.log(next)
-                    const changedProps: {
-                        [key: string]: '' | number | string | boolean | { url: string }[],
+            <form className='edit-form' onSubmit={(e) => {
+                e.preventDefault();
+                // console.log(next)
+                const changedProps: {
+                    [key: string]: '' | number | string | boolean | { url: string }[],
 
-                    } = {};
-                    const keys = Object.keys(next);
-                    for (let key of keys) {
-                        if (prev[key] !== next[key]) {
-                            changedProps[key] = next[key]
-                        }
+                } = {};
+                const keys = Object.keys(next);
+                for (let key of keys) {
+                    if (prev[key] !== next[key]) {
+                        changedProps[key] = next[key]
                     }
-                    const newItem = ({ id: next.id, ...changedProps })
-                    // console.log(newItem)
-                    editItem(newItem)
                 }
-                }
+                const newItem = ({ id: next.id, ...changedProps })
+                // console.log(newItem)
+                editItem(newItem)
+            }
+            }
             >
-                <div className="edits">
+                <div className={`form-category ${prev.category}`}>
                     {/* <div className='form-title edit'>아이템 수정</div> */}
-                    <div className="category">
-                        <input type="radio" id="제품_edit" name="category" value="제품" checked={next.category === '제품'} onChange={onChange} />
-                        <label htmlFor="제품_edit">제품</label>
-                        <input type="radio" id="결합물_edit" name="category" value="결합" checked={next.category === '결합'} onChange={onChange} />
-                        <label htmlFor="결합물_edit">결합</label>
-                        <div className='sub'>
-                            <input type="radio" id="회로물_edit" name="category" value="회로" checked={next.category === '회로'} onChange={onChange} />
-                            <label htmlFor="회로물_edit">회로</label>
-                            <input type="radio" id="전장물_edit" name="category" value="전장" checked={next.category === "전장"} onChange={onChange} />
-                            <label htmlFor="전장물_edit">전장</label>
-                            <input type="radio" id="기구물_edit" name="category" value="기구" checked={next.category === "기구"} onChange={onChange} />
-                            <label htmlFor="기구물_edit">기구</label>
-                            <input type="radio" id="포장물_edit" name="category" value="포장" checked={next.category === "포장"} onChange={onChange} />
-                            <label htmlFor="포장물_edit">포장</label>
-                            <input type="radio" id="기타물_edit" name="category" value="기타" checked={next.category === "기타"} onChange={onChange} />
-                            <label htmlFor="기타물_edit">기타</label>
+                    <div className="selection">
+                        <div className='main'>
+                            <input type="radio" id="제품_edit" name="type" value="SET"
+                                checked={prev.type === 'SET'}
+                                onChange={onChange} />
+                            <label htmlFor="제품_edit">제품</label>
+                            <input type="radio" id="결합물_edit" name="type" value="ASSY"
+                                checked={prev.type === 'ASSY'}
+                                onChange={onChange} />
+                            <label htmlFor="결합물_edit">결합</label>
+                            <input type="radio" id="부품물_edit" name="type" value="PARTS"
+                                checked={prev.type === 'PARTS'}
+                                onChange={onChange} />
+                            <label htmlFor="부품물_edit">부품</label>
                         </div>
-                    </div>
-                    <input type="text" name="itemName" value={next.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
-                    <div>
+                        {prev.type === 'SET' && <div className={`sub ${prev.type}`}>
+                            <div className="categories">
+                                <input type="radio" id="EDT_edit" name="category" value="EDT"
+                                    checked={prev.category === 'EDT'}
+                                    onChange={onChange}
+                                />
+                                <label htmlFor="EDT_edit">EDT</label>
+                                <input type="radio" id="NOBARK_edit" name="category" value="NOBARK" checked={prev.category === "NOBARK"} onChange={onChange} />
+                                <label htmlFor="NOBARK_edit">NOBARK</label>
+                                <input type="radio" id="RDT_edit" name="category" value="RDT" checked={prev.category === "RDT"} onChange={onChange} />
+                                <label htmlFor="RDT_edit">RDT</label>
+                                <br />
+                                <input type="radio" id="LAUNCHER_edit" name="category" value="LAUNCHER" checked={prev.category === "LAUNCHER"} onChange={onChange} />
+                                <label htmlFor="LAUNCHER_edit">LAUNCHER</label>
+                                <input type="radio" id="기타물_edit" name="category" value="기타" checked={prev.category === "기타"} onChange={onChange} />
+                                <label htmlFor="기타물_edit">기타</label>
+                                <br />
+                            </div>
 
-                        <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
+
+                            <div className="input_text">
+                                <select value={prev.groupType} name="groupType" onChange={onChange}  >
+                                    <option value="">제품군 선택</option>
+                                    {goodType.filter(type => type.category === prev.category).map(type => (
+                                        <option value={type.type} key={type.type} >{type.type}</option>
+                                    ))}
+                                    <option value="New">새로운 제품군</option>
+                                </select>
+                                {prev.groupType === 'New' && (<div className="insert_type"><input type="text" name="new_groupType" id="" placeholder='새로운 제품군 입력'
+                                    onChange={onChange} /><button onClick={() => { insertGroupType() }}>+</button></div>)}
+
+                                <input type="text" name="groupName" value={prev.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />
+                                <input type="text" name="itemName" value={prev.itemName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
+                                <textarea name="descript" value={prev.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{prev.descript}</textarea>
+                            </div>
+
+
+                            <div className="currency">
+                                <div className="ex_price">
+                                    <label htmlFor="ex_price">Price</label>
+                                    <label htmlFor="$_edit">$</label>
+                                    <input type="text" name="ex_price" id="ex_price" value={prev.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                                <div className="sets">
+                                    <div className="input">
+                                        <label htmlFor="set">SET</label>
+                                        <input type="radio" name="set" id="set" value="1" onChange={onChange} checked={prev.sets === "SET"} />
+                                        <label htmlFor="ea">EA</label>
+                                        <input type="radio" name="set" id="ea" value="0" onChange={onChange} checked={prev.sets === "EA"} />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div className="packingInfo">
+                                <label htmlFor="weight">weight</label>
+                                <input type="text" name="weight" id="weight" onChange={onChange} value={prev.weight} />
+
+
+                                <label htmlFor="cbm">cbm</label>
+                                <input type="text" name="cbm" id="cbm" onChange={onChange} value={prev.cbm} />
+
+
+                                <label htmlFor="moq">moq</label>
+                                <input type="text" name="moq" id="moq" onChange={onChange} value={prev.moq} />
+
+                            </div>
+
+                            <div className="uses">
+
+                                <select name="supplyer" id="supplyer" onChange={onChange}>
+                                    <option value="자체">자체</option>
+                                    <option value="유성엔지니어링">유성엔지니어링</option>
+                                </select>
+                                <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={prev.use === true} />
+                                <label htmlFor="use">사용</label>
+                                <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={prev.use === false} />
+                                <label htmlFor="no-use">미사용</label>
+                            </div>
+
+                        </div>}
+                        {prev.type === 'ASSY' && <div className={`sub ${prev.type}`}>
+                            <div className="categories">
+                                <input type="radio" id="회로물_edit" name="category" value="회로" checked={prev.category === '회로'} onChange={onChange}
+                                />
+                                <label htmlFor="회로물_edit">회로</label>
+                                <input type="radio" id="전장물_edit" name="category" value="전장" checked={prev.category === "전장"} onChange={onChange} />
+                                <label htmlFor="전장물_edit">전장</label>
+                                <input type="radio" id="기구물_edit" name="category" value="기구" checked={prev.category === "기구"} onChange={onChange} />
+                                <label htmlFor="기구물_edit">기구</label>
+                                <input type="radio" id="포장물_edit" name="category" value="포장" checked={prev.category === "포장"} onChange={onChange} />
+                                <label htmlFor="포장물_edit">포장</label>
+                                <input type="radio" id="기타물_edit" name="category" value="기타" checked={prev.category === "기타"} onChange={onChange} />
+                                <label htmlFor="기타물_edit">기타</label>
+                            </div>
+
+                            <div className="input_text">
+
+                                <input type="text" name="itemName" value={prev.itemName} onChange={onChange} placeholder='결합물 이름 입력' onFocus={e => e.target.select()} />
+                                <div>
+                                    <textarea name="descript" value={prev.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{prev.descript}</textarea>
+                                </div>
+                            </div>
+                            <div className="item_basket">
+
+                            </div>
+
+                            <div className="currency">
+                                <div className="im_price">
+
+                                    <label htmlFor="￦_edit">입고가격</label>
+                                    <label htmlFor="￦_edit">￦</label>
+                                    <input type="text" name="im_price" value={prev.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+
+                                </div>
+
+                                <div className="ex_price">
+                                    <label htmlFor="$_edit">출고가격</label>
+                                    <label htmlFor="$_edit">$</label>
+                                    <input type="text" name="ex_price" value={prev.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+
+                            </div>
+                            {<div className="supplyer">
+                                <label htmlFor="supplyer">공급자</label>
+                                <select value={prev.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
+                                    <option value="">공급자 선택</option>
+                                    {/* {supplyers &&
+                                        supplyers.map(supplyer => (
+                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))} */}
+                                    <option value="New">신규 업체</option>
+                                </select>
+
+                                {/* {prev.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
+                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)} */}
+                            </div>}
+
+
+                        </div>}
+                        {prev.type === 'PARTS' && <div className={`sub ${prev.type}`}>
+                            <div className="categories">
+                                <input type="radio" id="회로물_edit" name="category" value="회로" checked={prev.category === '회로'} onChange={onChange}
+                                />
+                                <label htmlFor="회로물_edit">회로</label>
+                                <input type="radio" id="전장물_edit" name="category" value="전장" checked={prev.category === "전장"} onChange={onChange} />
+                                <label htmlFor="전장물_edit">전장</label>
+                                <input type="radio" id="기구물_edit" name="category" value="기구" checked={prev.category === "기구"} onChange={onChange} />
+                                <label htmlFor="기구물_edit">기구</label>
+                                <input type="radio" id="포장물_edit" name="category" value="포장" checked={prev.category === "포장"} onChange={onChange} />
+                                <label htmlFor="포장물_edit">포장</label>
+                                <input type="radio" id="기타물_edit" name="category" value="기타" checked={prev.category === "기타"} onChange={onChange} />
+                                <label htmlFor="기타물_edit">기타</label>
+                            </div>
+
+                            <div className="input_text">
+                                <input type="text" name="itemName" value={prev.itemName} onChange={onChange} placeholder='이름 입력' onFocus={e => e.target.select()} />
+                                <div>
+                                    <textarea name="descript" value={prev.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{prev.descript}</textarea>
+                                </div>
+                            </div>
+                            {/* <input type="number" name="count" value={input.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
+                            <div className="currency">
+
+                                <div className="im_price">
+                                    <label htmlFor="im_price">입고 가격</label>
+                                    <input type="radio" id="￦_edit" value="\\" name="unit" checked={prev.unit === "\\\\"} onChange={onChange} />
+                                    <label htmlFor="￦_edit">￦</label>
+                                    <input type="radio" id="$_edit" value="$" name="unit" checked={prev.unit === "$"} onChange={onChange} />
+                                    <label htmlFor="$_edit">$</label>
+                                    <input type="radio" id="￥_edit" value="￥" name="unit" checked={prev.unit === "￥"} onChange={onChange} />
+                                    <label htmlFor="￥_edit">￥</label>
+                                    <input type="text" name="im_price" id="im_price" value={prev.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                </div>
+                                <div className='uses_price_combine'>
+
+                                    <div className="ex_price">
+                                        <label htmlFor="ex_price">출고 가격</label>
+                                        <label htmlFor="$_edit">$</label>
+                                        <input type="text" name="ex_price" id="ex_price" value={prev.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    </div>
+
+                                    <div className="uses">
+                                        <input id='use' type="radio" name="use" value={1} onChange={onChange} checked={prev.use === true} />
+                                        <label htmlFor="use">사용</label>
+                                        <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={prev.use === false} />
+                                        <label htmlFor="no-use">미사용</label>
+                                    </div>
+                                </div>
+                            </div>
+                            {<div className="supplyer">
+                                <label htmlFor="supplyer">공급자</label>
+                                <select value={prev.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
+                                    <option value="">공급자 선택</option>
+                                    {/* {supplyers &&
+                                        supplyers.map(supplyer => (
+                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))} */}
+                                    <option value="New">신규 업체</option>
+                                </select>
+
+                                {/* {input.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
+                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)} */}
+                            </div>}
+                        </div>}
                     </div>
-                    {/* <input type="number" name="count" value={next.count} onChange={onChange} min={0} placeholder='수량 입력' onFocus={e => e.target.select()} /> */}
-                    <div className="currency">
-                        <input type="radio" id="￦_edit" value="\" name="unit" checked={next.unit === "\\"} onChange={onChange} />
-                        <label htmlFor="￦_edit">￦</label>
-                        <input type="radio" id="$_edit" value="$" name="unit" checked={next.unit === "$"} onChange={onChange} />
-                        <label htmlFor="$_edit">$</label>
-                        <input type="radio" id="￥_edit" value="￥" name="unit" checked={next.unit === "￥"} onChange={onChange} />
-                        <label htmlFor="￥_edit">￥</label>
-                        <input type="number" name="im_price" value={next.im_price} onChange={onChange} min={0} placeholder='입고단가 입력' step={0.1} onFocus={e => e.target.select()} />
-                        <input type="number" name="ex_price" value={next.ex_price} onChange={onChange} min={0} placeholder='출고단가 입력' step={0.1} onFocus={e => e.target.select()} />
-                    </div>
-                    <div>
-                    </div>
-                    <div>
-                        <div className="uses">
-                            <input type="text" name="supplyer" value={next.supplyer} onChange={onChange} placeholder='공급자 입력' onFocus={e => e.target.select()} />
-                            <input id='use_edit' type="radio" name="use" value={1} onChange={onChange} checked={next.use === true} />
-                            <label htmlFor="use_edit">사용</label>
-                            <input id='no-use_edit' type="radio" name="use" value={0} onChange={onChange} checked={next.use === false} />
-                            <label htmlFor="no-use_edit">미사용</label>
-                        </div>
-                    </div>
+
                     <div className='file'>
                         <label htmlFor="file_edit">그림 추가</label>
                         <input type="file" id="file_edit" name="images" onChange={editImage} multiple accept='image/*' />
                     </div>
-                </div>
-                <div className="imageList_edit">
-                    {next.Images.map((image, index) => <div key={index} className='image' onDoubleClick={() => { removeImage(next.id, image.url) }}><img src={image.url} width='90px' alt={image.url} /></div>)}
-                </div>
-                <div className="input-submit_edit">
+                    <div className="imageList_edit">
+                        {/* {next.Images.map((image, index) => <div key={index} className='image' onDoubleClick={() => { removeImage(next.id, image.url) }}><img src={image.url} width='90px' alt={image.url} /></div>)} */}
+                    </div>
 
-                    <button type='submit'>수정</button>
-                    <button type='button' onClick={() => { removeItem(prev.id) }}>삭제</button>
-                    <button type='button' onClick={closeForm}>닫기</button>
+                    <div className="input-submit_edit">
+
+                        <button type='submit'>수정</button>
+                        <button type='button' onClick={() => { removeItem(prev.id) }}>삭제</button>
+                        <button type='button' onClick={closeForm}>닫기</button>
+                    </div>
                 </div>
+
             </form>
         </div>
     );

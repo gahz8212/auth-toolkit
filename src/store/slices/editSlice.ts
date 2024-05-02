@@ -63,14 +63,12 @@ const initialState: State = {
     unit: "\\",
     im_price: 0,
     ex_price: 0,
-
     use: false,
     supplyer: "",
     weight: 0,
     cbm: 0,
     moq: 0,
     set: true,
-
     Images: [],
   },
   next: {

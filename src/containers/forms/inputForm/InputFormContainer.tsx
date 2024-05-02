@@ -12,8 +12,6 @@ const InputFormContainer = () => {
     const excelFile = useRef<HTMLInputElement>(null)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
-
-
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
 
@@ -73,6 +71,11 @@ const InputFormContainer = () => {
             imageList: { url: string }[]
         }
     ) => {
+        const conflict = items.filter(listItem => listItem.type === item.type && listItem.itemName === item.itemName)
+        if (conflict) {
+            alert('이미 등록된 아이템 입니다.')
+            return;
+        }
         dispatch(itemActions.addItem(item))
     }
     const formClose = () => {

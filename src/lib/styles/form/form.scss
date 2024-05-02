@@ -16,13 +16,14 @@
   &.PARTS {
     background-color: orange;
   }
-  .input-form {
+  .input-form,
+  .edit-form {
     .form-category {
       &.회로 {
         background-color: cornflowerblue;
       }
       &.전장 {
-        background-color:lightpink
+        background-color: lightpink;
       }
       &.기구 {
         background-color: khaki;
@@ -300,7 +301,8 @@
       margin: 1rem;
     }
 
-    .input-submit {
+    .input-submit,
+    .input-submit_edit {
       input[type="file"] {
         display: none;
       }

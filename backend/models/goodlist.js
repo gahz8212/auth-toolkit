@@ -3,11 +3,10 @@ module.exports = class GoodList extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        largeCategory: { type: Sequelize.STRING(10) },
-        middleCategory: { type: Sequelize.STRING(10) },
-        category: { type: Sequelize.STRING(30) },
-        // itemName: { type: Sequelize.STRING(50), allowNull: false },
+        type: { type: Sequelize.STRING(10) },
+        groupType: { type: Sequelize.STRING(10) },
         descript: { type: Sequelize.STRING(200), allowNull: true },
+        category: { type: Sequelize.STRING(30) },
         unit: {
           type: Sequelize.STRING(3),
           defaultValue: "\\",

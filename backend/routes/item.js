@@ -52,23 +52,6 @@ router.post("/item", async (req, res) => {
     //assy나 item이 들어오면 item에 입력
     //image는 image의 goodId에 입력
     if (type === "SET") {
-      console.log(
-        'type:',type,
-        'groupType:',groupType,
-        'descript:',descript,
-        'category:',category,
-        'unit:',unit,
-        'im_price:',im_price,
-        'ex_price:',ex_price,
-        'weight:',weight,
-        'cbm:',cbm,
-        'moq:',moq,
-        'set:',sets,
-        'use:',use,
-        'supplyer:',supplyer,
-        'groupName:',groupName,
-        'itemName:',itemName,
-      )
       good = await Good.create({
         groupName,
         itemName,
@@ -84,12 +67,28 @@ router.post("/item", async (req, res) => {
         weight,
         cbm,
         moq,
-        sets,
         use,
         supplyer,
         groupName,
-        itemName,
       });
+      // const newItem = await GoodList.findOne({
+      //   where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
+      //   attributes: [
+      //     "id",
+      //     "category",
+      //     "itemName",
+      //     "im_price",
+      //     "unit",
+      //     "ex_price",
+      //     "groupName",
+      //     "groupType",
+      //     "weight",
+      //     "cbm",
+      //     "moq",
+      //     "sets",
+      //   ],
+      // });
+
       return;
     } else if (type === "ASSY") {
       item = await Item.create({
@@ -153,12 +152,12 @@ router.get("/items", async (req, res) => {
   try {
     const [items] = await sequelize.query(
       `
-      select goodlist.id,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
+      select goodlist.id,goodlist.type,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
       ,goodlist.groupName,goodlist.groupType,null supplyer,goodlist.weight,goodlist.cbm,goodlist.moq,goodlist.sets,goodlist.use
       from goodlist inner join good on goodlist.groupName=good.groupName
       where goodlist.use=true
       union
-      select item.id,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
+      select item.id,item.type,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
       null groupName,null groupType,supplyer,null weight,null cbm,null moq,null sets,item.use
       from item 
       where item.use=true
