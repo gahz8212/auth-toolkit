@@ -19,10 +19,14 @@ const EditFormContainer = () => {
     const onChange = (e: any) => {
         let { name, value } = e.target;
         // console.log(value)
-        if (name === 'use') {
+        if (name === 'use'||name==='set') {
             value = value === '1' ? true : false
         }
-        dispatch(editActions.changeField({ form: 'next', key: name, value }))
+        if (name === 'type') {
+            dispatch(itemActions.initForm())
+            dispatch(itemActions.changeInitial({ name, value }))
+        }
+        dispatch(editActions.changeField({ form: 'next',  name, value }))
     }
     const editImage = async (e: any) => {
         const formData = imageInsert(e, next.Images)
@@ -51,6 +55,12 @@ const EditFormContainer = () => {
 
         return ({ category: item.category, type: item.groupType })
     })
+    const insertGroupType = () => {
+        if (next.new_groupType.toString()) {
+            setGoodType([{ category: next.category.toString(), type: next.new_groupType.toString() }, ...goodType])
+            dispatch(editActions.changeField({ name: 'groupType', value: next.new_groupType }))
+        }
+    }
     results.forEach((result) => {
         const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
         if (!json_arr.includes(JSON.stringify(result))) {
@@ -94,6 +104,7 @@ const EditFormContainer = () => {
             closeForm={closeForm}
             goodType={goodType}
             supplyers={supplyer}
+            insertGroupType={insertGroupType}
         />
     );
 };

@@ -33,7 +33,6 @@ type State = {
     unit: string;
     im_price: number;
     ex_price: number;
-
     use: boolean;
     supplyer: string;
     weight: number;
@@ -82,7 +81,6 @@ const initialState: State = {
     unit: "\\",
     im_price: 0,
     ex_price: 0,
-
     use: false,
     supplyer: "",
     weight: 0,
@@ -125,8 +123,9 @@ const editSlice = createSlice({
       state.next = initialState.next;
       state.status = initialState.status;
     },
-    changeField: (state, { payload: { key, value } }) => {
-      state.next[key] = value;
+    changeField: (state, { payload: { name, value } }) => {
+      console.log(name);
+      state.next[name] = value;
     },
     selectItem: (state, { payload: item }) => {
       state.prev = item;
