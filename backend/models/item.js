@@ -3,9 +3,13 @@ module.exports = class Item extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        type: {
+          type: Sequelize.ENUM,
+          values: ["SET", "ASSY", "PARTS"],
+        },
         category: {
           type: Sequelize.ENUM,
-          values: ["결합", "회로", "기구", "전장", "포장", "기타"],
+          values: ["회로", "기구", "전장", "포장", "기타"],
         },
         itemName: { type: Sequelize.STRING(50), allowNull: null },
         descript: { type: Sequelize.STRING(200), allowNull: true },
@@ -27,7 +31,7 @@ module.exports = class Item extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        paranoid: true,
+        paranoid: false,
         modelName: "Item",
         freezeTableName: true,
         charset: "utf8",
@@ -35,9 +39,9 @@ module.exports = class Item extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {
-    db.Item.hasMany(db.Image);
-    db.Item.hasMany(db.ItemList);
-    db.Item.belongsToMany(db.Item, { through: "relations", as: "upper" });
-  }
+  // static associate(db) {
+  // db.Item.hasMany(db.Image);
+  // db.Item.hasMany(db.ItemList);
+  // db.Item.belongsToMany(db.Item, { through: "relations", as: "upper" });
+  // }
 };

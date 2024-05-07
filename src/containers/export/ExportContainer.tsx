@@ -7,11 +7,14 @@ import { formActions, formSelector } from '../../store/slices/formSlice';
 import ExcelJS from 'exceljs';
 const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
+
     const partsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
+    const itemsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const dispatch = useDispatch()
     const { orderData, months } = useSelector(OrderData)
     const [model, setModel] = useState<string>('model')
     const { invoice, packing, addItem } = useSelector(formSelector)
+
     const onChangeParts = async (e: any) => {
         const selectedFile = e.target.files[0];
         const fileType = [
@@ -65,15 +68,9 @@ const ExportContainer = () => {
                 orderSheet.push(obj)
                 for (let header = 1; header < headers.length; header++) {
                     if (contents[content][header] === 'TOTAL') break;
-
                     obj[headers[header]] = contents[content][header]
-
-
-
-
                 }
             }
-
             const filteredOrder = orderSheet.filter(order => {
                 let result = false;
                 for (let header = 2; header < headers.length; header++) {
@@ -89,7 +86,8 @@ const ExportContainer = () => {
             if (orderInput.current) orderInput.current.value = ''
         }
     }
-    const onChangeGood = async (e: any) => {
+ 
+    const onChangeItem = async (e: any) => {
 
         const selectedFile = e.target.files[0]
         const fileType = [
@@ -108,17 +106,16 @@ const ExportContainer = () => {
             const headers = worksheetData[0];
 
             const contents = worksheetData.slice(1);
-            let GoodList: any[] = [];
+            let ItemList: any[] = [];
             for (let content = 0; content < contents.length; content++) {
                 const obj: { [key: string]: any } = {}
-                GoodList.push(obj)
+                ItemList.push(obj)
                 for (let header = 1; header < headers.length; header++) {
                     obj[headers[header]] = contents[content][header]
                 }
             }
-            // console.log(months)
-            dispatch(OrderAction.inputGood(GoodList))
-            if (partsInput.current) partsInput.current.value = ''
+            dispatch(OrderAction.inputGood(ItemList))
+            if (itemsInput.current) itemsInput.current.value = ''
         }
     }
     const openInvoiceForm = () => {
@@ -157,9 +154,10 @@ const ExportContainer = () => {
             setModel={setModel}
             onChangeParts={onChangeParts}
             onChangeOrder={onChangeOrder}
-            onChangeGood={onChangeGood}
+            onChangeItem={onChangeItem}
             orderInput={orderInput}
             partsInput={partsInput}
+            itemsInput={itemsInput}
             months={months}
             orderData={orderData}
             invoiceForm={invoice}

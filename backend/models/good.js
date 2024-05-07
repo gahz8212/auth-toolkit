@@ -27,6 +27,5 @@ module.exports = class Good extends Sequelize.Model {
   }
   static associate(db) {
     db.Good.hasMany(db.GoodList, { foreignKey: "groupName" });
-    db.Good.hasMany(db.ItemList, { foreignKey: "itemName" });
   }
 };

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { GoodList, Good, Order } = require("../models");
+const { GoodList, Good, Item, Order } = require("../models");
 const { sequelize } = require("../models");
 router.get("/getOrderData", async (req, res) => {
   try {
@@ -132,16 +132,18 @@ router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
     // console.log(good);
-    await sequelize.query(
-      `
-    delete from goodlist;
-    `
-    );
-    await GoodList.bulkCreate(good);
+    console.log(Object.keys(good[0]));
+    // await sequelize.query(
+    //   `
+    // delete from goodlist;
+    // `
+    // );
+    // await GoodList.bulkCreate(good);
     return res.status(200).json("good_input_ok");
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);
   }
 });
+
 module.exports = router;

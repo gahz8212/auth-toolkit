@@ -10,9 +10,12 @@ type Props = {
     setModel: React.Dispatch<React.SetStateAction<string>>
     onChangeParts: (e: any) => void;
     onChangeOrder: (e: any) => void;
-    onChangeGood: (e: any) => void;
+
+    onChangeItem: (e: any) => void;
     orderInput: React.LegacyRef<HTMLInputElement> | undefined;
+
     partsInput: React.LegacyRef<HTMLInputElement> | undefined;
+    itemsInput: React.LegacyRef<HTMLInputElement> | undefined;
     orderData: any[] | null;
     months: string[] | null;
 
@@ -30,12 +33,12 @@ const ExportComponent: React.FC<Props> = ({
     setModel,
     onChangeParts,
     onChangeOrder,
-    onChangeGood,
+    onChangeItem,
     orderInput,
     partsInput,
+    itemsInput,
     orderData,
     months,
-
     invoiceForm,
     packingForm,
     addItemForm,
@@ -43,7 +46,6 @@ const ExportComponent: React.FC<Props> = ({
     openPackingForm,
     openAddItemForm,
     changePosition
-
 }) => {
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
@@ -54,12 +56,8 @@ const ExportComponent: React.FC<Props> = ({
     const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
     const addItemPos = useDrag((params => { changePosition('addItem', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
 
-
     let orderdata;
-
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
-
-
     const onDragStart = (index: number, column: number) => {
         dragItem.current = index;
         dragItemKey = months ? months[column] : '';
@@ -177,18 +175,22 @@ const ExportComponent: React.FC<Props> = ({
                         </div>
                     </div>
                 </div>
-
-
-
                 <div className="summary">
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
+
                         {/* <label htmlFor="parts">부자재 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeParts} ref={partsInput} /> */}
-                        {/* <button onClick={openAddItemForm}>추가 입력</button> */}
-                        <label htmlFor="parts">제품 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeGood} ref={partsInput} />
+                        <input type="file" name="parts" id="parts" onChange={onChangeParts} ref={partsInput} />
+                        <button onClick={openAddItemForm}>추가 입력</button> */}
+
+
+
+
+
+                        <label htmlFor="parts">아이템 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
+                        <input type="file" name="parts" id="parts" onChange={onChangeItem} ref={itemsInput} />
+
                     </div>
                     <div className="selector">
                         {months?.map((month, index) =>
