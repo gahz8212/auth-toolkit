@@ -19,14 +19,16 @@ const EditFormContainer = () => {
     const onChange = (e: any) => {
         let { name, value } = e.target;
         // console.log(value)
-        if (name === 'use'||name==='set') {
+        if (name === 'use' || name === 'set') {
             value = value === '1' ? true : false
         }
         if (name === 'type') {
-            dispatch(itemActions.initForm())
-            dispatch(itemActions.changeInitial({ name, value }))
+
+            // dispatch(itemActions.initForm())
+            // dispatch(itemActions.changeInitial({ name, value }))
         }
-        dispatch(editActions.changeField({ form: 'next',  name, value }))
+
+        dispatch(editActions.changeField({ name, value }))
     }
     const editImage = async (e: any) => {
         const formData = imageInsert(e, next.Images)

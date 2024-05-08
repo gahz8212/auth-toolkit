@@ -18,6 +18,7 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
     if (orderData) {
         const headers = Object.keys(orderData[0]).slice(1, 6)
 
+
         totalResult =
             headers.map(header => {
                 let carton = 0;

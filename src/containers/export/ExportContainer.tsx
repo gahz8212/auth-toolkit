@@ -40,7 +40,7 @@ const ExportContainer = () => {
                     obj[headers[header]] = contents[content][header]
                 }
             }
-            console.log(parts)
+
 
         }
     }
@@ -59,8 +59,10 @@ const ExportContainer = () => {
             worksheet?.eachRow({ includeEmpty: false }, (row) => {
                 worksheetData.push(row.values)
             })
-            const headers = worksheetData[1]
-            const months = headers.slice(2)
+            let headers = worksheetData[1]
+            const months = headers.slice(2).map((month: string) => month.length > 3 ? month.slice(0, 3) : month)
+            headers = ['undefined', 'Item', ...months]
+
             const contents = worksheetData.slice(2)
             let orderSheet = [];
             for (let content = 0; content < contents.length - 1; content++) {
@@ -81,14 +83,13 @@ const ExportContainer = () => {
                 }
                 return result
             })
+
             dispatch(OrderAction.getData(filteredOrder));
             dispatch(OrderAction.inputOrder([filteredOrder, months]))
             if (orderInput.current) orderInput.current.value = ''
         }
     }
- 
     const onChangeItem = async (e: any) => {
-
         const selectedFile = e.target.files[0]
         const fileType = [
             'application/vnd.ms-excel',
@@ -114,12 +115,12 @@ const ExportContainer = () => {
                     obj[headers[header]] = contents[content][header]
                 }
             }
+
             dispatch(OrderAction.inputGood(ItemList))
             if (itemsInput.current) itemsInput.current.value = ''
         }
     }
     const openInvoiceForm = () => {
-
         dispatch(formActions.toggle_form({ form: 'invoice', value: !invoice.visible }))
     }
     const openPackingForm = () => {
@@ -135,7 +136,7 @@ const ExportContainer = () => {
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
- 
+
     useEffect(() => {
         if (!orderData) {
             dispatch(OrderAction.getOrderData())

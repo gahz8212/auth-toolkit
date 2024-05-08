@@ -131,14 +131,23 @@ router.post("/orderinput", async (req, res) => {
 router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
-    // console.log(good);
-    console.log(Object.keys(good[0]));
-    // await sequelize.query(
-    //   `
-    // delete from goodlist;
-    // `
-    // );
-    // await GoodList.bulkCreate(good);
+    if (Object.keys(good[0]).includes("undefined")) {
+      throw new Error("오더리스트를 선택함.");
+    } else if (Object.keys(good[0]).includes("groupName")) {
+      await sequelize.query(
+        `
+      delete from goodlist;
+      `
+      );
+      await GoodList.bulkCreate(good);
+    } else {
+      await sequelize.query(
+        `
+      delete from item;
+      `
+      );
+      await Item.bulkCreate(good);
+    }
     return res.status(200).json("good_input_ok");
   } catch (e) {
     console.error(e);

@@ -38,6 +38,7 @@ function* inputGoodSaga(action: { payload: any[] | null }) {
       orderAPI.goodInput,
       action.payload
     );
+
     yield put(OrderAction.inputGoodSuccess(response.data));
   } catch (e: any) {
     console.error(e);

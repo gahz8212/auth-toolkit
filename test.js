@@ -162,5 +162,7 @@ const objarr = [
 //   }
 // });
 // console.log(setState(arr));
-const arr=["c","a","d"];
-console.log(arr.sort((a,b)=>b-a))
+// const arr=["c","a","d"];
+// console.log(arr.sort((a,b)=>b-a))
+const arr = ["a", "b", "c"];
+console.log(arr.includes( "b", "a", "d"));

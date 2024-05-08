@@ -208,14 +208,14 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
                                     <label htmlFor="￦_edit">입고가격</label>
                                     <label htmlFor="￦_edit">￦</label>
-                                    <input type="text" name="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    {/* <input type="text" name="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} /> */}
 
                                 </div>
 
                                 <div className="ex_price">
                                     <label htmlFor="$_edit">출고가격</label>
                                     <label htmlFor="$_edit">$</label>
-                                    <input type="text" name="ex_price" value={next.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    {/* <input type="text" name="ex_price" value={next.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} /> */}
                                 </div>
 
                             </div>
@@ -267,14 +267,14 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <label htmlFor="$_edit">$</label>
                                     <input type="radio" id="￥_edit" value="￥" name="unit" checked={next.unit === "￥"} onChange={onChange} />
                                     <label htmlFor="￥_edit">￥</label>
-                                    <input type="text" name="im_price" id="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    {/* <input type="text" name="im_price" id="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} /> */}
                                 </div>
                                 <div className='uses_price_combine'>
 
                                     <div className="ex_price">
                                         <label htmlFor="ex_price">출고 가격</label>
                                         <label htmlFor="$_edit">$</label>
-                                        <input type="text" name="ex_price" id="ex_price" value={next.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                        {/* <input type="text" name="ex_price" id="ex_price" value={next.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} /> */}
                                     </div>
 
                                     <div className="uses">

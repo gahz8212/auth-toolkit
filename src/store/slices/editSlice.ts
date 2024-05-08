@@ -18,7 +18,6 @@ type State = {
     cbm: number;
     moq: number;
     set: boolean;
-
     Images: { url: string }[];
   };
   next: {
@@ -39,7 +38,6 @@ type State = {
     cbm: number;
     moq: number;
     set: boolean;
-
     Images: { url: string }[];
   };
 
@@ -124,7 +122,7 @@ const editSlice = createSlice({
       state.status = initialState.status;
     },
     changeField: (state, { payload: { name, value } }) => {
-      console.log(name);
+      console.log(name, value);
       state.next[name] = value;
     },
     selectItem: (state, { payload: item }) => {
