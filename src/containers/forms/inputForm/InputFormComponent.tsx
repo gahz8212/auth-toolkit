@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React from 'react';
 type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>
         | React.ChangeEvent<HTMLSelectElement>
@@ -54,13 +54,13 @@ type Props = {
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
     addCount: (id: number | string | boolean) => void;
-    // removeCount: (id: number | string | boolean) => void
+    removeCount: (id: number | string | boolean) => void
 
 
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, addCount }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, addCount, removeCount }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -223,7 +223,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     >
                                         add_circle
                                     </span>{item.point}<span className="material-symbols-outlined" style={{ fontSize: '20px' }}
-                                    >
+                                        onClick={() => { removeCount(item.id) }}>
                                         do_not_disturb_on
                                     </span>
                                     {/* <button>삭제</button> */}

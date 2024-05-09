@@ -124,17 +124,18 @@ const InputFormContainer = () => {
         dispatch(itemActions.drag_on())
     }
     const addCount = (id: number | string | boolean) => {
-        let item = dragItems.findIndex(item => item.id === id)
-        console.log(item)
+        let idx = dragItems.findIndex(item => item.id === id)
         if (typeof id === 'number') {
-            // console.log(item[0].point)
-            // dispatch(itemActions.addCount(id))
+            dispatch(itemActions.addCount(idx))
         }
     }
-    // const removeCount = (id: number) => {
-    //     // dispatch(itemActions.removeCount(id))
+    const removeCount = (id: number | string | boolean) => {
+        let idx = dragItems.findIndex(item => item.id === id)
+        if (typeof id === 'number') {
+            dispatch(itemActions.removeCount(idx))
+        }
 
-    // }
+    }
     const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
 
 
@@ -177,7 +178,7 @@ const InputFormContainer = () => {
             drag_on={drag_on}
             dragItems={dragItems}
             addCount={addCount}
-        // removeCount={removeCount}
+            removeCount={removeCount}
 
         />
 

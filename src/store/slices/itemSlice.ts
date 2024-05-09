@@ -266,8 +266,13 @@ const itemSlice = createSlice({
         state.dragItem = null;
       }
     },
-    addCount: (state, { payload: id }) => {
-      console.log(id,state.items[id]);
+    addCount: (state, { payload: idx }) => {
+      state.dragItems[idx].point = state.dragItems[idx].point + 1;
+    },
+    removeCount: (state, { payload: idx }) => {
+      if (state.dragItems[idx].point > 0) {
+        state.dragItems[idx].point = state.dragItems[idx].point - 1;
+      }
     },
   },
 });
