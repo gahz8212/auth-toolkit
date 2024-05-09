@@ -15,7 +15,7 @@ const InputFormContainer = () => {
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
 
-    const { input, imageList, items } = useSelector(itemData)
+    const { input, imageList, items, dragItems } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
 
@@ -120,7 +120,21 @@ const InputFormContainer = () => {
 
         }
     }
+    const drag_on = () => {
+        dispatch(itemActions.drag_on())
+    }
+    const addCount = (id: number | string | boolean) => {
+        let item = dragItems.findIndex(item => item.id === id)
+        console.log(item)
+        if (typeof id === 'number') {
+            // console.log(item[0].point)
+            // dispatch(itemActions.addCount(id))
+        }
+    }
+    // const removeCount = (id: number) => {
+    //     // dispatch(itemActions.removeCount(id))
 
+    // }
     const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
 
 
@@ -160,6 +174,10 @@ const InputFormContainer = () => {
             insertSupplyer={insertSupplyer}
             goodType={goodType}
             supplyers={supplyer}
+            drag_on={drag_on}
+            dragItems={dragItems}
+            addCount={addCount}
+        // removeCount={removeCount}
 
         />
 

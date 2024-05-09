@@ -192,14 +192,18 @@
                 height: 30px;
               }
             }
+
             .item_basket {
-              width: 100px;
-              height: 100px;
+              padding: 10px;
+              width: 250px;
+              min-height: 20px;
+              max-height: 150px;
               border: 5px dashed darkturquoise;
               border-radius: 8px;
               background: white;
               margin-left: 0.5rem;
               margin-bottom: 1rem;
+              overflow-y: auto;
             }
             .currency {
               display: flex;

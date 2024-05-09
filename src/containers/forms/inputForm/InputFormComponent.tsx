@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>
         | React.ChangeEvent<HTMLSelectElement>
@@ -47,17 +47,20 @@ type Props = {
     excel_onSubmit: () => void;
     insertGroupType: () => void;
     insertSupplyer: () => void;
+    drag_on: () => void;
     goodType: { category: string, type: string }[];
     supplyers: string[];
-
+    dragItems: { [key: string]: string | number | boolean }[];
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
+    addCount: (id: number | string | boolean) => void;
+    // removeCount: (id: number | string | boolean) => void
 
 
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, addCount }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -207,17 +210,31 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     <textarea name="descript" value={input.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                                 </div>
                             </div>
-                            <div className="item_basket">
 
+
+                            <div className="item_basket"
+                                onMouseOver={drag_on}
+                            >
+
+                                {dragItems && dragItems.map((item) => <div key={item.id.toString()}>
+                                    {item.itemName}
+                                    <span className="material-symbols-outlined" style={{ fontSize: '20px' }}
+                                        onClick={() => { addCount(item.id) }}
+                                    >
+                                        add_circle
+                                    </span>{item.point}<span className="material-symbols-outlined" style={{ fontSize: '20px' }}
+                                    >
+                                        do_not_disturb_on
+                                    </span>
+                                    {/* <button>삭제</button> */}
+                                </div>)}
                             </div>
 
                             <div className="currency">
                                 <div className="im_price">
-
                                     <label htmlFor="￦_input">입고가격</label>
                                     <label htmlFor="￦_input">￦</label>
                                     <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
-
                                 </div>
 
                                 <div className="ex_price">
@@ -308,7 +325,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             </div>}
                         </div>}
                     </div>
-                    
+
                     <div className='file'>
                         <label htmlFor="file_input">그림 선택</label>
                         <input type="file" id="file_input" name="images" onChange={insertImage} multiple accept='image/*' />
@@ -328,7 +345,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     </div>
                 </div >
             </form >
-        </div>
+        </div >
     );
 };
 

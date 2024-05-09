@@ -14,6 +14,7 @@ type Props = {
         // Images: { url: string }[]
     }[];
     selectItem: (id: number) => void;
+    dragItem: (id: number) => void;
     itemImageList: { ItemId: number, url: string, GoodName: string }[];
 }
 type subProps = {
@@ -23,23 +24,24 @@ type subProps = {
 const ImageList: React.FC<subProps> = ({ url }) => {
     return <img src={url} alt={url} width='100px' />
 }
-const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList }) => {
+const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, dragItem }) => {
     const [selected, setSelected] = useState<number | ''>()
     const [image, setImage] = useState<string[]>()
-    const dragItem: any = useRef();
-
-    const dragOverItem: any = useRef();
+    // const dragItem: any = useRef();
+    // const dragOverItem: any = useRef();
     const onDragStart = (index: number) => {
-        dragItem.current = index;
+        // dragItem.current = index;
+        dragItem(index);
+        // console.log(index)
     }
-    const onDragEnter = (index: number) => {
-        dragOverItem.current = index
-    }
-    const onDrop = () => {
-        console.log(dragOverItem.current, dragItem.current)
-        dragItem.current = null;
-        dragOverItem.current = null;
-    }
+    // const onDragEnter = (index: number) => {
+    //     dragOverItem.current = index
+    // }
+    // const onDrop = () => {
+    //     console.log(dragOverItem.current, dragItem.current)
+    //     dragItem.current = null;
+    //     dragOverItem.current = null;
+    // }
     const onItemHover = (itemId: number | string) => {
 
         if (typeof itemId === 'number') {
@@ -59,8 +61,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList }) =>
                     onClick={() => { selectItem(item.id); setSelected(item.id) }}
                     draggable
                     onDragStart={() => { onDragStart(item.id) }}
-                    onDragEnter={() => { onDragEnter(item.id) }}
-                    onDragEnd={onDrop}
+                    // onDragEnter={() => { onDragEnter(item.id) }}
+                    // onDragEnd={onDrop}
                     onMouseEnter={() => {
                         if (item.groupName) {
                             onItemHover(item.groupName)

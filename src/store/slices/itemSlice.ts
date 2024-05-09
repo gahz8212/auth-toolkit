@@ -39,6 +39,30 @@ type State = {
     moq: number;
     set: boolean;
   };
+  dragItem: {
+    id: number;
+    type: string;
+    category: string;
+    itemName: string;
+    descript: string;
+    unit: string;
+    im_price: number;
+    use: boolean;
+    point: number;
+  } | null;
+  dragItems:
+    | {
+        [key: string]: string | number | boolean;
+        id: number;
+        type: string;
+        category: string;
+        itemName: string;
+        descript: string;
+        unit: string;
+        im_price: number;
+        use: boolean;
+        point: number;
+      }[];
   backup: any[];
   imageList: { url: string }[];
   itemImageList: { ItemId: number; GoodName: string; url: string }[];
@@ -63,6 +87,8 @@ const initialState: State = {
     moq: 0,
     set: true,
   },
+  dragItem: null,
+  dragItems: [],
   backup: [],
   imageList: [],
   itemImageList: [],
@@ -86,6 +112,10 @@ const statusSelector = (state: RootState) => {
 const dummySelector = (state: RootState) => {
   return state.item.backup;
 };
+const dragItemsSelector = (state: RootState) => {
+  return state.item.dragItems;
+};
+
 export const itemData = createSelector(
   inputSelector,
   imageListSelector,
@@ -93,13 +123,15 @@ export const itemData = createSelector(
   itemSelector,
   statusSelector,
   dummySelector,
-  (input, imageList, itemImageList, items, status, backup) => ({
+  dragItemsSelector,
+  (input, imageList, itemImageList, items, status, backup, dragItems) => ({
     input,
     imageList,
     itemImageList,
     items,
     status,
     backup,
+    dragItems,
   })
 );
 
@@ -219,6 +251,23 @@ const itemSlice = createSlice({
     },
     backupItems: (state) => {
       state.items = state.backup;
+    },
+    inputDragItem: (state, { payload: item }) => {
+      state.dragItem = item;
+    },
+    drag_on: (state) => {
+      if (
+        state.dragItem &&
+        !JSON.stringify(state.dragItems).includes(
+          JSON.stringify(state.dragItem)
+        )
+      ) {
+        state.dragItems = [state.dragItem, ...state.dragItems];
+        state.dragItem = null;
+      }
+    },
+    addCount: (state, { payload: id }) => {
+      console.log(id,state.items[id]);
     },
   },
 });
