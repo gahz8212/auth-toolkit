@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 type Props = {
     items: {
         id: number,
@@ -15,6 +15,7 @@ type Props = {
     }[];
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
+    onDrop: () => void;
     itemImageList: { ItemId: number, url: string, GoodName: string }[];
 }
 type subProps = {
@@ -24,7 +25,7 @@ type subProps = {
 const ImageList: React.FC<subProps> = ({ url }) => {
     return <img src={url} alt={url} width='100px' />
 }
-const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, dragItem }) => {
+const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, dragItem, onDrop }) => {
     const [selected, setSelected] = useState<number | ''>()
     const [image, setImage] = useState<string[]>()
     // const dragItem: any = useRef();
@@ -37,11 +38,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
     // const onDragEnter = (index: number) => {
     //     dragOverItem.current = index
     // }
-    // const onDrop = () => {
-    //     console.log(dragOverItem.current, dragItem.current)
-    //     dragItem.current = null;
-    //     dragOverItem.current = null;
-    // }
+    
     const onItemHover = (itemId: number | string) => {
 
         if (typeof itemId === 'number') {
@@ -62,7 +59,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                     draggable
                     onDragStart={() => { onDragStart(item.id) }}
                     // onDragEnter={() => { onDragEnter(item.id) }}
-                    // onDragEnd={onDrop}
+                    onDragEnd={onDrop}
                     onMouseEnter={() => {
                         if (item.groupName) {
                             onItemHover(item.groupName)

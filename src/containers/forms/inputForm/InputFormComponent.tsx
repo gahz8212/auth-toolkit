@@ -54,13 +54,14 @@ type Props = {
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
     addCount: (id: number | string | boolean) => void;
-    removeCount: (id: number | string | boolean) => void
+    removeCount: (id: number | string | boolean) => void;
+    sum_input_price: number
 
 
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, addCount, removeCount }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, addCount, removeCount, sum_input_price }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -210,31 +211,41 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     <textarea name="descript" value={input.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                                 </div>
                             </div>
-
-
+                            {dragItems.length > 0 && <div className='lowerList'>총 {dragItems.length}건의 하위 아이템</div>}
                             <div className="item_basket"
-                                onMouseOver={drag_on}
+                                onDragEnter={drag_on}
                             >
+                                {dragItems && dragItems.map((item) =>
 
-                                {dragItems && dragItems.map((item) => <div key={item.id.toString()}>
-                                    {item.itemName}
-                                    <span className="material-symbols-outlined" style={{ fontSize: '20px' }}
-                                        onClick={() => { addCount(item.id) }}
-                                    >
-                                        add_circle
-                                    </span>{item.point}<span className="material-symbols-outlined" style={{ fontSize: '20px' }}
-                                        onClick={() => { removeCount(item.id) }}>
-                                        do_not_disturb_on
-                                    </span>
-                                    {/* <button>삭제</button> */}
-                                </div>)}
+                                    <div className="countControl" key={item.id.toString()}>
+                                        <div className={`itemName ${item.category}`}>
+
+                                            {item.itemName}
+                                        </div>
+
+                                        <div className='material-symbols'>
+
+                                            <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
+                                                onClick={() => { addCount(item.id) }}
+                                            >
+                                                add_circle
+                                            </span>
+                                            <span>{item.point}</span>
+                                            <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
+                                                onClick={() => { removeCount(item.id) }}>
+                                                do_not_disturb_on
+                                            </span>
+                                        </div>
+
+
+                                    </div>)}
                             </div>
 
                             <div className="currency">
                                 <div className="im_price">
                                     <label htmlFor="￦_input">입고가격</label>
                                     <label htmlFor="￦_input">￦</label>
-                                    <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    <input type="text" name="im_price" value={sum_input_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} readOnly onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
                                 </div>
 
                                 <div className="ex_price">

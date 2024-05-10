@@ -67,6 +67,7 @@ type State = {
   imageList: { url: string }[];
   itemImageList: { ItemId: number; GoodName: string; url: string }[];
   status: { error: string; message: string; loading: boolean };
+  sum_input_price: number;
 };
 const initialState: State = {
   items: [],
@@ -93,6 +94,7 @@ const initialState: State = {
   imageList: [],
   itemImageList: [],
   status: { error: "", message: "", loading: false },
+  sum_input_price: 0,
 };
 const inputSelector = (state: RootState) => {
   return state.item.input;
@@ -112,8 +114,14 @@ const statusSelector = (state: RootState) => {
 const dummySelector = (state: RootState) => {
   return state.item.backup;
 };
+const dragItemSelector = (state: RootState) => {
+  return state.item.dragItem;
+};
 const dragItemsSelector = (state: RootState) => {
   return state.item.dragItems;
+};
+const sum_input_priceSelector = (state: RootState) => {
+  return state.item.sum_input_price;
 };
 
 export const itemData = createSelector(
@@ -123,15 +131,29 @@ export const itemData = createSelector(
   itemSelector,
   statusSelector,
   dummySelector,
+  dragItemSelector,
   dragItemsSelector,
-  (input, imageList, itemImageList, items, status, backup, dragItems) => ({
+  sum_input_priceSelector,
+  (
     input,
     imageList,
     itemImageList,
     items,
     status,
     backup,
+    dragItem,
     dragItems,
+    sum_input_price
+  ) => ({
+    input,
+    imageList,
+    itemImageList,
+    items,
+    status,
+    backup,
+    dragItem,
+    dragItems,
+    sum_input_price,
   })
 );
 
@@ -258,20 +280,31 @@ const itemSlice = createSlice({
     drag_on: (state) => {
       if (
         state.dragItem &&
-        !JSON.stringify(state.dragItems).includes(
-          JSON.stringify(state.dragItem)
-        )
+        !state.dragItems.map((item) => item.id).includes(state.dragItem.id)
       ) {
         state.dragItems = [state.dragItem, ...state.dragItems];
         state.dragItem = null;
       }
     },
+    initialDragItem: (state) => {
+      state.dragItem = null;
+    },
     addCount: (state, { payload: idx }) => {
       state.dragItems[idx].point = state.dragItems[idx].point + 1;
+      state.sum_input_price = state.dragItems.reduce(
+        (prev, curr) => prev + curr.point * curr.im_price,
+        0
+      );
     },
     removeCount: (state, { payload: idx }) => {
       if (state.dragItems[idx].point > 0) {
         state.dragItems[idx].point = state.dragItems[idx].point - 1;
+        state.sum_input_price = state.dragItems.reduce(
+          (prev, curr) => prev + curr.point * curr.im_price,
+          0
+        );
+      } else {
+        state.dragItems.splice(idx, 1);
       }
     },
   },

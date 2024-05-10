@@ -31,6 +31,9 @@ const CardContainer = () => {
 
 
     }
+    const onDrop = () => {
+        dispatch(itemActions.initialDragItem())
+    }
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(itemActions.getItem())
@@ -42,6 +45,7 @@ const CardContainer = () => {
                 items={items}
                 itemImageList={itemImageList}
                 dragItem={dragItem}
+                onDrop={onDrop}
             />
         </div>
     );
