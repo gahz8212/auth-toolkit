@@ -165,6 +165,7 @@ const itemSlice = createSlice({
       // state.items = initialState.items;
       state.input = initialState.input;
       state.imageList = initialState.imageList;
+      state.dragItems = [];
     },
     changeField: (state, { payload: { name, value } }) => {
       state.input[name] = value;

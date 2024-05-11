@@ -21,7 +21,7 @@
       display: block;
       position: absolute;
       background-color: red;
-      // transform: skewX(-14deg);
+
       top: -10px;
       left: -10px;
       border-radius: 8px;
@@ -36,14 +36,9 @@
       position: absolute;
       backface-visibility: hidden;
       transition: 0.5s;
-      // transform: skewX(-14deg);
     }
 
     .info.text {
-      background-color: lightgray;
-      &.결합 {
-        background-color: tomato;
-      }
       &.전장 {
         background-color: orange;
       }
@@ -59,23 +54,53 @@
       &.기타 {
         background-color: darkolivegreen;
       }
+      .redo {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        &:hover {
+          color: orange;
+        }
+      }
     }
     .info.image {
-      background-color: gray;
+      &.전장 {
+        background-color: orange;
+      }
+      &.회로 {
+        background-color: cornflowerblue;
+      }
+      &.기구 {
+        background-color: khaki;
+      }
+      &.포장 {
+        background-color: yellowgreen;
+      }
+      &.기타 {
+        background-color: darkolivegreen;
+      }
       transform: rotateY(-180deg);
       display: flex;
       justify-content: center;
       align-items: center;
+      .undo {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        &:hover {
+          background-color: orange;
+        }
+      }
     }
-    &:hover .info.text {
-      transform: scale(1.3) // skewX(-14deg)
-        rotateY(180deg);
-      z-index: 1;
-    }
-    &:hover .info.image {
-      transform: rotateY(0deg) // skewX(-14deg)
-        scale(1.3);
-      z-index: 1;
-    }
+    // &:hover .info.text {
+    //   transform: scale(1.3)
+    //     rotateY(180deg);
+    //   z-index: 1;
+    // }
+    // &:hover .info.image {
+    //   transform: rotateY(0deg)
+    //     scale(1.3);
+    //   z-index: 1;
+    // }
   }
 }

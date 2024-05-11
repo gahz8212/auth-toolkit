@@ -70,13 +70,26 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                     }
                     onMouseLeave={() => setImage([])}
                 >
-                    <div className={`info text ${item.category}`}>
+                    <div className={`info text ${item.category} `}>
+
+                        <div className="redo">
+                            <span className="material-symbols-outlined redo">
+                                Redo
+                            </span>
+                        </div>
+
                         <div>{item.category}</div>
                         <div>{item.itemName}</div>
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.ex_price}</div>
+
                     </div>
-                    <div className="info image">
+                    <div className={`info image  ${item.category} `}>
+                        <div className="undo">
+                            <span className="material-symbols-outlined undo">
+                                Undo
+                            </span>
+                        </div>
                         {
                             image && <ImageList url={image[0]} />}
                     </div>

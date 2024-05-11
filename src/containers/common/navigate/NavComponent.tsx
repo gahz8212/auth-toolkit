@@ -10,6 +10,7 @@ type Props = {
 const NavComponent: React.FC<Props> = ({ visible, setVisible, page, changePage }) => {
     return (
 
+        <>
 
         <ul className={`nav ${visible ? 'visible' : ''}`}>
 
@@ -19,6 +20,8 @@ const NavComponent: React.FC<Props> = ({ visible, setVisible, page, changePage }
             <li className={`${page === 'View' ? "selected" : ''}`} onClick={() => changePage('View')}><Link to='/view'>Relation View</Link></li>
             <li className={`${page === 'Search' ? "selected" : ''}`} onClick={() => changePage('Search')}><Link to='/home' onClick={() => { setVisible(!visible) }}>Search</Link></li>
         </ul>
+   
+        </>
 
 
     );

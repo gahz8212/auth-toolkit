@@ -4,9 +4,10 @@ import SearchContainer from '../search/SearchContainer';
 const NavSearchContainer = () => {
   const[visible,setVisible]=useState(false)
     return (
-        <div>
+        <div >
             <NavContainer setVisible={setVisible} visible={visible}/>
             <SearchContainer setVisible={setVisible} visible={visible}/>
+            
           
         </div>
     );

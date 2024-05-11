@@ -18,6 +18,8 @@ type Props = {
 const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus }) => {
     const inputRef: React.LegacyRef<HTMLInputElement> | undefined = useRef(null);
     return (
+        <>
+        <div className="nav_base"></div>
         <form className={`search-container ${visible ? 'visible' : ''}`}>
             <div className="input-group">
 
@@ -59,12 +61,13 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
 
                 <span className={`material-symbols-outlined `}
                     onClick={() => inputRef.current?.focus()}
-                >
+                    >
                     search
                 </span>
 
             </div >
         </form >
+                    </>
     );
 };
 
