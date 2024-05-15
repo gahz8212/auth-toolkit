@@ -27,18 +27,15 @@ const ImageList: React.FC<subProps> = ({ url }) => {
 }
 const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, dragItem, onDrop }) => {
     const [selected, setSelected] = useState<number | ''>()
-    const [image, setImage] = useState<string[]>()
-    // const dragItem: any = useRef();
-    // const dragOverItem: any = useRef();
+    const [image, setImage] = useState<string[]>([])
+    const [shows, setShows] = useState<number[]>([])
     const onDragStart = (index: number) => {
-        // dragItem.current = index;
+
         dragItem(index);
-        // console.log(index)
+
     }
-    // const onDragEnter = (index: number) => {
-    //     dragOverItem.current = index
-    // }
-    
+
+
     const onItemHover = (itemId: number | string) => {
 
         if (typeof itemId === 'number') {
@@ -48,17 +45,25 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
 
         }
     }
+    const showBack = (id: number) => {
+        if (!shows.includes(id)) {
+            setShows([id, ...shows])
+        }
+
+
+    }
+    const removeBack=(id:number)=>{
+       setShows(shows.filter(show=>show!==id))
+    }
     return (
 
         <div className="item-list">
             {items.map((item, index) =>
                 <div
                     key={index}
-                    className={`infos ${selected === item.id ? 'selected' : ''}`}
-                    onClick={() => { selectItem(item.id); setSelected(item.id) }}
+                    className={`infos ${selected === item.id ? 'selected' : ''} ${shows.includes(item.id) ? 'back' : ""}`}
                     draggable
                     onDragStart={() => { onDragStart(item.id) }}
-                    // onDragEnter={() => { onDragEnter(item.id) }}
                     onDragEnd={onDrop}
                     onMouseEnter={() => {
                         if (item.groupName) {
@@ -72,11 +77,19 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                 >
                     <div className={`info text ${item.category} `}>
 
+
+
+                        <div className="edit">
+                            <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                                Edit
+                            </span>
+                        </div>
                         <div className="redo">
-                            <span className="material-symbols-outlined redo">
+                            <span className="material-symbols-outlined redo" onClick={() => { showBack(item.id) }}>
                                 Redo
                             </span>
                         </div>
+
 
                         <div>{item.category}</div>
                         <div>{item.itemName}</div>
@@ -86,7 +99,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                     </div>
                     <div className={`info image  ${item.category} `}>
                         <div className="undo">
-                            <span className="material-symbols-outlined undo">
+                            <span className="material-symbols-outlined undo" onClick={() => { removeBack(item.id) }}>
                                 Undo
                             </span>
                         </div>
