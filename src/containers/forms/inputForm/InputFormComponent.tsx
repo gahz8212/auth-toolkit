@@ -343,7 +343,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     </div>
 
                     <div className={`imageList imageList?"open":""`}>
-                        {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url} /></div>)}
+                        {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url}/></div>)}
                     </div>
 
                     <div className="input-submit">

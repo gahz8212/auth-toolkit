@@ -50,7 +50,7 @@ function* addItemSaga(action: {
         cbm: number;
         moq: number;
         set: boolean;
-        imageList: { url: string }[];
+        // imageList: { url: string }[];
       };
     } = yield call(itemAPI.addItem, action.payload);
     yield put(itemActions.addItemSuccess(response.data));

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 type Props = {
     items: {
         id: number,
+        type: string,
         category: string,
         itemName: string,
         groupName: string,
@@ -29,31 +30,33 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
     const [selected, setSelected] = useState<number | ''>()
     const [image, setImage] = useState<string[]>([])
     const [shows, setShows] = useState<number[]>([])
+    const [check, setCheck] = useState<number[]>([])
     const onDragStart = (index: number) => {
-
         dragItem(index);
-
     }
-
-
     const onItemHover = (itemId: number | string) => {
 
         if (typeof itemId === 'number') {
             setImage(itemImageList.filter(image => image.ItemId === itemId).map(image => image.url))
         } else if (typeof itemId === 'string') {
             setImage(itemImageList.filter(image => image.GoodName === itemId).map(image => image.url))
-
         }
     }
     const showBack = (id: number) => {
         if (!shows.includes(id)) {
             setShows([id, ...shows])
         }
-
-
     }
-    const removeBack=(id:number)=>{
-       setShows(shows.filter(show=>show!==id))
+    const removeBack = (id: number) => {
+        setShows(shows.filter(show => show !== id))
+    }
+    const checkedItem = (id: number) => {
+        if (!check.includes(id)) {
+            setCheck([id, ...check])
+        }
+        else {
+            setCheck(check.filter(check => check !== id))
+        }
     }
     return (
 
@@ -61,7 +64,13 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
             {items.map((item, index) =>
                 <div
                     key={index}
-                    className={`infos ${selected === item.id ? 'selected' : ''} ${shows.includes(item.id) ? 'back' : ""}`}
+                    className={`infos 
+                    ${selected === item.id ? 'selected' : ''} 
+                    ${shows.includes(item.id) ? 'back' : ""}
+                    ${check.includes(item.id) ? 'check' : ""}
+                    ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`
+
+                    }
                     draggable
                     onDragStart={() => { onDragStart(item.id) }}
                     onDragEnd={onDrop}
@@ -76,20 +85,24 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                     onMouseLeave={() => setImage([])}
                 >
                     <div className={`info text ${item.category} `}>
+                        <div className="footer">
 
-
-
-                        <div className="edit">
-                            <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
-                                Edit
-                            </span>
+                            <div className="edit">
+                                <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                                    Edit
+                                </span>
+                            </div>
+                            <div className="check">
+                                <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id) }}>
+                                    Check
+                                </span>
+                            </div>
+                            <div className="redo">
+                                <span className="material-symbols-outlined redo" onClick={() => { showBack(item.id) }}>
+                                    Redo
+                                </span>
+                            </div>
                         </div>
-                        <div className="redo">
-                            <span className="material-symbols-outlined redo" onClick={() => { showBack(item.id) }}>
-                                Redo
-                            </span>
-                        </div>
-
 
                         <div>{item.category}</div>
                         <div>{item.itemName}</div>

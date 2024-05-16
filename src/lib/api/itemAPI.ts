@@ -22,8 +22,8 @@ export const addItem = (item: {
 }) => {
   item.unit = item.unit.slice(0, 1);
   // 원 단위인 ////을 //로 바꿔주기 위해서
-
-  return client.post("item/item", item);
+  // console.log(item);
+  return client.post("/item/item", item);
 };
 export const getItem = () => {
   return client.get("/item/items");

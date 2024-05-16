@@ -4,7 +4,6 @@
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
-  // background-color: green;
   padding-top: 40px;
   .infos {
     width: 100px;
@@ -13,7 +12,7 @@
     margin: 0.6rem;
     cursor: pointer;
     box-sizing: border-box;
-
+    border-radius: 10px;
     &.selected::before {
       content: "";
       width: 125px;
@@ -21,18 +20,26 @@
       display: block;
       position: absolute;
       background-color: red;
-
-      top: -10px;
-      left: -10px;
+      top: -18px;
+      left: -18px;
       border-radius: 8px;
-      opacity: 0.2;
+      opacity: 0.5;
+    }
+    &.SET {
+      border: 5px double green;
+    }
+    &.ASSY {
+      border: 5px solid green;
+    }
+    &.PARTS {
+      border: 5px dashed green;
     }
 
+    transition: 0.3s;
     .info {
       width: 100%;
       height: 100%;
-      border: 3px solid gray;
-      border-radius: 8px;
+      // border: 3px solid gray;
       position: absolute;
       backface-visibility: hidden;
       transition: 0.5s;
@@ -54,20 +61,20 @@
       &.기타 {
         background-color: darkolivegreen;
       }
-      .edit {
+      .footer {
         position: absolute;
         bottom: 0;
         left: 0;
-        &:hover {
-          color: gray;
-        }
-      }
-      .redo {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        &:hover {
-          color: gray;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .edit,
+        .check,
+        .redo {
+          &:hover {
+            color: gray;
+          }
         }
       }
     }
@@ -108,12 +115,15 @@
         }
       }
     }
+    &.check {
+      transform: scale(1.3);
+    }
     &.back .info.text {
-      transform: scale(1.3) rotateY(180deg);
+      transform:  rotateY(180deg);
       z-index: 1;
     }
     &.back .info.image {
-      transform: rotateY(0deg) scale(1.3);
+      transform: rotateY(0deg) ;
       z-index: 1;
     }
   }

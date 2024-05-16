@@ -18,7 +18,6 @@ type State = {
     cbm: number;
     moq: number;
     set: boolean;
-
     // Images: { url: string }[];
   }[];
   input: {
@@ -75,10 +74,10 @@ const initialState: State = {
     type: "PARTS",
     groupType: "",
     groupName: "",
-    category: "",
+    category: "회로",
     itemName: "",
     descript: "",
-    unit: "$",
+    unit: "\\",
     im_price: 0,
     ex_price: 0,
     use: true,

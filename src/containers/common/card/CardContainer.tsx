@@ -26,10 +26,7 @@ const CardContainer = () => {
                 point: 0
             }
         ));
-
         dispatch(itemActions.inputDragItem(item[0]))
-
-
     }
     const onDrop = () => {
         dispatch(itemActions.initialDragItem())

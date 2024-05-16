@@ -15,7 +15,7 @@ const InputFormContainer = () => {
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
 
-    const { input, imageList, items, dragItems,sum_input_price } = useSelector(itemData)
+    const { input, imageList, items, dragItems, sum_input_price } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
 
@@ -41,16 +41,13 @@ const InputFormContainer = () => {
         if (input.new_supplyer.toString()) {
             setSupplyer([input.new_supplyer.toString(), ...supplyer].sort())
             dispatch(itemActions.changeField({ name: 'supplyer', value: input.new_supplyer }))
-
         }
-
     }
-
-
     const insertImage = async (e: any) => {
         const formData = imageInsert(e, imageList)
         dispatch(itemActions.addImage(await formData))
     }
+
     const addItem = (
         item: {
             type: string,
@@ -71,11 +68,13 @@ const InputFormContainer = () => {
             imageList: { url: string }[]
         }
     ) => {
-        const conflict = items.filter(listItem => listItem.type === item.type && listItem.itemName === item.itemName)
-        if (conflict) {
-            alert('이미 등록된 아이템 입니다.')
+        const conflict = items.filter(listItem => listItem.category === item.category && listItem.itemName === item.itemName)
+        if (conflict.length > 0) {
+            const findIndex = items.findIndex(listItem => listItem.category === item.category && listItem.itemName === item.itemName)
+            alert(`이미 등록된 아이템 입니다.index: ${findIndex}`)
             return;
         }
+
         dispatch(itemActions.addItem(item))
     }
     const formClose = () => {

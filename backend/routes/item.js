@@ -106,6 +106,7 @@ router.post("/item", async (req, res) => {
         supplyer,
       });
     } else {
+      console.log("parts");
       item = await Item.create({
         category,
         type,
@@ -125,12 +126,14 @@ router.post("/item", async (req, res) => {
           Image.create({ url: image.url, ItemId: item.id })
         )
       );
-      item.addImages(image_promise.map((image) => image[0]));
+      // item.addImage(image_promise.map((image) => image[0]));
+
       const newItem = await Item.findOne({
         where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
         attributes: [
           "id",
           "category",
+          "type",
           "itemName",
           "descript",
           "unit",
@@ -139,7 +142,7 @@ router.post("/item", async (req, res) => {
           "use",
           "supplyer",
         ],
-        // include: { model: Image, attributes: ["url"] },
+        //   // include: { model: Image, attributes: ["url"] },
       });
 
       return res.status(200).json(newItem);
@@ -161,7 +164,7 @@ router.get("/items", async (req, res) => {
       null groupName,null groupType,supplyer,null weight,null cbm,null moq,null sets,item.use
       from item 
       where item.use=true
-      order by id desc;
+      order by id asc;
     
       `
     );
