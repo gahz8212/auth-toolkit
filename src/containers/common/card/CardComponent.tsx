@@ -28,20 +28,12 @@ const ImageList: React.FC<subProps> = ({ url }) => {
 }
 const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, dragItem, onDrop }) => {
     const [selected, setSelected] = useState<number | ''>()
-    const [image, setImage] = useState<string[]>([])
     const [shows, setShows] = useState<number[]>([])
     const [check, setCheck] = useState<number[]>([])
     const onDragStart = (index: number) => {
         dragItem(index);
     }
-    const onItemHover = (itemId: number | string) => {
 
-        if (typeof itemId === 'number') {
-            setImage(itemImageList.filter(image => image.ItemId === itemId).map(image => image.url))
-        } else if (typeof itemId === 'string') {
-            setImage(itemImageList.filter(image => image.GoodName === itemId).map(image => image.url))
-        }
-    }
     const showBack = (id: number) => {
         if (!shows.includes(id)) {
             setShows([id, ...shows])
@@ -74,15 +66,15 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                     draggable
                     onDragStart={() => { onDragStart(item.id) }}
                     onDragEnd={onDrop}
-                    onMouseEnter={() => {
-                        if (item.groupName) {
-                            onItemHover(item.groupName)
-                        } else {
-                            onItemHover(item.id)
-                        }
-                    }
-                    }
-                    onMouseLeave={() => setImage([])}
+                // onMouseEnter={() => {
+                //     if (item.groupName) {
+                //         onItemHover(item.groupName)
+                //     } else {
+                //         onItemHover(item.id)
+                //     }
+                // }
+                // }
+                // onMouseLeave={() => setImage([])}
                 >
                     <div className={`info text ${item.category} `}>
                         <div className="footer">
@@ -116,8 +108,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                                 Undo
                             </span>
                         </div>
-                        {
-                            image && <ImageList url={image[0]} />}
+                     
+                        {itemImageList.filter(list => list.ItemId === item.id).length > 0 && <ImageList url={itemImageList.filter(list => list.ItemId === item.id).map(list => list.url)[0]}></ImageList>}
                     </div>
                 </div>)}
         </div>
