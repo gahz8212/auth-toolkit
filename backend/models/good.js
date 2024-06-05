@@ -18,13 +18,35 @@ module.exports = class Good extends Sequelize.Model {
         hooks: {
           afterBulkCreate: async (goods) => {
             goods.forEach((good) => {
-              sequelize.models.GoodList.upsert({
+              sequelize.models.Item.upsert({
                 itemName: good.itemName,
+                GoodId: good.id,
+              });
+              sequelize.models.GoodBackup.create({
+                itemName: good.itemName,
+                groupName: good.groupName,
                 GoodId: good.id,
               });
             });
           },
-          afterCreate: async () => {},
+          afterCreate: async (good) => {
+            sequelize.models.Item.upsert({
+              itemName: good.itemName,
+              GoodId: good.id,
+            });
+            sequelize.models.GoodBackup.create({
+              itemName: good.itemName,
+              groupName: good.groupName,
+              GoodId: good.id,
+            });
+          },
+          afterUpdate: async (good) => {
+            sequelize.models.GoodBackup.create({
+              itemName: good.itemName,
+              groupName: good.groupName,
+              GoodId: good.id,
+            });
+          },
         },
         timestamps: true,
         underscored: false,
@@ -37,7 +59,6 @@ module.exports = class Good extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Good.hasMany(db.GoodList);
-    db.Good.hasMany(db.Image);
+    db.Good.hasMany(db.Item);
   }
 };

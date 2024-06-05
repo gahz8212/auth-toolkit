@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { GoodList, Good, Item, Order } = require("../models");
+const { Good, Item, Order } = require("../models");
 const { sequelize } = require("../models");
 router.get("/getOrderData", async (req, res) => {
   try {
@@ -131,7 +131,6 @@ router.post("/orderinput", async (req, res) => {
 router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
-    console.log("good[0]", good[0]);
     if (Object.keys(good[0]).includes("undefined")) {
       throw new Error("오더리스트를 선택함.");
     }
@@ -141,36 +140,39 @@ router.post("/goodinput", async (req, res) => {
       delete from good;
       `
       );
-      await Good.bulkCreate(good);
+      if (Array.isArray(good)) {
+        await Good.bulkCreate(good);
+      }
     } else if (Object.keys(good[0]).includes("itemName")) {
-      console.log("groupType");
-      good.map(async (item) => {
-        await GoodList.upsert({
-          type: item.type,
-          itemName: item.itemName,
-          groupType: item.groupType,
-          descript: item.descript,
-          category: item.category,
-          unit: item.unit,
-          im_price: item.im_price,
-          ex_price: item.ex_price,
-          weight: item.weight,
-          cbm: item.cbm,
-          moq: item.moq,
-          sets: item.sets,
-          number1: item.number1,
-          number2: item.number2,
-          user: item.use,
-          input_date: item.input_date,
+      if (Array.isArray(good)) {
+        good.map(async (item) => {
+          await Item.upsert({
+            type: item.type,
+            itemName: item.itemName,
+            groupType: item.groupType,
+            descript: item.descript,
+            category: item.category,
+            unit: item.unit,
+            im_price: item.im_price,
+            ex_price: item.ex_price,
+            weight: item.weight,
+            cbm: item.cbm,
+            moq: item.moq,
+            sets: item.sets,
+            number1: item.number1,
+            number2: item.number2,
+            user: item.use,
+            input_date: item.input_date,
+          });
         });
-      });
-    } else {
-      await sequelize.query(
-        `
-        delete from item;
-        `
-      );
-      await Item.bulkCreate(good);
+      } else {
+        const good = await Good.findOne({ where: { itemName: good.itemName } });
+        if (good) {
+          //update;
+        } else {
+          //create
+        }
+      }
     }
     return res.status(200).json("good_input_ok");
   } catch (e) {

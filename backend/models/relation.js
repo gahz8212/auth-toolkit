@@ -3,7 +3,7 @@ module.exports = class Relation extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        position: { type: Sequelize.INTEGER },
+        point: { type: Sequelize.INTEGER },
       },
       {
         sequelize,
