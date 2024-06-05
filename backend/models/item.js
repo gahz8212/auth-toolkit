@@ -39,9 +39,19 @@ module.exports = class Item extends Sequelize.Model {
       }
     );
   }
-  // static associate(db) {
-  // db.Item.hasMany(db.Image);
-  // db.Item.hasMany(db.ItemList);
-  // db.Item.belongsToMany(db.Item, { through: "relations", as: "upper" });
-  // }
+  static associate(db) {
+    db.Item.belongsTo(db.GoodList);
+    db.Item.hasMany(db.ItemBackup);
+    db.Item.hasMany(db.Image);
+    db.Item.belongsToMany(db.Item, {
+      through: "Relation",
+      as: "Upper",
+      foreignKey: "LowerId",
+    });
+    db.Item.belongsToMany(db.Item, {
+      through: "Relation",
+      as: "Lower",
+      foreignKey: "UpperId",
+    });
+  }
 };

@@ -58,7 +58,7 @@ router.post("/orderinput", async (req, res) => {
 
     await sequelize.query(
       `
-    delete from orders;
+    delete from order;
     `
     );
     await Order.bulkCreate(order[0]);
@@ -84,7 +84,7 @@ router.post("/orderinput", async (req, res) => {
       L.number2,
       L.use,
       date_format(L.input_date,'%Y-%m-%d')
-      FROM good G inner join goodlist L on G.groupName=L.groupName right join orders O on G.groupName=O.Item
+      FROM good G inner join goodlist L on G.id=L.id right join order O on G.groupName=O.Item
       WHERE L.use=1 
       ORDER BY L.number1,L.number2
       `
@@ -116,7 +116,7 @@ router.post("/orderinput", async (req, res) => {
     L.number2,
     L.use,
     date_format(L.input_date,'%Y-%m-%d')
-    FROM good G inner join goodlist L on G.groupName=L.groupName right join orders O on G.groupName=O.Item
+    FROM good G inner join goodlist L on G.id=L.id right join order O on G.groupName=O.Item
     WHERE L.use=1 
     ORDER BY L.number1,L.number2
   )
@@ -131,20 +131,44 @@ router.post("/orderinput", async (req, res) => {
 router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
+    console.log("good[0]", good[0]);
     if (Object.keys(good[0]).includes("undefined")) {
       throw new Error("오더리스트를 선택함.");
-    } else if (Object.keys(good[0]).includes("groupName")) {
+    }
+    if (Object.keys(good[0]).includes("groupName")) {
       await sequelize.query(
         `
-      delete from goodlist;
+      delete from good;
       `
       );
-      await GoodList.bulkCreate(good);
+      await Good.bulkCreate(good);
+    } else if (Object.keys(good[0]).includes("itemName")) {
+      console.log("groupType");
+      good.map(async (item) => {
+        await GoodList.upsert({
+          type: item.type,
+          itemName: item.itemName,
+          groupType: item.groupType,
+          descript: item.descript,
+          category: item.category,
+          unit: item.unit,
+          im_price: item.im_price,
+          ex_price: item.ex_price,
+          weight: item.weight,
+          cbm: item.cbm,
+          moq: item.moq,
+          sets: item.sets,
+          number1: item.number1,
+          number2: item.number2,
+          user: item.use,
+          input_date: item.input_date,
+        });
+      });
     } else {
       await sequelize.query(
         `
-      delete from item;
-      `
+        delete from item;
+        `
       );
       await Item.bulkCreate(good);
     }

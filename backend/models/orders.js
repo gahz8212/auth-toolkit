@@ -23,7 +23,7 @@ module.exports = class Order extends Sequelize.Model {
         underscored: false,
         paranoid: false,
         modelName: "Order",
-        tableName: "orders",
+        freezeTableName: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }

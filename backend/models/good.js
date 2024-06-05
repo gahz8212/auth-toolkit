@@ -5,7 +5,7 @@ module.exports = class Good extends Sequelize.Model {
       {
         groupName: {
           type: Sequelize.STRING(50),
-          primaryKey: true,
+          unique: true,
         },
         itemName: {
           type: Sequelize.STRING(50),
@@ -15,6 +15,17 @@ module.exports = class Good extends Sequelize.Model {
       },
       {
         sequelize,
+        hooks: {
+          afterBulkCreate: async (goods) => {
+            goods.forEach((good) => {
+              sequelize.models.GoodList.upsert({
+                itemName: good.itemName,
+                GoodId: good.id,
+              });
+            });
+          },
+          afterCreate: async () => {},
+        },
         timestamps: true,
         underscored: false,
         paranoid: false,
@@ -26,6 +37,7 @@ module.exports = class Good extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Good.hasMany(db.GoodList, { foreignKey: "groupName" });
+    db.Good.hasMany(db.GoodList);
+    db.Good.hasMany(db.Image);
   }
 };

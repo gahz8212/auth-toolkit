@@ -11,7 +11,7 @@ module.exports = class Image extends Sequelize.Model {
         underscored: false,
         paranoid: false,
         modelName: "Image",
-        tableName: "images",
+        freezeTableName: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
@@ -19,5 +19,6 @@ module.exports = class Image extends Sequelize.Model {
   }
   static associate(db) {
     db.Image.belongsTo(db.Item);
+    db.Image.belongsTo(db.Good);
   }
 };

@@ -169,7 +169,7 @@ router.get("/items", async (req, res) => {
       `
     );
     const [images] = await sequelize.query(`
-    select * from images
+    select * from image
     `);
     // const items = await Promise.all([
     //   GoodList.findAll({

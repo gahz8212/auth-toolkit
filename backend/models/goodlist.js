@@ -5,6 +5,7 @@ module.exports = class GoodList extends Sequelize.Model {
       {
         type: { type: Sequelize.STRING(10) },
         groupType: { type: Sequelize.STRING(10) },
+        itemName: { type: Sequelize.STRING(50), unique: true },
         descript: { type: Sequelize.STRING(200), allowNull: true },
         category: { type: Sequelize.STRING(30) },
         unit: {
@@ -24,9 +25,18 @@ module.exports = class GoodList extends Sequelize.Model {
       },
       {
         sequelize,
+        hooks: {
+          afterUpdate: async (good) => {
+            sequelize.models.GoodBackup.create({
+              itemName: good.itemName,
+              price: good.previous().price,
+              GoodId: good.id,
+            });
+          },
+        },
         timestamps: true,
         underscored: false,
-        paranoid: false,
+        paranoid: true,
         modelName: "GoodList",
         freezeTableName: true,
         charset: "utf8",
@@ -35,6 +45,7 @@ module.exports = class GoodList extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.GoodList.belongsTo(db.Good, { foreignKey: "groupName" });
+    db.GoodList.belongsTo(db.Good);
+    db.GoodList.hasMany(db.Item);
   }
 };
