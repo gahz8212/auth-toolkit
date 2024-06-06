@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Item, Image, Good, GoodList, sequelize } = require("../models");
+const { Item, Image, Good, sequelize } = require("../models");
 const { Op } = require("sequelize");
 const upload = multer({
   storage: multer.diskStorage({
@@ -48,7 +48,7 @@ router.post("/item", async (req, res) => {
   try {
     let item;
     let good;
-    //set가 들어오면 goodlist에
+    //set가 들어오면 Item에
     //assy나 item이 들어오면 item에 입력
     //image는 image의 goodId에 입력
     if (type === "SET") {
@@ -56,7 +56,7 @@ router.post("/item", async (req, res) => {
         groupName,
         itemName,
       });
-      item = await GoodList.create({
+      item = await Item.create({
         type,
         groupType,
         descript,
@@ -71,7 +71,7 @@ router.post("/item", async (req, res) => {
         supplyer,
         groupName,
       });
-      // const newItem = await GoodList.findOne({
+      // const newItem = await Item.findOne({
       //   where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
       //   attributes: [
       //     "id",
@@ -155,10 +155,10 @@ router.get("/items", async (req, res) => {
   try {
     const [items] = await sequelize.query(
       `
-      select goodlist.id,goodlist.type,goodlist.category,good.itemName,goodlist.im_price,goodlist.unit,goodlist.ex_price
-      ,goodlist.groupName,goodlist.groupType,null supplyer,goodlist.weight,goodlist.cbm,goodlist.moq,goodlist.sets,goodlist.use
-      from goodlist inner join good on goodlist.groupName=good.groupName
-      where goodlist.use=true
+      select Item.id,Item.type,Item.category,good.itemName,Item.im_price,Item.unit,Item.ex_price
+      ,Item.groupName,Item.groupType,null supplyer,Item.weight,Item.cbm,Item.moq,Item.sets,Item.use
+      from Item inner join good on Item.groupName=good.groupName
+      where Item.use=true
       union
       select item.id,item.type,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
       null groupName,null groupType,supplyer,null weight,null cbm,null moq,null sets,item.use
@@ -172,7 +172,7 @@ router.get("/items", async (req, res) => {
     select * from image
     `);
     // const items = await Promise.all([
-    //   GoodList.findAll({
+    //   Item.findAll({
     //     where: { use: true },
     //     attributes: [
     //       "id",

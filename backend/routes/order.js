@@ -15,52 +15,53 @@ router.get("/getOrderData", async (req, res) => {
     return res.status(400).json(e.message);
   }
 });
-router.get("/getDummyItem", async (req, res) => {
-  try {
-    await sequelize.query(
-      `
-      drop table if exists dummies;
-    `
-    );
-    await sequelize.query(
-      `
-      CREATE TABLE if not exists dummies 
-      (SELECT itemName,NAME ,NUMBER1,NUMBER2 FROM goods  WHERE goods.use=TRUE AND NUMBER1 IS NOT NULL AND 
-        CATEGORY IN ('RDT','EDT','NOBARK')  
-        ORDER BY goods.NUMBER1,goods.NUMBER2);
-    `
-    );
-    await sequelize.query(
-      `
-      alter table if exists dummies
-      add count integer;
-    `
-    );
-    await sequelize.query(
-      `
-      alter table if exists dummies
-      add primary key(itemName);
-    `
-    );
-    const [results] = await sequelize.query(
-      `select * from dummies ORDER BY NUMBER1,NUMBER2`
-    );
-    // console.log(results);
-    return res.status(200).json(results);
-  } catch (e) {
-    return res.status(400).json(e.message);
-  }
-});
+// router.get("/getDummyItem", async (req, res) => {
+//   try {
+//     await sequelize.query(
+//       `
+//       drop table if exists dummies;
+//     `
+//     );
+//     await sequelize.query(
+//       `
+//       CREATE TABLE if not exists dummies
+//       (SELECT itemName,NAME ,NUMBER1,NUMBER2 FROM good  WHERE goods.use=TRUE AND NUMBER1 IS NOT NULL AND
+//         CATEGORY IN ('RDT','EDT','NOBARK')
+//         ORDER BY good.NUMBER1,goods.NUMBER2);
+//     `
+//     );
+//     await sequelize.query(
+//       `
+//       alter table if exists dummies
+//       add count integer;
+//     `
+//     );
+//     await sequelize.query(
+//       `
+//       alter table if exists dummies
+//       add primary key(itemName);
+//     `
+//     );
+//     const [results] = await sequelize.query(
+//       `select * from dummies ORDER BY NUMBER1,NUMBER2`
+//     );
+//     // console.log(results);
+//     return res.status(200).json(results);
+//   } catch (e) {
+//     return res.status(400).json(e.message);
+//   }
+// });
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
     // console.log(order[0]);
 
-    await sequelize.query(
-      `
-    delete from order;
-    `
-    );
+    // await sequelize.query(
+    //   `
+    // delete from order
+    // `
+    // );
+    await Order.destroy({ where: {} });
     await Order.bulkCreate(order[0]);
     const [results, metadata] = await sequelize.query(
       `
@@ -84,7 +85,7 @@ router.post("/orderinput", async (req, res) => {
       L.number2,
       L.use,
       date_format(L.input_date,'%Y-%m-%d')
-      FROM good G inner join goodlist L on G.id=L.id right join order O on G.groupName=O.Item
+      FROM good G inner join item L on G.id=L.id right join order O on G.groupName=O.Item
       WHERE L.use=1 
       ORDER BY L.number1,L.number2
       `
@@ -116,7 +117,7 @@ router.post("/orderinput", async (req, res) => {
     L.number2,
     L.use,
     date_format(L.input_date,'%Y-%m-%d')
-    FROM good G inner join goodlist L on G.id=L.id right join order O on G.groupName=O.Item
+    FROM good G inner join item L on G.id=L.id right join order O on G.groupName=O.Item
     WHERE L.use=1 
     ORDER BY L.number1,L.number2
   )
