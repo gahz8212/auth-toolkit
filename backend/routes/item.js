@@ -153,57 +153,24 @@ router.post("/item", async (req, res) => {
 });
 router.get("/items", async (req, res) => {
   try {
-    const [items] = await sequelize.query(
-      `
-      select Item.id,Item.type,Item.category,good.itemName,Item.im_price,Item.unit,Item.ex_price
-      ,Item.groupName,Item.groupType,null supplyer,Item.weight,Item.cbm,Item.moq,Item.sets,Item.use
-      from Item inner join good on Item.groupName=good.groupName
-      where Item.use=true
-      union
-      select item.id,item.type,item.category,item.itemName ,item.im_price,item.unit,item.ex_price,
-      null groupName,null groupType,supplyer,null weight,null cbm,null moq,null sets,item.use
-      from item 
-      where item.use=true
-      order by id asc;
-    
-      `
-    );
-    const [images] = await sequelize.query(`
-    select * from image
-    `);
-    // const items = await Promise.all([
-    //   Item.findAll({
-    //     where: { use: true },
-    //     attributes: [
-    //       "id",
-    //       "category",
-    //       "groupName",
-    //       "descript",
-    //       "unit",
-    //       "im_price",
-    //       "ex_price",
-    //       "use",
-    //     ],
-    //     order: [["id", "asc"]],
-    //   }),
-    //   Item.findAll({
-    //     where: {},
-    //     attributes: [
-    //       "id",
-    //       "category",
-    //       "partsName",
-    //       "descript",
-    //       "unit",
-    //       "im_price",
-    //       "ex_price",
-    //       "use",
-    //     ],
-    //     order: [["id", "asc"]],
-    //     include: { model: Image, attributes: ["url"] },
-    //   }),
-    // ]).then((unionReturn) => unionReturn.flat());
-    // console.log(images);
-    return res.status(200).json([items, images]);
+    const items = await Item.findAll({
+      where: { use: true },
+      attributes: [
+        "id",
+        "type",
+        "category",
+        "itemName",
+        "descript",
+        "unit",
+        "im_price",
+        "ex_price",
+        "use",
+      ],
+      include: { model: Image, attributes: ["url"] },
+      order: [["id", "asc"]],
+    });
+
+    return res.status(200).json(items);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

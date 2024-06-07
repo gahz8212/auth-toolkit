@@ -12,21 +12,16 @@ type Props = {
         ex_price: number;
         use: boolean,
         supplyer: string,
-        // Images: { url: string }[]
+        Images: { url: string }[]
     }[];
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
-    itemImageList: { ItemId: number, url: string, GoodName: string }[];
-}
-type subProps = {
-    url: string;
 
 }
-const ImageList: React.FC<subProps> = ({ url }) => {
-    return <img src={url} alt={url} width='100px' />
-}
-const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, dragItem, onDrop }) => {
+
+const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop }) => {
+
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
     const [check, setCheck] = useState<number[]>([])
@@ -66,15 +61,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                     draggable
                     onDragStart={() => { onDragStart(item.id) }}
                     onDragEnd={onDrop}
-                // onMouseEnter={() => {
-                //     if (item.groupName) {
-                //         onItemHover(item.groupName)
-                //     } else {
-                //         onItemHover(item.id)
-                //     }
-                // }
-                // }
-                // onMouseLeave={() => setImage([])}
+
                 >
                     <div className={`info text ${item.category} `}>
                         <div className="footer">
@@ -108,8 +95,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, itemImageList, drag
                                 Undo
                             </span>
                         </div>
-                     
-                        {itemImageList.filter(list => list.ItemId === item.id).length > 0 && <ImageList url={itemImageList.filter(list => list.ItemId === item.id).map(list => list.url)[0]}></ImageList>}
+                        {item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
+
                     </div>
                 </div>)}
         </div>

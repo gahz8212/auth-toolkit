@@ -18,7 +18,7 @@ type State = {
     cbm: number;
     moq: number;
     set: boolean;
-    // Images: { url: string }[];
+    Images: { url: string }[];
   }[];
   input: {
     [key: string]: string | number | boolean;
@@ -64,7 +64,7 @@ type State = {
       }[];
   backup: any[];
   imageList: { url: string }[];
-  itemImageList: { ItemId: number; GoodName: string; url: string }[];
+
   status: { error: string; message: string; loading: boolean };
   sum_input_price: number;
 };
@@ -91,7 +91,7 @@ const initialState: State = {
   dragItems: [],
   backup: [],
   imageList: [],
-  itemImageList: [],
+
   status: { error: "", message: "", loading: false },
   sum_input_price: 0,
 };
@@ -101,9 +101,7 @@ const inputSelector = (state: RootState) => {
 const imageListSelector = (state: RootState) => {
   return state.item.imageList;
 };
-const itemImageListSelector = (state: RootState) => {
-  return state.item.itemImageList;
-};
+
 const itemSelector = (state: RootState) => {
   return state.item.items;
 };
@@ -126,7 +124,6 @@ const sum_input_priceSelector = (state: RootState) => {
 export const itemData = createSelector(
   inputSelector,
   imageListSelector,
-  itemImageListSelector,
   itemSelector,
   statusSelector,
   dummySelector,
@@ -136,7 +133,6 @@ export const itemData = createSelector(
   (
     input,
     imageList,
-    itemImageList,
     items,
     status,
     backup,
@@ -146,7 +142,6 @@ export const itemData = createSelector(
   ) => ({
     input,
     imageList,
-    itemImageList,
     items,
     status,
     backup,
@@ -250,8 +245,8 @@ const itemSlice = createSlice({
       state.status.message = "";
     },
     getItemSuccess: (state, { payload: items }) => {
-      state.items = items[0];
-      state.itemImageList = items[1];
+      state.items = items;
+
       state.status.error = "";
       state.status.message = "";
       state.backup = state.items;

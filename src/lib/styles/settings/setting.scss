@@ -1,41 +1,12 @@
-.table-wrapper {
-  margin-top: 7rem;
-  width: 90%;
-  table {
-    margin: 0 auto;
-    table,
-    th,
-    td {
-      border: 1; // border-collapse: collapse;
-      border: 1px solid gray;
-    }
-    th,
-    td {
-      width: 70px;
-      text-align: center;
-    }
-    th {
-      font-weight: 700;
-      height: 30px;
-      line-height: 2;
-    }
-    td {
-    }
-    // th:first-child,
-    // td:first-child {
-    //   width: 150px;
-    // }
-    // // th:last-child,
-    // td:last-child {
-    //   width: 400px;
-    // }
-    tbody {
-      td {
-        cursor: pointer;
-        &:hover {
-          background: yellow;
-        }
-      }
-    }
+.left {
+  width: 400px;
+  height: 80%;
+  background: yellow;
+  position: fixed;
+  top: 11rem;
+  overflow-y: auto;
+  .item {
+    padding: auto;
+    margin: auto;
   }
 }

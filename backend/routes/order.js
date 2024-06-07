@@ -54,13 +54,7 @@ router.get("/getOrderData", async (req, res) => {
 router.post("/orderinput", async (req, res) => {
   try {
     const { order } = req.body;
-    // console.log(order[0]);
 
-    // await sequelize.query(
-    //   `
-    // delete from order
-    // `
-    // );
     await Order.destroy({ where: {} });
     await Order.bulkCreate(order[0]);
     const [results, metadata] = await sequelize.query(
@@ -85,7 +79,7 @@ router.post("/orderinput", async (req, res) => {
       L.number2,
       L.use,
       date_format(L.input_date,'%Y-%m-%d')
-      FROM good G inner join item L on G.id=L.id right join order O on G.groupName=O.Item
+      FROM good G inner join item L on G.id=L.id right join orders O on G.groupName=O.Item
       WHERE L.use=1 
       ORDER BY L.number1,L.number2
       `
@@ -117,7 +111,7 @@ router.post("/orderinput", async (req, res) => {
     L.number2,
     L.use,
     date_format(L.input_date,'%Y-%m-%d')
-    FROM good G inner join item L on G.id=L.id right join order O on G.groupName=O.Item
+    FROM good G inner join item L on G.id=L.id right join orders O on G.groupName=O.Item
     WHERE L.use=1 
     ORDER BY L.number1,L.number2
   )
@@ -132,6 +126,7 @@ router.post("/orderinput", async (req, res) => {
 router.post("/goodinput", async (req, res) => {
   try {
     const { good } = req.body;
+
     if (Object.keys(good[0]).includes("undefined")) {
       throw new Error("오더리스트를 선택함.");
     }

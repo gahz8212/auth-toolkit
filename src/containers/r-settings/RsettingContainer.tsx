@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { formSelector, formActions } from '../../store/slices/formSlice';
 
 import HomeComponent from './RsettingComponent';
+
+import LeftComponent from '../left/LeftComponent';
 const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { input, edit, } = useSelector(formSelector)
@@ -19,12 +21,17 @@ const RsettingContainer = () => {
 
 
     return (
-        <HomeComponent
-            input={input}
-            edit={edit}
-            openAddForm={openAddForm}
-            changePosition={changePosition}
-        />
+        <>
+            <LeftComponent>
+                <HomeComponent
+                    input={input}
+                    edit={edit}
+                    openAddForm={openAddForm}
+                    changePosition={changePosition}
+                />
+
+            </LeftComponent>
+        </>
     );
 };
 export default RsettingContainer;
