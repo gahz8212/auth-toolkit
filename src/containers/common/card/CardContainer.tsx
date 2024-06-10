@@ -38,8 +38,8 @@ const CardContainer = () => {
     return (
         <div>
             <CardComponent
-                selectItem={selectItem}
                 items={items}
+                selectItem={selectItem}
                 dragItem={dragItem}
                 onDrop={onDrop}
             />

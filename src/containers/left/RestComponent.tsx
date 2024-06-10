@@ -1,5 +1,7 @@
 import React from 'react';
+import CardComponent from '../common/card/CardComponent';
 type Props = {
+
     items: {
         id: number,
         type: string,
@@ -14,14 +16,18 @@ type Props = {
         supplyer: string,
         Images: { url: string }[]
     }[];
+    selectItem: (id: number) => void;
+    dragItem: (id: number) => void;
+    onDrop: () => void;
+
+
 }
-const RestComponent: React.FC<Props> = ({ items }) => {
-    console.log(items)
+const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop }) => {
+
     return (
-        <div className='Rest'>
-            {items.map(item => <div key={item.id}>
-                <div className="title">{item.itemName}</div></div>)}
-        </div>
+        <CardComponent items={items} selectItem={selectItem}
+            dragItem={dragItem}
+            onDrop={onDrop} />
     );
 };
 
