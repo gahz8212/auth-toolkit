@@ -31,10 +31,10 @@ const CardContainer = () => {
     const onDrop = () => {
         dispatch(itemActions.initialDragItem())
     }
-    useEffect(() => {
-        dispatch(itemActions.initForm())
-        dispatch(itemActions.getItem())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(itemActions.initForm())
+    //     dispatch(itemActions.getItem())
+    // }, [dispatch])
     return (
         <div>
             <CardComponent
