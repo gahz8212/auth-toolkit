@@ -31,8 +31,8 @@ const LeftComponent: React.FC<Props> = ({ items }) => {
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>
-                                <div>입고가: \{item.im_price}</div>
-                                <div>출고가: {item.unit}{item.ex_price}</div>
+                                <div>입고가: {item.unit}{item.im_price}</div>
+                                <div>출고가: ${item.ex_price}</div>
                                 <div>설명: {item.descript}</div>
 
                             </div>

@@ -95,7 +95,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop })
                                 Undo
                             </span>
                         </div>
-                        {item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
+                        {item.Images && item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
 
                     </div>
                 </div>)}
