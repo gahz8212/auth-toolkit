@@ -45,15 +45,16 @@ const RsettingContainer = () => {
 
         dispatch(itemActions.drag_on(targetId))
     }
-    const addCount = (id: number | string | boolean) => {
-        let idx = dragItems.findIndex(item => item.targetId === id)
-        if (typeof id === 'number') {
+    const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+
+        let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
+        if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount(idx))
         }
     }
-    const removeCount = (id: number | string | boolean) => {
-        let idx = dragItems.findIndex(item => item.targetId === id)
-        if (typeof id === 'number') {
+    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+        let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
+        if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.removeCount(idx))
         }
     }

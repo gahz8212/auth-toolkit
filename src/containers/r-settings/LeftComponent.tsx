@@ -16,8 +16,8 @@ type Props = {
 
     }[];
     dragItems: { [key: string]: string | number | boolean }[];
-    addCount: (id: number | string | boolean) => void;
-    removeCount: (id: number | string | boolean) => void;
+    addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number) => void;
 }
 const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on }) => {
@@ -55,21 +55,21 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             onDragEnter={() => { drag_on(item.id) }}
                         >
                             {dragItems.filter(dragitem => dragitem.targetId === item.id).map((dragitem) =>
-                                <div className="countControl" key={item.id.toString()}>
+                                <div className="countControl" key={dragitem.id.toString()}>
                                     <div className={`itemName ${item.category}`}>
                                         {dragitem.itemName}
                                     </div>
                                     <div className='material-symbols'>
                                         <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
                                             onClick={() => {
-                                                addCount(dragitem.targetId)
+                                                addCount(dragitem.targetId, dragitem.id)
                                             }}
                                         >
                                             add_circle
                                         </span>
                                         <span>{dragitem.point}</span>
                                         <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                            onClick={() => { removeCount(dragitem.targetId) }}>
+                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
                                             do_not_disturb_on
                                         </span>
                                     </div>
