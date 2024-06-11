@@ -23,11 +23,16 @@ type Props = {
 
 }
 const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop }) => {
-
+    const parts = items.filter(item => item.type !== 'SET')
     return (
-        <CardComponent items={items} selectItem={selectItem}
-            dragItem={dragItem}
-            onDrop={onDrop} />
+
+        <div className="right">
+
+            <CardComponent items={parts} selectItem={selectItem}
+                dragItem={dragItem}
+                onDrop={onDrop} />
+        </div>
+
     );
 };
 

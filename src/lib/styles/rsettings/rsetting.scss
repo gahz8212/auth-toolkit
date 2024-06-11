@@ -1,0 +1,113 @@
+.rsettingComponent {
+  display: flex;
+
+  .left {
+    width: 25%;
+    height: 80%;
+    background: yellow;
+    position: fixed;
+    top: 10rem;
+    overflow-y: auto;
+    .items {
+      // position: absolute;
+      width: 80%;
+      margin-left: 2rem;
+      background: green;
+      .item {
+        padding: 1rem 0;
+        .title {
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+
+        .itemInfo {
+          display: flex;
+          .image {
+          }
+          .info {
+            margin-left: 1rem;
+          }
+        }
+      }
+      .relation-list {
+        min-height: 0px;
+        max-height: 300px;
+        width: 90%;
+        overflow-y: auto;
+        background-color: white;
+        transition: 0.2s height;
+        border: 5px dashed darkturquoise;
+        &.open {
+          height: 150px;
+        }
+        &.close {
+          height: 0px;
+        }
+      }
+      .item_basket {
+        // padding: 10px;
+        width: 250px;
+        // min-height: 20px;
+        // max-height: 150px;
+        border-radius: 8px;
+        background: white;
+        margin-left: 0.5rem;
+        margin-bottom: 1rem;
+        // overflow-y: auto;
+        .countControl {
+          .itemName {
+            margin-left: 1rem;
+            position: relative;
+
+            &::before {
+              content: "";
+              position: absolute;
+              background-color: burlywood;
+              width: 15px;
+              height: 15px;
+              border-radius: 50%;
+              left: -18px;
+              // bottom: -1px;
+            }
+          }
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid black;
+          margin-bottom: 0.3rem;
+          padding-top: 0.2rem;
+          padding-bottom: 0.2rem;
+          .material-symbols {
+            display: flex;
+            align-items: center;
+            span {
+              &:nth-of-type(2) {
+                font-weight: 700;
+                color: red;
+                width: 18px;
+                text-align: center;
+              }
+            }
+            .material-symbols-outlined.add,
+            .material-symbols-outlined.remove {
+              &:hover {
+                color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .right {
+    width: 75%;
+    height: 90vh;
+    margin-left: 25%;
+    background: yellowgreen;
+    .title {
+      position: relative;
+      top: 100px;
+      left: 500px;
+    }
+  }
+}

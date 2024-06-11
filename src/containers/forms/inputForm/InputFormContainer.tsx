@@ -119,9 +119,9 @@ const InputFormContainer = () => {
 
         }
     }
-    const drag_on = () => {
+    const drag_on = (targetId: number) => {
 
-        dispatch(itemActions.drag_on())
+        dispatch(itemActions.drag_on(targetId))
     }
     const addCount = (id: number | string | boolean) => {
         let idx = dragItems.findIndex(item => item.id === id)

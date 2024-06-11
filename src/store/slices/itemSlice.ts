@@ -39,6 +39,7 @@ type State = {
     set: boolean;
   };
   dragItem: {
+    targetId: number;
     id: number;
     type: string;
     category: string;
@@ -52,6 +53,7 @@ type State = {
   dragItems:
     | {
         [key: string]: string | number | boolean;
+        targetId: number;
         id: number;
         type: string;
         category: string;
@@ -272,11 +274,9 @@ const itemSlice = createSlice({
     inputDragItem: (state, { payload: item }) => {
       state.dragItem = item;
     },
-    drag_on: (state) => {
-      if (
-        state.dragItem &&
-        !state.dragItems.map((item) => item.id).includes(state.dragItem.id)
-      ) {
+    drag_on: (state, { payload: targetId }) => {
+      if (state.dragItem) {
+        state.dragItem.targetId = targetId;
         state.dragItems = [state.dragItem, ...state.dragItems];
         state.dragItem = null;
       }
@@ -284,22 +284,23 @@ const itemSlice = createSlice({
     initialDragItem: (state) => {
       state.dragItem = null;
     },
-    addCount: (state, { payload: idx }) => {
-      state.dragItems[idx].point = state.dragItems[idx].point + 1;
+    addCount: (state, { payload: targetId }) => {
+      console.log(targetId);
+      state.dragItems[targetId].point = state.dragItems[targetId].point + 1;
       state.sum_input_price = state.dragItems.reduce(
         (prev, curr) => prev + curr.point * curr.im_price,
         0
       );
     },
-    removeCount: (state, { payload: idx }) => {
-      if (state.dragItems[idx].point > 0) {
-        state.dragItems[idx].point = state.dragItems[idx].point - 1;
+    removeCount: (state, { payload: targetId }) => {
+      if (state.dragItems[targetId].point > 0) {
+        state.dragItems[targetId].point = state.dragItems[targetId].point - 1;
         state.sum_input_price = state.dragItems.reduce(
           (prev, curr) => prev + curr.point * curr.im_price,
           0
         );
       } else {
-        state.dragItems.splice(idx, 1);
+        state.dragItems.splice(targetId, 1);
       }
     },
   },

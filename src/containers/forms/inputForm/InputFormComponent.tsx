@@ -47,7 +47,7 @@ type Props = {
     excel_onSubmit: () => void;
     insertGroupType: () => void;
     insertSupplyer: () => void;
-    drag_on: () => void;
+    drag_on: (targetId: number) => void;
     goodType: { category: string, type: string }[];
     supplyers: string[];
     dragItems: { [key: string]: string | number | boolean }[];
@@ -213,7 +213,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             </div>
                             {dragItems.length > 0 && <div className='lowerList'>총 {dragItems.length}건의 하위 아이템</div>}
                             <div className="item_basket"
-                                onDragEnter={drag_on}
+                            // onDragEnter={() => drag_on(input.id)}
                             >
                                 {dragItems && dragItems.map((item) =>
 
@@ -343,7 +343,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     </div>
 
                     <div className={`imageList imageList?"open":""`}>
-                        {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url}/></div>)}
+                        {imageList.map((image, index) => <div key={index} className='image'><img src={image.url} width='90px' alt={image.url} /></div>)}
                     </div>
 
                     <div className="input-submit">
