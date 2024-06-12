@@ -2,6 +2,12 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
   prev: {
+    [key: string]:
+      | string
+      | number
+      | boolean
+      | { groupName: string }
+      | { url: string }[];
     id: number;
     type: string;
     groupType: string;
@@ -135,10 +141,11 @@ const editSlice = createSlice({
       state.next[name] = value;
     },
     selectItem: (state, { payload: item }) => {
+      console.log(item.Good.groupName);
       state.prev = item;
-      // state.prev.groupName = groupName;
+      // state.prev.groupName = item.Good.groupName;
       state.next = item;
-      // state.next.groupName = groupName;
+      // state.next.groupName = item.Good.groupName;
     },
     editImage: (state, action: PayloadAction<FormData>) => {
       state.status.error = "";

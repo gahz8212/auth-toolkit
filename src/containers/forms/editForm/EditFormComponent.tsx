@@ -129,7 +129,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 {next.groupType === 'New' && (<div className="insert_type"><input type="text" name="new_groupType" id="" placeholder='새로운 제품군 입력'
                                     onChange={onChange} /><button onClick={() => { insertGroupType() }}>+</button></div>)}
 
-                                <input type="text" name="groupName" value={next.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />
+                                <input type="text" name="groupName" value={next.Good.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />
                                 <input type="text" name="itemName" value={next.itemName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
                                 <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                             </div>
