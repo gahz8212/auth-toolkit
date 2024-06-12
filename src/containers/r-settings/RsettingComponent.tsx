@@ -33,12 +33,13 @@ type Props = {
     dragItems: { [key: string]: string | number | boolean }[];
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
-    drag_on: (targetId: number) => void;
+    drag_on: (targetId: number, itemId: number) => void;
     // sum_input_price: number
-
+    dragedItem: { id: number } | null;
 }
 
-const RsettingComponent: React.FC<Props> = ({ input, edit, openAddForm, changePosition, items, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on }) => {
+const RsettingComponent: React.FC<Props> = ({ input,
+    edit, openAddForm, changePosition, items, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
 
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
@@ -65,7 +66,7 @@ const RsettingComponent: React.FC<Props> = ({ input, edit, openAddForm, changePo
                 </div>
             </div>}
             <div className="rsettingComponent">
-                <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} />
+                <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} />
                 <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} />
             </div>
         </div >

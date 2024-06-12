@@ -18,9 +18,10 @@ type Props = {
     dragItems: { [key: string]: string | number | boolean }[];
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
-    drag_on: (targetId: number) => void;
+    drag_on: (targetId: number, itemId: number) => void;
+    dragedItem: { id: number } | null
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
     const [openId, setOpenId] = useState<number[]>([])
     return (
         <div className='left'>
@@ -52,7 +53,10 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
 
                         <div className={`relation-list ${openId.includes(item.id) ? 'open' : 'close'} item_basket`}
-                            onDragEnter={() => { drag_on(item.id) }}
+
+                            onDragEnter={() => {
+                                if (dragedItem) drag_on(item.id, dragedItem.id)
+                            }}
                         >
                             {dragItems.filter(dragitem => dragitem.targetId === item.id).map((dragitem) =>
                                 <div className="countControl" key={dragitem.id.toString()}>

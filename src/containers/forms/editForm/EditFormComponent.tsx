@@ -1,7 +1,7 @@
 import React from 'react';
 type Props = {
     prev: {
-        [key: string]: string | number | boolean | { url: string }[],
+        [key: string]: string | number | boolean | { groupName: string } | { url: string }[],
         id: number,
         type: string,
         groupType: string,
@@ -17,11 +17,12 @@ type Props = {
         set: boolean,
         weight: number,
         cbm: number,
-        moq: number
-        // Images: { url: string }[]
+        moq: number,
+        Good: { groupName: string },
+        Images: { url: string }[]
     };
     next: {
-        [key: string]: string | number | boolean | { url: string }[],
+        [key: string]: string | number | boolean | { groupName: string } | { url: string }[],
         id: number,
         type: string,
         groupType: string,
@@ -37,8 +38,9 @@ type Props = {
         set: boolean,
         weight: number,
         cbm: number,
-        moq: number
-        // Images: { url: string }[]
+        moq: number,
+        Good: { groupName: string },
+        Images: { url: string }[]
 
 
     };
@@ -64,7 +66,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                 e.preventDefault();
                 // console.log(next)
                 const changedProps: {
-                    [key: string]: '' | number | string | boolean | { url: string }[],
+                    [key: string]: '' | number | string | boolean | { groupName: string } | { url: string }[],
 
                 } = {};
                 const keys = Object.keys(next);
@@ -261,7 +263,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
                                 <div className="im_price">
                                     <label htmlFor="im_price">입고 가격</label>
-                                    <input type="radio" id="￦_edit" value="\\" name="unit" checked={next.unit === "\\\\"} onChange={onChange} />
+                                    <input type="radio" id="￦_edit" value="\\" name="unit" checked={next.unit === "\\"} onChange={onChange} />
                                     <label htmlFor="￦_edit">￦</label>
                                     <input type="radio" id="$_edit" value="$" name="unit" checked={next.unit === "$"} onChange={onChange} />
                                     <label htmlFor="$_edit">$</label>
@@ -288,10 +290,10 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             {<div className="supplyer">
                                 <label htmlFor="supplyer">공급자</label>
                                 <select value={next.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
-                                    <option value="">공급자 선택</option>
-                                    {/* {supplyers &&
+                                    <option value="">{next.supplyer}</option>
+                                    {supplyers &&
                                         supplyers.map(supplyer => (
-                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))} */}
+                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))}
                                     <option value="New">신규 업체</option>
                                 </select>
 

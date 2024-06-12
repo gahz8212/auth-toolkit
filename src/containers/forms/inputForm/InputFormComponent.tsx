@@ -297,7 +297,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
                                 <div className="im_price">
                                     <label htmlFor="im_price">입고 가격</label>
-                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\\\"} onChange={onChange} />
+                                    <input type="radio" id="￦_input" value="\\" name="unit" checked={input.unit === "\\"} onChange={onChange} />
                                     <label htmlFor="￦_input">￦</label>
                                     <input type="radio" id="$_input" value="$" name="unit" checked={input.unit === "$"} onChange={onChange} />
                                     <label htmlFor="$_input">$</label>
@@ -325,7 +325,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <label htmlFor="supplyer">공급자</label>
                                 <select value={input.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
                                     <option value="">공급자 선택</option>
-                                    {supplyers &&
+                                    {supplyers.length > 0 &&
                                         supplyers.map(supplyer => (
                                             <option key={supplyer} value={supplyer} >{supplyer}</option>))}
                                     <option value="New">신규 업체</option>

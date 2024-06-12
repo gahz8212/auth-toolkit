@@ -126,7 +126,7 @@ router.post("/item", async (req, res) => {
           Image.create({ url: image.url, ItemId: item.id })
         )
       );
-      // item.addImage(image_promise.map((image) => image[0]));
+      item.addImage(image_promise.map((image) => image[0]));
 
       const newItem = await Item.findOne({
         where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
@@ -142,9 +142,9 @@ router.post("/item", async (req, res) => {
           "use",
           "supplyer",
         ],
-        //   // include: { model: Image, attributes: ["url"] },
+        include: { model: Image, attributes: ["url"] },
       });
-
+      console.log("newItem:", newItem);
       return res.status(200).json(newItem);
     }
   } catch (e) {
@@ -158,15 +158,27 @@ router.get("/items", async (req, res) => {
       attributes: [
         "id",
         "type",
-        "category",
+        "groupType",
         "itemName",
         "descript",
+        "category",
         "unit",
         "im_price",
         "ex_price",
+        "weight",
+        "cbm",
+        "moq",
+        "sets",
+        "number1",
+        "number2",
         "use",
+        "supplyer",
       ],
-      include: { model: Image, attributes: ["url"] },
+      include: [
+        { model: Image, attributes: ["url"] },
+        { model: Good, attributes: ["groupName"] },
+      ],
+      // include:{model:Good,attributes:['groupName']},
       order: [["id", "asc"]],
     });
 

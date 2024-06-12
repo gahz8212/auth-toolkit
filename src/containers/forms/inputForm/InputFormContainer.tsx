@@ -147,7 +147,7 @@ const InputFormContainer = () => {
             setGoodType([result, ...goodType].sort())
         }
     })
-    const supplyers = items.filter((item: any) => item.supplyer !== null).map((item: any) =>
+    const supplyers = items.filter((item: any) => item.supplyer !== '').map((item: any) =>
         item.supplyer)
     supplyers.forEach(result => {
         if (result !== "" && !supplyer.includes(result)) {

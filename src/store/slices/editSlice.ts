@@ -19,9 +19,15 @@ type State = {
     moq: number;
     set: boolean;
     Images: { url: string }[];
+    Good: { groupName: string };
   };
   next: {
-    [key: string]: string | number | boolean | { url: string }[];
+    [key: string]:
+      | string
+      | number
+      | boolean
+      | { groupName: string }
+      | { url: string }[];
     id: number;
     type: string;
     groupType: string;
@@ -39,6 +45,7 @@ type State = {
     moq: number;
     set: boolean;
     Images: { url: string }[];
+    Good: { groupName: string };
   };
 
   status: {
@@ -67,6 +74,7 @@ const initialState: State = {
     moq: 0,
     set: true,
     Images: [],
+    Good: { groupName: "" },
   },
   next: {
     id: -1,
@@ -86,6 +94,7 @@ const initialState: State = {
     moq: 0,
     set: true,
     Images: [],
+    Good: { groupName: "" },
   },
 
   status: { error: "", loading: false, message: "" },
@@ -127,7 +136,9 @@ const editSlice = createSlice({
     },
     selectItem: (state, { payload: item }) => {
       state.prev = item;
+      // state.prev.groupName = groupName;
       state.next = item;
+      // state.next.groupName = groupName;
     },
     editImage: (state, action: PayloadAction<FormData>) => {
       state.status.error = "";

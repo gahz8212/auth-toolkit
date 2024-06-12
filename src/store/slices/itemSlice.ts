@@ -19,6 +19,7 @@ type State = {
     moq: number;
     set: boolean;
     Images: { url: string }[];
+    Good: { groupName: string };
   }[];
   input: {
     [key: string]: string | number | boolean;
@@ -284,23 +285,24 @@ const itemSlice = createSlice({
     initialDragItem: (state) => {
       state.dragItem = null;
     },
-    addCount: (state, { payload: targetId }) => {
-      console.log(targetId);
-      state.dragItems[targetId].point = state.dragItems[targetId].point + 1;
-      state.sum_input_price = state.dragItems.reduce(
+    addCount: (state, { payload: itemsId }) => {
+      state.dragItems[itemsId.idx].point =
+        state.dragItems[itemsId.idx].point + 1;
+      state.items[itemsId.targetId - 1].im_price = state.dragItems.reduce(
         (prev, curr) => prev + curr.point * curr.im_price,
         0
       );
     },
-    removeCount: (state, { payload: targetId }) => {
-      if (state.dragItems[targetId].point > 0) {
-        state.dragItems[targetId].point = state.dragItems[targetId].point - 1;
-        state.sum_input_price = state.dragItems.reduce(
+    removeCount: (state, { payload: itemsId }) => {
+      if (state.dragItems[itemsId.idx].point > 0) {
+        state.dragItems[itemsId.idx].point =
+          state.dragItems[itemsId.idx].point - 1;
+        state.items[itemsId.targetId - 1].im_price = state.dragItems.reduce(
           (prev, curr) => prev + curr.point * curr.im_price,
           0
         );
       } else {
-        state.dragItems.splice(targetId, 1);
+        state.dragItems.splice(itemsId.idx, 1);
       }
     },
   },
