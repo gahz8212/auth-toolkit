@@ -2,16 +2,9 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
   prev: {
-    [key: string]:
-      | string
-      | number
-      | boolean
-      | { groupName: string }
-      | { url: string }[];
     id: number;
     type: string;
     groupType: string;
-    groupName: string;
     category: string;
     itemName: string;
     descript: string;
@@ -37,7 +30,6 @@ type State = {
     id: number;
     type: string;
     groupType: string;
-    groupName: string;
     category: string;
     itemName: string;
     descript: string;
@@ -66,7 +58,6 @@ const initialState: State = {
     id: -1,
     type: "",
     groupType: "",
-    groupName: "",
     category: "",
     itemName: "",
     descript: "",
@@ -86,7 +77,6 @@ const initialState: State = {
     id: -1,
     type: "",
     groupType: "",
-    groupName: "",
     category: "",
     itemName: "",
     descript: "",
@@ -137,15 +127,12 @@ const editSlice = createSlice({
       state.status = initialState.status;
     },
     changeField: (state, { payload: { name, value } }) => {
-      console.log(name, value);
+      // console.log(name, value);
       state.next[name] = value;
     },
     selectItem: (state, { payload: item }) => {
-      console.log(item.Good.groupName);
       state.prev = item;
-      // state.prev.groupName = item.Good.groupName;
       state.next = item;
-      // state.next.groupName = item.Good.groupName;
     },
     editImage: (state, action: PayloadAction<FormData>) => {
       state.status.error = "";

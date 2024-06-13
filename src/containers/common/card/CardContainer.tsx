@@ -9,9 +9,6 @@ const CardContainer = () => {
     const { items, status } = useSelector(itemData);
     const selectItem = (id: number | '') => {
         const item = items.filter(item => item.id === id);
-        // console.log('item:', item.groupName)
-        // console.log(item[0].Good.groupName)
-
         dispatch(editActions.selectItem(item[0]));
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
     }

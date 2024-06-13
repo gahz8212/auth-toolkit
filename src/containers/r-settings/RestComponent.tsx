@@ -7,7 +7,6 @@ type Props = {
         type: string,
         category: string,
         itemName: string,
-        groupName: string,
         descript: string,
         unit: string,
         im_price: number;

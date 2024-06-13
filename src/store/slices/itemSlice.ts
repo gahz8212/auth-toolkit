@@ -5,7 +5,6 @@ type State = {
     id: number;
     type: string;
     groupType: string;
-    groupName: string;
     category: string;
     itemName: string;
     descript: string;

@@ -5,7 +5,6 @@ type Props = {
         id: number,
         type: string,
         groupType: string,
-        groupName: string,
         category: string,
         itemName: string,
         descript: string,
@@ -26,7 +25,6 @@ type Props = {
         id: number,
         type: string,
         groupType: string,
-        groupName: string,
         category: string,
         itemName: string,
         descript: string,
@@ -76,8 +74,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 const newItem = ({ id: next.id, ...changedProps })
-                // console.log(newItem)
-                editItem(newItem)
+                console.log('newItem:', newItem)
+                // editItem(newItem)
             }
             }
             >
@@ -116,8 +114,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 <label htmlFor="기타물_edit">기타</label>
                                 <br />
                             </div>
-
-
                             <div className="input_text">
                                 <select value={next.groupType} name="groupType" onChange={onChange}  >
                                     <option value="">제품군 선택</option>
@@ -129,7 +125,11 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 {next.groupType === 'New' && (<div className="insert_type"><input type="text" name="new_groupType" id="" placeholder='새로운 제품군 입력'
                                     onChange={onChange} /><button onClick={() => { insertGroupType() }}>+</button></div>)}
 
-                                <input type="text" name="groupName" value={next.Good.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />
+                                {next.Good ?
+                                    <input type="text" name="groupName" value={next.Good.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} /> :
+                                    <input type="text" name="groupName" onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />}
+
+
                                 <input type="text" name="itemName" value={next.itemName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
                                 <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                             </div>
@@ -290,7 +290,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             {<div className="supplyer">
                                 <label htmlFor="supplyer">공급자</label>
                                 <select value={next.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
-                                    <option value="">{next.supplyer}</option>
+                                    {next.supplyer ? <option value="">{next.supplyer}</option> : <option value="">공급자 입력</option>}
                                     {supplyers &&
                                         supplyers.map(supplyer => (
                                             <option key={supplyer} value={supplyer} >{supplyer}</option>))}
@@ -308,7 +308,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         <input type="file" id="file_edit" name="images" onChange={editImage} multiple accept='image/*' />
                     </div>
                     <div className="imageList_edit">
-                        {/* {next.Images.map((image, index) => <div key={index} className='image' onDoubleClick={() => { removeImage(next.id, image.url) }}><img src={image.url} width='90px' alt={image.url} /></div>)} */}
+                        {next.Images.map((image, index) => <div key={index} className='image' onDoubleClick={() => { removeImage(next.id, image.url) }}><img src={image.url} width='90px' alt={image.url} /></div>)}
                     </div>
 
                     <div className="input-submit_edit">
