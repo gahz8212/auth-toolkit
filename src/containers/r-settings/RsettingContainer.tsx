@@ -36,7 +36,6 @@ const RsettingContainer = () => {
                 point: 0
             }
         ));
-        console.log('item[0].id', item[0].id)
         dispatch(itemActions.inputDragItem(item[0]))
     }
     const onDrop = () => {
