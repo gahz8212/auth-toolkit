@@ -24,6 +24,7 @@ const R_ViewComponent = () => {
     let itemId = 0;
     const findChild = (id: number, top: number, left: number, im_price: number, ex_price: number) => {
         const children = relations.filter(rel => rel.u === id).map(rel => ({ lower: rel.l, im_price: rel.ip, ex_price: rel.ep }))
+        // chidren들의 자식들 갯수로 sort()를 했으면 좋겠다.
         if (lastLeft >= left) {
             left = lastLeft + 60;
         }
