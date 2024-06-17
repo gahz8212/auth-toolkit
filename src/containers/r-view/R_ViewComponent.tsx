@@ -13,18 +13,19 @@ const R_ViewComponent = () => {
         { u: 13, l: 9, ip: 1, ep: 5 },
         { u: 8, l: 14, ip: 1, ep: 5 },
         { u: 7, l: 10, ip: 1, ep: 5 },
-        { u: 5, l: 20 ,ip:1,ep:5},
+        { u: 5, l: 20, ip: 1, ep: 5 },
         { u: 9, l: 12, ip: 1, ep: 5 },
         { u: 9, l: 11, ip: 1, ep: 5 },
     ]
 
     let array: { id: number, top: number, left: number, im_price: number, ex_price: number }[] = [];
     let lastLeft = 0;
-    let history: number[] = []
-    let itemId = 0;
+    let history: number[] = [];
+    const findUppers = (id: number) => { const uppers = relations.filter(rel => rel.u === id).map(rel => rel.l); return uppers }
+    console.log(findUppers(3))
     const findChild = (id: number, top: number, left: number, im_price: number, ex_price: number) => {
         const children = relations.filter(rel => rel.u === id).map(rel => ({ lower: rel.l, im_price: rel.ip, ex_price: rel.ep }))
-        children.sort((a,b)=>relations.filter(rel=>rel.u===a.lower).length-relations.filter(rel=>rel.u===b.lower).length)
+        children.sort((a, b) => relations.filter(rel => rel.u === a.lower).length - relations.filter(rel => rel.u === b.lower).length)
         // chidren들의 자식들 갯수로 sort()를 했으면 좋겠다.
         if (lastLeft >= left) {
             left = lastLeft + 60;
@@ -40,16 +41,18 @@ const R_ViewComponent = () => {
             return;
         }
         for (let index = 0; index < children.length; index++) {
+
             if (children[index].lower === 5 || children[index].lower === 8 || children[index].lower === 13 || children[index].lower === 4) history = []
             if (!history.includes(id)) { history.push(id) }
- 
+
             findChild(children[index].lower, top + 60, left + index * 60, children[index].im_price, children[index].ex_price)
         }
 
     }
     const createGraph = (id: number) => {
-        itemId = id
         findChild(id, 0, 60, 0, 0);
+
+
     }
     createGraph(3)
 
