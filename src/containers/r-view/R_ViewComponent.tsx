@@ -3,7 +3,6 @@ import React from 'react';
 const R_ViewComponent = () => {
     const relations = [
         { u: 3, l: 4, ip: 1, ep: 5 },
-        { u: 5, l: 20 ,ip:1,ep:5},
         { u: 3, l: 5, ip: 1, ep: 5 },
         { u: 5, l: 21, ip: 1, ep: 5 },
         { u: 21, l: 22, ip: 1, ep: 5 },
@@ -14,6 +13,7 @@ const R_ViewComponent = () => {
         { u: 13, l: 9, ip: 1, ep: 5 },
         { u: 8, l: 14, ip: 1, ep: 5 },
         { u: 7, l: 10, ip: 1, ep: 5 },
+        { u: 5, l: 20 ,ip:1,ep:5},
         { u: 9, l: 12, ip: 1, ep: 5 },
         { u: 9, l: 11, ip: 1, ep: 5 },
     ]
@@ -24,6 +24,7 @@ const R_ViewComponent = () => {
     let itemId = 0;
     const findChild = (id: number, top: number, left: number, im_price: number, ex_price: number) => {
         const children = relations.filter(rel => rel.u === id).map(rel => ({ lower: rel.l, im_price: rel.ip, ex_price: rel.ep }))
+        children.sort((a,b)=>relations.filter(rel=>rel.u===a.lower).length-relations.filter(rel=>rel.u===b.lower).length)
         // chidren들의 자식들 갯수로 sort()를 했으면 좋겠다.
         if (lastLeft >= left) {
             left = lastLeft + 60;
