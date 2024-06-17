@@ -5,6 +5,7 @@ import InputFormContainer from '../forms/inputForm/InputFormContainer';
 import EditFormContainer from "../forms/editForm/EditFormContainer";
 import LeftComponent from './LeftComponent';
 import RestComponent from './RestComponent';
+import RViewComponent from '../r-view/R_ViewComponent';
 
 
 type Props = {
@@ -27,6 +28,7 @@ type Props = {
     onDrop: () => void;
     input: { visible: boolean; position: { x: number; y: number } };
     edit: { visible: boolean; position: { x: number; y: number } };
+    relate: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
     openAddForm: () => void;
     dragItems: { [key: string]: string | number | boolean }[];
@@ -38,15 +40,25 @@ type Props = {
 }
 
 const RsettingComponent: React.FC<Props> = ({ input,
-    edit, openAddForm, changePosition, items, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
+    edit, openAddForm, changePosition, items, relate, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
 
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+    const relatePos = useDrag(params => { changePosition('relate', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
 
 
 
     return (
         <div className='home-wraper'>
+            {relate.visible && <div >
+                <div {...relatePos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>Relation View</span>
+                </div>
+                <div style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
+
+                    <RViewComponent />
+                </div>
+            </div>}
             {input.visible && <div >
                 <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
                     <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 입력</span>

@@ -9,7 +9,7 @@ import RsettingComponent from './RsettingComponent';
 const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem } = useSelector(itemData)
-    const { input, edit, } = useSelector(formSelector)
+    const { input, edit, relate } = useSelector(formSelector)
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -21,6 +21,7 @@ const RsettingContainer = () => {
         const item = items.filter(item => item.id === id);
         dispatch(editActions.selectItem(item[0]));
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
+        dispatch(formActions.toggle_form({ form: 'relate', value: true }))
     }
     const dragItem = (id: number | '') => {
         const item = items.filter(item => item.id === id).map(item => (
@@ -66,7 +67,7 @@ const RsettingContainer = () => {
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
-            drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} />
+            drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate} />
     );
 };
 export default RsettingContainer;

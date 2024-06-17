@@ -7,6 +7,7 @@ type State = {
   };
   input: { visible: boolean; position: { x: number; y: number } };
   edit: { visible: boolean; position: { x: number; y: number } };
+  relate: { visible: boolean; position: { x: number; y: number } };
   invoice: { visible: boolean; position: { x: number; y: number } };
   packing: { visible: boolean; position: { x: number; y: number } };
   addItem: { visible: boolean; position: { x: number; y: number } };
@@ -14,6 +15,7 @@ type State = {
 
 const initialState: State = {
   input: { visible: false, position: { x: 250, y: 300 } },
+  relate: { visible: false, position: { x: 250, y: 300 } },
   edit: { visible: false, position: { x: 250, y: 300 } },
   invoice: { visible: false, position: { x: 100, y: 200 } },
   packing: { visible: false, position: { x: 100, y: 200 } },
@@ -24,6 +26,9 @@ const inputFormSelector = (state: RootState) => {
 };
 const editFormSelector = (state: RootState) => {
   return state.form.edit;
+};
+const relateFormSelector = (state: RootState) => {
+  return state.form.relate;
 };
 const invoiceFormSelector = (state: RootState) => {
   return state.form.invoice;
@@ -40,12 +45,14 @@ export const formSelector = createSelector(
   invoiceFormSelector,
   packingFormSelector,
   addItemFormSelector,
-  (input, edit, invoice, packing, addItem) => ({
+  relateFormSelector,
+  (input, edit, invoice, packing, addItem, relate) => ({
     input,
     edit,
     invoice,
     packing,
     addItem,
+    relate,
   })
 );
 const formSlice = createSlice({
