@@ -18,9 +18,10 @@ type Props = {
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number, itemId: number) => void;
-    dragedItem: { id: number } | null
+    dragedItem: { id: number } | null;
+    viewRelation: (toggle: boolean) => void
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation }) => {
     const [openId, setOpenId] = useState<number[]>([])
     return (
         <div className='left'>
@@ -48,6 +49,8 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 setOpenId(openId.filter(ids => ids !== item.id))
                             }
                         }}>Relations</button>
+                        <button onClick={() => { viewRelation(true) }}>view Relation</button>
+                        <button onClick={() => { viewRelation(false) }}>close view</button>
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
 

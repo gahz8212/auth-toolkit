@@ -21,7 +21,10 @@ const RsettingContainer = () => {
         const item = items.filter(item => item.id === id);
         dispatch(editActions.selectItem(item[0]));
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
-        dispatch(formActions.toggle_form({ form: 'relate', value: true }))
+        // dispatch(formActions.toggle_form({ form: 'relate', value: true }))
+    }
+    const viewRelation = (toggle: boolean) => {
+        dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
     }
     const dragItem = (id: number | '') => {
         const item = items.filter(item => item.id === id).map(item => (
@@ -67,7 +70,8 @@ const RsettingContainer = () => {
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
-            drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate} />
+            drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
+            viewRelation={viewRelation} />
     );
 };
 export default RsettingContainer;

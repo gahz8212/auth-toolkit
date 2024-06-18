@@ -3,7 +3,7 @@ import RViewComponent from '../containers/r-view/R_ViewComponent';
 const R_viewForm = () => {
     return (
         <div>
-            <RViewComponent />
+            <RViewComponent topMargin='10rem' />
         </div>
     );
 };

@@ -45,7 +45,32 @@ type State = {
     Images: { url: string }[];
     Good: { groupName: string };
   };
-
+  dragItem: {
+    targetId: number;
+    id: number;
+    type: string;
+    category: string;
+    itemName: string;
+    descript: string;
+    unit: string;
+    im_price: number;
+    use: boolean;
+    point: number;
+  } | null;
+  dragItems:
+    | {
+        [key: string]: string | number | boolean;
+        targetId: number;
+        id: number;
+        type: string;
+        category: string;
+        itemName: string;
+        descript: string;
+        unit: string;
+        im_price: number;
+        use: boolean;
+        point: number;
+      }[];
   status: {
     error: string;
     loading: boolean;
@@ -92,7 +117,8 @@ const initialState: State = {
     Images: [],
     Good: { groupName: "" },
   },
-
+  dragItem: null,
+  dragItems: [],
   status: { error: "", loading: false, message: "" },
 };
 const selectSelector = (state: RootState) => {
@@ -179,6 +205,26 @@ const editSlice = createSlice({
     },
     removeImage: (state, { payload: image }) => {
       state.next.Images = image;
+    },
+    addCount: (state, { payload: itemsId }) => {
+      state.dragItems[itemsId.idx].point =
+        state.dragItems[itemsId.idx].point + 1;
+      state.next.im_price = state.dragItems.reduce(
+        (prev, curr) => prev + curr.point * curr.im_price,
+        0
+      );
+    },
+    removeCount: (state, { payload: itemsId }) => {
+      if (state.dragItems[itemsId.idx].point > 0) {
+        state.dragItems[itemsId.idx].point =
+          state.dragItems[itemsId.idx].point - 1;
+        state.next.im_price = state.dragItems.reduce(
+          (prev, curr) => prev + curr.point * curr.im_price,
+          0
+        );
+      } else {
+        state.dragItems.splice(itemsId.idx, 1);
+      }
     },
   },
 });

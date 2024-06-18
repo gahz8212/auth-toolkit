@@ -54,8 +54,16 @@ type Props = {
     goodType: { category: string, type: string }[];
     supplyers: string[];
     insertGroupType: () => void
+    insertSupplyer: () => void
+    dragItems: { [key: string]: string | number | boolean }[];
+    addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    drag_on: (targetId: number, itemId: number) => void;
+    dragedItem: { id: number } | null;
+    dragItem: (id: number) => void;
+    onDrop: () => void;
 }
-const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType }) => {
+const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
 
     return (
         <div className={`form-type ${next.type}`}>
@@ -74,8 +82,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 const newItem = ({ id: next.id, ...changedProps })
-                console.log('newItem:', newItem)
-                // editItem(newItem)
+                // console.log('newItem:', newItem)
+                editItem(newItem)
             }
             }
             >
@@ -201,8 +209,29 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <textarea name="descript" value={next.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                                 </div>
                             </div>
-                            <div className="item_basket">
-
+                            <div className="item_basket" onDragEnter={() => {
+                                if (dragedItem) drag_on(next.id, dragedItem.id)
+                            }}>
+                                {dragItems.filter(dragitem => dragitem.targetId === next.id).map((dragitem) =>
+                                <div className="countControl" key={dragitem.id.toString()}>
+                                    <div className={`itemName ${next.category}`}>
+                                        {dragitem.itemName}
+                                    </div>
+                                    <div className='material-symbols'>
+                                        <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
+                                            onClick={() => {
+                                                addCount(dragitem.targetId, dragitem.id)
+                                            }}
+                                        >
+                                            add_circle
+                                        </span>
+                                        <span>{dragitem.point}</span>
+                                        <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
+                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
+                                            do_not_disturb_on
+                                        </span>
+                                    </div>
+                                </div>)}
                             </div>
 
                             <div className="currency">
@@ -224,15 +253,15 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             {<div className="supplyer">
                                 <label htmlFor="supplyer">공급자</label>
                                 <select value={next.supplyer} name="supplyer" id="supplyer" onChange={onChange}>
-                                    <option value="">공급자 선택</option>
-                                    {/* {supplyers &&
+                                    {next.supplyer ? <option value="">{next.supplyer}</option> : <option value="">공급자 입력</option>}
+                                    {supplyers &&
                                         supplyers.map(supplyer => (
-                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))} */}
+                                            <option key={supplyer} value={supplyer} >{supplyer}</option>))}
                                     <option value="New">신규 업체</option>
                                 </select>
 
-                                {/* {next.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
-                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)} */}
+                                {next.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
+                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)}
                             </div>}
 
 
@@ -297,8 +326,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <option value="New">신규 업체</option>
                                 </select>
 
-                                {/* {input.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
-                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)} */}
+                                {next.supplyer === 'New' && (<div className="insert_supplyer"><input type="text" name="new_supplyer" id="" placeholder='새로운 공급자 입력'
+                                    onChange={onChange} /><button onClick={() => { insertSupplyer() }}>+</button></div>)}
                             </div>}
                         </div>}
                     </div>
@@ -307,7 +336,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         <label htmlFor="file_edit">그림 추가</label>
                         <input type="file" id="file_edit" name="images" onChange={editImage} multiple accept='image/*' />
                     </div>
-                    <div className="imageList_edit">
+                    <div className="imageList">
                         {next.Images.map((image, index) => <div key={index} className='image' onDoubleClick={() => { removeImage(next.id, image.url) }}><img src={image.url} width='90px' alt={image.url} /></div>)}
                     </div>
 

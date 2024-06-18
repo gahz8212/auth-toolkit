@@ -1,6 +1,8 @@
 import React from 'react';
-
-const R_ViewComponent = () => {
+type Props = {
+    topMargin: string
+}
+const R_ViewComponent: React.FC<Props> = ({ topMargin }) => {
     const relations = [
         { u: 3, l: 4, ip: 1, ep: 5 },
         { u: 3, l: 5, ip: 1, ep: 5 },
@@ -58,7 +60,7 @@ const R_ViewComponent = () => {
 
 
     return (
-        <div style={{ top: '10rem', position: 'relative' }}>
+        <div style={{ top: topMargin, position: 'relative', background: 'white', width: '800px', height: '600px' }}>
             {array.map(item => <div key={item.id} style={{ fontSize: '12px', position: 'absolute', top: item.top, left: item.left, border: '1px solid black', width: '50px', height: '50px', textAlign: 'center' }}>
                 <div>{item.id}</div><div>입고가{item.im_price}</div>
             </div>)

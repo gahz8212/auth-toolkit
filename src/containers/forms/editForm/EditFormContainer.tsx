@@ -10,7 +10,7 @@ import EditFormComponent from './EditFormComponent';
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
-    const { items } = useSelector(itemData)
+    const { items, dragItems, dragItem: dragedItem } = useSelector(itemData)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
     }[]>([])
@@ -24,12 +24,13 @@ const EditFormContainer = () => {
         }
         if (name === 'type') {
 
-            // dispatch(itemActions.initForm())
-            // dispatch(itemActions.changeInitial({ name, value }))
+            // dispatch(editActions.initForm())
+            // dispatch(editActions.changeInitial({ name, value }))
         }
 
         dispatch(editActions.changeField({ name, value }))
     }
+
     const editImage = async (e: any) => {
         const formData = imageInsert(e, next.Images)
         dispatch(editActions.editImage(await formData))
@@ -55,6 +56,12 @@ const EditFormContainer = () => {
     const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
 
 
+        // results.forEach((result) => {
+        //     const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
+        //     if (!json_arr.includes(JSON.stringify(result))) {
+        //         setGoodType([result, ...goodType].sort())
+        //     }
+        // })
         return ({ category: item.category, type: item.groupType })
     })
     const insertGroupType = () => {
@@ -63,20 +70,49 @@ const EditFormContainer = () => {
             dispatch(editActions.changeField({ name: 'groupType', value: next.new_groupType }))
         }
     }
-    results.forEach((result) => {
-        const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
-        if (!json_arr.includes(JSON.stringify(result))) {
-            setGoodType([result, ...goodType].sort())
+    const insertSupplyer = () => {
+        if (next.new_supplyer.toString()) {
+            setSupplyer([next.new_supplyer.toString(), ...supplyer].sort())
+            dispatch(editActions.changeField({ name: 'supplyer', value: next.new_supplyer }))
         }
-    })
-    const supplyers = items.filter((item: any) => item.supplyer !== null).map((item: any) =>
-        item.supplyer)
-    supplyers.forEach(result => {
-        if (result !== "" && !supplyer.includes(result)) {
-            setSupplyer([result, ...supplyer].sort())
-        }
-    })
+    }
+    const dragItem = (id: number | '') => {
+        const item = items.filter(item => item.id === id).map(item => (
+            {
+                id: item.id,
+                type: item.type,
+                category: item.category,
+                itemName: item.itemName,
+                desript: item.descript,
+                unit: item.unit,
+                im_price: item.im_price,
+                use: item.use,
+                point: 0
+            }
+        ));
+        dispatch(itemActions.inputDragItem(item[0]))
+    }
+    const onDrop = () => {
+        dispatch(itemActions.initialDragItem())
+    }
+    const drag_on = (targetId: number, itemId: number) => {
+        if (dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0)
+            dispatch(itemActions.drag_on(targetId))
+    }
+    const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
 
+        let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
+        if (typeof targetId === 'number' && typeof itemId === 'number') {
+            // console.log('targetId', targetId)
+            dispatch(itemActions.addCount({ idx, targetId }))
+        }
+    }
+    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+        let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
+        if (typeof targetId === 'number' && typeof itemId === 'number') {
+            dispatch(itemActions.removeCount({ idx, targetId }))
+        }
+    }
     useEffect(() => {
         if (status.message === 'edit_ok') {
             const idx = (items.findIndex(item => item.id === next.id))
@@ -107,6 +143,10 @@ const EditFormContainer = () => {
             goodType={goodType}
             supplyers={supplyer}
             insertGroupType={insertGroupType}
+            insertSupplyer={insertSupplyer}
+            dragedItem={dragedItem}
+            drag_on={drag_on} addCount={addCount} removeCount={removeCount}
+            dragItem={dragItem} dragItems={dragItems} onDrop={onDrop}
         />
     );
 };

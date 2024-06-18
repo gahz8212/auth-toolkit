@@ -37,10 +37,11 @@ type Props = {
     drag_on: (targetId: number, itemId: number) => void;
     // sum_input_price: number
     dragedItem: { id: number } | null;
+    viewRelation: (toggle: boolean) => void
 }
 
 const RsettingComponent: React.FC<Props> = ({ input,
-    edit, openAddForm, changePosition, items, relate, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
+    edit, openAddForm, changePosition, items, relate, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation }) => {
 
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
@@ -51,12 +52,12 @@ const RsettingComponent: React.FC<Props> = ({ input,
     return (
         <div className='home-wraper'>
             {relate.visible && <div >
-                <div {...relatePos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                <div {...relatePos()} style={{ color: 'white', position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
                     <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>Relation View</span>
                 </div>
-                <div style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
+                <div style={{ position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
 
-                    <RViewComponent />
+                    <RViewComponent topMargin='3rem' />
                 </div>
             </div>}
             {input.visible && <div >
@@ -77,7 +78,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
                 </div>
             </div>}
             <div className="rsettingComponent">
-                <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} />
+                <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation} />
                 <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} />
             </div>
         </div >

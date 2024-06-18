@@ -85,7 +85,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop })
                         <div>{item.category}</div>
                         <div>{item.itemName}</div>
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
-                        <div>{item.unit === '\\' ? '￦' : item.unit}{item.ex_price}</div>
+                        <div>${item.ex_price}</div>
 
                     </div>
                     <div className={`info image  ${item.category} `}>
