@@ -41,12 +41,14 @@ const RsettingContainer = () => {
             }
         ));
         dispatch(itemActions.inputDragItem(item[0]))
+        dispatch(editActions.inputDragItem(item[0]))
     }
     const onDrop = () => {
         dispatch(itemActions.initialDragItem())
+        dispatch(editActions.initialDragItem())
     }
     const drag_on = (targetId: number, itemId: number) => {
-        if (dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0)
+        if ((dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && itemId !== targetId)
             dispatch(itemActions.drag_on(targetId))
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {

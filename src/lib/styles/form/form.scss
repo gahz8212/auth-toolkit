@@ -31,6 +31,9 @@
       &.포장 {
         background-color: yellowgreen;
       }
+      &.기타 {
+        background-color: lightgray;
+      }
       &.EDT {
         background-color: cornflowerblue;
       }
@@ -212,16 +215,82 @@
                 .itemName {
                   margin-left: 1rem;
                   position: relative;
-
-                  &::before {
-                    content: "";
-                    position: absolute;
-                    background-color: burlywood;
-                    width: 15px;
-                    height: 15px;
-                    border-radius: 50%;
-                    left: -18px;
-                    // bottom: -1px;
+                  &.ASSY {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      border: 1px solid red;
+                    }
+                  }
+                  &.PARTS {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      border: 1px dotted black;
+                    }
+                  }
+                  &.회로 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: cornflowerblue;
+                    }
+                  }
+                  &.전장 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: lightpink;
+                    }
+                  }
+                  &.기구 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: khaki;
+                    }
+                  }
+                  &.포장 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: yellowgreen;
+                    }
+                  }
+                  &.기타 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: lightgray;
+                    }
                   }
                 }
                 display: flex;

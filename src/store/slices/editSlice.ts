@@ -131,16 +131,24 @@ const editSelector = (state: RootState) => {
 const stateSelector = (state: RootState) => {
   return state.edit.status;
 };
-
+const dragItemSelector = (state: RootState) => {
+  return state.edit.dragItem;
+};
+const dragItemsSelector = (state: RootState) => {
+  return state.edit.dragItems;
+};
 export const editData = createSelector(
   selectSelector,
   editSelector,
   stateSelector,
-
-  (prev, next, status) => ({
+  dragItemSelector,
+  dragItemsSelector,
+  (prev, next, status, dragItem, dragItems) => ({
     prev,
     next,
     status,
+    dragItem,
+    dragItems,
   })
 );
 const editSlice = createSlice({
@@ -151,9 +159,9 @@ const editSlice = createSlice({
       state.prev = initialState.prev;
       state.next = initialState.next;
       state.status = initialState.status;
+      state.dragItems = initialState.dragItems;
     },
     changeField: (state, { payload: { name, value } }) => {
-      // console.log(name, value);
       state.next[name] = value;
     },
     selectItem: (state, { payload: item }) => {
@@ -211,7 +219,7 @@ const editSlice = createSlice({
         state.dragItems[itemsId.idx].point + 1;
       state.next.im_price = state.dragItems.reduce(
         (prev, curr) => prev + curr.point * curr.im_price,
-        0
+        state.prev.im_price
       );
     },
     removeCount: (state, { payload: itemsId }) => {
@@ -220,11 +228,25 @@ const editSlice = createSlice({
           state.dragItems[itemsId.idx].point - 1;
         state.next.im_price = state.dragItems.reduce(
           (prev, curr) => prev + curr.point * curr.im_price,
-          0
+          state.prev.im_price
         );
       } else {
         state.dragItems.splice(itemsId.idx, 1);
       }
+    },
+    inputDragItem: (state, { payload: item }) => {
+      state.dragItem = item;
+    },
+    drag_on: (state, { payload: targetId }) => {
+      console.log("targetId", targetId);
+      if (state.dragItem) {
+        state.dragItem.targetId = targetId;
+        state.dragItems = [state.dragItem, ...state.dragItems];
+        state.dragItem = null;
+      }
+    },
+    initialDragItem: (state) => {
+      state.dragItem = null;
     },
   },
 });

@@ -60,8 +60,8 @@ type Props = {
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
-    dragItem: (id: number) => void;
-    onDrop: () => void;
+    // dragItem: (id: number) => void;
+    // onDrop: () => void;
 }
 const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
 
@@ -212,26 +212,26 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             <div className="item_basket" onDragEnter={() => {
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>
-                                {dragItems.filter(dragitem => dragitem.targetId === next.id).map((dragitem) =>
-                                <div className="countControl" key={dragitem.id.toString()}>
-                                    <div className={`itemName ${next.category}`}>
-                                        {dragitem.itemName}
-                                    </div>
-                                    <div className='material-symbols'>
-                                        <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
-                                            onClick={() => {
-                                                addCount(dragitem.targetId, dragitem.id)
-                                            }}
-                                        >
-                                            add_circle
-                                        </span>
-                                        <span>{dragitem.point}</span>
-                                        <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
-                                            do_not_disturb_on
-                                        </span>
-                                    </div>
-                                </div>)}
+                                {dragItems.map((dragitem) =>
+                                    <div className="countControl" key={dragitem.id.toString()}>
+                                        <div className={`itemName ${dragitem.type} ${dragitem.category}`}>
+                                            {dragitem.itemName}
+                                        </div>
+                                        <div className='material-symbols'>
+                                            <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
+                                                onClick={() => {
+                                                    addCount(dragitem.targetId, dragitem.id)
+                                                }}
+                                            >
+                                                add_circle
+                                            </span>
+                                            <span>{dragitem.point}</span>
+                                            <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
+                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
+                                                do_not_disturb_on
+                                            </span>
+                                        </div>
+                                    </div>)}
                             </div>
 
                             <div className="currency">

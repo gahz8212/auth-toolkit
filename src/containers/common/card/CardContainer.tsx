@@ -27,9 +27,11 @@ const CardContainer = () => {
             }
         ));
         dispatch(itemActions.inputDragItem(item[0]))
+        dispatch(editActions.inputDragItem(item[0]))
     }
     const onDrop = () => {
         dispatch(itemActions.initialDragItem())
+        dispatch(editActions.initialDragItem())
     }
     // useEffect(() => {
     //     dispatch(itemActions.initForm())

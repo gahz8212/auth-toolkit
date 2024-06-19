@@ -47,10 +47,11 @@ type Props = {
     excel_onSubmit: () => void;
     insertGroupType: () => void;
     insertSupplyer: () => void;
-    drag_on: (targetId: number) => void;
+    drag_on: () => void;
     goodType: { category: string, type: string }[];
     supplyers: string[];
     dragItems: { [key: string]: string | number | boolean }[];
+    T_dragItems: { [key: string]: string | number | boolean }[];
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
     addCount: (id: number | string | boolean) => void;
@@ -61,7 +62,7 @@ type Props = {
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, addCount, removeCount, sum_input_price }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems,T_dragItems, addCount, removeCount, sum_input_price }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -213,12 +214,12 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                             </div>
                             {dragItems.length > 0 && <div className='lowerList'>총 {dragItems.length}건의 하위 아이템</div>}
                             <div className="item_basket"
-                            // onDragEnter={() => drag_on(input.id)}
+                                onDragEnter={drag_on}
                             >
-                                {dragItems && dragItems.map((item) =>
+                                {T_dragItems && T_dragItems.map((item) =>
 
                                     <div className="countControl" key={item.id.toString()}>
-                                        <div className={`itemName ${item.category}`}>
+                                        <div className={`itemName ${item.type} ${item.category}`}>
 
                                             {item.itemName}
                                         </div>

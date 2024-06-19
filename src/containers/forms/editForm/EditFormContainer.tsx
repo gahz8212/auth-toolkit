@@ -10,7 +10,8 @@ import EditFormComponent from './EditFormComponent';
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
-    const { items, dragItems, dragItem: dragedItem } = useSelector(itemData)
+    const { items } = useSelector(itemData)
+    const { dragItems, dragItem: dragedItem } = useSelector(editData)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
     }[]>([])
@@ -51,6 +52,7 @@ const EditFormContainer = () => {
         dispatch(editActions.removeImage(newNextImage))
     }
     const closeForm = () => {
+         dispatch(editActions.initForm())
         dispatch(formActions.toggle_form({ form: 'edit', value: false }))
     }
     const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
@@ -76,41 +78,23 @@ const EditFormContainer = () => {
             dispatch(editActions.changeField({ name: 'supplyer', value: next.new_supplyer }))
         }
     }
-    const dragItem = (id: number | '') => {
-        const item = items.filter(item => item.id === id).map(item => (
-            {
-                id: item.id,
-                type: item.type,
-                category: item.category,
-                itemName: item.itemName,
-                desript: item.descript,
-                unit: item.unit,
-                im_price: item.im_price,
-                use: item.use,
-                point: 0
-            }
-        ));
-        dispatch(itemActions.inputDragItem(item[0]))
-    }
-    const onDrop = () => {
-        dispatch(itemActions.initialDragItem())
-    }
+
     const drag_on = (targetId: number, itemId: number) => {
-        if (dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0)
-            dispatch(itemActions.drag_on(targetId))
+        if ((dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId)
+            dispatch(editActions.drag_on(targetId))
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
 
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             // console.log('targetId', targetId)
-            dispatch(itemActions.addCount({ idx, targetId }))
+            dispatch(editActions.addCount({ idx, targetId }))
         }
     }
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
-            dispatch(itemActions.removeCount({ idx, targetId }))
+            dispatch(editActions.removeCount({ idx, targetId }))
         }
     }
     useEffect(() => {
@@ -146,7 +130,9 @@ const EditFormContainer = () => {
             insertSupplyer={insertSupplyer}
             dragedItem={dragedItem}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount}
-            dragItem={dragItem} dragItems={dragItems} onDrop={onDrop}
+            dragItems={dragItems}
+        // dragItem={dragItem} 
+        // onDrop={onDrop}
         />
     );
 };

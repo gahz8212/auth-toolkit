@@ -26,13 +26,13 @@
       opacity: 0.5;
     }
     &.SET {
-      border: 5px double green;
-    }
-    &.ASSY {
       border: 5px solid green;
     }
+    &.ASSY {
+      border: 5px solid rgb(114, 153, 37);
+    }
     &.PARTS {
-      border: 5px dashed green;
+      border: 5px dashed rgb(114, 153, 37);
     }
 
     transition: 0.3s;
@@ -46,11 +46,11 @@
     }
 
     .info.text {
-      &.전장 {
-        background-color: orange;
-      }
       &.회로 {
         background-color: cornflowerblue;
+      }
+      &.전장 {
+        background-color: lightpink;
       }
       &.기구 {
         background-color: khaki;
@@ -59,7 +59,7 @@
         background-color: yellowgreen;
       }
       &.기타 {
-        background-color: darkolivegreen;
+        background-color: lightgray;
       }
       .footer {
         position: absolute;
@@ -92,7 +92,7 @@
         background-color: yellowgreen;
       }
       &.기타 {
-        background-color: darkolivegreen;
+        background-color: lightgray;
       }
       transform: rotateY(-180deg);
       display: flex;

@@ -15,7 +15,7 @@ const InputFormContainer = () => {
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
 
-    const { input, imageList, items, dragItems, sum_input_price } = useSelector(itemData)
+    const { input, imageList, items, dragItems, T_dragItems, sum_input_price } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
 
@@ -119,20 +119,20 @@ const InputFormContainer = () => {
 
         }
     }
-    const drag_on = (targetId: number) => {
+    const drag_on = () => {
 
-        dispatch(itemActions.drag_on(targetId))
+        dispatch(itemActions.Tdrag_on())
     }
     const addCount = (id: number | string | boolean) => {
-        let idx = dragItems.findIndex(item => item.id === id)
+        let idx = T_dragItems.findIndex(item => item.id === id)
         if (typeof id === 'number') {
-            dispatch(itemActions.addCount(idx))
+            dispatch(itemActions.T_addCount(idx))
         }
     }
     const removeCount = (id: number | string | boolean) => {
-        let idx = dragItems.findIndex(item => item.id === id)
+        let idx = T_dragItems.findIndex(item => item.id === id)
         if (typeof id === 'number') {
-            dispatch(itemActions.removeCount(idx))
+            dispatch(itemActions.T_removeCount(idx))
         }
 
     }
@@ -177,6 +177,7 @@ const InputFormContainer = () => {
             supplyers={supplyer}
             drag_on={drag_on}
             dragItems={dragItems}
+            T_dragItems={T_dragItems}
             addCount={addCount}
             removeCount={removeCount}
             sum_input_price={sum_input_price}
