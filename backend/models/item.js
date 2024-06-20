@@ -29,6 +29,7 @@ module.exports = class Item extends Sequelize.Model {
           defaultValue: "\\",
         },
         im_price: { type: Sequelize.FLOAT(9, 2), allowNull: true },
+        sum_im_price: { type: Sequelize.FLOAT(9, 2), allowNull: true },
         ex_price: { type: Sequelize.FLOAT(9, 3), allowNull: true },
         weight: { type: Sequelize.FLOAT(5, 2), defaultValue: 0 },
         cbm: { type: Sequelize.FLOAT(4, 3), defaultValue: 0 },

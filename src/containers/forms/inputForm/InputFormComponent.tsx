@@ -14,6 +14,7 @@ type Props = {
         descript: string,
         unit: string,
         im_price: number;
+
         ex_price: number;
         use: boolean,
         supplyer: string,
@@ -56,13 +57,13 @@ type Props = {
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
     addCount: (id: number | string | boolean) => void;
     removeCount: (id: number | string | boolean) => void;
-    sum_input_price: number
+
 
 
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems,T_dragItems, addCount, removeCount, sum_input_price }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -246,7 +247,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <div className="im_price">
                                     <label htmlFor="￦_input">입고가격</label>
                                     <label htmlFor="￦_input">￦</label>
-                                    <input type="text" name="im_price" value={sum_input_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} readOnly onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    <input type="text" name="im_price" value={input.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} readOnly onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
                                 </div>
 
                                 <div className="ex_price">

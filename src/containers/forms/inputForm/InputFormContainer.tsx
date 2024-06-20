@@ -15,7 +15,7 @@ const InputFormContainer = () => {
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
 
-    const { input, imageList, items, dragItems, T_dragItems, sum_input_price } = useSelector(itemData)
+    const { input, imageList, items, dragItems, T_dragItems } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
 
@@ -180,7 +180,7 @@ const InputFormContainer = () => {
             T_dragItems={T_dragItems}
             addCount={addCount}
             removeCount={removeCount}
-            sum_input_price={sum_input_price}
+
         />
 
 

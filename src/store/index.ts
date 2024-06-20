@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { all, call } from "redux-saga/effects";
 import createSagaMiddleware from "redux-saga";
+import { all, call } from "redux-saga/effects";
 import { authSaga } from "./sagas/authSaga";
 import { itemSaga } from "./sagas/itemSaga";
 import { editSaga } from "./sagas/editSaga";
@@ -14,6 +14,7 @@ import excelSlice from "./slices/excelSlice";
 import searchSlice from "./slices/searchSlice";
 import pageSlice from "./slices/pageSlice";
 import orderSlice from "./slices/orderSlice";
+import relateSlice from "./slices/relationSlice";
 import { authActions } from "./slices/authSlice";
 const reducers = combineReducers({
   auth: authSlice,
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   search: searchSlice,
   page: pageSlice,
   order: orderSlice,
+  relate: relateSlice,
 });
 function* rootSaga() {
   yield all([

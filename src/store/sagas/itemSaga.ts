@@ -43,6 +43,7 @@ function* addItemSaga(action: {
         descript: string;
         unit: string;
         im_price: number;
+        sum_im_price: number;
         ex_price: number;
         use: boolean;
         supplyer: string;
@@ -70,6 +71,7 @@ function* getItemSaga() {
         descript: string;
         unit: string;
         im_price: number;
+        sum_im_price: number;
         ex_price: number;
         use: boolean;
         supplyer: string;

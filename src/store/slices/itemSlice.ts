@@ -10,6 +10,7 @@ type State = {
     descript: string;
     unit: string;
     im_price: number;
+    sum_im_price: number;
     ex_price: number;
     use: boolean;
     supplyer: string;
@@ -47,6 +48,7 @@ type State = {
     descript: string;
     unit: string;
     im_price: number;
+    sum_im_price: number;
     use: boolean;
     point: number;
   } | null;
@@ -61,6 +63,7 @@ type State = {
         descript: string;
         unit: string;
         im_price: number;
+        sum_im_price: number;
         use: boolean;
         point: number;
       }[];
@@ -75,6 +78,7 @@ type State = {
         descript: string;
         unit: string;
         im_price: number;
+        sum_im_price: number;
         use: boolean;
         point: number;
       }[];
@@ -82,7 +86,6 @@ type State = {
   imageList: { url: string }[];
 
   status: { error: string; message: string; loading: boolean };
-  sum_input_price: number;
 };
 const initialState: State = {
   items: [],
@@ -110,7 +113,6 @@ const initialState: State = {
   imageList: [],
 
   status: { error: "", message: "", loading: false },
-  sum_input_price: 0,
 };
 const inputSelector = (state: RootState) => {
   return state.item.input;
@@ -137,9 +139,6 @@ const dragItemsSelector = (state: RootState) => {
 const TdragItemsSelector = (state: RootState) => {
   return state.item.T_dragItems;
 };
-const sum_input_priceSelector = (state: RootState) => {
-  return state.item.sum_input_price;
-};
 
 export const itemData = createSelector(
   inputSelector,
@@ -150,7 +149,7 @@ export const itemData = createSelector(
   dragItemSelector,
   dragItemsSelector,
   TdragItemsSelector,
-  sum_input_priceSelector,
+
   (
     input,
     imageList,
@@ -159,8 +158,7 @@ export const itemData = createSelector(
     backup,
     dragItem,
     dragItems,
-    T_dragItems,
-    sum_input_price
+    T_dragItems
   ) => ({
     input,
     imageList,
@@ -170,7 +168,6 @@ export const itemData = createSelector(
     dragItem,
     dragItems,
     T_dragItems,
-    sum_input_price,
   })
 );
 
@@ -179,7 +176,6 @@ const itemSlice = createSlice({
   initialState,
   reducers: {
     initForm: (state) => {
-      // state.items = initialState.items;
       state.input = initialState.input;
       state.imageList = initialState.imageList;
       state.dragItems = [];
@@ -208,7 +204,7 @@ const itemSlice = createSlice({
       state.status.error = "";
       state.status.loading = false;
       state.items = state.items.concat(items);
-      state.backup = state.items;
+      // state.backup = state.items;
     },
     excelAddFailure: (state, { payload: error }) => {
       state.status.message = "";
@@ -272,7 +268,7 @@ const itemSlice = createSlice({
 
       state.status.error = "";
       state.status.message = "";
-      state.backup = state.items;
+      // state.backup = state.items;
     },
     getItemFailure: (state, { payload: error }) => {
       state.status.error = error;
@@ -283,8 +279,6 @@ const itemSlice = createSlice({
       state.status.error = "";
       state.status.message = "";
       state.backup = state.items;
-
-      // state.status.message = message;
     },
     filteredItems: (state, { payload: newItems }) => {
       state.items = newItems;
@@ -308,15 +302,15 @@ const itemSlice = createSlice({
         state.dragItem = null;
       }
     },
-
     initialDragItem: (state) => {
       state.dragItem = null;
     },
     addCount: (state, { payload: itemsId }) => {
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
-      state.items[itemsId.targetId - 1].im_price = state.dragItems.reduce(
-        (prev, curr) => prev + curr.point * curr.im_price,
+      state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
+        (prev, curr) =>
+          prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
         0
       );
     },
@@ -324,8 +318,9 @@ const itemSlice = createSlice({
       if (state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
-        state.items[itemsId.targetId - 1].im_price = state.dragItems.reduce(
-          (prev, curr) => prev + curr.point * curr.im_price,
+        state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
+          (prev, curr) =>
+            prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
           0
         );
       } else {
@@ -342,10 +337,6 @@ const itemSlice = createSlice({
     T_removeCount: (state, { payload: idx }) => {
       if (state.T_dragItems[idx].point > 0) {
         state.T_dragItems[idx].point = state.T_dragItems[idx].point - 1;
-        // state.T_dragItems[idx].im_price = state.T_dragItems.reduce(
-        //   (prev, curr) => prev + curr.point * curr.im_price,
-        //   0
-        // );
       } else {
         state.T_dragItems.splice(idx, 1);
       }

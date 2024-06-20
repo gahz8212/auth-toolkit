@@ -18,6 +18,7 @@ type Props = {
         descript: string,
         unit: string,
         im_price: number;
+        sum_im_price: number;
         ex_price: number;
         use: boolean,
         supplyer: string,

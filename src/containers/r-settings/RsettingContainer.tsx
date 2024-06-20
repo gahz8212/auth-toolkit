@@ -1,27 +1,29 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { itemData, itemActions } from '../../store/slices/itemSlice';
+import { relateData, relateActions } from '../../store/slices/relationSlice'
 import { editActions } from '../../store/slices/editSlice';
 import { formSelector, formActions } from '../../store/slices/formSlice';
 
 import RsettingComponent from './RsettingComponent';
 
+
 const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
+    const {relate_all,relate_price}=useSelector(relateData);
+
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
-
     const selectItem = (id: number | '') => {
         const item = items.filter(item => item.id === id);
         dispatch(editActions.selectItem(item[0]));
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
-        // dispatch(formActions.toggle_form({ form: 'relate', value: true }))
     }
     const viewRelation = (toggle: boolean) => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
@@ -55,7 +57,6 @@ const RsettingContainer = () => {
 
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
-            // console.log('targetId', targetId)
             dispatch(itemActions.addCount({ idx, targetId }))
         }
     }
@@ -68,6 +69,7 @@ const RsettingContainer = () => {
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(itemActions.getItem())
+        
     }, [dispatch])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
@@ -76,4 +78,5 @@ const RsettingContainer = () => {
             viewRelation={viewRelation} />
     );
 };
+
 export default RsettingContainer;

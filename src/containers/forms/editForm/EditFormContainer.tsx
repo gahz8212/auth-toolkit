@@ -58,13 +58,13 @@ const EditFormContainer = () => {
     const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
 
 
-        // results.forEach((result) => {
-        //     const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
-        //     if (!json_arr.includes(JSON.stringify(result))) {
-        //         setGoodType([result, ...goodType].sort())
-        //     }
-        // })
         return ({ category: item.category, type: item.groupType })
+    })
+    results.forEach((result) => {
+        const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
+        if (!json_arr.includes(JSON.stringify(result))) {
+            setGoodType([result, ...goodType].sort())
+        }
     })
     const insertGroupType = () => {
         if (next.new_groupType.toString()) {

@@ -10,6 +10,7 @@ type Props = {
         descript: string,
         unit: string,
         im_price: number;
+        sum_im_price: number;
         ex_price: number;
         use: boolean,
         supplyer: string,
@@ -30,6 +31,7 @@ type Props = {
         descript: string,
         unit: string,
         im_price: number;
+        sum_im_price: number;
         ex_price: number;
         use: boolean,
         supplyer: string,
@@ -236,10 +238,18 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
                             <div className="currency">
                                 <div className="im_price">
+                                    <div>
 
-                                    <label htmlFor="￦_edit">입고가격</label>
-                                    <label htmlFor="￦_edit">￦</label>
-                                    {next.im_price && <input type="text" name="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                        <label htmlFor="￦_edit">입고가격</label>
+                                        <label htmlFor="￦_edit">￦</label>
+                                        {next.im_price && <input type="text" name="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                    </div>
+                                    <div>
+
+                                        <label htmlFor="￦_edit">합산가격</label>
+                                        <label htmlFor="￦_edit">￦</label>
+                                        {next.im_price && <input type="text" name="sum_im_price" value={(next.im_price + next.sum_im_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                    </div>
 
                                 </div>
 

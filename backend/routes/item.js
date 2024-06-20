@@ -164,6 +164,7 @@ router.get("/items", async (req, res) => {
         "category",
         "unit",
         "im_price",
+        "sum_im_price",
         "ex_price",
         "weight",
         "cbm",

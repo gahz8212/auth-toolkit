@@ -22,6 +22,7 @@ const CardContainer = () => {
                 desript: item.descript,
                 unit: item.unit,
                 im_price: item.im_price,
+                sum_im_price: item.sum_im_price,
                 use: item.use,
                 point: 0
             }

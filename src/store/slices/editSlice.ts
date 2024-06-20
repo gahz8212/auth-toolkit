@@ -10,6 +10,7 @@ type State = {
     descript: string;
     unit: string;
     im_price: number;
+    sum_im_price: number;
     ex_price: number;
     use: boolean;
     supplyer: string;
@@ -35,6 +36,7 @@ type State = {
     descript: string;
     unit: string;
     im_price: number;
+    sum_im_price: number;
     ex_price: number;
     use: boolean;
     supplyer: string;
@@ -54,6 +56,7 @@ type State = {
     descript: string;
     unit: string;
     im_price: number;
+    sum_im_price: number;
     use: boolean;
     point: number;
   } | null;
@@ -68,6 +71,7 @@ type State = {
         descript: string;
         unit: string;
         im_price: number;
+        sum_im_price: number;
         use: boolean;
         point: number;
       }[];
@@ -89,6 +93,7 @@ const initialState: State = {
     unit: "\\",
     im_price: 0,
     ex_price: 0,
+    sum_im_price: 0,
     use: false,
     supplyer: "",
     weight: 0,
@@ -108,6 +113,7 @@ const initialState: State = {
     unit: "\\",
     im_price: 0,
     ex_price: 0,
+    sum_im_price: 0,
     use: false,
     supplyer: "",
     weight: 0,
@@ -217,18 +223,18 @@ const editSlice = createSlice({
     addCount: (state, { payload: itemsId }) => {
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
-      state.next.im_price = state.dragItems.reduce(
+      state.next.sum_im_price = state.dragItems.reduce(
         (prev, curr) => prev + curr.point * curr.im_price,
-        state.prev.im_price
+        0
       );
     },
     removeCount: (state, { payload: itemsId }) => {
       if (state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
-        state.next.im_price = state.dragItems.reduce(
+        state.next.sum_im_price = state.dragItems.reduce(
           (prev, curr) => prev + curr.point * curr.im_price,
-          state.prev.im_price
+          0
         );
       } else {
         state.dragItems.splice(itemsId.idx, 1);
@@ -238,7 +244,7 @@ const editSlice = createSlice({
       state.dragItem = item;
     },
     drag_on: (state, { payload: targetId }) => {
-      console.log("targetId", targetId);
+      // console.log("targetId", targetId);
       if (state.dragItem) {
         state.dragItem.targetId = targetId;
         state.dragItems = [state.dragItem, ...state.dragItems];
