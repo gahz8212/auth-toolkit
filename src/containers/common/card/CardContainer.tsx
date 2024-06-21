@@ -19,12 +19,12 @@ const CardContainer = () => {
                 type: item.type,
                 category: item.category,
                 itemName: item.itemName,
-                desript: item.descript,
                 unit: item.unit,
                 im_price: item.im_price,
                 sum_im_price: item.sum_im_price,
-                use: item.use,
                 point: 0
+                // desript: item.descript,
+                // use: item.use,
             }
         ));
         dispatch(itemActions.inputDragItem(item[0]))

@@ -4,15 +4,16 @@ import { itemData, itemActions } from '../../store/slices/itemSlice';
 import { relateData, relateActions } from '../../store/slices/relationSlice'
 import { editActions } from '../../store/slices/editSlice';
 import { formSelector, formActions } from '../../store/slices/formSlice';
-
 import RsettingComponent from './RsettingComponent';
+
+import { makeRelateData_View, makeRelateData_Price } from '../../lib/utils/createRelateData'
 
 
 const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
-    const {relate_all,relate_price}=useSelector(relateData);
+    const { relate_view, relate_price } = useSelector(relateData);
 
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
@@ -35,11 +36,11 @@ const RsettingContainer = () => {
                 type: item.type,
                 category: item.category,
                 itemName: item.itemName,
-                desript: item.descript,
                 unit: item.unit,
                 im_price: item.im_price,
-                use: item.use,
                 point: 0
+                // desript: item.descript,
+                // use: item.use,
             }
         ));
         dispatch(itemActions.inputDragItem(item[0]))
@@ -69,7 +70,24 @@ const RsettingContainer = () => {
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(itemActions.getItem())
-        
+    }, [dispatch])
+    useEffect(() => {
+        const result = makeRelateData_View(3,
+            [
+                { upper: 3, current: 4, point: 1, im_price: 1, ex_price: 1 },
+                { upper: 3, current: 5, point: 1, im_price: 1, ex_price: 1 }
+            ])
+        dispatch(relateActions.insertRelation_view(result))
+    }, [dispatch])
+
+    useEffect(() => {
+        const result = makeRelateData_Price(
+            [
+                { upper: 3, current: 4, point: 1, im_price: 1, ex_price: 1 },
+                { upper: 3, current: 5, point: 1, im_price: 1, ex_price: 1 }
+            ])
+
+        dispatch(relateActions.insertRelation_price(result))
     }, [dispatch])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}

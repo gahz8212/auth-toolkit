@@ -53,12 +53,12 @@ type State = {
     type: string;
     category: string;
     itemName: string;
-    descript: string;
     unit: string;
     im_price: number;
     sum_im_price: number;
-    use: boolean;
     point: number;
+    // use: boolean;
+    // descript: string;
   } | null;
   dragItems:
     | {
@@ -68,11 +68,11 @@ type State = {
         type: string;
         category: string;
         itemName: string;
-        descript: string;
         unit: string;
         im_price: number;
         sum_im_price: number;
-        use: boolean;
+        // descript: string;
+        // use: boolean;
         point: number;
       }[];
   status: {
@@ -190,7 +190,7 @@ const editSlice = createSlice({
     editItem: (
       state,
       action: PayloadAction<{
-        [key: string]: number | string | { url: string }[] | boolean;
+        [key: string]: number | string | { url: string }[] | boolean
       }>
     ) => {
       state.status.loading = true;

@@ -1,7 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
-  relate_all: {
+  relate_view: {
     currentId: number;
     top: number;
     left: number;
@@ -13,30 +13,30 @@ type State = {
   }[];
 };
 const initialState: State = {
-  relate_all: [],
+  relate_view: [],
   relate_price: [],
 };
-const allSelector = (state: RootState) => {
-  return state.relate.relate_all;
+const viewSelector = (state: RootState) => {
+  return state.relate.relate_view;
 };
 const priceSelector = (state: RootState) => {
   return state.relate.relate_price;
 };
 export const relateData = createSelector(
-  allSelector,
+  viewSelector,
   priceSelector,
-  (relate_all, relate_price) => ({ relate_all, relate_price })
+  (relate_view, relate_price) => ({ relate_view, relate_price })
 );
 const relateSlice = createSlice({
   name: "relate",
   initialState,
   reducers: {
     initRelate: (state) => {
-      state.relate_all = initialState.relate_all;
+      state.relate_view = initialState.relate_view;
       state.relate_price = initialState.relate_price;
     },
-    insertRelation_all: (state, { payload: relate }) => {
-      state.relate_all = relate;
+    insertRelation_view: (state, { payload: relate }) => {
+      state.relate_view = relate;
     },
     insertRelation_price: (state, { payload: relate }) => {
       state.relate_price = relate;

@@ -49,7 +49,10 @@ type Props = {
     editImage: (e: any) => void;
     editItem: (item: {
         [key: string]: '' | number | string | { url: string }[] | boolean,
-    }) => void;
+    }, dragItems: {
+        [key: string]: number | string |boolean
+
+    }[]) => void;
     removeItem: (id: number) => void;
     removeImage: (id: number, url: string) => void;
     closeForm: () => void;
@@ -72,7 +75,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
             <form className='edit-form' onSubmit={(e) => {
                 e.preventDefault();
-                // console.log(next)
                 const changedProps: {
                     [key: string]: '' | number | string | boolean | { groupName: string } | { url: string }[],
 
@@ -84,8 +86,11 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 const newItem = ({ id: next.id, ...changedProps })
-                // console.log('newItem:', newItem)
-                editItem(newItem)
+          
+                    editItem(newItem, dragItems)
+
+               
+                
             }
             }
             >

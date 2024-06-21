@@ -39,11 +39,16 @@ const EditFormContainer = () => {
     }
     const editItem = (
         item: {
-            [key: string]: number | string | { url: string }[] | boolean,
-        }
+            [key: string]: number | string | { url: string }[] | boolean
+        }, dragItems: {
+            [key: string]: number | string | boolean
+        }[]
     ) => {
-        dispatch(editActions.editItem(item))
+
+        dispatch(editActions.editItem(item,dragItems))
     }
+
+
     const removeItem = (id: number | '') => {
         dispatch(editActions.removeItem(id))
     }
@@ -52,7 +57,7 @@ const EditFormContainer = () => {
         dispatch(editActions.removeImage(newNextImage))
     }
     const closeForm = () => {
-         dispatch(editActions.initForm())
+        dispatch(editActions.initForm())
         dispatch(formActions.toggle_form({ form: 'edit', value: false }))
     }
     const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
