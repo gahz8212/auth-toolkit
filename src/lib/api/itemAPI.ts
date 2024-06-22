@@ -29,8 +29,9 @@ export const getItem = () => {
   return client.get("/item/items");
 };
 export const editItem = (item: {
-  [key: string]: "" | number | string | { url: string }[] | boolean;
+  [key: string]: "" | number | string | { url: string }[] | boolean|{}[];
 }) => {
+  console.log(item);
   return client.post("/item/edit", item);
 };
 export const removeItem = (id: number | "") => {

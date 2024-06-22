@@ -15,7 +15,7 @@ function* editImageSaga(action: { payload: FormData }) {
 }
 function* editItemSaga(action: {
   payload: {
-    [key: string]: "" | number | string | { url: string }[] | boolean;
+    [key: string]: "" | number | string | { url: string }[] | boolean|{}[];
   };
 }) {
   try {

@@ -48,7 +48,6 @@ module.exports = class Item extends Sequelize.Model {
       {
         sequelize,
         hooks: {
-        
           afterUpdate: async (good) => {
             sequelize.models.ItemBackup.create({
               itemName: good.itemName,

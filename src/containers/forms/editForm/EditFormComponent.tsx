@@ -48,11 +48,8 @@ type Props = {
     onChange: (e: any) => void;
     editImage: (e: any) => void;
     editItem: (item: {
-        [key: string]: '' | number | string | { url: string }[] | boolean,
-    }, dragItems: {
-        [key: string]: number | string |boolean
-
-    }[]) => void;
+        [key: string]: '' | number | string | { url: string }[] | boolean |{}[]
+    }) => void;
     removeItem: (id: number) => void;
     removeImage: (id: number, url: string) => void;
     closeForm: () => void;
@@ -85,12 +82,12 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         changedProps[key] = next[key]
                     }
                 }
-                const newItem = ({ id: next.id, ...changedProps })
-          
-                    editItem(newItem, dragItems)
+                const newItem = ({ id: next.id, ...changedProps, dragItems })
 
-               
-                
+                editItem(newItem)
+
+
+
             }
             }
             >

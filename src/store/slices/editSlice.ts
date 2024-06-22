@@ -190,7 +190,7 @@ const editSlice = createSlice({
     editItem: (
       state,
       action: PayloadAction<{
-        [key: string]: number | string | { url: string }[] | boolean
+        [key: string]: number | string | { url: string }[] | boolean|{}[]
       }>
     ) => {
       state.status.loading = true;

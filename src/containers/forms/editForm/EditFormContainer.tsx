@@ -39,13 +39,13 @@ const EditFormContainer = () => {
     }
     const editItem = (
         item: {
-            [key: string]: number | string | { url: string }[] | boolean
-        }, dragItems: {
-            [key: string]: number | string | boolean
-        }[]
+            [key: string]: number | string | { url: string }[] | boolean|{}[]
+        },
+       
+
     ) => {
 
-        dispatch(editActions.editItem(item,dragItems))
+        dispatch(editActions.editItem(item))
     }
 
 
