@@ -190,7 +190,8 @@ router.get("/items", async (req, res) => {
   }
 });
 router.post("/edit", async (req, res) => {
-  let { id, Images, ...rest } = req.body;
+  let { id, Images, dragItems, ...rest } = req.body;
+  console.log("dragItems", dragItems);
   try {
     id = parseInt(id, 10);
 
