@@ -50,30 +50,30 @@ type State = {
   dragItem: {
     targetId: number;
     id: number;
-    type: string;
-    category: string;
-    itemName: string;
-    unit: string;
-    im_price: number;
-    sum_im_price: number;
     point: number;
+    // type: string;
+    // category: string;
+    // itemName: string;
+    // unit: string;
+    // im_price: number;
+    // sum_im_price: number;
     // use: boolean;
     // descript: string;
   } | null;
   dragItems:
     | {
-        [key: string]: string | number | boolean;
+        [key: string]: number;
         targetId: number;
         id: number;
-        type: string;
-        category: string;
-        itemName: string;
-        unit: string;
-        im_price: number;
-        sum_im_price: number;
+        point: number;
+        // type: string;
+        // category: string;
+        // itemName: string;
+        // unit: string;
+        // im_price: number;
+        // sum_im_price: number;
         // descript: string;
         // use: boolean;
-        point: number;
       }[];
   status: {
     error: string;
@@ -190,7 +190,7 @@ const editSlice = createSlice({
     editItem: (
       state,
       action: PayloadAction<{
-        [key: string]: number | string | { url: string }[] | boolean|{}[]
+        [key: string]: number | string | { url: string }[] | boolean | {}[];
       }>
     ) => {
       state.status.loading = true;
@@ -244,12 +244,14 @@ const editSlice = createSlice({
       state.dragItem = item;
     },
     drag_on: (state, { payload: targetId }) => {
-      // console.log("targetId", targetId);
       if (state.dragItem) {
         state.dragItem.targetId = targetId;
         state.dragItems = [state.dragItem, ...state.dragItems];
         state.dragItem = null;
       }
+    },
+    inputDragItems: (state, { payload: dragItems }) => {
+      state.dragItems = dragItems;
     },
     initialDragItem: (state) => {
       state.dragItem = null;

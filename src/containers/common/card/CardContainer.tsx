@@ -8,12 +8,14 @@ const CardContainer = () => {
     const dispatch = useDispatch();
     const { items, status } = useSelector(itemData);
     const selectItem = (id: number | '') => {
-        const item = items.filter(item => item.id === id);
-        dispatch(editActions.selectItem(item[0]));
+        const item = items?.filter(item => item.id === id);
+        if (item) {
+            dispatch(editActions.selectItem(item[0]));
+        }
         dispatch(formActions.toggle_form({ form: 'edit', value: true }))
     }
     const dragItem = (id: number | '') => {
-        const item = items.filter(item => item.id === id).map(item => (
+        const item = items?.filter(item => item.id === id).map(item => (
             {
                 id: item.id,
                 type: item.type,
@@ -27,8 +29,10 @@ const CardContainer = () => {
                 // use: item.use,
             }
         ));
-        dispatch(itemActions.inputDragItem(item[0]))
-        dispatch(editActions.inputDragItem(item[0]))
+        if (item) {
+            dispatch(itemActions.inputDragItem(item[0]))
+            dispatch(editActions.inputDragItem(item[0]))
+        }
     }
     const onDrop = () => {
         dispatch(itemActions.initialDragItem())

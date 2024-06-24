@@ -62,22 +62,23 @@ function* addItemSaga(action: {
 function* getItemSaga() {
   try {
     const response: {
-      data: {
-        type: string;
-        groupType: string;
-        groupName: string;
-        category: string;
-        itemName: string;
-        descript: string;
-        unit: string;
-        im_price: number;
-        sum_im_price: number;
-        ex_price: number;
-        use: boolean;
-        supplyer: string;
-
-        imageList: { url: string }[];
-      }[];
+      data: [items:{
+   
+          type: string;
+          groupType: string;
+          groupName: string;
+          category: string;
+          itemName: string;
+          descript: string;
+          unit: string;
+          im_price: number;
+          sum_im_price: number;
+          ex_price: number;
+          use: boolean;
+          supplyer: string;
+          imageList: { url: string }[];
+        }[],relations:{}[]];
+       
     } = yield call(itemAPI.getItem);
     yield put(itemActions.getItemSuccess(response.data));
   } catch (e: any) {

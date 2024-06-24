@@ -15,7 +15,7 @@ type Props = {
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
-    }[];
+    }[] | null;
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
@@ -23,17 +23,21 @@ type Props = {
 
 }
 const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop }) => {
-    const parts = items.filter(item => item.type !== 'SET')
-    return (
+    if (items) {
 
-        <div className="right">
+        const parts = items.filter(item => item.type !== 'SET')
+        return (
 
-            <CardComponent items={parts} selectItem={selectItem}
-                dragItem={dragItem}
-                onDrop={onDrop} />
-        </div>
+            <div className="right">
 
-    );
+                <CardComponent items={parts} selectItem={selectItem}
+                    dragItem={dragItem}
+                    onDrop={onDrop} />
+            </div>
+
+        );
+    } else
+        return null
 };
 
 export default RestComponent;

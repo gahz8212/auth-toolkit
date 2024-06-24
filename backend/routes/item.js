@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Item, Image, Good, sequelize } = require("../models");
+const { Item, Image, Good, Relation } = require("../models");
 const { Op } = require("sequelize");
 const upload = multer({
   storage: multer.diskStorage({
@@ -182,8 +182,8 @@ router.get("/items", async (req, res) => {
       // include:{model:Good,attributes:['groupName']},
       order: [["id", "asc"]],
     });
-
-    return res.status(200).json(items);
+    const relations = await Relation.findAll();
+    return res.status(200).json([items,relations]);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);
@@ -191,14 +191,29 @@ router.get("/items", async (req, res) => {
 });
 router.post("/edit", async (req, res) => {
   let { id, Images, dragItems, ...rest } = req.body;
-  console.log("dragItems", dragItems);
+
+  const relations = dragItems.map((dragItem) => ({
+    LowerId: dragItem.id,
+    UpperId: dragItem.targetId,
+    point: dragItem.point,
+  }));
+  // console.log("relations", relations);
   try {
     id = parseInt(id, 10);
-
     await Item.update(rest, { where: { id } });
     if (Images) {
       await Image.destroy({ where: { ItemId: id } });
       Images.map((image) => Image.create({ url: image.url, ItemId: id }));
+    }
+    if (relations) {
+      await Relation.destroy({ where: { UpperId: id } });
+      relations.map((rel) =>
+        Relation.create({
+          UpperId: rel.UpperId,
+          LowerId: rel.LowerId,
+          point: rel.point,
+        })
+      );
     }
 
     return res.status(200).json("edit_ok");

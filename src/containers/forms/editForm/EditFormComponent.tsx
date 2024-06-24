@@ -48,7 +48,7 @@ type Props = {
     onChange: (e: any) => void;
     editImage: (e: any) => void;
     editItem: (item: {
-        [key: string]: '' | number | string | { url: string }[] | boolean |{}[]
+        [key: string]: '' | number | string | { url: string }[] | boolean | {}[]
     }) => void;
     removeItem: (id: number) => void;
     removeImage: (id: number, url: string) => void;
@@ -62,10 +62,11 @@ type Props = {
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
+    relations: { UpperId: number, LowerId: number, point: number }[] | null;
     // dragItem: (id: number) => void;
     // onDrop: () => void;
 }
-const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem }) => {
+const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations }) => {
 
     return (
         <div className={`form-type ${next.type}`}>
@@ -83,11 +84,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 const newItem = ({ id: next.id, ...changedProps, dragItems })
-
                 editItem(newItem)
-
-
-
             }
             }
             >

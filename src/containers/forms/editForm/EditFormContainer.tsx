@@ -10,7 +10,7 @@ import EditFormComponent from './EditFormComponent';
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
-    const { items } = useSelector(itemData)
+    const { items, relations } = useSelector(itemData)
     const { dragItems, dragItem: dragedItem } = useSelector(editData)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
@@ -24,11 +24,9 @@ const EditFormContainer = () => {
             value = value === '1' ? true : false
         }
         if (name === 'type') {
-
             // dispatch(editActions.initForm())
             // dispatch(editActions.changeInitial({ name, value }))
         }
-
         dispatch(editActions.changeField({ name, value }))
     }
 
@@ -39,16 +37,11 @@ const EditFormContainer = () => {
     }
     const editItem = (
         item: {
-            [key: string]: number | string | { url: string }[] | boolean|{}[]
+            [key: string]: number | string | { url: string }[] | boolean | {}[]
         },
-       
-
     ) => {
-
         dispatch(editActions.editItem(item))
     }
-
-
     const removeItem = (id: number | '') => {
         dispatch(editActions.removeItem(id))
     }
@@ -60,12 +53,12 @@ const EditFormContainer = () => {
         dispatch(editActions.initForm())
         dispatch(formActions.toggle_form({ form: 'edit', value: false }))
     }
-    const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
+    const results = items?.filter((item: any) => item.groupType !== null).map((item: any) => {
 
 
         return ({ category: item.category, type: item.groupType })
     })
-    results.forEach((result) => {
+    results?.forEach((result) => {
         const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
         if (!json_arr.includes(JSON.stringify(result))) {
             setGoodType([result, ...goodType].sort())
@@ -92,10 +85,10 @@ const EditFormContainer = () => {
 
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
-            // console.log('targetId', targetId)
             dispatch(editActions.addCount({ idx, targetId }))
         }
     }
+
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
@@ -103,22 +96,41 @@ const EditFormContainer = () => {
         }
     }
     useEffect(() => {
-        if (status.message === 'edit_ok') {
+        if (status.message === 'edit_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
             dispatch(itemActions.changeItems(newItems))
         }
-    }, [status, dispatch])
+    }, [status, dispatch,])
     useEffect(() => {
-        if (status.message === 'remove_ok') {
+        if (status.message === 'remove_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items]
             newItems.splice(idx, 1)
             dispatch(itemActions.changeItems(newItems))
             dispatch(editActions.initForm())
         }
-    }, [status, dispatch])
+    }, [status, dispatch,])
+    useEffect(() => {
+
+        const newItems = (relations?.map(relation => items?.filter(item => relation.LowerId === item.id)).flat().map(item => {
+            if (item) {
+                const point = relations.filter(relation => relation.LowerId === item.id).map(rel => rel.point)[0]
+                // console.log('point', point)
+                return ({ id: item?.id, type: item.type, category: item.category, itemName: item.itemName, point: point })
+            } else {
+                return null;
+            }
+        })
+        )
+        dispatch(editActions.inputDragItems(newItems))
+        // const newRelations = (relations?.map(relation => { return ({ id: relation.LowerId, point: relation.point, targetId: relation.UpperId }) }))
+
+    }, [dispatch, items, relations])
+
+
+
     return (
         <EditFormComponent
             prev={prev}
@@ -136,6 +148,7 @@ const EditFormContainer = () => {
             dragedItem={dragedItem}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount}
             dragItems={dragItems}
+            relations={relations}
         // dragItem={dragItem} 
         // onDrop={onDrop}
         />

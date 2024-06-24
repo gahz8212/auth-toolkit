@@ -12,7 +12,7 @@ type Props = {
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
-    }[];
+    }[] | null;
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
@@ -47,7 +47,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop })
     return (
 
         <div className="item-list">
-            {items.map((item, index) =>
+            {items?.map((item, index) =>
                 <div
                     key={index}
                     className={`infos 

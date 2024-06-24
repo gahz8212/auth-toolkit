@@ -30,15 +30,17 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
                 conditions.push(key)
             }
         }
+        if (items) {
 
-        const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
-        dispatch(itemActions.filteredItems(searchResult))
+            const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
+            dispatch(itemActions.filteredItems(searchResult))
 
-        if (search.결합 &&search.회로 && search.전장 && search.기구 && search.기타) {
-            dispatch(SearchActions.onlyCheckAll(true))
-        } else {
-            dispatch(SearchActions.onlyCheckAll(false))
+            if (search.결합 && search.회로 && search.전장 && search.기구 && search.기타) {
+                dispatch(SearchActions.onlyCheckAll(true))
+            } else {
+                dispatch(SearchActions.onlyCheckAll(false))
 
+            }
         }
     }, [search, dispatch])
     return (

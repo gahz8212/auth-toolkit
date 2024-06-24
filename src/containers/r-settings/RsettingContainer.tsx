@@ -11,7 +11,7 @@ import { makeRelateData_View, makeRelateData_Price } from '../../lib/utils/creat
 
 const RsettingContainer = () => {
     const dispatch = useDispatch();
-    const { items, dragItems, dragItem: dragedItem } = useSelector(itemData)
+    const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
     const { relate_view, relate_price } = useSelector(relateData);
 
@@ -22,29 +22,35 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-        const item = items.filter(item => item.id === id);
-        dispatch(editActions.selectItem(item[0]));
-        dispatch(formActions.toggle_form({ form: 'edit', value: true }))
+        if (items) {
+
+            const item = items.filter(item => item.id === id);
+            dispatch(editActions.selectItem(item[0]));
+            dispatch(formActions.toggle_form({ form: 'edit', value: true }))
+        }
     }
     const viewRelation = (toggle: boolean) => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
     }
     const dragItem = (id: number | '') => {
-        const item = items.filter(item => item.id === id).map(item => (
-            {
-                id: item.id,
-                type: item.type,
-                category: item.category,
-                itemName: item.itemName,
-                unit: item.unit,
-                im_price: item.im_price,
-                point: 0
-                // desript: item.descript,
-                // use: item.use,
-            }
-        ));
-        dispatch(itemActions.inputDragItem(item[0]))
-        dispatch(editActions.inputDragItem(item[0]))
+        if (items) {
+
+            const item = items.filter(item => item.id === id).map(item => (
+                {
+                    id: item.id,
+                    type: item.type,
+                    category: item.category,
+                    itemName: item.itemName,
+                    unit: item.unit,
+                    im_price: item.im_price,
+                    point: 0
+                    // desript: item.descript,
+                    // use: item.use,
+                }
+            ));
+            dispatch(itemActions.inputDragItem(item[0]))
+            dispatch(editActions.inputDragItem(item[0]))
+        }
     }
     const onDrop = () => {
         dispatch(itemActions.initialDragItem())
@@ -72,28 +78,27 @@ const RsettingContainer = () => {
         dispatch(itemActions.getItem())
     }, [dispatch])
     useEffect(() => {
-        const result = makeRelateData_View(3,
-            [
-                { upper: 3, current: 4, point: 1, im_price: 1, ex_price: 1 },
-                { upper: 3, current: 5, point: 1, im_price: 1, ex_price: 1 }
-            ])
-        dispatch(relateActions.insertRelation_view(result))
-    }, [dispatch])
+        if (items) {
+
+            const result = makeRelateData_View(223,
+                relations, items)
+            dispatch(relateActions.insertRelation_view(result))
+        }
+    }, [dispatch,])
 
     useEffect(() => {
-        const result = makeRelateData_Price(
-            [
-                { upper: 3, current: 4, point: 1, im_price: 1, ex_price: 1 },
-                { upper: 3, current: 5, point: 1, im_price: 1, ex_price: 1 }
-            ])
+        if (items) {
 
-        dispatch(relateActions.insertRelation_price(result))
+            const result = makeRelateData_Price(
+                relations, items)
+            dispatch(relateActions.insertRelation_price(result))
+        }
     }, [dispatch])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
-            viewRelation={viewRelation} />
+            viewRelation={viewRelation} relations={relations} />
     );
 };
 

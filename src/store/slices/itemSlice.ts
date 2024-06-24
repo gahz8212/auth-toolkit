@@ -1,26 +1,35 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
-  items: {
-    id: number;
-    type: string;
-    groupType: string;
-    category: string;
-    itemName: string;
-    descript: string;
-    unit: string;
-    im_price: number;
-    sum_im_price: number;
-    ex_price: number;
-    use: boolean;
-    supplyer: string;
-    weight: number;
-    cbm: number;
-    moq: number;
-    set: boolean;
-    Images: { url: string }[];
-    Good: { groupName: string };
-  }[];
+  items:
+    | {
+        id: number;
+        type: string;
+        groupType: string;
+        category: string;
+        itemName: string;
+        descript: string;
+        unit: string;
+        im_price: number;
+        sum_im_price: number;
+        ex_price: number;
+        use: boolean;
+        supplyer: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        set: boolean;
+        Images: { url: string }[];
+        Good: { groupName: string };
+      }[]
+    | null;
+  relations:
+    | {
+        UpperId: number;
+        LowerId: number;
+        point: number;
+      }[]
+    | null;
   input: {
     [key: string]: string | number | boolean;
     type: string;
@@ -88,7 +97,8 @@ type State = {
   status: { error: string; message: string; loading: boolean };
 };
 const initialState: State = {
-  items: [],
+  items: null,
+  relations: null,
   input: {
     type: "PARTS",
     groupType: "",
@@ -139,6 +149,9 @@ const dragItemsSelector = (state: RootState) => {
 const TdragItemsSelector = (state: RootState) => {
   return state.item.T_dragItems;
 };
+const relationSelector = (state: RootState) => {
+  return state.item.relations;
+};
 
 export const itemData = createSelector(
   inputSelector,
@@ -149,6 +162,7 @@ export const itemData = createSelector(
   dragItemSelector,
   dragItemsSelector,
   TdragItemsSelector,
+  relationSelector,
 
   (
     input,
@@ -158,7 +172,8 @@ export const itemData = createSelector(
     backup,
     dragItem,
     dragItems,
-    T_dragItems
+    T_dragItems,
+    relations
   ) => ({
     input,
     imageList,
@@ -168,6 +183,7 @@ export const itemData = createSelector(
     dragItem,
     dragItems,
     T_dragItems,
+    relations,
   })
 );
 
@@ -203,7 +219,9 @@ const itemSlice = createSlice({
       state.status.message = "";
       state.status.error = "";
       state.status.loading = false;
-      state.items = state.items.concat(items);
+      if (state.items) {
+        state.items = state.items.concat(items);
+      }
       // state.backup = state.items;
     },
     excelAddFailure: (state, { payload: error }) => {
@@ -249,25 +267,29 @@ const itemSlice = createSlice({
     addItemSuccess: (state, { payload: item }) => {
       state.status.message = "";
       state.status.error = "";
-      state.items = state.items.concat(item);
-      state.backup = state.items;
+      if (state.items) {
+        state.items = state.items.concat(item);
+        state.backup = state.items;
+      }
     },
     addItemFailure: (state, { payload: error }) => {
       state.status.message = "";
       state.status.error = error;
     },
     addItems: (state, { payload: items }) => {
-      state.items = state.items.concat(items);
+      if (state.items) {
+        state.items = state.items.concat(items);
+      }
     },
     getItem: (state) => {
       state.status.error = "";
       state.status.message = "";
     },
     getItemSuccess: (state, { payload: items }) => {
-      state.items = items;
-
+      state.items = items[0];
       state.status.error = "";
       state.status.message = "";
+      state.relations = items[1];
       // state.backup = state.items;
     },
     getItemFailure: (state, { payload: error }) => {
@@ -278,7 +300,7 @@ const itemSlice = createSlice({
       state.items = items;
       state.status.error = "";
       state.status.message = "";
-      state.backup = state.items;
+      // state.backup = state.items;
     },
     filteredItems: (state, { payload: newItems }) => {
       state.items = newItems;
@@ -308,23 +330,30 @@ const itemSlice = createSlice({
     addCount: (state, { payload: itemsId }) => {
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
-      state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
-        (prev, curr) =>
-          prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
-        0
-      );
-    },
-    removeCount: (state, { payload: itemsId }) => {
-      if (state.dragItems[itemsId.idx].point > 0) {
-        state.dragItems[itemsId.idx].point =
-          state.dragItems[itemsId.idx].point - 1;
+      if (state.items) {
         state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
           (prev, curr) =>
             prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
           0
         );
-      } else {
-        state.dragItems.splice(itemsId.idx, 1);
+      }
+    },
+    removeCount: (state, { payload: itemsId }) => {
+      if (state.dragItems[itemsId.idx].point > 0) {
+        state.dragItems[itemsId.idx].point =
+          state.dragItems[itemsId.idx].point - 1;
+        if (state.items) {
+          state.items[itemsId.targetId - 1].sum_im_price =
+            state.dragItems.reduce(
+              (prev, curr) =>
+                prev +
+                curr.point * curr.im_price +
+                curr.point * curr.sum_im_price,
+              0
+            );
+        } else {
+          state.dragItems.splice(itemsId.idx, 1);
+        }
       }
     },
     T_addCount: (state, { payload: idx }) => {

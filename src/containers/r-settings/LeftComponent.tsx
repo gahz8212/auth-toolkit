@@ -14,7 +14,7 @@ type Props = {
         supplyer: string,
         Images: { url: string }[]
 
-    }[];
+    }[]|null;
     dragItems: { [key: string]: string | number | boolean }[];
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;

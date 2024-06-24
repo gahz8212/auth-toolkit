@@ -23,7 +23,8 @@ type Props = {
         use: boolean,
         supplyer: string,
         Images: { url: string }[]
-    }[];
+    }[] | null;
+    relations: { UpperId: number, LowerId: number, point: number }[] | null,
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;

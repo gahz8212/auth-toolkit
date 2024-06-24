@@ -68,14 +68,15 @@ const InputFormContainer = () => {
             imageList: { url: string }[]
         }
     ) => {
-        const conflict = items.filter(listItem => listItem.category === item.category && listItem.itemName === item.itemName)
-        if (conflict.length > 0) {
-            const findIndex = items.findIndex(listItem => listItem.category === item.category && listItem.itemName === item.itemName)
-            alert(`이미 등록된 아이템 입니다.index: ${findIndex}`)
-            return;
+        if (items) {
+            const conflict = items.filter(listItem => listItem.category === item.category && listItem.itemName === item.itemName)
+            if (conflict.length > 0) {
+                const findIndex = items.findIndex(listItem => listItem.category === item.category && listItem.itemName === item.itemName)
+                alert(`이미 등록된 아이템 입니다.index: ${findIndex}`)
+                return;
+            }
+            dispatch(itemActions.addItem(item))
         }
-
-        dispatch(itemActions.addItem(item))
     }
     const formClose = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: false }))
@@ -136,20 +137,20 @@ const InputFormContainer = () => {
         }
 
     }
-    const results = items.filter((item: any) => item.groupType !== null).map((item: any) => {
+    const results = items?.filter((item: any) => item.groupType !== null).map((item: any) => {
 
 
         return ({ category: item.category, type: item.groupType })
     })
-    results.forEach((result) => {
+    results?.forEach((result) => {
         const json_arr = goodType.map((ar: any) => JSON.stringify(ar))
         if (!json_arr.includes(JSON.stringify(result))) {
             setGoodType([result, ...goodType].sort())
         }
     })
-    const supplyers = items.filter((item: any) => item.supplyer !== '').map((item: any) =>
+    const supplyers = items?.filter((item: any) => item.supplyer !== '').map((item: any) =>
         item.supplyer)
-    supplyers.forEach(result => {
+    supplyers?.forEach(result => {
         if (result !== "" && !supplyer.includes(result)) {
             setSupplyer([result, ...supplyer].sort())
         }
