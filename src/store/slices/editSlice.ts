@@ -51,26 +51,26 @@ type State = {
     targetId: number;
     id: number;
     point: number;
-    // type: string;
-    // category: string;
-    // itemName: string;
-    // unit: string;
-    // im_price: number;
+    type: string;
+    category: string;
+    itemName: string;
+    unit: string;
+    im_price: number;
     // sum_im_price: number;
     // use: boolean;
     // descript: string;
   } | null;
   dragItems:
     | {
-        [key: string]: number;
+        [key: string]: number | string;
         targetId: number;
         id: number;
         point: number;
-        // type: string;
-        // category: string;
-        // itemName: string;
-        // unit: string;
-        // im_price: number;
+        type: string;
+        category: string;
+        itemName: string;
+        unit: string;
+        im_price: number;
         // sum_im_price: number;
         // descript: string;
         // use: boolean;
