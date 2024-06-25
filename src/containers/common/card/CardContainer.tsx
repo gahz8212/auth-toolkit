@@ -10,19 +10,6 @@ const CardContainer = () => {
 
 
     const selectItem = (id: number | '') => {
-        const newItems = (relations?.map(relation => items?.filter(item => relation.LowerId === item.id)).flat()
-            .map(item => {
-                if (item) {
-                    const point = relations.filter(relation => relation.LowerId === item.id).map(rel => rel.point)[0]
-                    // console.log('point', point)
-                    return ({ id: item?.id, type: item.type, category: item.category, itemName: item.itemName, im_price: item.im_price, point: point })
-                } else {
-                    return null;
-                }
-            })
-        )
-        dispatch(editActions.inputDragItems(newItems))
-
 
         const item = items?.filter(item => item.id === id);
         if (item) {

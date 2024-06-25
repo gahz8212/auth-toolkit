@@ -78,30 +78,54 @@ const EditFormContainer = () => {
     }
 
     const drag_on = (targetId: number, itemId: number) => {
-        if ((dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId)
+        if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId)
             dispatch(editActions.drag_on(targetId))
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
 
-        let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
+        let idx = dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.addCount({ idx, targetId }))
         }
     }
 
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
-        let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
+        let idx = dragItems?.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.removeCount({ idx, targetId }))
         }
     }
+
     useEffect(() => {
         if (status.message === 'edit_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
+
             dispatch(itemActions.changeItems(newItems))
+
+            const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
+            // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
+            if (createdRelations) {
+                const newRelations =
+                    relations?.filter(relation => relation.UpperId !== next.id)
+                // 실제 relations에서 변환된 dragItems가 아닌것만 남긴 relations     
+                console.log('createdRelations', createdRelations)
+                console.log('newRelations', newRelations)
+                if (createdRelations && newRelations) {
+                    console.log('updateRelations', [...createdRelations, ...newRelations]
+                    )
+                    dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
+                        //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
+                        //             //     .filter(item => {
+                        //             //     if (item) { return item.point > 0 } else { return null }
+                        //             // })
+                    ))
+                }
+            }
+
         }
+        dispatch(editActions.initStatus())
     }, [status, dispatch,])
     useEffect(() => {
         if (status.message === 'remove_ok' && items) {

@@ -63,7 +63,6 @@ type State = {
   dragItems:
     | {
         [key: string]: number | string;
-        targetId: number;
         id: number;
         point: number;
         type: string;
@@ -71,10 +70,12 @@ type State = {
         itemName: string;
         unit: string;
         im_price: number;
+        // targetId: number;
         // sum_im_price: number;
         // descript: string;
         // use: boolean;
-      }[];
+      }[]
+    | null;
   status: {
     error: string;
     loading: boolean;
@@ -124,7 +125,7 @@ const initialState: State = {
     Good: { groupName: "" },
   },
   dragItem: null,
-  dragItems: [],
+  dragItems: null,
   status: { error: "", loading: false, message: "" },
 };
 const selectSelector = (state: RootState) => {
@@ -167,6 +168,9 @@ const editSlice = createSlice({
       state.status = initialState.status;
       state.dragItems = initialState.dragItems;
     },
+    initStatus: (state) => {
+      state.status = initialState.status;
+    },
     changeField: (state, { payload: { name, value } }) => {
       state.next[name] = value;
     },
@@ -197,8 +201,9 @@ const editSlice = createSlice({
       state.status.error = "";
       state.status.message = "";
     },
-    editItemSuccess: (state, { payload: message }) => {
-      state.status.message = message;
+    editItemSuccess: (state, { payload: result }) => {
+      // console.log(result.relations);
+      state.status.message = result.message;
       state.status.error = "";
     },
     editItemFailure: (state, { payload: error }) => {
@@ -221,15 +226,18 @@ const editSlice = createSlice({
       state.next.Images = image;
     },
     addCount: (state, { payload: itemsId }) => {
-      state.dragItems[itemsId.idx].point =
-        state.dragItems[itemsId.idx].point + 1;
-      state.next.sum_im_price = state.dragItems.reduce(
-        (prev, curr) => prev + curr.point * curr.im_price,
-        0
-      );
+      // console.log(itemsId.idx);
+      if (state.dragItems) {
+        state.dragItems[itemsId.idx].point =
+          state.dragItems[itemsId.idx].point + 1;
+        state.next.sum_im_price = state.dragItems.reduce(
+          (prev, curr) => prev + curr.point * curr.im_price,
+          0
+        );
+      }
     },
     removeCount: (state, { payload: itemsId }) => {
-      if (state.dragItems[itemsId.idx].point > 0) {
+      if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
         state.next.sum_im_price = state.dragItems.reduce(
@@ -237,14 +245,16 @@ const editSlice = createSlice({
           0
         );
       } else {
-        state.dragItems.splice(itemsId.idx, 1);
+        if (state.dragItems) {
+          state.dragItems.splice(itemsId.idx, 1);
+        }
       }
     },
     inputDragItem: (state, { payload: item }) => {
       state.dragItem = item;
     },
     drag_on: (state, { payload: targetId }) => {
-      if (state.dragItem) {
+      if (state.dragItem && state.dragItems) {
         state.dragItem.targetId = targetId;
         state.dragItems = [state.dragItem, ...state.dragItems];
         state.dragItem = null;

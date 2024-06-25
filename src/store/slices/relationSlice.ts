@@ -1,20 +1,24 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
-  relate_view: {
-    currentId: number;
-    top: number;
-    left: number;
-    im_price: number;
-  }[];
-  relate_price: {
-    currentId: number;
-    im_price: number;
-  }[];
+  relate_view:
+    | {
+        currentId: number;
+        top: number;
+        left: number;
+        im_price: number;
+      }[]
+    | null;
+  relate_price:
+    | {
+        currentId: number;
+        im_price: number;
+      }[]
+    | null;
 };
 const initialState: State = {
-  relate_view: [],
-  relate_price: [],
+  relate_view: null,
+  relate_price: null,
 };
 const viewSelector = (state: RootState) => {
   return state.relate.relate_view;

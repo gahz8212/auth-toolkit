@@ -15,12 +15,12 @@ function* editImageSaga(action: { payload: FormData }) {
 }
 function* editItemSaga(action: {
   payload: {
-    [key: string]: "" | number | string | { url: string }[] | boolean|{}[];
+    [key: string]: "" | number | string | { url: string }[] | boolean | {}[];
   };
 }) {
   try {
     const response: {
-      data: string;
+      data: { relations: []; message: string };
     } = yield call(itemAPI.editItem, action.payload);
 
     yield put(editActions.editItemSuccess(response.data));

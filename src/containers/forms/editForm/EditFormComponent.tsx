@@ -57,7 +57,7 @@ type Props = {
     supplyers: string[];
     insertGroupType: () => void
     insertSupplyer: () => void
-    dragItems: { [key: string]: string | number | boolean }[];
+    dragItems: { [key: string]: string | number | boolean }[] | null;
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number, itemId: number) => void;
@@ -83,8 +83,10 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                         changedProps[key] = next[key]
                     }
                 }
-                const newItem = ({ id: next.id, ...changedProps, dragItems })
-                editItem(newItem)
+                if (dragItems) {
+                    const newItem = ({ id: next.id, ...changedProps, dragItems })
+                    editItem(newItem)
+                }
             }
             }
             >
@@ -213,7 +215,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             <div className="item_basket" onDragEnter={() => {
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>
-                                {dragItems.map((dragitem) =>
+                                {dragItems && dragItems.map((dragitem) =>
                                     <div className="countControl" key={dragitem.id.toString()}>
                                         <div className={`itemName ${dragitem.type} ${dragitem.category}`}>
                                             {dragitem.itemName}

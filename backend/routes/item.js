@@ -183,7 +183,7 @@ router.get("/items", async (req, res) => {
       order: [["id", "asc"]],
     });
     const relations = await Relation.findAll();
-    return res.status(200).json([items,relations]);
+    return res.status(200).json([items, relations]);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);
@@ -215,8 +215,10 @@ router.post("/edit", async (req, res) => {
         })
       );
     }
-
-    return res.status(200).json("edit_ok");
+   
+    return res
+      .status(200)
+      .json({ relations: relations, message: "edit_ok" });
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

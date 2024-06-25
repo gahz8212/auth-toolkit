@@ -22,8 +22,25 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-        if (items) {
+        // console.log(id)
+        const newItems = relations?.filter(relation => relation.UpperId === id)
+            .map(relation => relation.LowerId)
+            .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
+                if (arr) {
+                    const point = relations.filter(relation => relation.LowerId === arr.id).map(relation => relation.point)[0];
+                    return ({
+                        id: arr.id, type: arr.type, category: arr.category, point: point,
+                        im_price: arr.im_price, itemName: arr.itemName, targetId: id, unit: arr.unit
 
+                    })
+                } else {
+                    return null
+                }
+            })
+            )
+        // dispatch(editActions.initForm())
+        dispatch(editActions.inputDragItems(newItems))
+        if (items) {
             const item = items.filter(item => item.id === id);
             dispatch(editActions.selectItem(item[0]));
             dispatch(formActions.toggle_form({ form: 'edit', value: true }))
@@ -34,7 +51,6 @@ const RsettingContainer = () => {
     }
     const dragItem = (id: number | '') => {
         if (items) {
-
             const item = items.filter(item => item.id === id).map(item => (
                 {
                     id: item.id,
@@ -75,25 +91,29 @@ const RsettingContainer = () => {
     }
     useEffect(() => {
         dispatch(itemActions.initForm())
+        dispatch(editActions.initForm())
         dispatch(itemActions.getItem())
+        dispatch(relateActions.initRelate())
     }, [dispatch])
-    useEffect(() => {
-        if (items) {
 
-            const result = makeRelateData_View(223,
-                relations, items)
-            dispatch(relateActions.insertRelation_view(result))
-        }
-    }, [dispatch,])
 
-    useEffect(() => {
-        if (items) {
+    // useEffect(() => {
+    //     if (items) {
 
-            const result = makeRelateData_Price(
-                relations, items)
-            dispatch(relateActions.insertRelation_price(result))
-        }
-    }, [dispatch])
+    //         const result = makeRelateData_View(223,
+    //             relations, items)
+    //         dispatch(relateActions.insertRelation_view(result))
+    //     }
+    // }, [dispatch,])
+
+    // useEffect(() => {
+    //     if (items) {
+
+    //         const result = makeRelateData_Price(
+    //             relations, items)
+    //         dispatch(relateActions.insertRelation_price(result))
+    //     }
+    // }, [dispatch])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}

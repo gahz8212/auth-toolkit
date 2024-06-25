@@ -121,7 +121,6 @@ const initialState: State = {
   T_dragItems: [],
   backup: [],
   imageList: [],
-
   status: { error: "", message: "", loading: false },
 };
 const inputSelector = (state: RootState) => {
@@ -195,6 +194,7 @@ const itemSlice = createSlice({
       state.input = initialState.input;
       state.imageList = initialState.imageList;
       state.dragItems = [];
+      state.relations = null;
     },
     changeField: (state, { payload: { name, value } }) => {
       state.input[name] = value;
@@ -269,7 +269,7 @@ const itemSlice = createSlice({
       state.status.error = "";
       if (state.items) {
         state.items = state.items.concat(item);
-        state.backup = state.items;
+        // state.backup = state.items;
       }
     },
     addItemFailure: (state, { payload: error }) => {
@@ -369,6 +369,10 @@ const itemSlice = createSlice({
       } else {
         state.T_dragItems.splice(idx, 1);
       }
+    },
+    updateRelation: (state, { payload: newRelations }) => {
+      console.log("newRelations", newRelations);
+      state.relations = newRelations;
     },
   },
 });
