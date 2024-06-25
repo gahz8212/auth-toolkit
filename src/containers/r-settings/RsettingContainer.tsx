@@ -22,12 +22,12 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-        // console.log(id)
+        console.log(id)
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
                 if (arr) {
-                    const point = relations.filter(relation => relation.LowerId === arr.id).map(relation => relation.point)[0];
+                    const point = relations.filter(relation => relation.UpperId === id && relation.LowerId === arr.id).map(relation => relation.point)[0];
                     return ({
                         id: arr.id, type: arr.type, category: arr.category, point: point,
                         im_price: arr.im_price, itemName: arr.itemName, targetId: id, unit: arr.unit
