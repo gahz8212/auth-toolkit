@@ -82,6 +82,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop })
                             </div>
                         </div>
 
+                        <div>{item.id}</div>
                         <div>{item.category}</div>
                         <div>{item.itemName}</div>
                         <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>

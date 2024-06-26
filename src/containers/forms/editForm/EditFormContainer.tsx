@@ -117,15 +117,11 @@ const EditFormContainer = () => {
                     )
                     dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
                         //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
-                        //             //     .filter(item => {
-                        //             //     if (item) { return item.point > 0 } else { return null }
-                        //             // })
+
                     ))
                 }
             }
-
         }
-        dispatch(editActions.initStatus())
     }, [status, dispatch,])
     useEffect(() => {
         if (status.message === 'remove_ok' && items) {

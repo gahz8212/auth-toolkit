@@ -162,7 +162,8 @@ export const makeRelateData_Price = (
   }[]
 ) => {
   let history: number[] = [];
-  priceArray = [];
+  let priceArray: { currentId: number; sum_im_price: number }[] = [];
+  // let inheritPoint = 1;
   const uppers = relations?.reduce(
     (acc: number[], cur: { UpperId: number }) => {
       if (!acc.includes(cur.UpperId)) {
@@ -172,7 +173,7 @@ export const makeRelateData_Price = (
     },
     []
   );
-  // console.log('uppers',uppers)
+
   const searchIm_price = (id: number) => {
     return items
       .filter((item) => item.id === id)
@@ -183,95 +184,99 @@ export const makeRelateData_Price = (
       .filter((item) => item.id === id)
       .map((item) => item.ex_price)[0];
   };
-  const findChildren = (id: number, im_price: number) => {
+  const findChildren = (id: number, im_price: number, inheritPoint: number) => {
     if (relations) {
       const children = relations
         .filter((relate) => relate.UpperId === id)
-        .map((relate) => ({
-          current: relate.LowerId,
-          im_price: searchIm_price(relate.LowerId),
-          point: relate.point,
-        }));
+        .map((relate) => {
+          return {
+            current: relate.LowerId,
+            im_price: searchIm_price(relate.LowerId),
+            point: relate.point,
+          };
+        });
       children.sort(
         (a, b) =>
           relations.filter((relate) => relate.UpperId === a.current).length -
           relations.filter((relate) => relate.UpperId === b.current).length
       );
-      console.log("children", children);
+
       const newItem = {
         currentId: id,
         sum_im_price: im_price,
       };
       priceArray.push(newItem);
+
       if (history.length > 0) {
+        // console.log("history", history);
+
         history.forEach((his) =>
           priceArray.forEach((arr) =>
             arr.currentId === his
-              ? (arr.sum_im_price += newItem.sum_im_price)
+              ? (arr.sum_im_price += im_price * inheritPoint)
               : 0
           )
         );
       }
       if (children.length === 0) {
+        history = [];
         return;
       }
+
       for (let index = 0; index < children.length; index++) {
         if (uppers?.includes(children[index].current)) {
           history = [];
+          inheritPoint = 1;
         }
         if (!history.includes(id)) {
           history.push(id);
         }
+
+        inheritPoint = children[index].point * inheritPoint;
         findChildren(
           children[index].current,
-          children[index].im_price * children[index].point
+          children[index].im_price,
+          inheritPoint
         );
       }
     }
   };
-  const createRelatePrice = (uppers: number[]) => {
-    uppers.forEach((upper) => findChildren(upper, 0));
+  const createRelatePrice = (selectedItem: number) => {
+    findChildren(selectedItem, searchIm_price(selectedItem), 1);
     return priceArray;
   };
-  if (uppers) {
-    return createRelatePrice(uppers);
-  }
+
+  return createRelatePrice(223);
 };
 
-
-
-
-
-
-
-export const makeDragItems=(relations:
-  | {
-      UpperId: number;
-      LowerId: number;
-      point: number;
-
-    }[]
-  | null,
-items: {
-  id: number;
-  type: string;
-  groupType: string;
-  category: string;
-  itemName: string;
-  descript: string;
-  unit: string;
-  im_price: number;
-  sum_im_price: number;
-  ex_price: number;
-  use: boolean;
-  supplyer: string;
-  weight: number;
-  cbm: number;
-  moq: number;
-  set: boolean;
-  Images: { url: string }[];
-  Good: { groupName: string };
-}[])=>{
-
-  relations?.map(rel=>items.filter(item=>item.id===rel.LowerId))
-}
+export const makeDragItems = (
+  relations:
+    | {
+        UpperId: number;
+        LowerId: number;
+        point: number;
+      }[]
+    | null,
+  items: {
+    id: number;
+    type: string;
+    groupType: string;
+    category: string;
+    itemName: string;
+    descript: string;
+    unit: string;
+    im_price: number;
+    sum_im_price: number;
+    ex_price: number;
+    use: boolean;
+    supplyer: string;
+    weight: number;
+    cbm: number;
+    moq: number;
+    set: boolean;
+    Images: { url: string }[];
+    Good: { groupName: string };
+  }[]
+) => {
+  relations?.map((rel) => items.filter((item) => item.id === rel.LowerId));
+};

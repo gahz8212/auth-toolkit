@@ -256,7 +256,7 @@ const editSlice = createSlice({
     drag_on: (state, { payload: targetId }) => {
       if (state.dragItem && state.dragItems) {
         state.dragItem.targetId = targetId;
-        state.dragItems = [state.dragItem, ...state.dragItems];
+        state.dragItems = [ ...state.dragItems,state.dragItem];
         state.dragItem = null;
       }
     },
