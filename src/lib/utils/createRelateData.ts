@@ -1,14 +1,5 @@
-let viewArray: {
-  currentId: number;
-  top: number;
-  left: number;
-  ex_price: number;
-  sum_im_price: number;
-}[] = [];
-let priceArray: { currentId: number; sum_im_price: number }[] = [];
-
 export const makeRelateData_View = (
-  id: number,
+  selectedItem: number,
   relations:
     | {
         UpperId: number;
@@ -39,16 +30,19 @@ export const makeRelateData_View = (
 ) => {
   let lastLeft = 0;
   let history: number[] = [];
-  viewArray = [];
-  const uppers = relations?.reduce(
-    (acc: number[], cur: { UpperId: number }) => {
-      if (!acc.includes(cur.UpperId)) {
-        acc.push(cur.UpperId);
-      }
-      return acc;
-    },
-    []
-  );
+  let viewArray: {
+    currentId: number;
+    top: number;
+    left: number;
+    ex_price: number;
+    sum_im_price: number;
+  }[] = [];
+  let inheritPointArray: number[] = [];
+  let inheritPoint = 1;
+  const uppers = relations
+    ?.filter((relation) => relation.UpperId === selectedItem)
+    .map((relation) => relation.LowerId);
+
   const searchIm_price = (id: number) => {
     return items
       .filter((item) => item.id === id)
@@ -59,12 +53,20 @@ export const makeRelateData_View = (
       .filter((item) => item.id === id)
       .map((item) => item.ex_price)[0];
   };
+  const calculatePoint = (length: number) => {
+    let point = 1;
+    for (let i = length; i < inheritPointArray.length; i++) {
+      point = point * inheritPointArray[i];
+    }
+    return point;
+  };
   const findChildren = (
     id: number,
     top: number,
     left: number,
     im_price: number,
-    ex_price: number
+    ex_price: number,
+    inheritPoint: number
   ) => {
     if (relations) {
       const children = relations
@@ -92,11 +94,13 @@ export const makeRelateData_View = (
         ex_price: ex_price,
       };
       viewArray.push(newItem);
+
       if (history.length > 0) {
-        history.forEach((his) =>
-          viewArray.forEach((arr) =>
+        viewArray.forEach((arr) =>
+          history.forEach((his, index) =>
             arr.currentId === his
-              ? (arr.sum_im_price += newItem.sum_im_price)
+              ? (arr.sum_im_price +=
+                  newItem.sum_im_price * calculatePoint(index))
               : 0
           )
         );
@@ -107,30 +111,43 @@ export const makeRelateData_View = (
       }
       for (let index = 0; index < children.length; index++) {
         if (uppers?.includes(children[index].current)) {
-          history = [];
+          history = [selectedItem];
+          inheritPointArray = [];
         }
         if (!history.includes(id)) {
           history.push(id);
         }
+        inheritPoint = children[index].point;
+        inheritPointArray.push(inheritPoint);
+
         findChildren(
           children[index].current,
           top + 60,
           left + index * 60,
 
-          children[index].im_price * children[index].point,
-          children[index].ex_price
+          children[index].im_price,
+          children[index].ex_price,
+          inheritPoint
         );
       }
     }
   };
   const createRelateView = (id: number) => {
-    findChildren(id, 0, 60, 0, 0);
+    findChildren(
+      id,
+      0,
+      60,
+      searchIm_price(selectedItem),
+      searchEx_price(selectedItem),
+      inheritPoint
+    );
     return viewArray;
   };
-  return createRelateView(id);
+  return createRelateView(selectedItem);
 };
 
 export const makeRelateData_Price = (
+  selectedItem: number,
   relations:
     | {
         UpperId: number;
@@ -163,16 +180,11 @@ export const makeRelateData_Price = (
 ) => {
   let history: number[] = [];
   let priceArray: { currentId: number; sum_im_price: number }[] = [];
-  // let inheritPoint = 1;
-  const uppers = relations?.reduce(
-    (acc: number[], cur: { UpperId: number }) => {
-      if (!acc.includes(cur.UpperId)) {
-        acc.push(cur.UpperId);
-      }
-      return acc;
-    },
-    []
-  );
+  let inheritPointArray: number[] = [];
+  let inheritPoint = 1;
+  const uppers = relations
+    ?.filter((relation) => relation.UpperId === selectedItem)
+    .map((relation) => relation.LowerId);
 
   const searchIm_price = (id: number) => {
     return items
@@ -183,6 +195,13 @@ export const makeRelateData_Price = (
     return items
       .filter((item) => item.id === id)
       .map((item) => item.ex_price)[0];
+  };
+  const calculatePoint = (length: number) => {
+    let point = 1;
+    for (let i = length; i < inheritPointArray.length; i++) {
+      point = point * inheritPointArray[i];
+    }
+    return point;
   };
   const findChildren = (id: number, im_price: number, inheritPoint: number) => {
     if (relations) {
@@ -208,31 +227,32 @@ export const makeRelateData_Price = (
       priceArray.push(newItem);
 
       if (history.length > 0) {
-        // console.log("history", history);
-
-        history.forEach((his) =>
-          priceArray.forEach((arr) =>
+        priceArray.forEach((arr) =>
+          history.forEach((his, index) =>
             arr.currentId === his
-              ? (arr.sum_im_price += im_price * inheritPoint)
+              ? (arr.sum_im_price += im_price * calculatePoint(index))
               : 0
           )
         );
       }
       if (children.length === 0) {
-        history = [];
         return;
       }
 
       for (let index = 0; index < children.length; index++) {
+        //uppers의 기능이 뭔지 확인해 볼것.
+        //단지 여기서는 자식이 있는 부모의 배열일뿐 바꾸어야 한다.
+
         if (uppers?.includes(children[index].current)) {
-          history = [];
-          inheritPoint = 1;
+          history = [selectedItem];
+          inheritPointArray = [];
         }
         if (!history.includes(id)) {
           history.push(id);
         }
+        inheritPoint = children[index].point;
+        inheritPointArray.push(inheritPoint);
 
-        inheritPoint = children[index].point * inheritPoint;
         findChildren(
           children[index].current,
           children[index].im_price,
@@ -242,11 +262,11 @@ export const makeRelateData_Price = (
     }
   };
   const createRelatePrice = (selectedItem: number) => {
-    findChildren(selectedItem, searchIm_price(selectedItem), 1);
+    findChildren(selectedItem, searchIm_price(selectedItem), inheritPoint);
     return priceArray;
   };
 
-  return createRelatePrice(223);
+  return createRelatePrice(selectedItem);
 };
 
 export const makeDragItems = (

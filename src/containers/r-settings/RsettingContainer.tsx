@@ -96,23 +96,23 @@ const RsettingContainer = () => {
     }, [dispatch])
 
 
-    // useEffect(() => {
-    //     if (items) {
-
-    //         const result = makeRelateData_View(223,
-    //             relations, items)
-    //         dispatch(relateActions.insertRelation_view(result))
-    //     }
-    // }, [dispatch,])
-
     useEffect(() => {
-        if (items && relations) {
-            console.log('relations', relations)
-            const result = makeRelateData_Price(
+        if (items) {
+
+            const result = makeRelateData_View(223,
                 relations, items)
-            dispatch(relateActions.insertRelation_price(result))
+            dispatch(relateActions.insertRelation_view(result))
         }
-    }, [dispatch])
+    }, [dispatch,])
+
+    // useEffect(() => {
+    //     if (items && relations) {
+    //         console.log('relations', relations)
+    //         const result = makeRelateData_Price(223,
+    //             relations, items)
+    //         dispatch(relateActions.insertRelation_price(result))
+    //     }
+    // }, [dispatch])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
