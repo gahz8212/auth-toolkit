@@ -63,10 +63,12 @@ type Props = {
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
+    openRelationView: (toggle: boolean) => void;
     // dragItem: (id: number) => void;
     // onDrop: () => void;
 }
-const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations }) => {
+const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType,
+    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations, openRelationView }) => {
 
     return (
         <div className={`form-type ${next.type}`}>
@@ -212,6 +214,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <textarea name="descript" value={next.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                                 </div>
                             </div>
+                            <button onClick={() => openRelationView(true)}>연결보기</button>
                             <div className="item_basket" onDragEnter={() => {
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>
@@ -236,7 +239,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                         </div>
                                     </div>)}
                             </div>
-
                             <div className="currency">
                                 <div className="im_price">
                                     <div>
