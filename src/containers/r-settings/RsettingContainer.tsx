@@ -6,14 +6,14 @@ import { editActions } from '../../store/slices/editSlice';
 import { formSelector, formActions } from '../../store/slices/formSlice';
 import RsettingComponent from './RsettingComponent';
 
-import { makeRelateData_View, makeRelateData_Price } from '../../lib/utils/createRelateData'
+import { makeRelateData_View } from '../../lib/utils/createRelateData'
 
 
 const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
-    const { relate_view, relate_price } = useSelector(relateData);
+    const { relate_view } = useSelector(relateData);
 
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
@@ -104,12 +104,12 @@ const RsettingContainer = () => {
     }, [dispatch])
 
 
-  
+
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
-            viewRelation={viewRelation} relations={relations} relate_view={relate_view}/>
+            viewRelation={viewRelation} relations={relations} relate_view={relate_view} />
     );
 };
 

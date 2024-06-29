@@ -314,7 +314,7 @@ const itemSlice = createSlice({
     drag_on: (state, { payload: targetId }) => {
       if (state.dragItem) {
         state.dragItem.targetId = targetId;
-        state.dragItems = [state.dragItem, ...state.dragItems];
+        state.dragItems = [...state.dragItems, state.dragItem];
         state.dragItem = null;
       }
     },
@@ -339,7 +339,7 @@ const itemSlice = createSlice({
       }
     },
     removeCount: (state, { payload: itemsId }) => {
-      if (state.dragItems[itemsId.idx].point > 0) {
+      if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
         if (state.items) {
@@ -351,7 +351,9 @@ const itemSlice = createSlice({
                 curr.point * curr.sum_im_price,
               0
             );
-        } else {
+        }
+      } else {
+        if (state.dragItems) {
           state.dragItems.splice(itemsId.idx, 1);
         }
       }

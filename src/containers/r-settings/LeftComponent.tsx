@@ -82,6 +82,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
+                        <button>연결</button>
                     </div>)}
             </div>
         </div>
