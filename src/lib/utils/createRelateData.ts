@@ -53,6 +53,11 @@ export const makeRelateData_View = (
       .filter((item) => item.id === id)
       .map((item) => item.ex_price)[0];
   };
+  const searchItemName = (id: number) => {
+    return items
+      .filter((item) => item.id === id)
+      .map((item) => item.itemName)[0];
+  };
   const calculatePoint = (length: number) => {
     let point = 1;
     for (let i = length; i < inheritPointArray.length; i++) {
@@ -62,6 +67,7 @@ export const makeRelateData_View = (
   };
   const findChildren = (
     id: number,
+    itemName: string,
     top: number,
     left: number,
     im_price: number,
@@ -73,6 +79,7 @@ export const makeRelateData_View = (
         .filter((relate) => relate.UpperId === id)
         .map((relate) => ({
           current: relate.LowerId,
+          itemName: searchItemName(relate.LowerId),
           im_price: searchIm_price(relate.LowerId),
           point: relate.point,
           ex_price: searchEx_price(relate.LowerId),
@@ -88,8 +95,10 @@ export const makeRelateData_View = (
       }
       const newItem = {
         currentId: id,
+        itemName: itemName,
         top: top,
         left: left,
+        point: inheritPoint,
         sum_im_price: im_price,
         ex_price: ex_price,
       };
@@ -122,9 +131,9 @@ export const makeRelateData_View = (
 
         findChildren(
           children[index].current,
+          itemName,
           top + 60,
           left + index * 60,
-
           children[index].im_price,
           children[index].ex_price,
           inheritPoint
@@ -135,6 +144,7 @@ export const makeRelateData_View = (
   const createRelateView = (id: number) => {
     findChildren(
       id,
+      searchItemName(selectedItem),
       0,
       60,
       searchIm_price(selectedItem),

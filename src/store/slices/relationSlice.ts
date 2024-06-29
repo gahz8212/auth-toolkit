@@ -4,9 +4,12 @@ type State = {
   relate_view:
     | {
         currentId: number;
+        itemName: string;
         top: number;
         left: number;
-        im_price: number;
+        point: number;
+        sum_im_price: number;
+        ex_price: number;
       }[]
     | null;
   relate_price:
