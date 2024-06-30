@@ -19,9 +19,10 @@ function* editItemSaga(action: {
   };
 }) {
   try {
-    const response: {
-      data: { relations: []; message: string };
-    } = yield call(itemAPI.editItem, action.payload);
+    const response: { data: string } = yield call(
+      itemAPI.editItem,
+      action.payload
+    );
 
     yield put(editActions.editItemSuccess(response.data));
   } catch (e: any) {

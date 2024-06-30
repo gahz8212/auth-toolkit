@@ -48,11 +48,13 @@ type Props = {
         point: number;
         sum_im_price: number;
         ex_price: number;
-    }[] | null
-}
+    }[] | null;
+    addRelateGood: (item: { [key: string]: number | {}[] }) => void;
+    inputDragItems: (dragItems: {}[]) => void;
+};
 
 const RsettingComponent: React.FC<Props> = ({ input,
-    edit, openAddForm, changePosition, items, relate, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, relate_view }) => {
+    edit, openAddForm, changePosition, items, relate, selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, relate_view, addRelateGood, relations, inputDragItems }) => {
 
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
@@ -89,7 +91,8 @@ const RsettingComponent: React.FC<Props> = ({ input,
                 </div>
             </div>}
             <div className="rsettingComponent">
-                <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation} />
+                <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation}
+                    addRelateGood={addRelateGood} relations={relations} inputDragItems={inputDragItems} />
                 <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} />
             </div>
         </div >

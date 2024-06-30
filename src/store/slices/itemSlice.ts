@@ -311,6 +311,9 @@ const itemSlice = createSlice({
     inputDragItem: (state, { payload: item }) => {
       state.dragItem = item;
     },
+    inputDragItems: (state, { payload: items }) => {
+      state.dragItems = items;
+    },
     drag_on: (state, { payload: targetId }) => {
       if (state.dragItem) {
         state.dragItem.targetId = targetId;

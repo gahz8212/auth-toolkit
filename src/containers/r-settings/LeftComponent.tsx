@@ -14,16 +14,24 @@ type Props = {
         supplyer: string,
         Images: { url: string }[]
 
-    }[]|null;
+    }[] | null;
     dragItems: { [key: string]: string | number | boolean }[];
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
-    viewRelation: (toggle: boolean) => void
+    viewRelation: (toggle: boolean) => void;
+    addRelateGood: (item: { [key: string]: number | {}[] }) => void;
+    relations: {
+        UpperId: number;
+        LowerId: number;
+        point: number;
+    }[] | null;
+    inputDragItems: (dragItems: {}[]) => void;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems }) => {
     const [openId, setOpenId] = useState<number[]>([])
+    const [openView, setOpenView] = useState<boolean>(false)
     return (
         <div className='left'>
             <div className="items">
@@ -46,12 +54,16 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         <button onClick={() => {
                             if (!openId.includes(item.id)) {
                                 setOpenId([...openId, item.id])
+                                const result = relations?.filter(relation => relation.UpperId === item.id)
+                                if (result) {
+                                    inputDragItems(result)
+                                }
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                             }
                         }}>Relations</button>
-                        <button onClick={() => { viewRelation(true) }}>view Relation</button>
-                        <button onClick={() => { viewRelation(false) }}>close view</button>
+                        <button onClick={() => { viewRelation(openView); setOpenView(!openView) }}>view Relation</button>
+                        {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
 
@@ -82,7 +94,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
-                        <button>연결</button>
+                        <button onClick={() => { addRelateGood({ id: item.id, dragItems }) }}>연결</button>
                     </div>)}
             </div>
         </div>

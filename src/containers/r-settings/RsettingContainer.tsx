@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { itemData, itemActions } from '../../store/slices/itemSlice';
 import { relateData, relateActions } from '../../store/slices/relationSlice'
-import { editActions } from '../../store/slices/editSlice';
+import { editActions, editData } from '../../store/slices/editSlice';
 import { formSelector, formActions } from '../../store/slices/formSlice';
 import RsettingComponent from './RsettingComponent';
 
@@ -13,6 +13,7 @@ const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
+    const { status } = useSelector(editData);
     const { relate_view } = useSelector(relateData);
 
     const openAddForm = () => {
@@ -96,6 +97,15 @@ const RsettingContainer = () => {
             dispatch(itemActions.removeCount({ idx, targetId }))
         }
     }
+    const addRelateGood = (
+        item: {
+            [key: string]: number | {}[]
+        },
+    ) => {
+        dispatch(editActions.editItem(item))
+        if (typeof item.id === 'number')
+            addRelations(item.id)
+    }
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -104,12 +114,38 @@ const RsettingContainer = () => {
     }, [dispatch])
 
 
+    const addRelations = (id: number) => {
+
+        const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
+        // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
+        console.log('dragedItem', dragItem)
+        if (createdRelations) {
+            const newRelations =
+                relations?.filter(relation => relation.UpperId !== id)
+            // 실제 relations에서 변환된 dragItems가 아닌것만 남긴 relations     
+            console.log('createdRelations', createdRelations)
+            console.log('newRelations', newRelations)
+            if (createdRelations && newRelations) {
+                console.log('updateRelations', [...createdRelations, ...newRelations])
+                dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
+                    //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
+
+                ))
+            }
+        }
+    }
+    const inputDragItems = (dragItems: {}[]) => {
+        dispatch(itemActions.inputDragItems(dragItems))
+    }
+
+
 
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
-            viewRelation={viewRelation} relations={relations} relate_view={relate_view} />
+            viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
+            inputDragItems={inputDragItems} />
     );
 };
 

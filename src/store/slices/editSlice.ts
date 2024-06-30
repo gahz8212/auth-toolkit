@@ -201,9 +201,9 @@ const editSlice = createSlice({
       state.status.error = "";
       state.status.message = "";
     },
-    editItemSuccess: (state, { payload: result }) => {
+    editItemSuccess: (state, { payload: message }) => {
       // console.log(result.relations);
-      state.status.message = result.message;
+      state.status.message = message;
       state.status.error = "";
     },
     editItemFailure: (state, { payload: error }) => {
@@ -256,7 +256,7 @@ const editSlice = createSlice({
     drag_on: (state, { payload: targetId }) => {
       if (state.dragItem && state.dragItems) {
         state.dragItem.targetId = targetId;
-        state.dragItems = [ ...state.dragItems,state.dragItem];
+        state.dragItems = [...state.dragItems, state.dragItem];
         state.dragItem = null;
       }
     },
