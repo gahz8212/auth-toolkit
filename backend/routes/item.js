@@ -197,7 +197,7 @@ router.post("/edit", async (req, res) => {
     UpperId: dragItem.targetId,
     point: dragItem.point,
   }));
-  // console.log("relations", relations);
+  console.log("dragItems", dragItems);
   try {
     id = parseInt(id, 10);
     await Item.update(rest, { where: { id } });
@@ -206,9 +206,9 @@ router.post("/edit", async (req, res) => {
       Images.map((image) => Image.create({ url: image.url, ItemId: id }));
     }
     if (relations) {
-      await Relation.destroy({ where: { UpperId: id } });
+      // await Relation.destroy({ where: { UpperId: id } });
       relations.map((rel) =>
-        Relation.create({
+        Relation.upsert({
           UpperId: rel.UpperId,
           LowerId: rel.LowerId,
           point: rel.point,

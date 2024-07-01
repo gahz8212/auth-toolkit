@@ -54,10 +54,19 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         <button onClick={() => {
                             if (!openId.includes(item.id)) {
                                 setOpenId([...openId, item.id])
-                                const result = relations?.filter(relation => relation.UpperId === item.id)
-                                if (result) {
-                                    inputDragItems(result)
-                                }
+                                let newArray: {}[] = [];
+                                relations?.map(relation => items.map(fitem => {
+                                    if (relation.LowerId === fitem.id) {
+                                        newArray.push({
+                                            id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
+                                            itemName: fitem.itemName, type: fitem.type, category: fitem.category
+                                        })
+                                        return newArray;
+                                    } else { return null }
+                                }))
+                                console.log(newArray)
+                                inputDragItems(newArray)
+
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                             }
