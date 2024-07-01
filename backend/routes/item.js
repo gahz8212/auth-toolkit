@@ -190,7 +190,7 @@ router.get("/items", async (req, res) => {
   }
 });
 router.post("/edit", async (req, res) => {
-  let { id, Images, dragItems, ...rest } = req.body;
+  let { id, Images, dragItems, type, ...rest } = req.body;
 
   const relations = dragItems.map((dragItem) => ({
     LowerId: dragItem.id,
@@ -206,17 +206,20 @@ router.post("/edit", async (req, res) => {
       Images.map((image) => Image.create({ url: image.url, ItemId: id }));
     }
     if (relations) {
-      // await Relation.destroy({ where: { UpperId: id } });
+      await Relation.destroy({ where: { UpperId: id } });
       relations.map((rel) =>
-        Relation.upsert({
+        Relation.create({
           UpperId: rel.UpperId,
           LowerId: rel.LowerId,
           point: rel.point,
         })
       );
     }
-
-    return res.status(200).json("edit_ok");
+    if (type === "rest") {
+      return res.status(200).json("edit_ok");
+    } else {
+      return res.status(200).json("good_ok");
+    }
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

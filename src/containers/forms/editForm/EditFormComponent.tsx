@@ -86,7 +86,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 if (dragItems) {
-                    const newItem = ({ id: next.id, ...changedProps, dragItems })
+                    const newItem = ({ id: next.id, ...changedProps, dragItems,type:'rest' })
                     editItem(newItem)
                 }
             }

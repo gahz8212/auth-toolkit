@@ -99,7 +99,7 @@ const RsettingContainer = () => {
     }
     const addRelateGood = (
         item: {
-            [key: string]: number | {}[]
+            [key: string]: number |string| {}[]
         },
     ) => {
         dispatch(editActions.editItem(item))

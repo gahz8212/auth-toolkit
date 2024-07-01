@@ -49,7 +49,7 @@ type Props = {
         sum_im_price: number;
         ex_price: number;
     }[] | null;
-    addRelateGood: (item: { [key: string]: number | {}[] }) => void;
+    addRelateGood: (item: { [key: string]: number | string | {}[] }) => void;
     inputDragItems: (dragItems: {}[]) => void;
 };
 

@@ -21,7 +21,7 @@ type Props = {
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     viewRelation: (toggle: boolean) => void;
-    addRelateGood: (item: { [key: string]: number | {}[] }) => void;
+    addRelateGood: (item: { [key: string]: number | string | {}[] }) => void;
     relations: {
         UpperId: number;
         LowerId: number;
@@ -55,7 +55,8 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             if (!openId.includes(item.id)) {
                                 setOpenId([...openId, item.id])
                                 let newArray: {}[] = [];
-                                relations?.map(relation => items.map(fitem => {
+
+                                relations?.map(relation => items.filter(fitem => {
                                     if (relation.LowerId === fitem.id) {
                                         newArray.push({
                                             id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
@@ -103,7 +104,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
-                        <button onClick={() => { addRelateGood({ id: item.id, dragItems }) }}>연결</button>
+                        <button onClick={() => { addRelateGood({ id: item.id, dragItems, type: 'left' }) }}>연결</button>
                     </div>)}
             </div>
         </div>
