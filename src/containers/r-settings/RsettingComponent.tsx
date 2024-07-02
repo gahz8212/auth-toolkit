@@ -50,7 +50,7 @@ type Props = {
         ex_price: number;
     }[] | null;
     addRelateGood: (item: { [key: string]: number | string | {}[] }) => void;
-    inputDragItems: (dragItems: {}[]) => void;
+    inputDragItems: (dragItems: {}[],selectedItem:number) => void;
 };
 
 const RsettingComponent: React.FC<Props> = ({ input,

@@ -27,7 +27,7 @@ type Props = {
         LowerId: number;
         point: number;
     }[] | null;
-    inputDragItems: (dragItems: {}[]) => void;
+    inputDragItems: (dragItems: {}[], selectedItem: number) => void;
 }
 const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems }) => {
     const [openId, setOpenId] = useState<number[]>([])
@@ -55,24 +55,27 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             if (!openId.includes(item.id)) {
                                 setOpenId([...openId, item.id])
                                 let newArray: {}[] = [];
-
-                                relations?.map(relation => items.filter(fitem => {
-                                    if (relation.LowerId === fitem.id) {
+                                relations?.map(relation => items.filter(item => {
+                                    if (relation.LowerId === item.id) {
                                         newArray.push({
                                             id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
-                                            itemName: fitem.itemName, type: fitem.type, category: fitem.category
+                                            itemName: item.itemName, type: item.type, category: item.category
                                         })
                                         return newArray;
                                     } else { return null }
                                 }))
-                                console.log(newArray)
-                                inputDragItems(newArray)
+                                inputDragItems(newArray, item.id)
+
 
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                             }
                         }}>Relations</button>
-                        <button onClick={() => { viewRelation(openView); setOpenView(!openView) }}>view Relation</button>
+                        <button onClick={() => {
+                            viewRelation(openView);
+                            setOpenView(!openView);
+                            addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' })
+                        }}>view Relation</button>
                         {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
@@ -104,7 +107,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
-                        <button onClick={() => { addRelateGood({ id: item.id, dragItems, type: 'left' }) }}>연결</button>
+                        <button onClick={() => { addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' }) }}>연결</button>
                     </div>)}
             </div>
         </div>

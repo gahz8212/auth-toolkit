@@ -197,7 +197,8 @@ router.post("/edit", async (req, res) => {
     UpperId: dragItem.targetId,
     point: dragItem.point,
   }));
-  console.log("dragItems", dragItems);
+  // console.log("dragItems", dragItems);
+  // console.log("relations", relations, id);
   try {
     id = parseInt(id, 10);
     await Item.update(rest, { where: { id } });

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { itemData, itemActions } from '../../store/slices/itemSlice';
 import { relateData, relateActions } from '../../store/slices/relationSlice'
@@ -15,7 +15,7 @@ const RsettingContainer = () => {
     const { input, edit, relate } = useSelector(formSelector)
     const { status } = useSelector(editData);
     const { relate_view } = useSelector(relateData);
-
+    const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -23,7 +23,7 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-        console.log(id)
+
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
@@ -97,14 +97,48 @@ const RsettingContainer = () => {
             dispatch(itemActions.removeCount({ idx, targetId }))
         }
     }
+    const addRelations = (id: number) => {
+        const createdRelations = dragItems?.filter(dragItem => dragItem.targetId === id)
+            .map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
+        // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
+        // console.log('dragedItem', dragItem)
+        if (createdRelations) {
+            const newRelations =
+                relations?.filter(relation => relation.UpperId !== id)
+            // 실제 relations에서 변환된 dragItems가 아닌것만 남긴 relations     
+            // console.log('createdRelations', createdRelations)
+            // console.log('newRelations', newRelations)
+            if (createdRelations && newRelations) {
+                // console.log('updateRelations', [...createdRelations, ...newRelations])
+                dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
+                    //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
+                ))
+            }
+        }
+    }
+    const inputDragItems = (dragItems: {}[], selectedItem: number) => {
+        dispatch(itemActions.inputDragItems(dragItems))
+        if (items) {
+            items.filter(item => item.id === selectedItem);
+            if (typeof selectedItem === 'number') {
+                const result = makeRelateData_View(selectedItem, relations, items)
+                if (result) {
+                    dispatch(relateActions.insertRelation_view(result))
+                }
+            }
+        }
+    }
     const addRelateGood = (
         item: {
-            [key: string]: number |string| {}[]
+            [key: string]: number | string | {}[]
         },
     ) => {
         dispatch(editActions.editItem(item))
-        if (typeof item.id === 'number')
+        if (typeof item.id === 'number') {
             addRelations(item.id)
+            setSelectedGoodId(item.id)
+        }
+
     }
     useEffect(() => {
         dispatch(itemActions.initForm())
@@ -113,30 +147,29 @@ const RsettingContainer = () => {
         dispatch(relateActions.initRelate())
     }, [dispatch])
 
-
-    const addRelations = (id: number) => {
-
-        const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
-        // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
-        console.log('dragedItem', dragItem)
-        if (createdRelations) {
-            const newRelations =
-                relations?.filter(relation => relation.UpperId !== id)
-            // 실제 relations에서 변환된 dragItems가 아닌것만 남긴 relations     
-            console.log('createdRelations', createdRelations)
-            console.log('newRelations', newRelations)
-            if (createdRelations && newRelations) {
-                console.log('updateRelations', [...createdRelations, ...newRelations])
-                dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
-                    //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
-
-                ))
+    useEffect(() => {
+        if (status.message === 'good_ok') {
+            if (items) {
+                const result = makeRelateData_View(selectedGoodId, relations, items)
+                if (result) {
+                    dispatch(relateActions.insertRelation_view(result))
+                }
             }
+            // addRelations(selectedGoodId);
+            // let newArray: {}[] = [];
+            // relations?.map(relation => items?.filter(item => {
+            //     if (relation.LowerId === item.id) {
+            //         newArray.push({
+            //             id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
+            //             itemName: item.itemName, type: item.type, category: item.category
+            //         })
+            //         return newArray;
+            //     } else { return null }
+            // }))
+            // inputDragItems(newArray, selectedGoodId)
         }
-    }
-    const inputDragItems = (dragItems: {}[]) => {
-        dispatch(itemActions.inputDragItems(dragItems))
-    }
+    }, [dispatch, status.message, selectedGoodId, items, relations])
+
 
 
 
