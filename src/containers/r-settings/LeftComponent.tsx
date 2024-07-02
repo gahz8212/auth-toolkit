@@ -74,7 +74,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         <button onClick={() => {
                             viewRelation(openView);
                             setOpenView(!openView);
-                            addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' })
+                            // addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' })
                         }}>view Relation</button>
                         {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&

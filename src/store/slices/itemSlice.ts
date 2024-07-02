@@ -91,7 +91,28 @@ type State = {
         use: boolean;
         point: number;
       }[];
-  backup: any[];
+  backup:
+    | {
+        id: number;
+        type: string;
+        groupType: string;
+        category: string;
+        itemName: string;
+        descript: string;
+        unit: string;
+        im_price: number;
+        sum_im_price: number;
+        ex_price: number;
+        use: boolean;
+        supplyer: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        set: boolean;
+        Images: { url: string }[];
+        Good: { groupName: string };
+      }[]
+    | null;
   imageList: { url: string }[];
 
   status: { error: string; message: string; loading: boolean };
@@ -119,7 +140,7 @@ const initialState: State = {
   dragItem: null,
   dragItems: [],
   T_dragItems: [],
-  backup: [],
+  backup: null,
   imageList: [],
   status: { error: "", message: "", loading: false },
 };
@@ -304,6 +325,10 @@ const itemSlice = createSlice({
     },
     filteredItems: (state, { payload: newItems }) => {
       state.items = newItems;
+    },
+    viewMatrix: (state, { payload: items }) => {
+      state.backup = state.items;
+      state.items = items;
     },
     backupItems: (state) => {
       state.items = state.backup;
