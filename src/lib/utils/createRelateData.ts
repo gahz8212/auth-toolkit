@@ -145,8 +145,8 @@ export const makeRelateData_View = (
     findChildren(
       id,
       "",
-      0,
-      60,
+      15,
+      15,
       searchIm_price(selectedItem),
       searchEx_price(selectedItem),
       inheritPoint

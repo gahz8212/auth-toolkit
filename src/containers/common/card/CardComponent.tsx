@@ -7,6 +7,7 @@ type Props = {
         itemName: string,
         descript: string,
         unit: string,
+        sum_im_price: number;
         im_price: number;
         ex_price: number;
         use: boolean,
@@ -50,6 +51,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
             setCheck(check.filter(check => check !== id))
         }
     }
+    console.log('items', items)
     return (
         <>
             {viewMode ? <div className="item-list"
@@ -91,10 +93,13 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             </div>
 
                             <div>{item.id}</div>
-                            <div>{item.category}</div>
+                            {/* <div>{item.category}</div> */}
                             <div>{item.itemName}</div>
-                            <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
-                            <div>${item.ex_price}</div>
+                            {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
+                            {item.type !== 'SET' && <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>}
+                            <div>총입고가:\{item.sum_im_price}</div>
+                            {/* <div>포인트:{item.point}</div> */}
+                            <div>수출가:${item.ex_price}</div>
 
                         </div>
                         <div className={`info image  ${item.category} `}>
@@ -151,6 +156,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 <div>{item.itemName}</div>
                                 <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
                                 <div>${item.ex_price}</div>
+
 
                             </div>
                             <div className={`info image  ${item.category} `}>

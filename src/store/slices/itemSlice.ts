@@ -161,7 +161,7 @@ const itemSelector = (state: RootState) => {
 const statusSelector = (state: RootState) => {
   return state.item.status;
 };
-const dummySelector = (state: RootState) => {
+const backupSelector = (state: RootState) => {
   return state.item.backup;
 };
 const dragItemSelector = (state: RootState) => {
@@ -182,7 +182,7 @@ export const itemData = createSelector(
   imageListSelector,
   itemSelector,
   statusSelector,
-  dummySelector,
+  backupSelector,
   dragItemSelector,
   dragItemsSelector,
   TdragItemsSelector,
@@ -323,6 +323,12 @@ const itemSlice = createSlice({
     },
     changeItems: (state, { payload: items }) => {
       state.items = items;
+      state.status.error = "";
+      state.status.message = "";
+      // state.backup = state.items;
+    },
+    changeBItems: (state, { payload: items }) => {
+      state.backup = items;
       state.status.error = "";
       state.status.message = "";
       // state.backup = state.items;

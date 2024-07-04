@@ -10,7 +10,7 @@ import EditFormComponent from './EditFormComponent';
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
-    const { items, relations } = useSelector(itemData)
+    const { items, relations, backup: backups } = useSelector(itemData)
     const { dragItems, dragItem: dragedItem } = useSelector(editData)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
@@ -96,17 +96,20 @@ const EditFormContainer = () => {
         }
     }
     const openRelationView = (toggle: boolean) => {
-
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
     }
     useEffect(() => {
-        if (status.message === 'edit_ok' && items) {
+        if (status.message === 'edit_ok' && items && backups) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
-
             dispatch(itemActions.changeItems(newItems))
-
+            ////                                                         ////
+            const Bidx = (backups.findIndex(backup => backup.id === next.id))
+            const newBItems = [...backups];
+            newBItems.splice(Bidx, 1, next)
+            dispatch(itemActions.changeBItems(newBItems))
+            ////                                                         ////
             const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
             // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
             if (createdRelations) {

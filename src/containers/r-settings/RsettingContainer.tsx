@@ -17,6 +17,7 @@ const RsettingContainer = () => {
     const { relate_view } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [viewMode, setViewMode] = useState(false)
+    const [openBasket, setOpenBasket] = useState(false)
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -49,14 +50,15 @@ const RsettingContainer = () => {
                 const result = makeRelateData_View(id, relations, items)
                 if (result) {
 
-                    dispatch(relateActions.insertRelation_view(result))
+                    if (!openBasket)
+                        dispatch(relateActions.insertRelation_view(result))
                 }
             }
             dispatch(editActions.selectItem(item[0]));
-      
 
-                dispatch(formActions.toggle_form({ form: 'edit', value: true }))
-            
+
+            dispatch(formActions.toggle_form({ form: 'edit', value: true }))
+
 
         }
 
@@ -157,14 +159,11 @@ const RsettingContainer = () => {
 
             relate_view?.map(view => items?.map(item => {
                 if (item.id === view.currentId) {
-
-                    newItem.push({ ...item, top: view.top, left: view.left })
-
+                    newItem.push({ ...item, top: view.top, left: view.left, sum_im_price: view.sum_im_price })
                     return newItem;
                 } else { return null }
             }
             ))
-            console.log('newItem', newItem)
             dispatch(itemActions.viewMatrix(newItem))
         } else {
             dispatch(itemActions.backupItems())
@@ -172,7 +171,7 @@ const RsettingContainer = () => {
 
         }
     }
-    // changeView()
+
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -199,7 +198,7 @@ const RsettingContainer = () => {
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
-            inputDragItems={inputDragItems} changeView={changeView} viewMode={viewMode} />
+            inputDragItems={inputDragItems} changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket} />
     );
 };
 

@@ -30,8 +30,9 @@ type Props = {
     inputDragItems: (dragItems: {}[], selectedItem: number) => void;
     changeView: (toggle: boolean) => void;
     selectItem: (id: number) => void;
+    setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     return (
@@ -43,7 +44,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
 
                         <div className='itemInfo'>
                             <div className="image">
-                                {item.Images.length > 0 ? <img src={item.Images[0].url} alt='' ></img> :
+                                {item.Images.length > 0 ? <img src={item.Images[0].url} alt='' width='170px'></img> :
                                     <img src="http://via.placeholder.com/170x120" alt=""></img>}
                             </div>
                             <div className='info'>
@@ -67,21 +68,17 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     } else { return null }
                                 }))
                                 inputDragItems(newArray, item.id)
-                                // setOpenView(!openView);
-                                // changeView(!openView)
-
-
-
+                                setOpenBasket(true)
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
+                                setOpenBasket(false)
                             }
                         }}>Relations</button>
-                        <button onClick={() => {
+                        {openId.includes(item.id) && <button onClick={() => {
 
                             setOpenView(!openView);
                             changeView(!openView)
-
-                        }}>view Relation</button>
+                        }}>view Relation</button>}
                         {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
