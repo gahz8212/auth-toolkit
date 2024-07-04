@@ -77,7 +77,7 @@ const RsettingContainer = () => {
                     itemName: item.itemName,
                     unit: item.unit,
                     im_price: item.im_price,
-                    point: 0,
+                    point: item.point,
 
                     // desript: item.descript,
                     // use: item.use,
@@ -159,7 +159,13 @@ const RsettingContainer = () => {
 
             relate_view?.map(view => items?.map(item => {
                 if (item.id === view.currentId) {
-                    newItem.push({ ...item, top: view.top, left: view.left, sum_im_price: view.sum_im_price })
+                    newItem.push({
+                        ...item,
+                        top: view.top,
+                        left: view.left,
+                        sum_im_price: view.sum_im_price,
+                        point: view.point
+                    })
                     return newItem;
                 } else { return null }
             }

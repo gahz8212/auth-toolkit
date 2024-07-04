@@ -22,6 +22,7 @@ type State = {
     Good: { groupName: string };
     left: number;
     top: number;
+    point:number
   };
   next: {
     [key: string]:
@@ -50,6 +51,7 @@ type State = {
     Good: { groupName: string };
     left: number;
     top: number;
+    point:number
   };
   dragItem: {
     targetId: number;
@@ -109,6 +111,7 @@ const initialState: State = {
     Good: { groupName: "" },
     left: 0,
     top: 0,
+    point:0
   },
   next: {
     id: -1,
@@ -131,6 +134,7 @@ const initialState: State = {
     Good: { groupName: "" },
     left: 0,
     top: 0,
+    point:0
   },
   dragItem: null,
   dragItems: null,

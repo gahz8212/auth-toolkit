@@ -17,7 +17,8 @@ type Props = {
         Images: { url: string }[],
         Good: { groupName: string },
         left: number,
-        top: number
+        top: number,
+        point: number
 
     }[] | null;
     selectItem: (id: number) => void;

@@ -23,6 +23,7 @@ type State = {
         Good: { groupName: string };
         left: number;
         top: number;
+        point:number
       }[]
     | null;
   relations:
@@ -115,6 +116,7 @@ type State = {
         Good: { groupName: string };
         left: number;
         top: number;
+        point:number
       }[]
     | null;
   imageList: { url: string }[];

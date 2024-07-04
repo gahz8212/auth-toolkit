@@ -16,6 +16,7 @@ type Props = {
         Good: { groupName: string },
         left: number,
         top: number,
+        point: number
 
     }[] | null;
     selectItem: (id: number) => void;
@@ -51,7 +52,6 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
             setCheck(check.filter(check => check !== id))
         }
     }
-    console.log('items', items)
     return (
         <>
             {viewMode ? <div className="item-list"
@@ -96,9 +96,13 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             {/* <div>{item.category}</div> */}
                             <div>{item.itemName}</div>
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
-                            {item.type !== 'SET' && <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>}
+                            {item.type !== 'SET' &&
+                                <>
+                                    <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
+                                    <div>포인트:{item.point}</div>
+                                </>}
                             <div>총입고가:\{item.sum_im_price}</div>
-                            {/* <div>포인트:{item.point}</div> */}
+
                             <div>수출가:${item.ex_price}</div>
 
                         </div>
