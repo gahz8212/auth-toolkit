@@ -11,16 +11,22 @@ type Props = {
         ex_price: number;
         use: boolean,
         supplyer: string,
-        Images: { url: string }[]
+        Images: { url: string }[],
+        Good: { groupName: string },
+        left: number,
+        top: number,
+
     }[] | null;
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
+    viewMode: boolean;
+
 
 }
 
-const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop }) => {
-
+const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode }) => {
+    console.log(viewMode)
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
     const [check, setCheck] = useState<number[]>([])
@@ -45,61 +51,119 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop })
         }
     }
     return (
+        <>
+            {viewMode ? <div className="item-list"
+                style={{ position: 'relative' }}>
+                {items?.map((item, index) =>
+                    <div
+                        key={index}
+                        className={`infos 
+                    ${selected === item.id ? 'selected' : ''} 
+                    ${shows.includes(item.id) ? 'back' : ""}
+                    ${check.includes(item.id) ? 'check' : ""}
+                    ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}
+                    ${viewMode === true ? 'absolute' : 'relative'}`
+                        }
+                        style={{ position: 'absolute', left: item.left * 1.5, top: item.top * 1.7 }}
+                        draggable
+                        onDragStart={() => { onDragStart(item.id) }}
+                        onDragEnd={onDrop}
 
-        <div className="item-list">
-            {items?.map((item, index) =>
-                <div
-                    key={index}
-                    className={`infos 
+                    >
+                        <div className={`info text ${item.category} `}>
+                            <div className="footer">
+
+                                <div className="edit">
+                                    <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                                        Edit
+                                    </span>
+                                </div>
+                                <div className="check">
+                                    <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id) }}>
+                                        Check
+                                    </span>
+                                </div>
+                                <div className="redo">
+                                    <span className="material-symbols-outlined redo" onClick={() => { showBack(item.id) }}>
+                                        Redo
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div>{item.id}</div>
+                            <div>{item.category}</div>
+                            <div>{item.itemName}</div>
+                            <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
+                            <div>${item.ex_price}</div>
+
+                        </div>
+                        <div className={`info image  ${item.category} `}>
+                            <div className="undo">
+                                <span className="material-symbols-outlined undo" onClick={() => { removeBack(item.id) }}>
+                                    Undo
+                                </span>
+                            </div>
+                            {item.Images && item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
+
+                        </div>
+                    </div>)}
+            </div> :
+                <div className="item-list">
+
+                    {items?.map((item, index) =>
+                        <div
+                            key={index}
+                            className={`infos 
                     ${selected === item.id ? 'selected' : ''} 
                     ${shows.includes(item.id) ? 'back' : ""}
                     ${check.includes(item.id) ? 'check' : ""}
                     ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`
 
-                    }
-                    draggable
-                    onDragStart={() => { onDragStart(item.id) }}
-                    onDragEnd={onDrop}
+                            }
 
-                >
-                    <div className={`info text ${item.category} `}>
-                        <div className="footer">
+                            draggable
+                            onDragStart={() => { onDragStart(item.id) }}
+                            onDragEnd={onDrop}
 
-                            <div className="edit">
-                                <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
-                                    Edit
-                                </span>
+                        >
+                            <div className={`info text ${item.category} `}>
+                                <div className="footer">
+
+                                    <div className="edit">
+                                        <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                                            Edit
+                                        </span>
+                                    </div>
+                                    <div className="check">
+                                        <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id) }}>
+                                            Check
+                                        </span>
+                                    </div>
+                                    <div className="redo">
+                                        <span className="material-symbols-outlined redo" onClick={() => { showBack(item.id) }}>
+                                            Redo
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div>{item.id}</div>
+                                <div>{item.category}</div>
+                                <div>{item.itemName}</div>
+                                <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
+                                <div>${item.ex_price}</div>
+
                             </div>
-                            <div className="check">
-                                <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id) }}>
-                                    Check
-                                </span>
+                            <div className={`info image  ${item.category} `}>
+                                <div className="undo">
+                                    <span className="material-symbols-outlined undo" onClick={() => { removeBack(item.id) }}>
+                                        Undo
+                                    </span>
+                                </div>
+                                {item.Images && item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
+
                             </div>
-                            <div className="redo">
-                                <span className="material-symbols-outlined redo" onClick={() => { showBack(item.id) }}>
-                                    Redo
-                                </span>
-                            </div>
-                        </div>
-
-                        <div>{item.id}</div>
-                        <div>{item.category}</div>
-                        <div>{item.itemName}</div>
-                        <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
-                        <div>${item.ex_price}</div>
-
-                    </div>
-                    <div className={`info image  ${item.category} `}>
-                        <div className="undo">
-                            <span className="material-symbols-outlined undo" onClick={() => { removeBack(item.id) }}>
-                                Undo
-                            </span>
-                        </div>
-                        {item.Images && item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
-
-                    </div>
-                </div>)}
-        </div>
+                        </div>)}
+                </div >}</>
     );
 };
 

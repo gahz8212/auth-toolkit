@@ -16,6 +16,7 @@ const RsettingContainer = () => {
     const { status } = useSelector(editData);
     const { relate_view } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
+    const [viewMode, setViewMode] = useState(false)
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -41,6 +42,7 @@ const RsettingContainer = () => {
             )
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
+
             const item = items.filter(item => item.id === id);
             if (typeof id === 'number') {
 
@@ -51,8 +53,14 @@ const RsettingContainer = () => {
                 }
             }
             dispatch(editActions.selectItem(item[0]));
-            dispatch(formActions.toggle_form({ form: 'edit', value: true }))
+      
+
+                dispatch(formActions.toggle_form({ form: 'edit', value: true }))
+            
+
         }
+
+
     }
     const viewRelation = (toggle: boolean) => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
@@ -67,7 +75,8 @@ const RsettingContainer = () => {
                     itemName: item.itemName,
                     unit: item.unit,
                     im_price: item.im_price,
-                    point: 0
+                    point: 0,
+
                     // desript: item.descript,
                     // use: item.use,
                 }
@@ -140,6 +149,30 @@ const RsettingContainer = () => {
         }
 
     }
+    const changeView = (toggle: boolean) => {
+        setViewMode(toggle)
+        if (toggle) {
+
+            let newItem: {}[] = [];
+
+            relate_view?.map(view => items?.map(item => {
+                if (item.id === view.currentId) {
+
+                    newItem.push({ ...item, top: view.top, left: view.left })
+
+                    return newItem;
+                } else { return null }
+            }
+            ))
+            console.log('newItem', newItem)
+            dispatch(itemActions.viewMatrix(newItem))
+        } else {
+            dispatch(itemActions.backupItems())
+
+
+        }
+    }
+    // changeView()
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -155,18 +188,6 @@ const RsettingContainer = () => {
                     dispatch(relateActions.insertRelation_view(result))
                 }
             }
-            // addRelations(selectedGoodId);
-            // let newArray: {}[] = [];
-            // relations?.map(relation => items?.filter(item => {
-            //     if (relation.LowerId === item.id) {
-            //         newArray.push({
-            //             id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
-            //             itemName: item.itemName, type: item.type, category: item.category
-            //         })
-            //         return newArray;
-            //     } else { return null }
-            // }))
-            // inputDragItems(newArray, selectedGoodId)
         }
     }, [dispatch, status.message, selectedGoodId, items, relations])
 
@@ -178,7 +199,7 @@ const RsettingContainer = () => {
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
-            inputDragItems={inputDragItems} />
+            inputDragItems={inputDragItems} changeView={changeView} viewMode={viewMode} />
     );
 };
 

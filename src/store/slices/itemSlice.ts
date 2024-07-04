@@ -21,6 +21,8 @@ type State = {
         set: boolean;
         Images: { url: string }[];
         Good: { groupName: string };
+        left: number;
+        top: number;
       }[]
     | null;
   relations:
@@ -111,6 +113,8 @@ type State = {
         set: boolean;
         Images: { url: string }[];
         Good: { groupName: string };
+        left: number;
+        top: number;
       }[]
     | null;
   imageList: { url: string }[];
@@ -327,6 +331,7 @@ const itemSlice = createSlice({
       state.items = newItems;
     },
     viewMatrix: (state, { payload: items }) => {
+      console.log(items);
       state.backup = state.items;
       state.items = items;
     },

@@ -28,8 +28,10 @@ type Props = {
         point: number;
     }[] | null;
     inputDragItems: (dragItems: {}[], selectedItem: number) => void;
+    changeView: (toggle: boolean) => void;
+    selectItem: (id: number) => void;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     return (
@@ -53,7 +55,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         </div>
                         <button onClick={() => {
                             if (!openId.includes(item.id)) {
-                                setOpenId([...openId, item.id])
+                                setOpenId([item.id])
                                 let newArray: {}[] = [];
                                 relations?.map(relation => items.filter(item => {
                                     if (relation.LowerId === item.id) {
@@ -65,6 +67,9 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     } else { return null }
                                 }))
                                 inputDragItems(newArray, item.id)
+                                // setOpenView(!openView);
+                                // changeView(!openView)
+
 
 
                             } else {
@@ -72,9 +77,10 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             }
                         }}>Relations</button>
                         <button onClick={() => {
-                            viewRelation(openView);
+
                             setOpenView(!openView);
-                            // addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' })
+                            changeView(!openView)
+
                         }}>view Relation</button>
                         {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&

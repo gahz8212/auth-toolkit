@@ -14,25 +14,34 @@ type Props = {
         ex_price: number;
         use: boolean,
         supplyer: string,
-        Images: { url: string }[]
+        Images: { url: string }[],
+        Good: { groupName: string },
+        left: number,
+        top: number
+
     }[] | null;
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
+    viewMode: boolean;
 
 
 }
-const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop }) => {
+const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode }) => {
     if (items) {
-
-        const parts = items.filter(item => item.type !== 'SET')
+        let parts;
+        if (viewMode) {
+            parts = items
+        } else {
+            parts = items.filter(item => item.type !== 'SET')
+        }
         return (
 
             <div className="right">
 
                 <CardComponent items={parts} selectItem={selectItem}
                     dragItem={dragItem}
-                    onDrop={onDrop} />
+                    onDrop={onDrop} viewMode={viewMode} />
             </div>
 
         );

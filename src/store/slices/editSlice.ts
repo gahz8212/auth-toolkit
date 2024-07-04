@@ -20,6 +20,8 @@ type State = {
     set: boolean;
     Images: { url: string }[];
     Good: { groupName: string };
+    left: number;
+    top: number;
   };
   next: {
     [key: string]:
@@ -46,6 +48,8 @@ type State = {
     set: boolean;
     Images: { url: string }[];
     Good: { groupName: string };
+    left: number;
+    top: number;
   };
   dragItem: {
     targetId: number;
@@ -103,6 +107,8 @@ const initialState: State = {
     set: true,
     Images: [],
     Good: { groupName: "" },
+    left: 0,
+    top: 0,
   },
   next: {
     id: -1,
@@ -123,6 +129,8 @@ const initialState: State = {
     set: true,
     Images: [],
     Good: { groupName: "" },
+    left: 0,
+    top: 0,
   },
   dragItem: null,
   dragItems: null,
