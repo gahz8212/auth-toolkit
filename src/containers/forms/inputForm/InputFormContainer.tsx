@@ -14,9 +14,10 @@ const InputFormContainer = () => {
         category: string, type: string,
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
-
+    const [isBasket, setIsBasket] = useState<boolean>(false)
     const { input, imageList, items, dragItems, T_dragItems } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
+
 
 
     const onChange = (e: any) => {
@@ -50,6 +51,7 @@ const InputFormContainer = () => {
 
     const addItem = (
         item: {
+
             type: string,
             groupType: string,
             groupName: string,
@@ -65,7 +67,9 @@ const InputFormContainer = () => {
             cbm: number;
             moq: number;
             set: boolean;
-            imageList: { url: string }[]
+            imageList: { url: string }[],
+            dragItems: {}[]
+
         }
     ) => {
         if (items) {
@@ -81,6 +85,7 @@ const InputFormContainer = () => {
     const formClose = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: false }))
         dispatch(ExcelAction.initForm())
+        dispatch(itemActions.initForm())
         // console.log(excelFile.current)
     }
     const excel_onChange = (e: any) => {
@@ -138,8 +143,6 @@ const InputFormContainer = () => {
 
     }
     const results = items?.filter((item: any) => item.groupType !== null).map((item: any) => {
-
-
         return ({ category: item.category, type: item.groupType })
     })
     results?.forEach((result) => {
@@ -155,7 +158,6 @@ const InputFormContainer = () => {
             setSupplyer([result, ...supplyer].sort())
         }
     })
-
     useEffect(() => {
         dispatch(itemActions.initForm())
     }, [dispatch])
@@ -181,6 +183,8 @@ const InputFormContainer = () => {
             T_dragItems={T_dragItems}
             addCount={addCount}
             removeCount={removeCount}
+            setIsBasket={setIsBasket}
+            isBasket={isBasket}
 
         />
 

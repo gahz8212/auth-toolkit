@@ -143,7 +143,126 @@
                 }
               }
             }
-
+            .item_basket {
+              padding: 10px;
+              width: 250px;
+              min-height: 20px;
+              max-height: 150px;
+              border: 5px dashed darkturquoise;
+              border-radius: 8px;
+              background: white;
+              margin-left: 0.5rem;
+              margin-bottom: 1rem;
+              overflow-y: auto;
+              .countControl {
+                .itemName {
+                  margin-left: 1rem;
+                  position: relative;
+                  &.ASSY {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      border: 1px solid red;
+                    }
+                  }
+                  &.PARTS {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      border: 1px dotted black;
+                    }
+                  }
+                  &.회로 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: cornflowerblue;
+                    }
+                  }
+                  &.전장 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: lightpink;
+                    }
+                  }
+                  &.기구 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: khaki;
+                    }
+                  }
+                  &.포장 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: yellowgreen;
+                    }
+                  }
+                  &.기타 {
+                    &::before {
+                      content: "";
+                      position: absolute;
+                      width: 15px;
+                      height: 15px;
+                      border-radius: 50%;
+                      left: -18px;
+                      background-color: lightgray;
+                    }
+                  }
+                }
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid black;
+                margin-bottom: 0.3rem;
+                padding-top: 0.2rem;
+                padding-bottom: 0.2rem;
+                .material-symbols {
+                  display: flex;
+                  align-items: center;
+                  span {
+                    &:nth-of-type(2) {
+                      font-weight: 700;
+                      color: red;
+                      width: 18px;
+                      text-align: center;
+                    }
+                  }
+                  .material-symbols-outlined.add,
+                  .material-symbols-outlined.remove {
+                    &:hover {
+                      color: red;
+                    }
+                  }
+                }
+              }
+            }
             .packingInfo {
               display: flex;
               align-items: center;

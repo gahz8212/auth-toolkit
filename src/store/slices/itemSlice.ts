@@ -23,7 +23,7 @@ type State = {
         Good: { groupName: string };
         left: number;
         top: number;
-        point:number
+        point: number;
       }[]
     | null;
   relations:
@@ -34,7 +34,7 @@ type State = {
       }[]
     | null;
   input: {
-    [key: string]: string | number | boolean;
+    [key: string]: string | number | boolean | {}[];
     type: string;
     groupType: string;
     groupName: string;
@@ -50,6 +50,7 @@ type State = {
     cbm: number;
     moq: number;
     set: boolean;
+    dragItems: {}[];
   };
   dragItem: {
     targetId: number;
@@ -116,7 +117,7 @@ type State = {
         Good: { groupName: string };
         left: number;
         top: number;
-        point:number
+        point: number;
       }[]
     | null;
   imageList: { url: string }[];
@@ -142,6 +143,7 @@ const initialState: State = {
     cbm: 0,
     moq: 0,
     set: true,
+    dragItems: [],
   },
   dragItem: null,
   dragItems: [],
@@ -221,6 +223,7 @@ const itemSlice = createSlice({
       state.input = initialState.input;
       state.imageList = initialState.imageList;
       state.dragItems = [];
+      state.T_dragItems = [];
       state.relations = null;
     },
     changeField: (state, { payload: { name, value } }) => {
@@ -228,6 +231,7 @@ const itemSlice = createSlice({
     },
     changeInitial: (state, { payload: { value } }) => {
       // console.log(value);
+
       if (value === "SET") {
         state.input.category = "EDT";
         state.input.supplyer = "자체";
@@ -286,16 +290,18 @@ const itemSlice = createSlice({
         moq: number;
         set: boolean;
         imageList: { url: string }[];
+        dragItems: {}[];
       }>
     ) => {
       state.status.error = "";
       state.status.message = "";
     },
     addItemSuccess: (state, { payload: item }) => {
+      console.log("item", item);
       state.status.message = "";
       state.status.error = "";
       if (state.items) {
-        state.items = state.items.concat(item);
+        // state.items = state.items.concat(item);
         // state.backup = state.items;
       }
     },

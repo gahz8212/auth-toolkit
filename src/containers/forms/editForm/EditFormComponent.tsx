@@ -19,7 +19,8 @@ type Props = {
         cbm: number,
         moq: number,
         Good: { groupName: string },
-        Images: { url: string }[]
+        Images: { url: string }[],
+        point: number,
     };
     next: {
         [key: string]: string | number | boolean | { groupName: string } | { url: string }[],
@@ -40,7 +41,8 @@ type Props = {
         cbm: number,
         moq: number,
         Good: { groupName: string },
-        Images: { url: string }[]
+        Images: { url: string }[],
+        point: number,
 
 
     };
@@ -74,6 +76,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
         <div className={`form-type ${next.type}`}>
 
             <form className='edit-form' onSubmit={(e) => {
+      
                 e.preventDefault();
                 const changedProps: {
                     [key: string]: '' | number | string | boolean | { groupName: string } | { url: string }[],
@@ -86,7 +89,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 if (dragItems) {
-                    const newItem = ({ id: next.id, ...changedProps, dragItems,type:'rest' })
+                    const newItem = ({ id: next.id, ...changedProps, dragItems, type: 'rest' })
                     editItem(newItem)
                 }
             }
@@ -214,7 +217,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <textarea name="descript" value={next.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                                 </div>
                             </div>
-                            <button onClick={() => {
+                            <button type="button" onClick={() => {
                                 openRelationView(openViewer);
                                 setOpenViewer(!openViewer)
                             }}>연결보기</button>

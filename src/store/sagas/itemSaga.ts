@@ -30,29 +30,33 @@ function* addItemSaga(action: {
     moq: number;
     set: boolean;
     imageList: { url: string }[];
+    dragItems: {}[];
   };
 }) {
   try {
     const response: {
-      data: {
-        type: string;
-        groupType: string;
-        groupName: string;
-        category: string;
-        itemName: string;
-        descript: string;
-        unit: string;
-        im_price: number;
-        sum_im_price: number;
-        ex_price: number;
-        use: boolean;
-        supplyer: string;
-        weight: number;
-        cbm: number;
-        moq: number;
-        set: boolean;
-        imageList: { url: string }[];
-      };
+      data:string
+      //  {
+        // message: string;
+        // type: string;
+        // groupType: string;
+        // groupName: string;
+        // category: string;
+        // itemName: string;
+        // descript: string;
+        // unit: string;
+        // im_price: number;
+        // sum_im_price: number;
+        // ex_price: number;
+        // use: boolean;
+        // supplyer: string;
+        // weight: number;
+        // cbm: number;
+        // moq: number;
+        // set: boolean;
+        // imageList: { url: string }[];
+        // dragItems: {}[]
+      // };
     } = yield call(itemAPI.addItem, action.payload);
     yield put(itemActions.addItemSuccess(response.data));
   } catch (e: any) {
@@ -62,8 +66,8 @@ function* addItemSaga(action: {
 function* getItemSaga() {
   try {
     const response: {
-      data: [items:{
-   
+      data: [
+        items: {
           type: string;
           groupType: string;
           groupName: string;
@@ -77,8 +81,9 @@ function* getItemSaga() {
           use: boolean;
           supplyer: string;
           imageList: { url: string }[];
-        }[],relations:{}[]];
-       
+        }[],
+        relations: {}[]
+      ];
     } = yield call(itemAPI.getItem);
     yield put(itemActions.getItemSuccess(response.data));
   } catch (e: any) {

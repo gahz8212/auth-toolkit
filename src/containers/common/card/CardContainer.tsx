@@ -52,7 +52,7 @@ const CardContainer = () => {
                 selectItem={selectItem}
                 dragItem={dragItem}
                 onDrop={onDrop}
-                viewMode
+                viewMode={false}
             />
         </div>
     );

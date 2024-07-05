@@ -14,14 +14,14 @@ type Props = {
         descript: string,
         unit: string,
         im_price: number;
-
         ex_price: number;
         use: boolean,
         supplyer: string,
         set: boolean,
         weight: number,
         cbm: number,
-        moq: number
+        moq: number,
+        dragItems: {}[]
     };
     insertImage: (e: any) => void;
     imageList: { url: string }[];
@@ -41,7 +41,8 @@ type Props = {
         weight: number,
         cbm: number,
         moq: number,
-        imageList: { url: string }[]
+        imageList: { url: string }[],
+        dragItems: {}[]
     }) => void;
     formClose: () => void;
     excel_onChange: (e: any) => void;
@@ -57,20 +58,21 @@ type Props = {
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
     addCount: (id: number | string | boolean) => void;
     removeCount: (id: number | string | boolean) => void;
+    setIsBasket: React.Dispatch<React.SetStateAction<boolean>>
+    isBasket: boolean;
 
 
 
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount, isBasket, setIsBasket }) => {
 
     return (
         <div className={`form-type ${input.type}`}>
-
             <form className='input-form' onSubmit={(e) => {
-
                 e.preventDefault();
+
                 addItem({
                     type: input.type,
                     groupType: input.groupType,
@@ -87,8 +89,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     cbm: input.cbm,
                     moq: input.moq,
                     set: input.set,
-                    imageList
+                    imageList,
+                    dragItems: input.dragItems
                 })
+
             }}>
                 <div className={`form-category ${input.category}`}>
 
@@ -145,6 +149,34 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                 <input type="text" name="itemName" value={input.itemName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
                                 <textarea name="descript" value={input.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{input.descript}</textarea>
                             </div>
+                            <button type="button" onClick={() => setIsBasket(!isBasket)} >연결창 열기</button>
+
+                            {isBasket && <div>
+                                {dragItems.length > 0 && <div className='lowerList'>총 {dragItems.length}건의 하위 아이템</div>}
+                                <div className="item_basket"
+                                    onDragEnter={drag_on}
+                                >
+                                    {T_dragItems && T_dragItems.map((item) =>
+                                        <div className="countControl" key={item.id.toString()}>
+                                            <div className={`itemName ${item.type} ${item.category}`}>
+                                                {item.itemName}
+                                            </div>
+                                            <div className='material-symbols'>
+                                                <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
+                                                    onClick={() => { addCount(item.id) }}
+                                                >
+                                                    add_circle
+                                                </span>
+                                                <span>{item.point}</span>
+                                                <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
+                                                    onClick={() => { removeCount(item.id) }}>
+                                                    do_not_disturb_on
+                                                </span>
+                                            </div>
+
+                                        </div>)}
+                                </div>
+                            </div>}
 
 
                             <div className="currency">

@@ -28,7 +28,7 @@ type Props = {
 }
 
 const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode }) => {
-    console.log(viewMode)
+    console.log('viewMode', viewMode)
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
     const [check, setCheck] = useState<number[]>([])
@@ -103,7 +103,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 </>}
                             <div>총입고가:\{item.sum_im_price}</div>
 
-                            <div>수출가:${item.ex_price}</div>
+                            {item.ex_price && <div>수출가:${item.ex_price}</div>}
 
                         </div>
                         <div className={`info image  ${item.category} `}>

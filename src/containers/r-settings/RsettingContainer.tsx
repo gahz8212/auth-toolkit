@@ -77,7 +77,7 @@ const RsettingContainer = () => {
                     itemName: item.itemName,
                     unit: item.unit,
                     im_price: item.im_price,
-                    point: item.point,
+                    point: 0,
 
                     // desript: item.descript,
                     // use: item.use,

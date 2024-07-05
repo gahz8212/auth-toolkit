@@ -19,6 +19,7 @@ export const addItem = (item: {
   moq: number;
   set: boolean;
   imageList: { url: string }[];
+  dragItems: {}[];
 }) => {
   item.unit = item.unit.slice(0, 1);
   // 원 단위인 ////을 //로 바꿔주기 위해서
@@ -29,7 +30,7 @@ export const getItem = () => {
   return client.get("/item/items");
 };
 export const editItem = (item: {
-  [key: string]: "" | number | string | { url: string }[] | boolean|{}[];
+  [key: string]: "" | number | string | { url: string }[] | boolean | {}[];
 }) => {
   console.log(item);
   return client.post("/item/edit", item);

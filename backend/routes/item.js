@@ -43,110 +43,111 @@ router.post("/item", async (req, res) => {
     groupName,
     itemName,
     imageList,
+    dragItems,
   } = req.body;
-
+  console.log("dragItems", dragItems);
   try {
-    let item;
-    let good;
-    //set가 들어오면 Item에
-    //assy나 item이 들어오면 item에 입력
-    //image는 image의 goodId에 입력
-    if (type === "SET") {
-      good = await Good.create({
-        groupName,
-        itemName,
-      });
-      item = await Item.create({
-        type,
-        groupType,
-        descript,
-        category,
-        unit,
-        im_price,
-        ex_price,
-        weight,
-        cbm,
-        moq,
-        use,
-        supplyer,
-        groupName,
-      });
-      // const newItem = await Item.findOne({
-      //   where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
-      //   attributes: [
-      //     "id",
-      //     "category",
-      //     "itemName",
-      //     "im_price",
-      //     "unit",
-      //     "ex_price",
-      //     "groupName",
-      //     "groupType",
-      //     "weight",
-      //     "cbm",
-      //     "moq",
-      //     "sets",
-      //   ],
-      // });
+    // let item;
+    // let good;
+    // //set가 들어오면 Item에
+    // //assy나 item이 들어오면 item에 입력
+    // //image는 image의 goodId에 입력
+    // if (type === "SET") {
+    //   good = await Good.create({
+    //     groupName,
+    //     itemName,
+    //   });
+    //   item = await Item.create({
+    //     type,
+    //     groupType,
+    //     descript,
+    //     category,
+    //     unit,
+    //     im_price,
+    //     ex_price,
+    //     weight,
+    //     cbm,
+    //     moq,
+    //     use,
+    //     supplyer,
+    //     groupName,
+    //   });
+    //   // const newItem = await Item.findOne({
+    //   //   where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
+    //   //   attributes: [
+    //   //     "id",
+    //   //     "category",
+    //   //     "itemName",
+    //   //     "im_price",
+    //   //     "unit",
+    //   //     "ex_price",
+    //   //     "groupName",
+    //   //     "groupType",
+    //   //     "weight",
+    //   //     "cbm",
+    //   //     "moq",
+    //   //     "sets",
+    //   //   ],
+    //   // });
 
-      return;
-    } else if (type === "ASSY") {
-      item = await Item.create({
-        category,
-        type,
-        itemName,
-        descript,
-        unit,
-        im_price,
-        ex_price,
-        use,
-        weight,
-        cbm,
-        moq,
-        supplyer,
-      });
-    } else {
-      console.log("parts");
-      item = await Item.create({
-        category,
-        type,
-        itemName,
-        descript,
-        unit,
-        im_price,
-        ex_price,
-        use,
-        weight,
-        cbm,
-        moq,
-        supplyer,
-      });
-      const image_promise = await Promise.all(
-        imageList.map((image) =>
-          Image.create({ url: image.url, ItemId: item.id })
-        )
-      );
-      item.addImage(image_promise.map((image) => image[0]));
+    //   return;
+    // } else if (type === "ASSY") {
+    //   item = await Item.create({
+    //     category,
+    //     type,
+    //     itemName,
+    //     descript,
+    //     unit,
+    //     im_price,
+    //     ex_price,
+    //     use,
+    //     weight,
+    //     cbm,
+    //     moq,
+    //     supplyer,
+    //   });
+    // } else {
+    //   console.log("parts");
+    //   item = await Item.create({
+    //     category,
+    //     type,
+    //     itemName,
+    //     descript,
+    //     unit,
+    //     im_price,
+    //     ex_price,
+    //     use,
+    //     weight,
+    //     cbm,
+    //     moq,
+    //     supplyer,
+    //   });
+    //   const image_promise = await Promise.all(
+    //     imageList.map((image) =>
+    //       Image.create({ url: image.url, ItemId: item.id })
+    //     )
+    //   );
+    //   item.addImage(image_promise.map((image) => image[0]));
 
-      const newItem = await Item.findOne({
-        where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
-        attributes: [
-          "id",
-          "category",
-          "type",
-          "itemName",
-          "descript",
-          "unit",
-          "im_price",
-          "ex_price",
-          "use",
-          "supplyer",
-        ],
-        include: { model: Image, attributes: ["url"] },
-      });
-      console.log("newItem:", newItem);
-      return res.status(200).json(newItem);
-    }
+    //   const newItem = await Item.findOne({
+    //     where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
+    //     attributes: [
+    //       "id",
+    //       "category",
+    //       "type",
+    //       "itemName",
+    //       "descript",
+    //       "unit",
+    //       "im_price",
+    //       "ex_price",
+    //       "use",
+    //       "supplyer",
+    //     ],
+    //     include: { model: Image, attributes: ["url"] },
+    //   });
+    //   console.log("newItem:", newItem);
+    //   return res.status(200).json(newItem);
+    return res.status(200).json("addItem_ok");
   } catch (e) {
     return res.status(400).json(e.message);
   }
