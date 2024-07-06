@@ -90,7 +90,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     moq: input.moq,
                     set: input.set,
                     imageList,
-                    dragItems: input.dragItems
+                    dragItems: T_dragItems
                 })
 
             }}>
