@@ -76,7 +76,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
         <div className={`form-type ${next.type}`}>
 
             <form className='edit-form' onSubmit={(e) => {
-      
+
                 e.preventDefault();
                 const changedProps: {
                     [key: string]: '' | number | string | boolean | { groupName: string } | { url: string }[],
@@ -150,6 +150,33 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                             </div>
 
+
+                        
+
+                            <div className="item_basket" onDragEnter={() => {
+                                if (dragedItem) drag_on(next.id, dragedItem.id)
+                            }}>
+                                {dragItems && dragItems.map((dragitem) =>
+                                    <div className="countControl" key={dragitem.id.toString()}>
+                                        <div className={`itemName ${dragitem.type} ${dragitem.category}`}>
+                                            {dragitem.itemName}
+                                        </div>
+                                        <div className='material-symbols'>
+                                            <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
+                                                onClick={() => {
+                                                    addCount(dragitem.targetId, dragitem.id)
+                                                }}
+                                            >
+                                                add_circle
+                                            </span>
+                                            <span>{dragitem.point}</span>
+                                            <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
+                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
+                                                do_not_disturb_on
+                                            </span>
+                                        </div>
+                                    </div>)}
+                            </div>
 
                             <div className="currency">
                                 <div className="ex_price">

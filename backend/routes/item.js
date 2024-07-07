@@ -154,7 +154,7 @@ router.post("/item", async (req, res) => {
         );
       }
     }
-    return res.status(200).json("newItem");
+    return res.status(200).json(newItem);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);

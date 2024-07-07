@@ -55,14 +55,8 @@ const RsettingContainer = () => {
                 }
             }
             dispatch(editActions.selectItem(item[0]));
-
-
             dispatch(formActions.toggle_form({ form: 'edit', value: true }))
-
-
         }
-
-
     }
     const viewRelation = (toggle: boolean) => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
