@@ -54,8 +54,6 @@ const EditFormContainer = () => {
         dispatch(formActions.toggle_form({ form: 'edit', value: false }))
     }
     const results = items?.filter((item: any) => item.groupType !== null).map((item: any) => {
-
-
         return ({ category: item.category, type: item.groupType })
     })
     results?.forEach((result) => {
@@ -78,8 +76,11 @@ const EditFormContainer = () => {
     }
 
     const drag_on = (targetId: number, itemId: number) => {
-        if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId)
+
+        if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
             dispatch(editActions.drag_on(targetId))
+
+        }
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
 
@@ -99,16 +100,18 @@ const EditFormContainer = () => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
     }
     useEffect(() => {
-        if (status.message === 'edit_ok' && items && backups) {
+        if (status.message === 'edit_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
             dispatch(itemActions.changeItems(newItems))
-            ////                                                         ////
-            const Bidx = (backups.findIndex(backup => backup.id === next.id))
-            const newBItems = [...backups];
-            newBItems.splice(Bidx, 1, next)
-            dispatch(itemActions.changeBItems(newBItems))
+            ////                            
+            if (backups) {
+                const Bidx = (backups.findIndex(backup => backup.id === next.id))
+                const newBItems = [...backups];
+                newBItems.splice(Bidx, 1, next)
+                dispatch(itemActions.changeBItems(newBItems))
+            }                             ////
             ////                                                         ////
             const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
             // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환

@@ -45,9 +45,9 @@ router.post("/item", async (req, res) => {
     imageList,
     dragItems,
   } = req.body;
-  console.log("dragItems", dragItems);
+  // console.log("dragItems", dragItems);
+
   try {
-    let item;
     //set가 들어오면 Item에
     //assy나 item이 들어오면 item에 입력
     //image는 image의 goodId에 입력
@@ -58,9 +58,7 @@ router.post("/item", async (req, res) => {
           itemName,
         },
       });
-      // console.log("good", good.itemName, "create", create);
-      item = await Item.findOne({ where: { itemName: good.itemName } });
-      // console.log("item.id", item.id);
+
       await Item.upsert({
         type,
         groupType,
@@ -81,7 +79,7 @@ router.post("/item", async (req, res) => {
         where: { itemName: good.itemName },
       });
     } else if (type === "ASSY") {
-      item = await Item.create({
+      await Item.create({
         category,
         type,
         itemName,
@@ -96,8 +94,7 @@ router.post("/item", async (req, res) => {
         supplyer,
       });
     } else {
-      console.log("parts");
-      item = await Item.create({
+      await Item.create({
         category,
         type,
         itemName,
@@ -112,7 +109,11 @@ router.post("/item", async (req, res) => {
         supplyer,
       });
     }
-    console.log("item", item.id);
+    const item = await Item.findOne({
+      where: { itemName },
+      attributes: ["id"],
+    });
+    console.log("item", item);
     const image_promise = await Promise.all(
       imageList.map((image) =>
         Image.create({ url: image.url, ItemId: item.id })
@@ -121,22 +122,11 @@ router.post("/item", async (req, res) => {
     item.addImage(image_promise.map((image) => image[0]));
     const newItem = await Item.findOne({
       where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
-      attributes: [
-        "id",
-        "category",
-        "type",
-        "itemName",
-        "descript",
-        "unit",
-        "im_price",
-        "ex_price",
-        "use",
-        "supplyer",
-      ],
+
       include: { model: Image, attributes: ["url"] },
     });
-    console.log("dragItems", dragItems);
-    console.log("imageList", imageList);
+    // console.log("dragItems", dragItems);
+    // console.log("imageList", imageList);
     if (dragItems.length > 0) {
       const relations = dragItems.map((dragItem) => ({
         LowerId: dragItem.id,
@@ -144,7 +134,7 @@ router.post("/item", async (req, res) => {
         point: dragItem.point,
       }));
       if (relations) {
-        await Relation.destroy({ where: { UpperId: newItem.id } });
+        await Relation.destroy({ where: { UpperId: item.id } });
         relations.map((rel) =>
           Relation.create({
             UpperId: rel.UpperId,

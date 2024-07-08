@@ -48,17 +48,40 @@ module.exports = class Item extends Sequelize.Model {
       {
         sequelize,
         hooks: {
+          afterCreate: async (data) => {
+            console.log(data);
+          },
+          beforeUpdate: async (good) => {
+            console.log(good);
+            // sequelize.models.ItemBackup.create({
+
+            // });
+          },
           afterUpdate: async (good) => {
-            sequelize.models.ItemBackup.create({
-              itemName: good.itemName,
-              price: good.previous().price,
-              GoodId: good.id,
-            });
+            console.log(good);
+            // sequelize.models.ItemBackup.create({
+
+            // });
+          },
+          afterUpsert: async (good) => {
+            console.log(good);
+            // sequelize.models.ItemBackup.create({
+            // });
+          },
+          beforeUpsert: async (good) => {
+            console.log(good);
+            // sequelize.models.ItemBackup.create({
+            // });
+          },
+          afterDestroy: async (good) => {
+            console.log("destroyGood", good);
+            // sequelize.models.ItemBackup.create({
+            // });
           },
         },
         timestamps: true,
         underscored: false,
-        paranoid: true,
+        paranoid: false,
         modelName: "Item",
         freezeTableName: true,
         charset: "utf8",

@@ -297,11 +297,11 @@ const itemSlice = createSlice({
       state.status.message = "";
     },
     addItemSuccess: (state, { payload: item }) => {
-      console.log("item", item);
+      // console.log("item", item);
       state.status.message = "";
       state.status.error = "";
       if (state.items) {
-        // state.items = state.items.concat(item);
+        state.items = [...state.items, item];
         // state.backup = state.items;
       }
     },
@@ -311,7 +311,7 @@ const itemSlice = createSlice({
     },
     addItems: (state, { payload: items }) => {
       if (state.items) {
-        state.items = state.items.concat(items);
+        state.items = [...state.items, items];
       }
     },
     getItem: (state) => {
