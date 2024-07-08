@@ -120,13 +120,16 @@ router.post("/item", async (req, res) => {
       )
     );
     item.addImage(image_promise.map((image) => image[0]));
+
     const newItem = await Item.findOne({
       where: { id: item.id }, //배열일 경우엔 where:{id:{[Op.in]:itemIds}} 또는 where:{id:itemIds}
 
-      include: { model: Image, attributes: ["url"] },
+      include: [
+        { model: Image, attributes: ["url"] },
+        { model: Good, attributes: ["groupName"] },
+      ],
     });
-    // console.log("dragItems", dragItems);
-    // console.log("imageList", imageList);
+    console.log("newItem", newItem);
     if (dragItems.length > 0) {
       const relations = dragItems.map((dragItem) => ({
         LowerId: dragItem.id,
