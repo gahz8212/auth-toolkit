@@ -99,7 +99,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             {item.type !== 'SET' &&
                                 <>
                                     <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
-                                    <div>포인트:{item.point}</div>
+                                    <div className='point'>X{item.point}</div>
                                 </>}
                             <div>총입고가:\{item.sum_im_price}</div>
 

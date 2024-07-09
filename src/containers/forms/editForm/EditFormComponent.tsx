@@ -285,7 +285,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
                                         <label htmlFor="￦_edit">합산가격</label>
                                         <label htmlFor="￦_edit">￦</label>
-                                        {next.im_price && <input type="text" name="sum_im_price" value={(next.im_price + next.sum_im_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                        {next.im_price && <input type="text" name="sum_im_price" value={(next.im_price*1 + next.sum_im_price*1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                        
                                     </div>
 
                                 </div>

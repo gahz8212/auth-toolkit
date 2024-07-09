@@ -296,12 +296,13 @@ const itemSlice = createSlice({
       state.status.error = "";
       state.status.message = "";
     },
-    addItemSuccess: (state, { payload: item }) => {
+    addItemSuccess: (state, { payload: items }) => {
       // console.log("item", item);
       state.status.message = "";
       state.status.error = "";
       if (state.items) {
-        state.items = [...state.items, item];
+        state.items = [...state.items, items[0]];
+        state.relations = items[1];
         // state.backup = state.items;
       }
     },

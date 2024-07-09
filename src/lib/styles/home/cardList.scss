@@ -71,6 +71,14 @@
       &.기타 {
         background-color: lightgray;
       }
+      .point {
+        font-size: 30px;
+        font-weight: bolder;
+        color: orangered;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+      }
       .footer {
         position: absolute;
         bottom: 0;

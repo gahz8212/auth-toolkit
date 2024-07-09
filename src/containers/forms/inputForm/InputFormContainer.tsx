@@ -6,7 +6,7 @@ import { formActions } from '../../../store/slices/formSlice';
 import { ExcelAction, ExcelData } from '../../../store/slices/excelSlice';
 import InputFormComponent from './InputFormComponent';
 import * as XLSX from 'xlsx';
-
+import { makeRelateData_Price } from '../../../lib/utils/createRelateData'
 const InputFormContainer = () => {
     const dispatch = useDispatch()
     const excelFile = useRef<HTMLInputElement>(null)
@@ -15,7 +15,7 @@ const InputFormContainer = () => {
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
     const [isBasket, setIsBasket] = useState<boolean>(false)
-    const { input, imageList, items, dragItems, T_dragItems } = useSelector(itemData)
+    const { input, imageList, items, dragItems, T_dragItems, relations } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
 
@@ -32,6 +32,8 @@ const InputFormContainer = () => {
         dispatch(itemActions.changeField({ name, value }))
 
     }
+
+
     const insertGroupType = () => {
         if (input.new_groupType.toString()) {
             setGoodType([{ category: input.category.toString(), type: input.new_groupType.toString() }, ...goodType])
@@ -131,6 +133,12 @@ const InputFormContainer = () => {
     }
     const addCount = (id: number | string | boolean) => {
         let idx = T_dragItems.findIndex(item => item.id === id)
+        const sum_im_price = T_dragItems.reduce((acc, curr) => {
+
+            let result = curr.im_price * curr.point
+            return result;
+        }, 0)
+        console.log(sum_im_price)
         if (typeof id === 'number') {
             dispatch(itemActions.T_addCount(idx))
         }
@@ -140,8 +148,12 @@ const InputFormContainer = () => {
         if (typeof id === 'number') {
             dispatch(itemActions.T_removeCount(idx))
         }
-
     }
+    // if (items) {
+    //     const result = makeRelateData_Price(107, relations, items);
+    //     console.log('result', result[0].sum_im_price)
+    // }
+
     const results = items?.filter((item: any) => item.groupType !== null).map((item: any) => {
         return ({ category: item.category, type: item.groupType })
     })

@@ -162,8 +162,8 @@ router.post("/goodinput", async (req, res) => {
           });
         });
       } else {
-        const good = await Good.findOne({ where: { itemName: good.itemName } });
-        if (good) {
+        const goods = await Good.findOne({ where: { itemName: good.itemName } });
+        if (goods) {
           //update;
         } else {
           //create

@@ -82,6 +82,7 @@ router.post("/item", async (req, res) => {
       await Item.create({
         category,
         type,
+        groupType: null,
         itemName,
         descript,
         unit,
@@ -98,6 +99,7 @@ router.post("/item", async (req, res) => {
         category,
         type,
         itemName,
+        groupType: null,
         descript,
         unit,
         im_price,
@@ -113,7 +115,7 @@ router.post("/item", async (req, res) => {
       where: { itemName },
       attributes: ["id"],
     });
-    console.log("item", item);
+    // console.log("item", item);
     const image_promise = await Promise.all(
       imageList.map((image) =>
         Image.create({ url: image.url, ItemId: item.id })
@@ -129,7 +131,7 @@ router.post("/item", async (req, res) => {
         { model: Good, attributes: ["groupName"] },
       ],
     });
-    console.log("newItem", newItem);
+    // console.log("newItem", newItem);
     if (dragItems.length > 0) {
       const relations = dragItems.map((dragItem) => ({
         LowerId: dragItem.id,
@@ -147,7 +149,8 @@ router.post("/item", async (req, res) => {
         );
       }
     }
-    return res.status(200).json(newItem);
+    const relations = await Relation.findAll();
+    return res.status(200).json([newItem, relations]);
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);
@@ -190,6 +193,7 @@ router.get("/items", async (req, res) => {
     return res.status(400).json(e.message);
   }
 });
+
 router.post("/edit", async (req, res) => {
   let { id, Images, dragItems, type, ...rest } = req.body;
 
@@ -202,7 +206,8 @@ router.post("/edit", async (req, res) => {
   // console.log("relations", relations, id);
   try {
     id = parseInt(id, 10);
-    await Item.update(rest, { where: { id } });
+    await Item.update(rest, { where: { id }, individualHooks: true });
+
     if (Images) {
       await Image.destroy({ where: { ItemId: id } });
       Images.map((image) => Image.create({ url: image.url, ItemId: id }));
@@ -230,13 +235,14 @@ router.post("/edit", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   try {
-    await Item.destroy({ where: { id } });
+    await Item.destroy({ where: { id }, individualHooks: true });
     return res.status(200).json("remove_ok");
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);
   }
 });
+
 router.post("/excelAdd", async (req, res) => {
   const datas = req.body;
   try {

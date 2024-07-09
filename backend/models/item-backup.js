@@ -8,7 +8,7 @@ module.exports = class ItemBackup extends Sequelize.Model {
           values: ["SET", "ASSY", "PARTS"],
         },
         groupType: { type: Sequelize.STRING(10) },
-        itemName: { type: Sequelize.STRING(50), unique: true },
+        itemName: { type: Sequelize.STRING(50)},
         descript: { type: Sequelize.STRING(200), allowNull: true },
         category: {
           type: Sequelize.ENUM,
@@ -43,20 +43,20 @@ module.exports = class ItemBackup extends Sequelize.Model {
           allowNull: false,
           defaultValue: "",
         },
+        ItemId: {
+          type: Sequelize.INTEGER,
+        },
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        paranoid: true,
+        paranoid: false,
         modelName: "ItemBackup",
         freezeTableName: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
     );
-  }
-  static associate(db) {
-    db.ItemBackup.belongsTo(db.Item);
   }
 };

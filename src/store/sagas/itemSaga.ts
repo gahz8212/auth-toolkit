@@ -54,7 +54,7 @@ function* addItemSaga(action: {
         moq: number;
         set: boolean;
         imageList: { url: string }[];
-        dragItems: {}[];
+        relations: {}[];
       };
     } = yield call(itemAPI.addItem, action.payload);
     yield put(itemActions.addItemSuccess(response.data));

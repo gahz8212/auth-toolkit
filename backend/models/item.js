@@ -48,35 +48,47 @@ module.exports = class Item extends Sequelize.Model {
       {
         sequelize,
         hooks: {
-          afterCreate: async (data) => {
-            console.log(data);
+          afterUpdate: async (item) => {
+            await sequelize.models.ItemBackup.create({
+              type: item.type,
+              groupType: item.groupType,
+              itemName: item.itemName,
+              category: item.category,
+              unit: item.unit,
+              im_price: item.previous().im_price,
+              ex_price: item.previous().ex_price,
+              weight: item.weight,
+              cbm: item.cbm,
+              moq: item.moq,
+              sets: item.sets,
+              use: item.use,
+              delete: 0,
+              supplyer: item.supplyer,
+              createdAt: item.createdAt,
+              updateAt: Date.now(),
+              ItemId: item.id,
+            });
           },
-          beforeUpdate: async (good) => {
-            console.log(good);
-            // sequelize.models.ItemBackup.create({
-
-            // });
-          },
-          afterUpdate: async (good) => {
-            console.log(good);
-            // sequelize.models.ItemBackup.create({
-
-            // });
-          },
-          afterUpsert: async (good) => {
-            console.log(good);
-            // sequelize.models.ItemBackup.create({
-            // });
-          },
-          beforeUpsert: async (good) => {
-            console.log(good);
-            // sequelize.models.ItemBackup.create({
-            // });
-          },
-          afterDestroy: async (good) => {
-            console.log("destroyGood", good);
-            // sequelize.models.ItemBackup.create({
-            // });
+          afterDestroy: async (item) => {
+            await sequelize.models.ItemBackup.create({
+              type: item.type,
+              groupType: item.groupType,
+              itemName: item.itemName,
+              category: item.category,
+              unit: item.unit,
+              im_price: item.im_price,
+              ex_price: item.ex_price,
+              weight: item.weight,
+              cbm: item.cbm,
+              moq: item.moq,
+              sets: item.sets,
+              use: item.use,
+              delete: 1,
+              supplyer: item.supplyer,
+              createdAt: item.createdAt,
+              deletedAt: Date.now(),
+              ItemId: item.id,
+            });
           },
         },
         timestamps: true,

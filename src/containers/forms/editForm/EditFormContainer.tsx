@@ -6,7 +6,7 @@ import { formSelector, formActions } from '../../../store/slices/formSlice';
 import { imageInsert } from '../../../lib/utils/createFormData'
 
 import EditFormComponent from './EditFormComponent';
-
+import { makeRelateData_Price } from '../../../lib/utils/createRelateData'
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
@@ -99,6 +99,7 @@ const EditFormContainer = () => {
     const openRelationView = (toggle: boolean) => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
     }
+   
     useEffect(() => {
         if (status.message === 'edit_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
