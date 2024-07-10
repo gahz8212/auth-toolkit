@@ -62,7 +62,7 @@ type State = {
     itemName: string;
     unit: string;
     im_price: number;
-    // sum_im_price: number;
+    sum_im_price: number;
     // use: boolean;
     // descript: string;
   } | null;
@@ -76,8 +76,8 @@ type State = {
         itemName: string;
         unit: string;
         im_price: number;
+        sum_im_price: number;
         // targetId: number;
-        // sum_im_price: number;
         // descript: string;
         // use: boolean;
       }[]
@@ -242,20 +242,18 @@ const editSlice = createSlice({
       if (state.dragItems) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point + 1;
-        state.next.sum_im_price = state.dragItems.reduce(
-          (prev, curr) => prev + curr.point * curr.im_price,
-          0
-        );
+        state.dragItems[itemsId.idx].sum_im_price =
+          state.dragItems[itemsId.idx].point *
+          state.dragItems[itemsId.idx].im_price;
       }
     },
     removeCount: (state, { payload: itemsId }) => {
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
-        state.next.sum_im_price = state.dragItems.reduce(
-          (prev, curr) => prev + curr.point * curr.im_price,
-          0
-        );
+        state.dragItems[itemsId.idx].sum_im_price =
+          state.dragItems[itemsId.idx].point *
+          state.dragItems[itemsId.idx].im_price;
       } else {
         if (state.dragItems) {
           state.dragItems.splice(itemsId.idx, 1);

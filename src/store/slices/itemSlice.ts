@@ -224,6 +224,7 @@ const itemSlice = createSlice({
       state.imageList = initialState.imageList;
       state.dragItems = [];
       state.T_dragItems = [];
+
       // state.relations = null;
     },
     changeField: (state, { payload: { name, value } }) => {
@@ -297,12 +298,14 @@ const itemSlice = createSlice({
       state.status.message = "";
     },
     addItemSuccess: (state, { payload: items }) => {
-      // console.log("item", item);
+      console.log("items", items);
       state.status.message = "";
       state.status.error = "";
       if (state.items) {
         state.items = [...state.items, items[0]];
-        state.relations = items[1];
+        if (state.relations) {
+          state.relations = [...state.relations, ...items[1]];
+        }
         // state.backup = state.items;
       }
     },
@@ -368,7 +371,7 @@ const itemSlice = createSlice({
     },
     Tdrag_on: (state) => {
       if (state.dragItem) {
-        state.T_dragItems = [state.dragItem, ...state.T_dragItems];
+        state.T_dragItems = [...state.T_dragItems, state.dragItem];
         state.dragItem = null;
       }
     },
@@ -408,20 +411,20 @@ const itemSlice = createSlice({
     },
     T_addCount: (state, { payload: idx }) => {
       state.T_dragItems[idx].point = state.T_dragItems[idx].point + 1;
-      state.T_dragItems[idx].im_price = state.T_dragItems.reduce(
-        (prev, curr) => prev + curr.point * curr.im_price,
-        0
-      );
+      state.T_dragItems[idx].sum_im_price =
+        state.T_dragItems[idx].point * state.T_dragItems[idx].im_price;
     },
     T_removeCount: (state, { payload: idx }) => {
       if (state.T_dragItems[idx].point > 0) {
         state.T_dragItems[idx].point = state.T_dragItems[idx].point - 1;
+        state.T_dragItems[idx].sum_im_price =
+          state.T_dragItems[idx].point * state.T_dragItems[idx].im_price;
       } else {
         state.T_dragItems.splice(idx, 1);
       }
     },
     updateRelation: (state, { payload: newRelations }) => {
-      console.log("newRelations", newRelations);
+      // console.log("newRelations", newRelations);
       state.relations = newRelations;
     },
   },

@@ -15,7 +15,8 @@ const InputFormContainer = () => {
     }[]>([])
     const [supplyer, setSupplyer] = useState<string[]>([])
     const [isBasket, setIsBasket] = useState<boolean>(false)
-    const { input, imageList, items, dragItems, T_dragItems, relations } = useSelector(itemData)
+    const [totalPrice, setTotalPrice] = useState(0)
+    const { input, imageList, items, dragItems, T_dragItems, relations, status: inputStatue } = useSelector(itemData)
     const { file, data: datas, status } = useSelector(ExcelData)
 
 
@@ -70,7 +71,8 @@ const InputFormContainer = () => {
             moq: number;
             set: boolean;
             imageList: { url: string }[],
-            dragItems: {}[]
+            dragItems: {}[],
+
 
         }
     ) => {
@@ -133,14 +135,11 @@ const InputFormContainer = () => {
     }
     const addCount = (id: number | string | boolean) => {
         let idx = T_dragItems.findIndex(item => item.id === id)
-        const sum_im_price = T_dragItems.reduce((acc, curr) => {
 
-            let result = curr.im_price * curr.point
-            return result;
-        }, 0)
-        console.log(sum_im_price)
-        if (typeof id === 'number') {
+        if (typeof id === 'number' && items) {
             dispatch(itemActions.T_addCount(idx))
+            const price = makeRelateData_Price(id, relations, items)[0].sum_im_price
+            setTotalPrice(price)
         }
     }
     const removeCount = (id: number | string | boolean) => {
@@ -149,10 +148,7 @@ const InputFormContainer = () => {
             dispatch(itemActions.T_removeCount(idx))
         }
     }
-    // if (items) {
-    //     const result = makeRelateData_Price(107, relations, items);
-    //     console.log('result', result[0].sum_im_price)
-    // }
+
 
     const results = items?.filter((item: any) => item.groupType !== null).map((item: any) => {
         return ({ category: item.category, type: item.groupType })
@@ -170,6 +166,17 @@ const InputFormContainer = () => {
             setSupplyer([result, ...supplyer].sort())
         }
     })
+
+
+
+
+
+
+
+
+
+
+
     useEffect(() => {
         dispatch(itemActions.initForm())
     }, [dispatch])
@@ -197,6 +204,8 @@ const InputFormContainer = () => {
             removeCount={removeCount}
             setIsBasket={setIsBasket}
             isBasket={isBasket}
+            totalPrice={totalPrice}
+
 
         />
 

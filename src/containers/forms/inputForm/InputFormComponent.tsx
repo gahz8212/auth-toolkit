@@ -1,5 +1,6 @@
 
 import React from 'react';
+
 type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>
         | React.ChangeEvent<HTMLSelectElement>
@@ -60,13 +61,26 @@ type Props = {
     removeCount: (id: number | string | boolean) => void;
     setIsBasket: React.Dispatch<React.SetStateAction<boolean>>
     isBasket: boolean;
+    totalPrice: number;
+
+
 
 
 
 
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
-    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount, isBasket, setIsBasket }) => {
+    excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount, isBasket, setIsBasket, totalPrice
+}) => {
+    let sum_im_price = T_dragItems.reduce((acc, curr) => {
+        if (typeof curr.sum_im_price === 'number') {
+            if (curr.type === 'SET' || curr.type === 'ASSY') {
+                acc += totalPrice;
+            }
+            acc += curr.sum_im_price;
+        }
+        return acc;
+    }, 0)
 
     return (
         <div className={`form-type ${input.type}`}>
@@ -291,7 +305,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                     <div className="im_price">
                                         <label htmlFor="￦_input">입고합계</label>
                                         <label htmlFor="￦_input">￦</label>
-                                        <input type="text" name="im_price" readOnly value={(input.im_price * 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                        <input type="text" name="im_price" readOnly value={(sum_im_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                             onChange={onChange}
                                             min={0}
                                             // placeholder='입고단가 입력'

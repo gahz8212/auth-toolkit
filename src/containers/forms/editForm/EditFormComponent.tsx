@@ -66,12 +66,25 @@ type Props = {
     dragedItem: { id: number } | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
     openRelationView: (toggle: boolean) => void;
+    totalPrice: number;
     // dragItem: (id: number) => void;
     // onDrop: () => void;
 }
 const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType,
-    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations, openRelationView }) => {
-    const [openViewer, setOpenViewer] = useState<boolean>(true)
+    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations, openRelationView, totalPrice }) => {
+    const [openViewer, setOpenViewer] = useState<boolean>(true);
+
+
+    // let sum_im_price = dragItems?.reduce((acc, curr) => {
+    //     if (typeof curr.sum_im_price === 'number') {
+    //         if (curr.type === 'SET' || curr.type === 'ASSY') {
+    //             acc += totalPrice;
+    //         }
+    //         acc += curr.sum_im_price;
+    //     }
+    //     return acc;
+    // }, 0)
+
     return (
         <div className={`form-type ${next.type}`}>
 
@@ -180,10 +193,18 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             </div>
 
                             <div className="currency">
-                                <div className="ex_price">
-                                    <label htmlFor="ex_price">Price</label>
-                                    <label htmlFor="$_edit">$</label>
-                                    <input type="text" name="ex_price" id="ex_price" value={next.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                <div>
+
+                                    <div className="ex_price">
+                                        <label htmlFor="ex_price">수출가</label>
+                                        <label htmlFor="$_edit">$ </label>
+                                        <input type="text" name="ex_price" id="ex_price" value={next.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    </div>
+                                    <div className="ex_price">
+                                        <label htmlFor="ex_price">입고합산</label>
+                                        <label htmlFor="$_edit">\</label>
+                                        <input type="text" name="ex_price" id="ex_price" value={totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='출고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
+                                    </div>
                                 </div>
                                 <div className="sets">
                                     <div className="input">
@@ -279,14 +300,14 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
                                         <label htmlFor="￦_edit">입고가격</label>
                                         <label htmlFor="￦_edit">￦</label>
-                                        {next.im_price && <input type="text" name="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                        {<input type="text" name="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
                                     </div>
                                     <div>
 
                                         <label htmlFor="￦_edit">합산가격</label>
                                         <label htmlFor="￦_edit">￦</label>
-                                        {next.im_price && <input type="text" name="sum_im_price" value={(next.im_price*1 + next.sum_im_price*1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
-                                        
+                                        {<input type="text" name="sum_im_price" value={totalPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} min={0} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+
                                     </div>
 
                                 </div>

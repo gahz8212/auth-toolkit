@@ -12,6 +12,7 @@ const EditFormContainer = () => {
     const { prev, next, status } = useSelector(editData)
     const { items, relations, backup: backups } = useSelector(itemData)
     const { dragItems, dragItem: dragedItem } = useSelector(editData)
+    const [totalPrice, setTotalPrice] = useState(0)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
     }[]>([])
@@ -85,8 +86,10 @@ const EditFormContainer = () => {
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
 
         let idx = dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId)
-        if (typeof targetId === 'number' && typeof itemId === 'number') {
+        if (typeof targetId === 'number' && typeof itemId === 'number' && items) {
             dispatch(editActions.addCount({ idx, targetId }))
+            const price = makeRelateData_Price(targetId, relations, items)[0].sum_im_price
+            setTotalPrice(price)
         }
     }
 
@@ -99,7 +102,7 @@ const EditFormContainer = () => {
     const openRelationView = (toggle: boolean) => {
         dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
     }
-   
+
     useEffect(() => {
         if (status.message === 'edit_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
@@ -142,7 +145,24 @@ const EditFormContainer = () => {
         }
     }, [status, dispatch,])
 
+    useEffect(() => {
+        if (dragItems) {
+            const result = dragItems.reduce((acc, curr) => {
+                acc += (curr.im_price * curr.point)
+                console.log(curr.type)
+                if (curr.type === 'SET' || curr.type === 'ASSY') {
+                    if (items) {
 
+                        const price = makeRelateData_Price(curr.id, relations, items)[0].sum_im_price
+                        acc += price * curr.point;
+                    }
+                }
+                return acc
+            }, 0)
+            console.log(result)
+            setTotalPrice(result)
+        }
+    }, [dragItems])
 
 
     return (
@@ -164,6 +184,7 @@ const EditFormContainer = () => {
             dragItems={dragItems}
             relations={relations}
             openRelationView={openRelationView}
+            totalPrice={totalPrice}
         // dragItem={dragItem} 
         // onDrop={onDrop}
         />
