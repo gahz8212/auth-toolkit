@@ -378,31 +378,32 @@ const itemSlice = createSlice({
     initialDragItem: (state) => {
       state.dragItem = null;
     },
+    // addCount: (state, { payload: itemsId }) => {
+    //   state.dragItems[itemsId.idx].point =
+    //     state.dragItems[itemsId.idx].point + 1;
+    //   if (state.items) {
+    //     state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
+    //       (prev, curr) =>
+    //         prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
+    //       0
+    //     );
+    //   }
+    // },
     addCount: (state, { payload: itemsId }) => {
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
-      if (state.items) {
-        state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
-          (prev, curr) =>
-            prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
-          0
-        );
-      }
+
+      state.dragItems[itemsId.targetId - 1].sum_im_price =
+        state.dragItems[itemsId.targetId - 1].point *
+        state.dragItems[itemsId.targetId - 1].im_price;
     },
     removeCount: (state, { payload: itemsId }) => {
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
-        if (state.items) {
-          state.items[itemsId.targetId - 1].sum_im_price =
-            state.dragItems.reduce(
-              (prev, curr) =>
-                prev +
-                curr.point * curr.im_price +
-                curr.point * curr.sum_im_price,
-              0
-            );
-        }
+          state.dragItems[itemsId.targetId - 1].sum_im_price =
+        state.dragItems[itemsId.targetId - 1].point *
+        state.dragItems[itemsId.targetId - 1].im_price;
       } else {
         if (state.dragItems) {
           state.dragItems.splice(itemsId.idx, 1);

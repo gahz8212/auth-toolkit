@@ -18,6 +18,7 @@ const RsettingContainer = () => {
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [viewMode, setViewMode] = useState(false)
     const [openBasket, setOpenBasket] = useState(false)
+    const [totalPrice, setTotalPrice] = useState<number>(0)
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -94,12 +95,20 @@ const RsettingContainer = () => {
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount({ idx, targetId }))
+            if (items) {
+                const price = makeRelateData_View(targetId, relations, items)[0].sum_im_price
+                setTotalPrice(price)
+            }
         }
     }
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.removeCount({ idx, targetId }))
+            if (items) {
+                const price = makeRelateData_View(targetId, relations, items)[0].sum_im_price
+                setTotalPrice(price)
+            }
         }
     }
     const addRelations = (id: number) => {
@@ -190,7 +199,21 @@ const RsettingContainer = () => {
         }
     }, [dispatch, status.message, selectedGoodId, items, relations])
 
-
+    useEffect(() => {
+        if (dragItems) {
+            const result = dragItems.reduce((acc, curr) => {
+                acc += curr.im_price * curr.point
+                if (curr.type === 'SET' || curr.type === 'ASSY') {
+                    if (items) {
+                        const price = makeRelateData_View(curr.id, relations, items)[0].sum_im_price
+                        acc += price
+                    }
+                }
+                return acc;
+            }, 0)
+            setTotalPrice(result)
+        }
+    }, [dragItems])
 
 
     return (
