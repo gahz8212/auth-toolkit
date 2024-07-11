@@ -42,7 +42,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
         let target = newList[dragOverItem.current]
         newList[dragOverItem.current] = newList[dragItem.current]
         newList[dragItem.current] = target
-        console.log(newList)
+        // console.log(newList)
     }
     const datas = (
         packingData?.map((data, index) => <div className='packing-rows'

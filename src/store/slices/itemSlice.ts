@@ -298,7 +298,7 @@ const itemSlice = createSlice({
       state.status.message = "";
     },
     addItemSuccess: (state, { payload: items }) => {
-      console.log("items", items);
+      // console.log("items", items);
       state.status.message = "";
       state.status.error = "";
       if (state.items) {
@@ -349,7 +349,7 @@ const itemSlice = createSlice({
       state.items = newItems;
     },
     viewMatrix: (state, { payload: items }) => {
-      console.log(items);
+      // console.log(items);
       state.backup = state.items;
       state.items = items;
     },

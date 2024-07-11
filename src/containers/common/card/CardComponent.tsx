@@ -28,7 +28,7 @@ type Props = {
 }
 
 const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode }) => {
-    console.log('viewMode', viewMode)
+    // console.log('viewMode', viewMode)
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
     const [check, setCheck] = useState<number[]>([])

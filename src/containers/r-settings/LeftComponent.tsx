@@ -31,11 +31,12 @@ type Props = {
     changeView: (toggle: boolean) => void;
     selectItem: (id: number) => void;
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
-    totalPrice: number;
+    totalPrice: { [key: number]: number };
 }
 const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket, totalPrice }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
+    // console.log(totalPrice)
     return (
         <div className='left'>
             <div className="items">
@@ -50,13 +51,13 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>
-                                <div>입고가: {item.unit}{totalPrice}</div>
+                                <div>입고가: {item.unit}{totalPrice[item.id]}</div>
                                 <div>출고가: ${item.ex_price}</div>
                                 <div>설명: {item.descript}</div>
                             </div>
                         </div>
                         <button onClick={() => {
-                            console.log(item.id)
+                            // console.log(item.id)
                             if (!openId.includes(item.id)) {
                                 setOpenId([item.id])
 

@@ -58,7 +58,7 @@ type Props = {
     changeView: (toggle: boolean) => void;
     viewMode: boolean;
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
-    totalPrice: number;
+    totalPrice: { [key: number]: number };
 };
 
 const RsettingComponent: React.FC<Props> = ({ input,

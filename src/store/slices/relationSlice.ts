@@ -43,7 +43,7 @@ const relateSlice = createSlice({
       state.relate_price = initialState.relate_price;
     },
     insertRelation_view: (state, { payload: relate }) => {
-      console.log("relate", relate);
+      // console.log("relate", relate);
       state.relate_view = relate;
     },
     insertRelation_price: (state, { payload: relate }) => {

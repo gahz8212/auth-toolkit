@@ -18,7 +18,7 @@ const RsettingContainer = () => {
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [viewMode, setViewMode] = useState(false)
     const [openBasket, setOpenBasket] = useState(false)
-    const [totalPrice, setTotalPrice] = useState<number>(0)
+    const [totalPrice, setTotalPrice] = useState<{ [key: number]: number }>({})
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -97,7 +97,7 @@ const RsettingContainer = () => {
             dispatch(itemActions.addCount({ idx, targetId }))
             if (items) {
                 const price = makeRelateData_View(targetId, relations, items)[0].sum_im_price
-                setTotalPrice(price)
+                // setTotalPrice(price)
             }
         }
     }
@@ -107,7 +107,7 @@ const RsettingContainer = () => {
             dispatch(itemActions.removeCount({ idx, targetId }))
             if (items) {
                 const price = makeRelateData_View(targetId, relations, items)[0].sum_im_price
-                setTotalPrice(price)
+                // setTotalPrice(price)
             }
         }
     }
@@ -202,22 +202,28 @@ const RsettingContainer = () => {
     useEffect(() => {
         if (dragItems) {
             const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
-                acc[curr.targetId] = curr.im_price * curr.point
+                if (acc[curr.targetId]) {
+                    acc[curr.targetId] += curr.im_price * curr.point
+                } else {
+                    acc[curr.targetId] = curr.im_price * curr.point
+                }
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
                         const view = makeRelateData_View(curr.id, relations, items)
                         const price = view[0].sum_im_price;
-                        console.log(price)
-                        acc[curr.targetId] = price + acc[curr.targetId]
+                        if (acc[curr.targetId]) {
+                            acc[curr.targetId] = price + acc[curr.targetId]
+                        } else {
+                            acc[curr.targetId] = price
+
+                        }
                     }
                 }
-                // console.log('sum_price', curr.targetId, sum_price)
-                // console.log(acc)
                 return acc;
             }, {})
-            console.log(result)
+            // console.log(result)
             // console.log('result', result)
-            // setTotalPrice(result)
+            setTotalPrice(result)
         }
     }, [dragItems])
 
@@ -233,7 +239,7 @@ const RsettingContainer = () => {
             } else { return null }
         }))
 
-        console.log('newArray', newArray)
+        // console.log('newArray', newArray)
         inputDragItems(newArray)
     }, [])
     return (

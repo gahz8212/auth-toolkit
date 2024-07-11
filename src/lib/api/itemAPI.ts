@@ -32,7 +32,7 @@ export const getItem = () => {
 export const editItem = (item: {
   [key: string]: "" | number | string | { url: string }[] | boolean | {}[];
 }) => {
-  console.log(item);
+  // console.log(item);
   return client.post("/item/edit", item);
 };
 export const removeItem = (id: number | "") => {

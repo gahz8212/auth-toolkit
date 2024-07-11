@@ -123,10 +123,10 @@ const EditFormContainer = () => {
                 const newRelations =
                     relations?.filter(relation => relation.UpperId !== next.id)
                 // 실제 relations에서 변환된 dragItems가 아닌것만 남긴 relations     
-                console.log('createdRelations', createdRelations)
-                console.log('newRelations', newRelations)
+                // console.log('createdRelations', createdRelations)
+                // console.log('newRelations', newRelations)
                 if (createdRelations && newRelations) {
-                    console.log('updateRelations', [...createdRelations, ...newRelations])
+                    // console.log('updateRelations', [...createdRelations, ...newRelations])
                     dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
                         //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
 
@@ -149,7 +149,7 @@ const EditFormContainer = () => {
         if (dragItems) {
             const result = dragItems.reduce((acc, curr) => {
                 acc += (curr.im_price * curr.point)
-                console.log(curr.type)
+                // console.log(curr.type)
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
 
@@ -159,7 +159,7 @@ const EditFormContainer = () => {
                 }
                 return acc
             }, 0)
-            console.log(result)
+            // console.log(result)
             setTotalPrice(result)
         }
     }, [dragItems])
