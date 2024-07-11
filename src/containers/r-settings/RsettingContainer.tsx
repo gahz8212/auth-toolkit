@@ -130,17 +130,17 @@ const RsettingContainer = () => {
             }
         }
     }
-    const inputDragItems = (dragItems: {}[], selectedItem: number) => {
+    const inputDragItems = (dragItems: {}[],) => {
         dispatch(itemActions.inputDragItems(dragItems))
-        if (items) {
-            items.filter(item => item.id === selectedItem);
-            if (typeof selectedItem === 'number') {
-                const result = makeRelateData_View(selectedItem, relations, items)
-                if (result) {
-                    dispatch(relateActions.insertRelation_view(result))
-                }
-            }
-        }
+        // if (items) {
+        //     items.filter(item => item.id === selectedItem);
+        //     if (typeof selectedItem === 'number') {
+        //         const result = makeRelateData_View(selectedItem, relations, items)
+        //         if (result) {
+        //             dispatch(relateActions.insertRelation_view(result))
+        //         }
+        //     }
+        // }
     }
     const addRelateGood = (
         item: {
@@ -201,27 +201,48 @@ const RsettingContainer = () => {
 
     useEffect(() => {
         if (dragItems) {
-            const result = dragItems.reduce((acc, curr) => {
-                acc += curr.im_price * curr.point
+            const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
+                acc[curr.targetId] = curr.im_price * curr.point
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
-                        const price = makeRelateData_View(curr.id, relations, items)[0].sum_im_price
-                        acc += price
+                        const view = makeRelateData_View(curr.id, relations, items)
+                        const price = view[0].sum_im_price;
+                        console.log(price)
+                        acc[curr.targetId] = price + acc[curr.targetId]
                     }
                 }
+                // console.log('sum_price', curr.targetId, sum_price)
+                // console.log(acc)
                 return acc;
-            }, 0)
-            setTotalPrice(result)
+            }, {})
+            console.log(result)
+            // console.log('result', result)
+            // setTotalPrice(result)
         }
     }, [dragItems])
 
+    useEffect(() => {
+        let newArray: { [key: string]: number | string }[] = [];
+        relations?.filter(relation => items?.filter(item => {
+            if (relation.LowerId === item.id) {
+                newArray.push({
+                    id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
+                    itemName: item.itemName, type: item.type, category: item.category, im_price: item.im_price
+                })
+                return newArray;
+            } else { return null }
+        }))
 
+        console.log('newArray', newArray)
+        inputDragItems(newArray)
+    }, [])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
-            inputDragItems={inputDragItems} changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket} />
+            inputDragItems={inputDragItems} changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
+            totalPrice={totalPrice} />
     );
 };
 

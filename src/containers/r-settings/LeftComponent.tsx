@@ -31,8 +31,9 @@ type Props = {
     changeView: (toggle: boolean) => void;
     selectItem: (id: number) => void;
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
+    totalPrice: number;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket, totalPrice }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     return (
@@ -49,25 +50,29 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>
-                                <div>입고가: {item.unit}{item.im_price}</div>
+                                <div>입고가: {item.unit}{totalPrice}</div>
                                 <div>출고가: ${item.ex_price}</div>
                                 <div>설명: {item.descript}</div>
                             </div>
                         </div>
                         <button onClick={() => {
+                            console.log(item.id)
                             if (!openId.includes(item.id)) {
                                 setOpenId([item.id])
-                                let newArray: {}[] = [];
-                                relations?.map(relation => items.filter(item => {
-                                    if (relation.LowerId === item.id) {
-                                        newArray.push({
-                                            id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
-                                            itemName: item.itemName, type: item.type, category: item.category
-                                        })
-                                        return newArray;
-                                    } else { return null }
-                                }))
-                                inputDragItems(newArray, item.id)
+
+                                // let newArray: { [key: string]: number | string }[] = [];
+                                // relations?.filter(relation => items.filter(item => {
+                                //     if (relation.LowerId === item.id) {
+                                //         newArray.push({
+                                //             id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
+                                //             itemName: item.itemName, type: item.type, category: item.category, im_price: item.im_price
+                                //         })
+                                //         return newArray;
+                                //     } else { return null }
+                                // }))
+
+                                // console.log('newArray', newArray)
+                                // inputDragItems(newArray, item.id)
                                 setOpenBasket(true)
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))

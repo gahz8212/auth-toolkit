@@ -393,17 +393,17 @@ const itemSlice = createSlice({
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
 
-      state.dragItems[itemsId.targetId - 1].sum_im_price =
-        state.dragItems[itemsId.targetId - 1].point *
-        state.dragItems[itemsId.targetId - 1].im_price;
+      state.dragItems[itemsId.idx].sum_im_price =
+        state.dragItems[itemsId.idx].point *
+        state.dragItems[itemsId.idx].im_price;
     },
     removeCount: (state, { payload: itemsId }) => {
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
-          state.dragItems[itemsId.targetId - 1].sum_im_price =
-        state.dragItems[itemsId.targetId - 1].point *
-        state.dragItems[itemsId.targetId - 1].im_price;
+        state.dragItems[itemsId.idx].sum_im_price =
+          state.dragItems[itemsId.idx].point *
+          state.dragItems[itemsId.idx].im_price;
       } else {
         if (state.dragItems) {
           state.dragItems.splice(itemsId.idx, 1);
