@@ -32,8 +32,9 @@ type Props = {
     selectItem: (id: number) => void;
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
     totalPrice: { [key: number]: number };
+    insertRelation_view: (id: number) => void;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket, totalPrice }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     // console.log(totalPrice)
@@ -60,30 +61,19 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             // console.log(item.id)
                             if (!openId.includes(item.id)) {
                                 setOpenId([item.id])
-
-                                // let newArray: { [key: string]: number | string }[] = [];
-                                // relations?.filter(relation => items.filter(item => {
-                                //     if (relation.LowerId === item.id) {
-                                //         newArray.push({
-                                //             id: relation.LowerId, point: relation.point, targetId: relation.UpperId,
-                                //             itemName: item.itemName, type: item.type, category: item.category, im_price: item.im_price
-                                //         })
-                                //         return newArray;
-                                //     } else { return null }
-                                // }))
-
-                                // console.log('newArray', newArray)
-                                // inputDragItems(newArray, item.id)
                                 setOpenBasket(true)
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                                 setOpenBasket(false)
                             }
+                            insertRelation_view(item.id)
                         }}>Relations</button>
                         {openId.includes(item.id) && <button onClick={() => {
 
                             setOpenView(!openView);
                             changeView(!openView)
+
+
                         }}>view Relation</button>}
                         {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
@@ -116,7 +106,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
-                        <button onClick={() => { addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' }) }}>연결</button>
+                        {openId.includes(item.id) && <button onClick={() => { addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' }) }}>연결</button>}
                     </div>)}
             </div>
         </div>

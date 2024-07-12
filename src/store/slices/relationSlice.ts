@@ -3,6 +3,7 @@ import { RootState } from "..";
 type State = {
   relate_view:
     | {
+        [key: string]: number | string;
         currentId: number;
         itemName: string;
         top: number;
@@ -48,6 +49,15 @@ const relateSlice = createSlice({
     },
     insertRelation_price: (state, { payload: relate }) => {
       state.relate_price = relate;
+    },
+    addCountRelateView: (state, { payload: itemId }) => {
+      if (state.relate_view) {
+      }
+    },
+    removeCountRelateView: (state, { payload: idx }) => {
+      if (state.relate_view) {
+        state.relate_view[idx].point -= 1;
+      }
     },
   },
 });

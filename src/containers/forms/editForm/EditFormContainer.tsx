@@ -148,7 +148,6 @@ const EditFormContainer = () => {
     useEffect(() => {
         if (dragItems) {
             const result = dragItems.reduce((acc, curr) => {
-                acc += (curr.im_price * curr.point)
                 // console.log(curr.type)
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
@@ -156,6 +155,9 @@ const EditFormContainer = () => {
                         const price = makeRelateData_Price(curr.id, relations, items)[0].sum_im_price
                         acc += price * curr.point;
                     }
+                } else {
+                    acc += (curr.im_price * curr.point)
+
                 }
                 return acc
             }, 0)
