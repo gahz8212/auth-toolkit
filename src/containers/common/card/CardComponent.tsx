@@ -98,12 +98,12 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
                             {item.type !== 'SET' &&
                                 <>
-                                    <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
+                                    {item.im_price > 0 && <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>}
                                     <div className='point'>x{item.point}</div>
                                 </>}
-                            <div>총입고가:\{item.sum_im_price - item.im_price}</div>
+                            {item.type !== 'PARTS' && <div>총입고가:\{item.sum_im_price - item.im_price}</div>}
 
-                            {item.ex_price && <div>수출가:${item.ex_price}</div>}
+                            {item.ex_price > 0 && <div>수출가:${item.ex_price}</div>}
 
                         </div>
                         <div className={`info image  ${item.category} `}>

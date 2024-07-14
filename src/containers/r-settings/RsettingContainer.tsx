@@ -238,7 +238,7 @@ const RsettingContainer = () => {
                 }
                 return acc;
             }, {})
-
+            console.log('result', result)
             setTotalPrice(result)
         }
     }, [dragItems])
