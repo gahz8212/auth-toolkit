@@ -119,6 +119,7 @@ export const makeRelateData_View = (
       if (children.length === 0) {
         lastLeft = left > lastLeft ? left + 50 : lastLeft;
         inheritPointArray.pop();
+        history.pop();
         return;
       }
       for (let index = 0; index < children.length; index++) {
