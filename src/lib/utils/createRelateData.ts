@@ -111,7 +111,7 @@ export const makeRelateData_View = (
           history.forEach((his, index) =>
             arr.currentId === his
               ? (arr.sum_im_price +=
-                  newItem.sum_im_price * calculatePoint(index))
+                  newItem.sum_im_price * calculatePoint(index) * 1)
               : 0
           )
         );
@@ -263,7 +263,7 @@ export const makeRelateData_Price = (
           history.forEach((his, index) =>
             arr.currentId === his
               ? (arr.sum_im_price +=
-                  newItem.sum_im_price * calculatePoint(index))
+                  newItem.sum_im_price * calculatePoint(index) * 1 - im_price)
               : 0
           )
         );

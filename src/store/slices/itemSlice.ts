@@ -397,6 +397,11 @@ const itemSlice = createSlice({
         state.dragItems[itemsId.idx].point *
         state.dragItems[itemsId.idx].im_price;
     },
+    addCount_relate: (state, { payload: itemsId }) => {
+      if (state.items) {
+        state.items[itemsId].point = state.items[itemsId].point + 1;
+      }
+    },
     removeCount: (state, { payload: itemsId }) => {
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
@@ -407,6 +412,18 @@ const itemSlice = createSlice({
       } else {
         if (state.dragItems) {
           state.dragItems.splice(itemsId.idx, 1);
+        }
+      }
+    },
+    removeCount_relate: (state, { payload: itemsId }) => {
+      if (state.items) {
+        if (state.items && state.items[itemsId].point > 0) {
+          state.items[itemsId].point = state.items[itemsId].point - 1;
+          // state.items[itemsId].sum_im_price =
+          //   state.items[itemsId].point *
+          //   state.items[itemsId].im_price;
+        } else {
+          // state.items.splice(itemsId, 1);
         }
       }
     },

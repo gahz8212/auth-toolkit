@@ -3,6 +3,8 @@ import SearchComponent from './SearchComponent';
 import { SearchActions, SearchCondition } from '../../store/slices/searchSlice';
 import { itemActions, itemData } from '../../store/slices/itemSlice';
 import { useDispatch, useSelector } from 'react-redux'
+import { relateData, relateActions } from '../../store/slices/relationSlice'
+import { editActions, editData } from '../../store/slices/editSlice';
 type Props = {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -43,6 +45,12 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             }
         }
     }, [search, dispatch])
+    useEffect(() => {
+        dispatch(itemActions.initForm())
+        dispatch(editActions.initForm())
+        dispatch(itemActions.getItem())
+        dispatch(relateActions.initRelate())
+    }, [dispatch])
     return (
         <div>
             <SearchComponent setVisible={setVisible} visible={visible} onChange={onChange} search={search} focus={focus} setFocus={setFocus} />

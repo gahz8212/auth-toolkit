@@ -95,8 +95,10 @@ const RsettingContainer = () => {
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount({ idx, targetId }))
-            console.log('idx', itemId)
-            if (items) {
+            // console.log('viewMode', viewMode)
+            if (items && viewMode) {
+                let idx = items.findIndex(item => item.id === itemId)
+                dispatch(itemActions.addCount_relate(idx))
                 // dispatch(relateActions.addCountRelateView(itemId))
             }
         }
@@ -105,9 +107,11 @@ const RsettingContainer = () => {
         let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.removeCount({ idx, targetId }))
-            console.log('idx', itemId)
-            if (items) {
-
+            // console.log('idx', itemId)
+            if (items && viewMode) {
+                let idx = items.findIndex(item => item.id === itemId)
+                dispatch(itemActions.removeCount_relate(idx))
+                // dispatch(relateActions.addCountRelateView(itemId))
             }
         }
     }
@@ -152,10 +156,18 @@ const RsettingContainer = () => {
         },
     ) => {
         dispatch(editActions.editItem(item))
+        console.log('item.dragItems', item.dragItems)
+        //items의 point를 item.dragItems의 포인트로 변경
+
         if (typeof item.id === 'number') {
+
             addRelations(item.id)
             setSelectedGoodId(item.id)
+            // console.log(item.id)
+            // insertRelation_view(item.id)
+
         }
+
 
     }
     const changeView = (toggle: boolean) => {
@@ -185,6 +197,7 @@ const RsettingContainer = () => {
         }
     }
 
+
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -213,7 +226,7 @@ const RsettingContainer = () => {
                 }
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
-                        const view = makeRelateData_View(curr.id, relations, items)
+                        const view = makeRelateData_Price(curr.id, relations, items)
                         const price = view[0].sum_im_price * curr.point;
                         if (acc[curr.targetId]) {
                             acc[curr.targetId] = price + acc[curr.targetId]
