@@ -24,6 +24,7 @@ type State = {
         left: number;
         top: number;
         point: number;
+        // visible: boolean;
       }[]
     | null;
   relations:
@@ -118,6 +119,7 @@ type State = {
         left: number;
         top: number;
         point: number;
+        // visible: boolean;
       }[]
     | null;
   imageList: { url: string }[];
@@ -144,6 +146,7 @@ const initialState: State = {
     moq: 0,
     set: true,
     dragItems: [],
+    visible: false,
   },
   dragItem: null,
   dragItems: [],

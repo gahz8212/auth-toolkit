@@ -264,13 +264,14 @@ export const makeRelateData_Price = (
           history.forEach((his, index) =>
             arr.currentId === his
               ? (arr.sum_im_price +=
-                  newItem.sum_im_price * calculatePoint(index) * 1 - im_price)
+                  newItem.sum_im_price * calculatePoint(index) * 1)
               : 0
           )
         );
       }
       if (children.length === 0) {
         inheritPointArray.pop();
+        history.pop();
         return;
       }
       for (let index = 0; index < children.length; index++) {

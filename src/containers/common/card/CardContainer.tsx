@@ -82,6 +82,8 @@ const CardContainer = () => {
                 dragItem={dragItem}
                 onDrop={onDrop}
                 viewMode={false}
+                relations={relations}
+
             />
         </div>
     );

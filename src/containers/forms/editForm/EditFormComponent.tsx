@@ -367,7 +367,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <label htmlFor="$_edit">$</label>
                                     <input type="radio" id="￥_edit" value="￥" name="unit" checked={next.unit === "￥"} onChange={onChange} />
                                     <label htmlFor="￥_edit">￥</label>
-                                    {next.im_price && <input type="text" name="im_price" id="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />}
+                                    <input type="text" name="im_price" id="im_price" value={next.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} onChange={onChange} placeholder='입고단가 입력' onFocus={e => e.target.select()} style={{ textAlign: 'right' }} />
                                 </div>
                                 <div className='uses_price_combine'>
 

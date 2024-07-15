@@ -16,22 +16,23 @@ type Props = {
         Good: { groupName: string },
         left: number,
         top: number,
-        point: number
+        point: number,
+        // visible: boolean;
 
     }[] | null;
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
     viewMode: boolean;
-
+    relations: { UpperId: number; LowerId: number; }[] | null
 
 }
 
-const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode }) => {
+const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations }) => {
     // console.log('viewMode', viewMode)
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
-    const [check, setCheck] = useState<number[]>([])
+    const [visibles, setVisibles] = useState<number[]>([])
     const onDragStart = (index: number) => {
         dragItem(index);
     }
@@ -45,12 +46,19 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
         setShows(shows.filter(show => show !== id))
     }
     const checkedItem = (id: number) => {
-        if (!check.includes(id)) {
-            setCheck([id, ...check])
+
+        const visibleIds = relations?.filter(rel => rel.UpperId === id).map(rel => rel.LowerId)
+
+        if (viewMode) {
+
+            if (visibles.length === 0 && visibleIds) {
+                setVisibles([...visibles, ...visibleIds])
+            }
+            else {
+                setVisibles([])
+            }
         }
-        else {
-            setCheck(check.filter(check => check !== id))
-        }
+
     }
     return (
         <>
@@ -62,9 +70,9 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         className={`infos 
                     ${selected === item.id ? 'selected' : ''} 
                     ${shows.includes(item.id) ? 'back' : ""}
-                    ${check.includes(item.id) ? 'check' : ""}
-                    ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}
-                    ${viewMode === true ? 'absolute' : 'relative'}`
+                    ${visibles.includes(item.id) && item.type === 'PARTS' ? 'visible' : ""}
+                ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}
+                ${viewMode === true ? 'absolute' : 'relative'}`
                         }
                         style={{ position: 'absolute', left: item.left * 1.5, top: item.top * 1.7 }}
                         draggable
@@ -92,16 +100,16 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 </div>
                             </div>
 
-                            <div>{item.id}</div>
+                            {/* <div>{item.id}</div> */}
                             {/* <div>{item.category}</div> */}
                             <div>{item.itemName}</div>
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
                             {item.type !== 'SET' &&
                                 <>
-                                    {item.im_price > 0 && <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>}
+                                    {item.im_price > 0 && <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
                                     <div className='point'>x{item.point}</div>
                                 </>}
-                            {item.type !== 'PARTS' && <div>총입고가:\{item.sum_im_price - item.im_price}</div>}
+                            {item.type !== 'PARTS' && <div>총입고가:\{(item.sum_im_price - item.im_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
 
                             {item.ex_price > 0 && <div>수출가:${item.ex_price}</div>}
 
@@ -116,7 +124,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
                         </div>
                     </div>)}
-            </div> :
+            </div > :
                 <div className="item-list">
 
                     {items?.map((item, index) =>
@@ -125,7 +133,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             className={`infos 
                     ${selected === item.id ? 'selected' : ''} 
                     ${shows.includes(item.id) ? 'back' : ""}
-                    ${check.includes(item.id) ? 'check' : ""}
+                    ${visibles.includes(item.id) ? 'visible' : ""}
                     ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`
 
                             }
@@ -173,7 +181,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
                             </div>
                         </div>)}
-                </div >}</>
+                </div >
+            }</>
     );
 };
 

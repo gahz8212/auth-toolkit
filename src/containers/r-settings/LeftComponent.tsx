@@ -52,7 +52,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>
-                                <div>입고가: {item.unit}{totalPrice[item.id]}</div>
+                                <div>입고가: {item.unit}{totalPrice[item.id] > 0 ? totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
                                 <div>출고가: ${item.ex_price}</div>
                                 <div>설명: {item.descript}</div>
                             </div>

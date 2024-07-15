@@ -22,7 +22,8 @@ type Props = {
         weight: number,
         cbm: number,
         moq: number,
-        dragItems: {}[]
+        dragItems: {}[],
+        // visible: boolean
     };
     insertImage: (e: any) => void;
     imageList: { url: string }[];
@@ -43,7 +44,8 @@ type Props = {
         cbm: number,
         moq: number,
         imageList: { url: string }[],
-        dragItems: {}[]
+        dragItems: {}[],
+        // visible: boolean;
     }) => void;
     formClose: () => void;
     excel_onChange: (e: any) => void;
@@ -62,12 +64,6 @@ type Props = {
     setIsBasket: React.Dispatch<React.SetStateAction<boolean>>
     isBasket: boolean;
     totalPrice: number;
-
-
-
-
-
-
 }
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
     excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount, isBasket, setIsBasket, totalPrice
@@ -104,7 +100,8 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     moq: input.moq,
                     set: input.set,
                     imageList,
-                    dragItems: T_dragItems
+                    dragItems: T_dragItems,
+                    // visible: false
                 })
 
             }}>

@@ -23,6 +23,7 @@ type State = {
     left: number;
     top: number;
     point: number;
+    // visible: boolean;
   };
   next: {
     [key: string]:
@@ -52,6 +53,7 @@ type State = {
     left: number;
     top: number;
     point: number;
+    // visible: boolean;
   };
   dragItem: {
     targetId: number;
@@ -112,6 +114,7 @@ const initialState: State = {
     left: 0,
     top: 0,
     point: 0,
+    // visible: false,
   },
   next: {
     id: -1,
@@ -135,6 +138,7 @@ const initialState: State = {
     left: 0,
     top: 0,
     point: 0,
+    visible: false,
   },
   dragItem: null,
   dragItems: null,

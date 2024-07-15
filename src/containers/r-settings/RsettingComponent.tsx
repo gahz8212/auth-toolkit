@@ -27,6 +27,7 @@ type Props = {
         left: number,
         top: number,
         point: number,
+        // visible: boolean,
     }[] | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null,
     selectItem: (id: number) => void;
@@ -105,7 +106,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
                 <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation} selectItem={selectItem}
                     addRelateGood={addRelateGood} relations={relations} inputDragItems={inputDragItems} changeView={changeView}
                     setOpenBasket={setOpenBasket} totalPrice={totalPrice} insertRelation_view={insertRelation_view} />
-                <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} viewMode={viewMode} />
+                <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} viewMode={viewMode} relations={relations} />
             </div>
         </div >
     );

@@ -133,8 +133,9 @@
         }
       }
     }
-    &.check {
-      transform: scale(1.3);
+    &.visible {
+      // transform: scale(1.3);
+      display: none;
     }
 
     &.back .info.text {

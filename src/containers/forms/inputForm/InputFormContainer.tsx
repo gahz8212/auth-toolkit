@@ -72,6 +72,7 @@ const InputFormContainer = () => {
             set: boolean;
             imageList: { url: string }[],
             dragItems: {}[],
+            // visible: boolean;
 
 
         }

@@ -19,16 +19,18 @@ type Props = {
         left: number,
         top: number,
         point: number
+        // visible: boolean
 
     }[] | null;
     selectItem: (id: number) => void;
     dragItem: (id: number) => void;
     onDrop: () => void;
     viewMode: boolean;
+    relations: { UpperId: number; LowerId: number; }[] | null
 
 
 }
-const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode }) => {
+const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations }) => {
     if (items) {
         let parts;
         if (viewMode) {
@@ -40,7 +42,7 @@ const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
             <div className="right">
 
-                <CardComponent items={parts} selectItem={selectItem}
+                <CardComponent items={parts} selectItem={selectItem} relations={relations}
                     dragItem={dragItem}
                     onDrop={onDrop} viewMode={viewMode} />
             </div>
