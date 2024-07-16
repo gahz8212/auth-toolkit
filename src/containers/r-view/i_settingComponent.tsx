@@ -11,7 +11,7 @@ type Props = {
         ex_price: number
     }[] | null
 }
-const R_ViewComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
+const i_settingComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
 
     return (
         <>
@@ -29,7 +29,7 @@ const R_ViewComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
                     style={{
                         fontSize: '12px',
                         position: 'absolute',
-                        top: item.top , left: item.left, border: '1px solid black', width: '70px', height: '70px', textAlign: 'center'
+                        top: item.top, left: item.left, border: '1px solid black', width: '70px', height: '70px', textAlign: 'center'
                     }}>
                     <div>{item.itemName}</div><div>입고가{item.sum_im_price}</div><div>Point{item.point}</div><div>출고가{item.ex_price}</div>
                 </div>)
@@ -40,4 +40,4 @@ const R_ViewComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
     );
 };
 
-export default R_ViewComponent;
+export default i_settingComponent;

@@ -48,7 +48,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         <div className='itemInfo'>
                             <div className="image">
                                 {item.Images.length > 0 ? <img src={item.Images[0].url} alt='' width='170px'></img> :
-                                    <img src="http://via.placeholder.com/170x120" alt=""></img>}
+                                    <img src="http://via.placeholder.com/200x320" alt=""></img>}
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>

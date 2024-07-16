@@ -221,7 +221,7 @@ const RsettingContainer = () => {
             const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
-                        const view = makeRelateData_Price(curr.targetId, relations, items)
+                        const view = makeRelateData_Price(curr.id, relations, items)
                         const price = view[0].sum_im_price * curr.point;
                         if (acc[curr.targetId]) {
                             acc[curr.targetId] = price + acc[curr.targetId]
@@ -240,7 +240,7 @@ const RsettingContainer = () => {
                 }
                 return acc;
             }, {})
-            // console.log('result', result)
+            console.log('result', result)
             setTotalPrice(result)
         }
     }, [dragItems])

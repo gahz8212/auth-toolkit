@@ -15,8 +15,8 @@ export const makeRelateData_View = (
     im_price: number;
     sum_im_price: number;
     ex_price: number;
+    type: string;
     // descript: string;
-    // type: string;
     // groupType: string;
     // category: string;
     // use: boolean;
@@ -29,7 +29,8 @@ export const makeRelateData_View = (
     // Good: { groupName: string };
   }[]
 ) => {
-  let lastLeft = 0;
+  let origin = 15;
+  let lastTop = 0;
   let history: number[] = [];
   let viewArray: {
     currentId: number;
@@ -38,6 +39,7 @@ export const makeRelateData_View = (
     point: number;
     ex_price: number;
     sum_im_price: number;
+    type: string;
   }[] = [];
   let inheritPointArray: number[] = [];
   let inheritPoint = 1;
@@ -60,6 +62,9 @@ export const makeRelateData_View = (
       .filter((item) => item.id === id)
       .map((item) => item.itemName)[0];
   };
+  const searchType = (id: number) => {
+    return items.filter((item) => item.id === id).map((item) => item.type)[0];
+  };
   const calculatePoint = (length: number) => {
     let point = 1;
     for (let i = length; i < inheritPointArray.length; i++) {
@@ -74,7 +79,8 @@ export const makeRelateData_View = (
     left: number,
     im_price: number,
     ex_price: number,
-    inheritPoint: number
+    inheritPoint: number,
+    type: string
   ) => {
     if (relations) {
       const children = relations
@@ -85,6 +91,7 @@ export const makeRelateData_View = (
           im_price: searchIm_price(relate.LowerId),
           point: relate.point,
           ex_price: searchEx_price(relate.LowerId),
+          type: searchType(relate.LowerId),
         }));
       children.sort(
         (a, b) =>
@@ -92,8 +99,10 @@ export const makeRelateData_View = (
           relations.filter((relate) => relate.UpperId === b.current).length
       );
 
-      if (lastLeft >= left) {
-        left = lastLeft + 60;
+      if (type === "ASSY") {
+        if (lastTop >= top) {
+          top = lastTop + 50;
+        }
       }
       const newItem = {
         currentId: id,
@@ -103,6 +112,7 @@ export const makeRelateData_View = (
         point: inheritPoint,
         sum_im_price: im_price,
         ex_price: ex_price,
+        type: type,
       };
       viewArray.push(newItem);
 
@@ -117,7 +127,7 @@ export const makeRelateData_View = (
         );
       }
       if (children.length === 0) {
-        lastLeft = left > lastLeft ? left + 50 : lastLeft;
+        lastTop = top > lastTop ? top + 30 : lastTop;
         inheritPointArray.pop();
         history.pop();
         return;
@@ -126,6 +136,7 @@ export const makeRelateData_View = (
         if (uppers?.includes(children[index].current)) {
           history = [selectedItem];
           inheritPointArray = [];
+          left = origin;
         }
         if (!history.includes(id)) {
           history.push(id);
@@ -136,11 +147,14 @@ export const makeRelateData_View = (
         findChildren(
           children[index].current,
           itemName,
-          top + 80,
-          left + index * 80,
+          children[index].type === "PARTS" ? top : top + 80,
+          children[index].type === "PARTS"
+            ? left + 80 * (index + 1)
+            : left + 40,
           children[index].im_price,
           children[index].ex_price,
-          inheritPoint
+          inheritPoint,
+          children[index].type
         );
       }
     }
@@ -153,9 +167,9 @@ export const makeRelateData_View = (
       15,
       searchIm_price(selectedItem),
       searchEx_price(selectedItem),
-      inheritPoint
+      inheritPoint,
+      searchType(selectedItem)
     );
-    // console.log("viewArray", viewArray);
     return viewArray;
   };
   return createRelateView(selectedItem);
