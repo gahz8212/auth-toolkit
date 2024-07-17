@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
-  [key: string]: {};
+  [key: string]: {} | null;
   all: {
     typeALL: boolean;
     groupALL: boolean;
@@ -20,6 +20,7 @@ type State = {
     포장: boolean;
     기타: boolean;
   };
+  filteredItems: {}[] | null;
 };
 const initialState: State = {
   all: {
@@ -38,10 +39,12 @@ const initialState: State = {
     포장: true,
     기타: true,
   },
+  filteredItems: null,
 };
 const searchSelector = (state: RootState) => {
   return state.search;
 };
+
 export const SearchCondition = createSelector(searchSelector, (search) => ({
   search,
 }));
@@ -78,6 +81,9 @@ const searchSlice = createSlice({
     },
     checkGroup: (state, { payload: category }) => {
       state.group[category] = !state.group[category];
+    },
+    getFilteredItems: (state, { payload: newItems }) => {
+      state.filteredItems = newItems;
     },
   },
 });

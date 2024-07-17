@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import IsettingComponent from '../i-settings/IsettingComponent';
+
 type Props = {
 
     onChange: (e: any) => void;
@@ -94,7 +94,7 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
 
                 </div >
             </form >
-            <IsettingComponent newItems={newItems} topMargin={'1rem'} />
+
         </>
     );
 };

@@ -10,6 +10,7 @@ type Props = {
     edit: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
     openAddForm: () => void;
+    newItmes: {}[] | null
 
 }
 
