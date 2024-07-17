@@ -349,8 +349,10 @@ const itemSlice = createSlice({
       // state.backup = state.items;
     },
     filteredItems: (state, { payload: newItems }) => {
+      state.backup = state.items;
       state.items = newItems;
     },
+
     viewMatrix: (state, { payload: items }) => {
       // console.log(items);
       state.backup = state.items;

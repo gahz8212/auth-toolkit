@@ -14,36 +14,48 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
     const dispatch = useDispatch();
     const { search } = useSelector(SearchCondition);
     const { items } = useSelector(itemData)
+    const [newItems, setNewItems] = useState<{ type: string, category: string }[]>([])
+
     const onChange = (e: any) => {
         const { name, checked } = e.target;
-        if (name === 'all') {
-            dispatch(SearchActions.checkAll(checked))
-        } else {
-            dispatch(SearchActions.checkCategory(name))
+        console.log(name, checked)
+        if (name === 'typeALL') {
+
+            dispatch(SearchActions.typeALL(checked))
+
+        } else if (name === 'groupALL') {
+            dispatch(SearchActions.groupALL(checked))
+        } else if (name === 'SET' || name === 'ASSY' || name === 'PARTS') {
+            dispatch(SearchActions.checkType(name))
+        } else if (name === '포장' || name === '회로' || name === '전장' || name === '기구' || name === '기타') {
+            dispatch(SearchActions.checkGroup(name))
         }
-        dispatch(itemActions.backupItems())
+        // dispatch(itemActions.backupItems())
     }
     useEffect(() => {
-        const { all, ...rest } = search;
-        const conditions = []
-        const keys = Object.keys(rest);
-        for (let key of keys) {
-            if (search[key]) {
-                conditions.push(key)
-            }
-        }
         if (items) {
 
-            const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
-            dispatch(itemActions.filteredItems(searchResult))
+            const { all, ...rest } = search;
 
-            if (search.결합 && search.회로 && search.전장 && search.기구 && search.기타) {
-                dispatch(SearchActions.onlyCheckAll(true))
+
+            const result = items.filter(item => rest.type[item.type])
+            // console.log(result)
+            setNewItems(result)
+            // const searchResult = conditions.map(condition => items.filter(item => item.category === condition)).flat().sort((a, b) => a.id - b.id)
+            // dispatch(itemActions.filteredItems(result))
+            if (search.type.SET && search.type.ASSY && search.type.PARTS) {
+                dispatch(SearchActions.typeCheckAll(true))
             } else {
-                dispatch(SearchActions.onlyCheckAll(false))
+                dispatch(SearchActions.typeCheckAll(false))
+            }
+            if (search.group.포장 && search.group.회로 && search.group.전장 && search.group.기구 && search.group.기타) {
+                dispatch(SearchActions.groupCheckAll(true))
+            } else {
+                dispatch(SearchActions.groupCheckAll(false))
 
             }
         }
+
     }, [search, dispatch])
     useEffect(() => {
         dispatch(itemActions.initForm())
@@ -53,7 +65,13 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
     }, [dispatch])
     return (
         <div>
-            <SearchComponent setVisible={setVisible} visible={visible} onChange={onChange} search={search} focus={focus} setFocus={setFocus} />
+            <SearchComponent setVisible={setVisible}
+                visible={visible}
+                onChange={onChange}
+                search={search}
+                focus={focus}
+                setFocus={setFocus}
+                newItems={newItems} />
         </div>
     );
 };

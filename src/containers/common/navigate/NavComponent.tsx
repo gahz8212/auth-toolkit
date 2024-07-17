@@ -18,7 +18,7 @@ const NavComponent: React.FC<Props> = ({ visible, setVisible, page, changePage }
                 <li className={`${page === 'Export' ? "selected" : ''}`} onClick={() => changePage('Export')}><Link to='/Export'>Exports Manage</Link></li>
                 <li className={`${page === 'Settings' ? "selected" : ''}`} onClick={() => changePage('Settings')}><Link to='/settings'>Relation Settings</Link></li>
                 <li className={`${page === 'View' ? "selected" : ''}`} onClick={() => changePage('View')}><Link to='/view'>Item Settings</Link></li>
-                <li className={`${page === 'Search' ? "selected" : ''}`} onClick={() => changePage('Search')}><Link to='/search' onClick={() => { setVisible(!visible) }}>Search</Link></li>
+                <li onClick={() => changePage('Search')}><Link to='#' onClick={() => { setVisible(!visible) }}>Search</Link></li>
             </ul>
 
         </>

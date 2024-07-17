@@ -5,7 +5,7 @@ import InputFormContainer from '../forms/inputForm/InputFormContainer';
 import EditFormContainer from "../forms/editForm/EditFormContainer";
 import LeftComponent from './LeftComponent';
 import RestComponent from './RestComponent';
-import RViewComponent from '../r-view/i_settingComponent';
+import RViewComponent from '../i-settings/IsettingComponent';
 
 
 type Props = {
@@ -82,7 +82,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
                 </div>
                 <div style={{ position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
 
-                    <RViewComponent topMargin='3rem' relate_view={relate_view} />
+                    <RViewComponent topMargin='3rem' newItems={null} />
                 </div>
             </div>}
             {input.visible && <div >
