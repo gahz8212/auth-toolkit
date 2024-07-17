@@ -5,7 +5,7 @@ import InputFormContainer from '../forms/inputForm/InputFormContainer';
 import EditFormContainer from "../forms/editForm/EditFormContainer";
 import LeftComponent from './LeftComponent';
 import RestComponent from './RestComponent';
-import RViewComponent from '../r-view/i_settingComponent';
+import RViewComponent from '../i-settings/I_settingComponent';
 
 
 type Props = {

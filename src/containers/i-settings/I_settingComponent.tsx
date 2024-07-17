@@ -11,7 +11,7 @@ type Props = {
         ex_price: number
     }[] | null
 }
-const i_settingComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
+const I_settingComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
 
     return (
         <>
@@ -40,4 +40,4 @@ const i_settingComponent: React.FC<Props> = ({ topMargin, relate_view }) => {
     );
 };
 
-export default i_settingComponent;
+export default I_settingComponent;

@@ -6,7 +6,7 @@ import JoinForm from './pages/JoinForm';
 import HomeForm from './pages/HomeForm'
 import ExportForm from './pages/ExportForm'
 import SettingForm from './pages/SettingForm';
-import SearchForm from './pages/SearchForm';
+// import SearchForm from './pages/SearchForm';
 import RViewForm from './pages/R_viewForm';
 import { response } from './store/slices/authSlice';
 import HeaderContainer from './containers/common/header/HeaderContainer'
@@ -25,7 +25,7 @@ const App = () => {
         <Route path='/Export' element={<ExportForm />} />
         <Route path='/settings' element={<SettingForm />} />
         <Route path='/view' element={<RViewForm />} />
-        <Route path='/search' element={<SearchForm />} />
+        {/* <Route path='/search' element={<SearchForm />} /> */}
       </Routes>
     </>
 
