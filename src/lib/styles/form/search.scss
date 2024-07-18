@@ -7,7 +7,9 @@
   background: white;
   z-index: 1;
   min-width: 30%;
-
+  .sort {
+    display: flex;
+  }
   .search {
     position: relative;
     height: 30px;

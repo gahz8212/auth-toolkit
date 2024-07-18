@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { formSelector, formActions } from '../../store/slices/formSlice';
-import { SearchCondition, SearchActions } from '../../store/slices/searchSlice'
+// import { SearchData, SearchActions } from '../../store/slices/searchSlice'
 import IsettingComponent from './IsettingComponent';
 const IsettingContainer = () => {
   const dispatch = useDispatch();
   const { input, edit, } = useSelector(formSelector)
-  const { search } = useSelector(SearchCondition)
+  // const { search } = useSelector(SearchCondition)
   const openAddForm = () => {
     dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
   }
@@ -19,7 +19,7 @@ const IsettingContainer = () => {
       edit={edit}
       openAddForm={openAddForm}
       changePosition={changePosition}
-      newItmes={search.filteredItems}
+
     />
   );
 };

@@ -27,6 +27,32 @@ type State = {
         // visible: boolean;
       }[]
     | null;
+  change:
+    | {
+        id: number;
+        type: string;
+        groupType: string;
+        category: string;
+        itemName: string;
+        descript: string;
+        unit: string;
+        im_price: number;
+        sum_im_price: number;
+        ex_price: number;
+        use: boolean;
+        supplyer: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        set: boolean;
+        Images: { url: string }[];
+        Good: { groupName: string };
+        left: number;
+        top: number;
+        point: number;
+        // visible: boolean;
+      }[]
+    | null;
   relations:
     | {
         UpperId: number;
@@ -128,6 +154,7 @@ type State = {
 };
 const initialState: State = {
   items: null,
+  change: null,
   relations: null,
   input: {
     type: "PARTS",

@@ -4,6 +4,7 @@ type State = {
   [key: string]: {} | null;
   all: {
     typeALL: boolean;
+    setALL: boolean;
     groupALL: boolean;
   };
   type: {
@@ -11,6 +12,14 @@ type State = {
     SET: boolean;
     ASSY: boolean;
     PARTS: boolean;
+  };
+  set: {
+    [key: string]: boolean;
+    EDT: boolean;
+    NOBARK: boolean;
+    RDT: boolean;
+    LAUNCHER: boolean;
+    기타: boolean;
   };
   group: {
     [key: string]: boolean;
@@ -20,17 +29,50 @@ type State = {
     포장: boolean;
     기타: boolean;
   };
-  filteredItems: {}[] | null;
+  filteredItems:
+    | {
+        id: number;
+        type: string;
+        groupType: string;
+        category: string;
+        itemName: string;
+        descript: string;
+        unit: string;
+        im_price: number;
+        sum_im_price: number;
+        ex_price: number;
+        use: boolean;
+        supplyer: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        set: boolean;
+        Images: { url: string }[];
+        Good: { groupName: string };
+        left: number;
+        top: number;
+        point: number;
+        // visible: boolean;
+      }[]
+    | null;
 };
 const initialState: State = {
   all: {
     typeALL: true,
+    setALL: true,
     groupALL: true,
   },
   type: {
     SET: true,
     ASSY: true,
     PARTS: true,
+  },
+  set: {
+    EDT: true,
+    NOBARK: true,
+    RDT: true,
+    LAUNCHER: true,
+    기타: true,
   },
   group: {
     회로: true,
@@ -44,10 +86,18 @@ const initialState: State = {
 const searchSelector = (state: RootState) => {
   return state.search;
 };
+const filteredSelector = (state: RootState) => {
+  return state.search.filteredItems;
+};
 
-export const SearchCondition = createSelector(searchSelector, (search) => ({
-  search,
-}));
+export const SearchData = createSelector(
+  searchSelector,
+  filteredSelector,
+  (search, filtered) => ({
+    search,
+    filtered,
+  })
+);
 const searchSlice = createSlice({
   name: "search",
   initialState,
@@ -60,6 +110,9 @@ const searchSlice = createSlice({
     },
     groupCheckAll: (state, { payload: value }) => {
       state.all.groupALL = value;
+    },
+    setCheckAll: (state, { payload: value }) => {
+      state.all.setALL = value;
     },
     typeALL: (state, { payload: value }) => {
       console.log("value", value);
@@ -76,14 +129,25 @@ const searchSlice = createSlice({
       state.group.포장 = value;
       state.group.기타 = value;
     },
+    setALL: (state, { payload: value }) => {
+      state.all.setALL = value;
+      state.set.EDT = value;
+      state.set.NOBARK = value;
+      state.set.RDT = value;
+      state.set.LAUNCHER = value;
+      state.set.기타 = value;
+    },
     checkType: (state, { payload: category }) => {
       state.type[category] = !state.type[category];
     },
     checkGroup: (state, { payload: category }) => {
       state.group[category] = !state.group[category];
     },
-    getFilteredItems: (state, { payload: newItems }) => {
-      state.filteredItems = newItems;
+    checkSet: (state, { payload: category }) => {
+      state.set[category] = !state.set[category];
+    },
+    getFilteredItems: (state, { payload: newItem }) => {
+      state.filteredItems = newItem;
     },
   },
 });

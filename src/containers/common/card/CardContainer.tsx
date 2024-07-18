@@ -6,14 +6,15 @@ import { relateData, relateActions } from '../../../store/slices/relationSlice'
 import { editActions } from '../../../store/slices/editSlice';
 import { formSelector, formActions } from '../../../store/slices/formSlice';
 import { makeRelateData_View } from '../../../lib/utils/createRelateData'
+import { SearchActions, SearchData } from '../../../store/slices/searchSlice';
 const CardContainer = () => {
     const dispatch = useDispatch();
     const { items, status, relations } = useSelector(itemData);
+    const { search } = useSelector(SearchData)
     const [openBasket, setOpenBasket] = useState(false)
 
 
     const selectItem = (id: number | '') => {
-
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
@@ -77,7 +78,7 @@ const CardContainer = () => {
     return (
         <div>
             <CardComponent
-                items={items}
+                items={search.filteredItems}
                 selectItem={selectItem}
                 dragItem={dragItem}
                 onDrop={onDrop}

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 type Props = {
 
@@ -6,12 +6,20 @@ type Props = {
     search: {
         all: {
             typeALL: boolean;
+            setALL: boolean;
             groupALL: boolean;
         }
         type: {
             SET: boolean;
             ASSY: boolean;
             PARTS: boolean;
+        }
+        set: {
+            EDT: boolean;
+            NOBARK: boolean;
+            RDT: boolean;
+            LAUNCHER: boolean;
+            기타: boolean;
         }
         group: {
             회로: boolean;
@@ -26,11 +34,34 @@ type Props = {
     setFocus: React.Dispatch<React.SetStateAction<boolean>>
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
-    newItems: { type: string, category: string }[]
+
 }
-const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus, newItems }) => {
-    console.log('newItmes', newItems)
+const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus }) => {
+
     const inputRef: React.LegacyRef<HTMLInputElement> | undefined = useRef(null);
+    const dragItem: any = useRef();
+    const dragOverItem: any = useRef()
+    const [orders, setOrders] = useState<string[]>(['분류', '이름', '생성일'])
+
+    const onDragStart = (index: number) => {
+        console.log(index)
+        dragItem.current = index;
+    }
+    const onDragEnter = (index: number) => {
+        console.log(index)
+        dragOverItem.current = index
+    }
+    const onDrop = () => {
+        const copyList = [...orders];
+        let temp = copyList[dragOverItem.current]
+        copyList[dragOverItem.current] = copyList[dragItem.current]
+        copyList[dragItem.current] = temp
+        // copyList[dragItem.current]=null;
+        dragItem.current = null;
+        dragOverItem.current = null;
+        console.log('copyList', copyList)
+        setOrders(copyList)
+    }
     return (
         <>
             <div className="nav_base"></div>
@@ -48,7 +79,24 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                     <label htmlFor="type-PARTS">PARTS</label>
 
                 </div>
-                <div className="input-group">
+                {(search.type.PARTS || search.type.ASSY) || (search.type.SET && <div className="input-set">
+
+                    <input type="checkbox" name="setALL" id="setAll" onChange={onChange} checked={search.all.setALL === true} />
+                    <label htmlFor="setAll">전체</label>
+                    <input type="checkbox" name="EDT" id="type-EDT" onChange={onChange} checked={search.set.EDT === true} />
+                    <label htmlFor="type-EDT">EDT</label>
+                    <input type="checkbox" name="NOBARK" id="type-NOBARK" onChange={onChange} checked={search.set.NOBARK === true} />
+                    <label htmlFor="type-NOBARK">NOBARK</label>
+                    <input type="checkbox" name="RDT" id="type-RDT" onChange={onChange} checked={search.set.RDT === true} />
+                    <label htmlFor="type-RDT">RDT</label>
+                    <input type="checkbox" name="LAUNCHER" id="type-LAUNCHER" onChange={onChange} checked={search.set.LAUNCHER === true} />
+                    <label htmlFor="type-LAUNCHER">LAUNCHER</label>
+                    <input type="checkbox" name="기타" id="type-LAUNCHER" onChange={onChange} checked={search.set.기타 === true} />
+                    <label htmlFor="type-기타">기타</label>
+
+
+                </div>)}
+                {search.type.SET || (search.type.PARTS || search.type.ASSY) && (<div className="input-group">
 
                     <input type="checkbox" name="groupALL" id="groupALL" onChange={onChange} checked={search.all.groupALL === true} />
                     <label htmlFor="groupALL">전체</label>
@@ -63,20 +111,20 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                     <label htmlFor="group-포장물">포장물</label>
                     <input type="checkbox" name="기타" id="group-기타물" onChange={onChange} checked={search.group.기타 === true} />
                     <label htmlFor="group-기타물">기타</label>
-                </div>
+                </div>)}
                 <div className="sort">
-                    <input type="radio" name="sort" id="category" />
-                    <label htmlFor="category">분류 순</label>
-                    <button>△</button>
-                    <button>▽</button>
-                    <input type="radio" name="sort" id="name" />
-                    <label htmlFor="name">이름 순</label>
-                    <button>△</button>
-                    <button>▽</button>
-                    <input type="radio" name="sort" id="name" />
-                    <label htmlFor="name">생성일 순</label>
-                    <button>△</button>
-                    <button>▽</button>
+                    {orders.map((order, index) => <div key={order}
+                        draggable
+                        onDragStart={() => { onDragStart(index) }}
+                        onDragEnter={() => { onDragEnter(index) }}
+                        onDragEnd={onDrop}
+                    >
+                        <input type="checkbox" name={order} id={order} />
+                        <label htmlFor="category">{order}</label>
+                        <button>△</button>
+                        <button>▽</button>
+                    </div>)}
+
                 </div>
 
                 <div className={`search ${focus ? 'focus' : ''}`}>
