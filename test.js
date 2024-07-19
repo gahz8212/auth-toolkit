@@ -1,21 +1,15 @@
 const objs = [
-  { id: 1, value: 100 },
-  { id: 2, value: 100 },
-  { id: 3, value: 100 },
-  { id: 1, value: 100 },
-  { id: 2, value: 100 },
-  { id: 1, value: 100 },
-  { id: 1, value: 100 },
-  { id: 1, value: 100 },
+  { id: 1, value: 100, name: "a" },
+  { id: 2, value: 100, name: "a" },
+  { id: 3, value: 100, name: "b" },
+  { id: 1, value: 100, name: "b" },
+  { id: 2, value: 100, name: "c" },
+  { id: 1, value: 100, name: "c" },
+  { id: 1, value: 100, name: "c" },
+  { id: 1, value: 100, name: "b" },
 
   { id: 1, value: 100 },
 ];
-const result = objs.reduce((acc, curr) => {
-  if (acc[curr.id]) {
-    acc[curr.id] += curr.value;
-  } else {
-    acc[curr.id] = curr.value;
-  }
-  return acc;
-}, {});
-console.log(result);
+// const result = objs.sort((a, b) => a.name - b.name);
+// console.log(result);
+console.log((-1 * 1));

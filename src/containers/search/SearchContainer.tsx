@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
-import { SearchActions, SearchData } from '../../store/slices/searchSlice';
+import searchSlice, { SearchActions, SearchData } from '../../store/slices/searchSlice';
 import { itemActions, itemData } from '../../store/slices/itemSlice';
 import { useDispatch, useSelector } from 'react-redux'
 import { relateData, relateActions } from '../../store/slices/relationSlice'
@@ -14,15 +14,13 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
     const dispatch = useDispatch();
     const { search } = useSelector(SearchData);
     const { items } = useSelector(itemData)
-    // const [newItems, setNewItems] = useState<{ type: string, category: string }[]>([])
+    const [newItems, setNewItems] = useState<{ type: string, category: string, itemName: string }[]>([])
 
     const onChange = (e: any) => {
         const { name, checked } = e.target;
         // console.log(name, checked)
         if (name === 'typeALL') {
-
             dispatch(SearchActions.typeALL(checked))
-
         } else if (name === 'groupALL') {
             dispatch(SearchActions.groupALL(checked))
         } else if (name === 'setALL') {
@@ -33,6 +31,8 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             dispatch(SearchActions.checkSet(name))
         } else if (name === '포장' || name === '회로' || name === '전장' || name === '기구' || name === '기타') {
             dispatch(SearchActions.checkGroup(name))
+        } else {
+            dispatch(SearchActions.checkSort(name))
         }
         // dispatch(itemActions.backupItems())
     }
@@ -63,25 +63,43 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             const { all, ...rest } = search;
             let result
             if (search.type.SET && !search.type.PARTS && !search.type.ASSY) {
-
-                // console.log('set')
                 result = items?.filter(item => (rest.type[item.type] && rest.set[item.category]))
             } else if ((search.type.PARTS || search.type.ASSY) && !search.type.SET) {
-                // console.log('assy,parts')
                 result = items?.filter(item => (rest.type[item.type] && rest.group[item.category]))
             }
             else {
                 result = items?.filter(item => (rest.type[item.type]))
-
             }
-            // console.log('result', result)
+            setNewItems(result)
             dispatch(SearchActions.getFilteredItems(result))
 
 
         }
     }, [dispatch, search.type, search.set, search.group, items])
 
+    useEffect(() => {
+        // console.log(search.sort)
+        const result = [...newItems]
+        const sortings = [{ sort: 'type' }, { sort: 'category' }, { sort: 'itemName' }, { sort: 'createdAt' },]
+        const sortResult = sortings.filter(sorting => search.sort[sorting.sort])
+        console.log(sortResult)
+        let final;
+        result.sort((prev, next) => {
+            if (prev.type === next.type) {
+                if (prev.category === next.category) {
+                    return prev.itemName.localeCompare(next.itemName)
+                }
+                return prev.category.localeCompare(next.category)
+            }
+            return prev.type.localeCompare(next.type)
 
+        }
+        )
+
+        // .sort((prev, next) => next.category.localeCompare(prev.category))
+
+        dispatch(SearchActions.getFilteredItems(result))
+    }, [dispatch, search.sort])
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())

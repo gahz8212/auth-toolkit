@@ -55,6 +55,13 @@ type State = {
         // visible: boolean;
       }[]
     | null;
+  sort: {
+    [key: string]: boolean;
+    type: boolean;
+    category: boolean;
+    name: boolean;
+    createdAt: boolean;
+  };
 };
 const initialState: State = {
   all: {
@@ -82,6 +89,12 @@ const initialState: State = {
     기타: true,
   },
   filteredItems: null,
+  sort: {
+    type: false,
+    category: false,
+    name: false,
+    createdAt: false,
+  },
 };
 const searchSelector = (state: RootState) => {
   return state.search;
@@ -145,6 +158,9 @@ const searchSlice = createSlice({
     },
     checkSet: (state, { payload: category }) => {
       state.set[category] = !state.set[category];
+    },
+    checkSort: (state, { payload: category }) => {
+      state.sort[category] = !state.sort[category];
     },
     getFilteredItems: (state, { payload: newItem }) => {
       state.filteredItems = newItem;

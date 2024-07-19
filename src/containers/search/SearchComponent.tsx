@@ -28,6 +28,13 @@ type Props = {
             포장: boolean;
             기타: boolean;
         }
+        sort: {
+            [key: string]: boolean;
+            type: boolean;
+            category: boolean;
+            name: boolean;
+            createdAt: boolean;
+        }
 
     };
     focus: boolean;
@@ -41,18 +48,22 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
     const inputRef: React.LegacyRef<HTMLInputElement> | undefined = useRef(null);
     const dragItem: any = useRef();
     const dragOverItem: any = useRef()
-    const [orders, setOrders] = useState<string[]>(['분류', '이름', '생성일'])
+    const [orders, setOrders] = useState<{ name: string, sorting: string }[]>([
+        { name: '타입', sorting: 'type' },
+        { name: '분류', sorting: 'category' },
+        { name: '이름', sorting: 'name' },
+        { name: '생성일', sorting: 'createdAt' }])
 
     const onDragStart = (index: number) => {
-        console.log(index)
+        // console.log(index)
         dragItem.current = index;
     }
     const onDragEnter = (index: number) => {
-        console.log(index)
+        // console.log(index)
         dragOverItem.current = index
     }
     const onDrop = () => {
-        const copyList = [...orders];
+        const copyList: { [key: string]: string, name: string, sorting: string }[] = JSON.parse(JSON.stringify(orders));
         let temp = copyList[dragOverItem.current]
         copyList[dragOverItem.current] = copyList[dragItem.current]
         copyList[dragItem.current] = temp
@@ -113,16 +124,16 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                     <label htmlFor="group-기타물">기타</label>
                 </div>)}
                 <div className="sort">
-                    {orders.map((order, index) => <div key={order}
+                    {orders.map((order, index) => <div key={order.name}
                         draggable
                         onDragStart={() => { onDragStart(index) }}
                         onDragEnter={() => { onDragEnter(index) }}
                         onDragEnd={onDrop}
                     >
-                        <input type="checkbox" name={order} id={order} />
-                        <label htmlFor="category">{order}</label>
-                        <button>△</button>
-                        <button>▽</button>
+                        <input type="checkbox" name={order.sorting} id={order.name} onChange={onChange} checked={search.sort[order.sorting] === true} />
+                        <label htmlFor="category">{order.name}</label>
+                        <span>△</span>
+                        <span>▽</span>
                     </div>)}
 
                 </div>
