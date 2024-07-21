@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SearchComponent from './SearchComponent';
 import searchSlice, { SearchActions, SearchData } from '../../store/slices/searchSlice';
 import { itemActions, itemData } from '../../store/slices/itemSlice';
@@ -15,7 +15,13 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
     const { search } = useSelector(SearchData);
     const { items } = useSelector(itemData)
     const [newItems, setNewItems] = useState<{ type: string, category: string, itemName: string }[]>([])
-
+    const dragItem: any = useRef();
+    const dragOverItem: any = useRef()
+    const [orders, setOrders] = useState<{ name: string, sorting: string }[]>([
+        { name: '타입', sorting: 'type' },
+        { name: '분류', sorting: 'category' },
+        { name: '이름', sorting: 'name' },
+        { name: '생성일', sorting: 'createdAt' }])
     const onChange = (e: any) => {
         const { name, checked } = e.target;
         // console.log(name, checked)
@@ -36,9 +42,34 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         }
         // dispatch(itemActions.backupItems())
     }
+    const onDragStart = (index: number) => {
+        // console.log(index)
+        dragItem.current = index;
+    }
+    const onDragEnter = (index: number) => {
+        // console.log(index)
+        dragOverItem.current = index
+    }
+    const onDrop = () => {
+        const copyList: { [key: string]: string, name: string, sorting: string }[] = JSON.parse(JSON.stringify(orders));
+        let temp = copyList[dragOverItem.current]
+        copyList[dragOverItem.current] = copyList[dragItem.current]
+        copyList[dragItem.current] = temp
+        dispatch(SearchActions.sortChange({ dragItem: dragItem.current, dragOverItem: dragOverItem.current }))
+        // copyList[dragItem.current]=null;
+        dragItem.current = null;
+        dragOverItem.current = null;
+        // console.log('copyList', copyList)
+        setOrders(copyList)
+    }
+
+    const onSortChange = (e: any, orders: { name: string, sorting: string }[]) => {
+        const { name, checked } = e.target;
+        console.log('orders', orders)
+        dispatch(SearchActions.checkSort(name))
+    }
     useEffect(() => {
         if (search) {
-
             if (search.type.SET && search.type.ASSY && search.type.PARTS) {
                 dispatch(SearchActions.typeCheckAll(true))
             } else {
@@ -55,9 +86,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
                 dispatch(SearchActions.groupCheckAll(false))
             }
         }
-
     }, [dispatch, search])
-
     useEffect(() => {
         if (search.type && search.set && search.group && items) {
             const { all, ...rest } = search;
@@ -92,14 +121,16 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
                 return prev.category.localeCompare(next.category)
             }
             return prev.type.localeCompare(next.type)
-
         }
         )
-
         // .sort((prev, next) => next.category.localeCompare(prev.category))
-
         dispatch(SearchActions.getFilteredItems(result))
     }, [dispatch, search.sort])
+    // useEffect(() => {
+    //     if (orders) {
+    //         console.log('orders', orders)
+    //     }
+    // })
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -111,9 +142,14 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             <SearchComponent setVisible={setVisible}
                 visible={visible}
                 onChange={onChange}
+                onSortChange={onSortChange}
                 search={search}
                 focus={focus}
                 setFocus={setFocus}
+                onDragStart={onDragStart}
+                onDragEnter={onDragEnter}
+                onDrop={onDrop}
+                orders={orders}
             />
         </div>
     );

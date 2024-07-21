@@ -56,11 +56,11 @@ type State = {
       }[]
     | null;
   sort: {
-    [key: string]: boolean;
-    type: boolean;
-    category: boolean;
-    name: boolean;
-    createdAt: boolean;
+    [key: string]: { [key: string]: boolean | number };
+    type: { active: boolean; number: number };
+    category: { active: boolean; number: number };
+    name: { active: boolean; number: number };
+    createdAt: { active: boolean; number: number };
   };
 };
 const initialState: State = {
@@ -90,10 +90,10 @@ const initialState: State = {
   },
   filteredItems: null,
   sort: {
-    type: false,
-    category: false,
-    name: false,
-    createdAt: false,
+    type: { active: false, number: 0 },
+    category: { active: false, number: 1 },
+    name: { active: false, number: 2 },
+    createdAt: { active: false, number: 3 },
   },
 };
 const searchSelector = (state: RootState) => {
@@ -160,10 +160,15 @@ const searchSlice = createSlice({
       state.set[category] = !state.set[category];
     },
     checkSort: (state, { payload: category }) => {
-      state.sort[category] = !state.sort[category];
+      state.sort[category].active = !state.sort[category].active;
     },
     getFilteredItems: (state, { payload: newItem }) => {
       state.filteredItems = newItem;
+    },
+    sortChange: (state, { payload: itemCurrent }) => {
+      const { dragItem, dragOverItem } = itemCurrent;
+      const sorting = ["type", "category", "name", "createdAt"];
+      console.log(sorting[dragItem], sorting[dragOverItem]);
     },
   },
 });

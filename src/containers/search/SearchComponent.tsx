@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 
 type Props = {
 
     onChange: (e: any) => void;
+    onSortChange: (e: any, orders: { name: string, sorting: string }[]) => void;
     search: {
         all: {
             typeALL: boolean;
@@ -29,11 +30,11 @@ type Props = {
             기타: boolean;
         }
         sort: {
-            [key: string]: boolean;
-            type: boolean;
-            category: boolean;
-            name: boolean;
-            createdAt: boolean;
+            [key: string]: { [key: string]: boolean | number };
+            type: { active: boolean; number: number };
+            category: { active: boolean; number: number };
+            name: { active: boolean; number: number };
+            createdAt: { active: boolean; number: number };
         }
 
     };
@@ -41,38 +42,20 @@ type Props = {
     setFocus: React.Dispatch<React.SetStateAction<boolean>>
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
-
+    onDragStart: (index: number) => void;
+    onDragEnter: (index: number) => void;
+    onDrop: () => void;
+    orders: {
+        name: string;
+        sorting: string;
+    }[]
 }
-const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus }) => {
+const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus, onSortChange,
+    onDragStart, onDragEnter, onDrop, orders
+}) => {
 
     const inputRef: React.LegacyRef<HTMLInputElement> | undefined = useRef(null);
-    const dragItem: any = useRef();
-    const dragOverItem: any = useRef()
-    const [orders, setOrders] = useState<{ name: string, sorting: string }[]>([
-        { name: '타입', sorting: 'type' },
-        { name: '분류', sorting: 'category' },
-        { name: '이름', sorting: 'name' },
-        { name: '생성일', sorting: 'createdAt' }])
 
-    const onDragStart = (index: number) => {
-        // console.log(index)
-        dragItem.current = index;
-    }
-    const onDragEnter = (index: number) => {
-        // console.log(index)
-        dragOverItem.current = index
-    }
-    const onDrop = () => {
-        const copyList: { [key: string]: string, name: string, sorting: string }[] = JSON.parse(JSON.stringify(orders));
-        let temp = copyList[dragOverItem.current]
-        copyList[dragOverItem.current] = copyList[dragItem.current]
-        copyList[dragItem.current] = temp
-        // copyList[dragItem.current]=null;
-        dragItem.current = null;
-        dragOverItem.current = null;
-        console.log('copyList', copyList)
-        setOrders(copyList)
-    }
     return (
         <>
             <div className="nav_base"></div>
@@ -130,8 +113,10 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                         onDragEnter={() => { onDragEnter(index) }}
                         onDragEnd={onDrop}
                     >
-                        <input type="checkbox" name={order.sorting} id={order.name} onChange={onChange} checked={search.sort[order.sorting] === true} />
-                        <label htmlFor="category">{order.name}</label>
+                        <input type="checkbox" name={order.sorting} id={order.name}
+                            onChange={onChange}
+                            checked={search.sort[order.sorting].active === true} />
+                        <label htmlFor={order.name}>{order.name}</label>
                         <span>△</span>
                         <span>▽</span>
                     </div>)}
