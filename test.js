@@ -1,15 +1,14 @@
-const objs = [
-  { id: 1, value: 100, name: "a" },
-  { id: 2, value: 100, name: "a" },
-  { id: 3, value: 100, name: "b" },
-  { id: 1, value: 100, name: "b" },
-  { id: 2, value: 100, name: "c" },
-  { id: 1, value: 100, name: "c" },
-  { id: 1, value: 100, name: "c" },
-  { id: 1, value: 100, name: "b" },
+let prev = { type: 1, category: 1, name: -1 };
+let next = { type: 1, category: 0, name: 0 };
+let array = ["type", "category", "name"];
+let i = 1;
 
-  { id: 1, value: 100 },
-];
-// const result = objs.sort((a, b) => a.name - b.name);
-// console.log(result);
-console.log((-1 * 1));
+const func = (arr) => {
+  if (prev[arr] === next[arr]) {
+    return func(array[i++]);
+  } else {
+    return prev[arr] + next[arr];
+  }
+};
+const result = func("type");
+console.log(result);

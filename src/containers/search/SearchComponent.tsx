@@ -33,7 +33,7 @@ type Props = {
             [key: string]: { [key: string]: boolean | number };
             type: { active: boolean; number: number };
             category: { active: boolean; number: number };
-            name: { active: boolean; number: number };
+            itemName: { active: boolean; number: number };
             createdAt: { active: boolean; number: number };
         }
 

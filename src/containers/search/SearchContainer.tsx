@@ -20,7 +20,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
     const [orders, setOrders] = useState<{ name: string, sorting: string }[]>([
         { name: '타입', sorting: 'type' },
         { name: '분류', sorting: 'category' },
-        { name: '이름', sorting: 'name' },
+        { name: '이름', sorting: 'itemName' },
         { name: '생성일', sorting: 'createdAt' }])
     const onChange = (e: any) => {
         const { name, checked } = e.target;
@@ -55,7 +55,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         let temp = copyList[dragOverItem.current]
         copyList[dragOverItem.current] = copyList[dragItem.current]
         copyList[dragItem.current] = temp
-        dispatch(SearchActions.sortChange({ dragItem: dragItem.current, dragOverItem: dragOverItem.current }))
+        dispatch(SearchActions.sortChange({ dragItem: dragItem.current, dragOverItem: dragOverItem.current, orders: orders }))
         // copyList[dragItem.current]=null;
         dragItem.current = null;
         dragOverItem.current = null;
@@ -65,7 +65,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
 
     const onSortChange = (e: any, orders: { name: string, sorting: string }[]) => {
         const { name, checked } = e.target;
-        console.log('orders', orders)
+        // console.log('orders', orders)
         dispatch(SearchActions.checkSort(name))
     }
     useEffect(() => {
@@ -106,24 +106,34 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         }
     }, [dispatch, search.type, search.set, search.group, items])
 
+
     useEffect(() => {
-        // console.log(search.sort)
-        const result = [...newItems]
-        const sortings = [{ sort: 'type' }, { sort: 'category' }, { sort: 'itemName' }, { sort: 'createdAt' },]
-        const sortResult = sortings.filter(sorting => search.sort[sorting.sort])
-        console.log(sortResult)
-        let final;
-        result.sort((prev, next) => {
-            if (prev.type === next.type) {
-                if (prev.category === next.category) {
-                    return prev.itemName.localeCompare(next.itemName)
-                }
-                return prev.category.localeCompare(next.category)
-            }
-            return prev.type.localeCompare(next.type)
+        const array = search.sort;
+        const keys = (Object.keys(array))
+        const values = (Object.values(array))
+        let resultSort: { key: string, active: boolean, number: number }[] = []
+        for (let i = 0; i < keys.length; i++) {
+            resultSort.push({ key: keys[i], ...values[i] })
         }
-        )
-        // .sort((prev, next) => next.category.localeCompare(prev.category))
+
+        const orderedSort = (resultSort.sort((a, b) => a.number - b.number)).filter(sort => sort.active).map(sort => sort.key)
+        const result = [...newItems];
+        let i = 0
+        const sortRepeat = (key: string, prev: { [key: string]: string }, next: { [key: string]: string }) => {
+            if (prev[key] === next[key]) {
+                return sortRepeat(orderedSort[i++], prev, next)
+            }
+            else {
+                return prev[key].localeCompare(next[key])
+            }
+        }
+
+        result.sort((a: { [key: string]: string }, b: { [key: string]: string }) => {
+            return sortRepeat(orderedSort[i++], a, b)
+        })
+
+
+
         dispatch(SearchActions.getFilteredItems(result))
     }, [dispatch, search.sort])
     // useEffect(() => {

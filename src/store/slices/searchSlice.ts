@@ -56,11 +56,31 @@ type State = {
       }[]
     | null;
   sort: {
-    [key: string]: { [key: string]: boolean | number };
-    type: { active: boolean; number: number };
-    category: { active: boolean; number: number };
-    name: { active: boolean; number: number };
-    createdAt: { active: boolean; number: number };
+    [key: string]: {
+      [key: string]: boolean | number;
+      active: boolean;
+      number: number;
+    };
+    type: {
+      // [key: string]: boolean | number;
+      active: boolean;
+      number: number;
+    };
+    category: {
+      // [key: string]: boolean | number;
+      active: boolean;
+      number: number;
+    };
+    itemName: {
+      // [key: string]: boolean | number;
+      active: boolean;
+      number: number;
+    };
+    createdAt: {
+      // [key: string]: boolean | number;
+      active: boolean;
+      number: number;
+    };
   };
 };
 const initialState: State = {
@@ -92,7 +112,7 @@ const initialState: State = {
   sort: {
     type: { active: false, number: 0 },
     category: { active: false, number: 1 },
-    name: { active: false, number: 2 },
+    itemName: { active: false, number: 2 },
     createdAt: { active: false, number: 3 },
   },
 };
@@ -166,9 +186,9 @@ const searchSlice = createSlice({
       state.filteredItems = newItem;
     },
     sortChange: (state, { payload: itemCurrent }) => {
-      const { dragItem, dragOverItem } = itemCurrent;
-      const sorting = ["type", "category", "name", "createdAt"];
-      console.log(sorting[dragItem], sorting[dragOverItem]);
+      const { dragItem, dragOverItem, orders } = itemCurrent;
+      state.sort[orders[dragItem].sorting].number = dragOverItem;
+      state.sort[orders[dragOverItem].sorting].number = dragItem;
     },
   },
 });
