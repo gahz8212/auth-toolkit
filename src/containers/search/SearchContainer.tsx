@@ -119,7 +119,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         const orderedSort = (resultSort.sort((a, b) => a.number - b.number)).filter(sort => sort.active).map(sort => sort.key)
         const result = [...newItems];
         let i = 0
-        const sortRepeat = (key: string, prev: { [key: string]: string }, next: { [key: string]: string }) => {
+        const sortRepeat = (key: string, prev: { [key: string]: string }, next: { [key: string]: string }): number => {
             if (prev[key] === next[key]) {
                 return sortRepeat(orderedSort[i++], prev, next)
             }
@@ -129,7 +129,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         }
 
         result.sort((a: { [key: string]: string }, b: { [key: string]: string }) => {
-            return sortRepeat(orderedSort[i++], a, b)
+            return sortRepeat(orderedSort[i], a, b)
         })
 
 
