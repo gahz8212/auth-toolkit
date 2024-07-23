@@ -3,7 +3,8 @@ import React, { useRef } from 'react';
 type Props = {
 
     onChange: (e: any) => void;
-    onSortChange: (e: any, orders: { name: string, sorting: string }[]) => void;
+    onCheck: (e: any) => void;
+    // onSortChange: (e: any, orders: { name: string, sorting: string }[]) => void;
     search: {
         all: {
             typeALL: boolean;
@@ -31,10 +32,10 @@ type Props = {
         }
         sort: {
             [key: string]: { [key: string]: boolean | number };
-            type: { active: boolean; number: number };
-            category: { active: boolean; number: number };
-            itemName: { active: boolean; number: number };
-            createdAt: { active: boolean; number: number };
+            type: { active: boolean; number: number, asc: boolean };
+            category: { active: boolean; number: number, asc: boolean };
+            itemName: { active: boolean; number: number, asc: boolean };
+            createdAt: { active: boolean; number: number, asc: boolean };
         }
 
     };
@@ -50,7 +51,7 @@ type Props = {
         sorting: string;
     }[]
 }
-const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus, onSortChange,
+const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus, onCheck,
     onDragStart, onDragEnter, onDrop, orders
 }) => {
 
@@ -117,8 +118,10 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                             onChange={onChange}
                             checked={search.sort[order.sorting].active === true} />
                         <label htmlFor={order.name}>{order.name}</label>
-                        <span>△</span>
-                        <span>▽</span>
+                        <input type="radio" name={order.sorting} id="" onChange={onCheck} checked={search.sort[order.sorting].asc === true} />
+                        <input type="radio" name={order.sorting} id="" onChange={onCheck} checked={search.sort[order.sorting].asc === false} />
+                        {/* <span>△</span>
+                        <span>▽</span> */}
                     </div>)}
 
                 </div>

@@ -60,26 +60,27 @@ type State = {
       [key: string]: boolean | number;
       active: boolean;
       number: number;
+      asc: boolean;
     };
     type: {
-      // [key: string]: boolean | number;
       active: boolean;
       number: number;
+      asc: boolean;
     };
     category: {
-      // [key: string]: boolean | number;
       active: boolean;
       number: number;
+      asc: boolean;
     };
     itemName: {
-      // [key: string]: boolean | number;
       active: boolean;
       number: number;
+      asc: boolean;
     };
     createdAt: {
-      // [key: string]: boolean | number;
       active: boolean;
       number: number;
+      asc: boolean;
     };
   };
 };
@@ -110,10 +111,10 @@ const initialState: State = {
   },
   filteredItems: null,
   sort: {
-    type: { active: false, number: 0 },
-    category: { active: false, number: 1 },
-    itemName: { active: false, number: 2 },
-    createdAt: { active: false, number: 3 },
+    type: { active: false, number: 0, asc: true },
+    category: { active: false, number: 1, asc: true },
+    itemName: { active: false, number: 2, asc: true },
+    createdAt: { active: false, number: 3, asc: true },
   },
 };
 const searchSelector = (state: RootState) => {
@@ -189,6 +190,9 @@ const searchSlice = createSlice({
       const { dragItem, dragOverItem, orders } = itemCurrent;
       state.sort[orders[dragItem].sorting].number = dragOverItem;
       state.sort[orders[dragOverItem].sorting].number = dragItem;
+    },
+    checkAsc: (state, { payload: name }) => {
+      state.sort[name].asc = !state.sort[name].asc;
     },
   },
 });

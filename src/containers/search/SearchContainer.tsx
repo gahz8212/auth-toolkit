@@ -24,7 +24,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         { name: '생성일', sorting: 'createdAt' }])
     const onChange = (e: any) => {
         const { name, checked } = e.target;
-        // console.log(name, checked)
+        console.log(name, checked)
         if (name === 'typeALL') {
             dispatch(SearchActions.typeALL(checked))
         } else if (name === 'groupALL') {
@@ -41,6 +41,11 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             dispatch(SearchActions.checkSort(name))
         }
         // dispatch(itemActions.backupItems())
+    }
+    const onCheck = (e: any) => {
+        const { name, checked } = e.target;
+        // console.log(name, checked)
+        dispatch(SearchActions.checkAsc(name))
     }
     const onDragStart = (index: number) => {
         // console.log(index)
@@ -63,11 +68,11 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         setOrders(copyList)
     }
 
-    const onSortChange = (e: any, orders: { name: string, sorting: string }[]) => {
-        const { name, checked } = e.target;
-        // console.log('orders', orders)
-        dispatch(SearchActions.checkSort(name))
-    }
+    // const onSortChange = (e: any, orders: { name: string, sorting: string }[]) => {
+    //     const { name, checked } = e.target;
+    //     // console.log('orders', orders)
+    //     dispatch(SearchActions.checkSort(name))
+    // }
     useEffect(() => {
         if (search) {
             if (search.type.SET && search.type.ASSY && search.type.PARTS) {
@@ -111,25 +116,51 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         const array = search.sort;
         const keys = (Object.keys(array))
         const values = (Object.values(array))
-        let resultSort: { key: string, active: boolean, number: number }[] = []
+        let resultSort: { key: string, active: boolean, number: number, asc: boolean }[] = []
         for (let i = 0; i < keys.length; i++) {
             resultSort.push({ key: keys[i], ...values[i] })
         }
 
-        const orderedSort = (resultSort.sort((a, b) => a.number - b.number)).filter(sort => sort.active).map(sort => sort.key)
+        const orderedSort = (resultSort.sort((a, b) => a.number - b.number))
+            .filter(sort => sort.active)
+            .map(sort => ({ key: sort.key, asc: sort.asc }))
         const result = [...newItems];
-        let i = 0
-        const sortRepeat = (key: string, prev: { [key: string]: string }, next: { [key: string]: string }): number => {
-            if (prev[key] === next[key]) {
-                return sortRepeat(orderedSort[i++], prev, next)
-            }
-            else {
-                return prev[key].localeCompare(next[key])
-            }
-        }
 
-        result.sort((a: { [key: string]: string }, b: { [key: string]: string }) => {
-            return sortRepeat(orderedSort[i], a, b)
+
+
+        result.sort((prev: { [key: string]: string }, next: { [key: string]: string }) => {
+            switch (orderedSort.length) {
+                case 1:
+                    if (orderedSort[0].asc) {
+                        return prev[orderedSort[0].key].localeCompare(next[orderedSort[0].key])
+                    } else {
+                        return next[orderedSort[0].key].localeCompare(prev[orderedSort[0].key])
+
+                    }
+                case 2:
+                    if (orderedSort[1].asc) {
+                        return prev[orderedSort[0].key].localeCompare(next[orderedSort[0].key]) || prev[orderedSort[1].key].localeCompare(next[orderedSort[1].key])
+                    } else {
+                        return next[orderedSort[0].key].localeCompare(prev[orderedSort[0].key]) || next[orderedSort[1].key].localeCompare(prev[orderedSort[1].key])
+                    }
+
+                case 3:
+                    if (orderedSort[2].asc) {
+                        return prev[orderedSort[0].key].localeCompare(next[orderedSort[0].key]) || prev[orderedSort[1].key].localeCompare(next[orderedSort[1].key]) || prev[orderedSort[2].key].localeCompare(next[orderedSort[2].key])
+                    } else {
+                        return next[orderedSort[0].key].localeCompare(prev[orderedSort[0].key]) || next[orderedSort[1].key].localeCompare(prev[orderedSort[1].key]) || next[orderedSort[2].key].localeCompare(prev[orderedSort[2].key])
+
+                    }
+                case 4:
+                    if (orderedSort[2].asc) {
+                        return prev[orderedSort[0].key].localeCompare(next[orderedSort[0].key]) || prev[orderedSort[1].key].localeCompare(next[orderedSort[1].key]) || prev[orderedSort[2].key].localeCompare(next[orderedSort[2].key]) || prev[orderedSort[3].key].localeCompare(next[orderedSort[3].key])
+                    } else {
+                        return next[orderedSort[0].key].localeCompare(next[orderedSort[0].key]) || next[orderedSort[1].key].localeCompare(prev[orderedSort[1].key]) || next[orderedSort[2].key].localeCompare(prev[orderedSort[2].key]) || next[orderedSort[3].key].localeCompare(prev[orderedSort[3].key])
+
+                    }
+                default:
+                    return 0;
+            }
         })
 
 
@@ -152,7 +183,8 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
             <SearchComponent setVisible={setVisible}
                 visible={visible}
                 onChange={onChange}
-                onSortChange={onSortChange}
+                // onSortChange={onSortChange}
+                onCheck={onCheck}
                 search={search}
                 focus={focus}
                 setFocus={setFocus}

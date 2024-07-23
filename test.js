@@ -1,18 +1,8 @@
-let prev = { type: 1, category: 1, name: -1 };
-let next = { type: 1, category: 1, name: -1 };
-let array = ["type", "category", "name"];
-let i = 1;
-
-const func = (arr) => {
-  if (i < 4) {
-    if (prev[arr] === next[arr]) {
-      return func(array[i++]);
-    } else {
-      return prev[arr] + next[arr];
-    }
-  } else {
-    return 0;
-  }
-};
-const result = func("type");
-console.log(result);
+const array = [
+  { id: 1, name: "kim nam jin", age: 49 },
+  { id: 2, name: "choi mi ri", age: 49 },
+  { id: 3, name: "lee jun", age: 49 },
+  { id: 4, name: "park min young", age: 49 },
+];
+const result = array.map((arr) => arr.name.match(/kim/));
+console.log(result[0].index);
