@@ -13,6 +13,18 @@ type State = {
         ex_price: number;
       }[]
     | null;
+  relate_view_horizon:
+    | {
+        [key: string]: number | string;
+        currentId: number;
+        itemName: string;
+        top: number;
+        left: number;
+        point: number;
+        sum_im_price: number;
+        ex_price: number;
+      }[]
+    | null;
   relate_price:
     | {
         currentId: number;
@@ -22,6 +34,7 @@ type State = {
 };
 const initialState: State = {
   relate_view: null,
+  relate_view_horizon: null,
   relate_price: null,
 };
 const viewSelector = (state: RootState) => {
@@ -46,6 +59,10 @@ const relateSlice = createSlice({
     insertRelation_view: (state, { payload: relate }) => {
       // console.log("relate", relate);
       state.relate_view = relate;
+    },
+    insertRelation_view_horizon: (state, { payload: relate }) => {
+      // console.log("relate", relate);
+      state.relate_view_horizon = relate;
     },
     insertRelation_price: (state, { payload: relate }) => {
       state.relate_price = relate;

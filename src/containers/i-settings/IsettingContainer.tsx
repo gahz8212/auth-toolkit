@@ -5,7 +5,7 @@ import { formSelector, formActions } from '../../store/slices/formSlice';
 import IsettingComponent from './IsettingComponent';
 const IsettingContainer = () => {
   const dispatch = useDispatch();
-  const { input, edit, } = useSelector(formSelector)
+  const { input, edit, relate } = useSelector(formSelector)
   // const { search } = useSelector(SearchCondition)
   const openAddForm = () => {
     dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
@@ -17,6 +17,7 @@ const IsettingContainer = () => {
     <IsettingComponent
       input={input}
       edit={edit}
+      relate={relate}
       openAddForm={openAddForm}
       changePosition={changePosition}
 
