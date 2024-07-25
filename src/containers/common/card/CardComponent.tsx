@@ -24,11 +24,12 @@ type Props = {
     dragItem: (id: number) => void;
     onDrop: () => void;
     viewMode: boolean;
-    relations: { UpperId: number; LowerId: number; }[] | null
+    relations: { UpperId: number; LowerId: number; }[] | null;
+    showRelate: (id: number, type: string) => void;
 
 }
 
-const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations }) => {
+const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations, showRelate }) => {
     // console.log('viewMode', viewMode)
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
@@ -46,7 +47,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
         setShows(shows.filter(show => show !== id))
     }
     const checkedItem = (id: number) => {
-
+        console.log(id)
         const visibleIds = relations?.filter(rel => rel.UpperId === id).map(rel => rel.LowerId)
 
         if (viewMode) {
@@ -60,6 +61,10 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
         }
 
     }
+    // const changePosition = (form: string, position: { x: number, y: number }) => {
+    //     dispatch(formActions.changePosition({ form, position }))
+    //   }
+
     return (
         <>
             {viewMode ? <div className="item-list"
@@ -99,9 +104,6 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </span>
                                 </div>
                             </div>
-
-                            {/* <div>{item.id}</div> */}
-                            {/* <div>{item.category}</div> */}
                             <div>{item.itemName}</div>
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
                             {item.type !== 'SET' &&
@@ -134,25 +136,20 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                     ${selected === item.id ? 'selected' : ''} 
                     ${shows.includes(item.id) ? 'back' : ""}
                     ${visibles.includes(item.id) ? 'visible' : ""}
-                    ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`
-
-                            }
-
+                    ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`}
                             draggable
                             onDragStart={() => { onDragStart(item.id) }}
                             onDragEnd={onDrop}
-
                         >
                             <div className={`info text ${item.category} `}>
                                 <div className="footer">
-
                                     <div className="edit">
                                         <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
                                             Edit
                                         </span>
                                     </div>
                                     <div className="check">
-                                        <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id) }}>
+                                        <span className="material-symbols-outlined check" onClick={() => { showRelate(item.id, item.type) }}>
                                             Check
                                         </span>
                                     </div>

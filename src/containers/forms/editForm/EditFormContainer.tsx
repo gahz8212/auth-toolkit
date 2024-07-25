@@ -99,9 +99,7 @@ const EditFormContainer = () => {
             dispatch(editActions.removeCount({ idx, targetId }))
         }
     }
-    const openRelationView = (toggle: boolean) => {
-        dispatch(formActions.toggle_form({ form: 'relate', value: toggle }))
-    }
+
 
     useEffect(() => {
         if (status.message === 'edit_ok' && items) {
@@ -185,7 +183,7 @@ const EditFormContainer = () => {
             drag_on={drag_on} addCount={addCount} removeCount={removeCount}
             dragItems={dragItems}
             relations={relations}
-            openRelationView={openRelationView}
+
             totalPrice={totalPrice}
         // dragItem={dragItem} 
         // onDrop={onDrop}

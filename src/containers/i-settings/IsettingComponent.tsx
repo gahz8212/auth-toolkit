@@ -3,6 +3,7 @@ import { useDrag } from 'react-use-gesture';
 import InputFormContainer from '../forms/inputForm/InputFormContainer';
 import EditFormContainer from "../forms/editForm/EditFormContainer";
 import CardContainer from '../common/card/CardContainer';
+import RelationContainer from '../forms/relationForm/RelationContainer';
 
 type Props = {
 
@@ -47,11 +48,11 @@ const IsettingComponent: React.FC<Props> = ({ input, edit, relate, openAddForm, 
                 </div>
             </div>}
             {relate.visible && <div>
-                <div {...relatePos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 수정</span>
+                <div {...relatePos()} style={{ color: 'black', position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                    <span style={{ color: 'black', display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>하위 아이템</span>
                 </div>
-                <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
-                    {/* <EditFormContainer /> */}
+                <div style={{ position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
+                    <RelationContainer />
                 </div>
             </div>}
             <div style={{ height: '90px' }}></div>

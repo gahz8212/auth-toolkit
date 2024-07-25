@@ -33,20 +33,29 @@ const CardContainer = () => {
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
             const item = items.filter(item => item.id === id);
-            if (typeof id === 'number') {
-                const result = makeRelateData_View(id, relations, items)
-                if (result) {
-
-                    if (!openBasket)
-                        dispatch(relateActions.insertRelation_view(result))
-                }
-            }
+            // if (typeof id === 'number') {
+            //     const result = makeRelateData_View(id, relations, items)
+            //     if (result) {
+            //         if (!openBasket)
+            //             dispatch(relateActions.insertRelation_view(result))
+            //     }
+            // }
             dispatch(editActions.selectItem(item[0]));
             dispatch(formActions.toggle_form({ form: 'edit', value: true }))
         }
     }
 
-
+    const showRelate = (id: number, type: string) => {
+        if (items) {
+            if (typeof id === 'number' && type !== 'PARTS') {
+                const result = makeRelateData_View(id, relations, items)
+                if (result) {
+                    dispatch(relateActions.insertRelation_view(result))
+                }
+                dispatch(formActions.toggle_form({ form: 'relate', value: true }))
+            }
+        }
+    }
     const dragItem = (id: number | '') => {
         const item = items?.filter(item => item.id === id).map(item => (
             {
@@ -71,10 +80,6 @@ const CardContainer = () => {
         dispatch(itemActions.initialDragItem())
         dispatch(editActions.initialDragItem())
     }
-    // useEffect(() => {
-    //     dispatch(itemActions.initForm())
-    //     dispatch(itemActions.getItem())
-    // }, [dispatch])
     return (
         <div>
             <CardComponent
@@ -84,6 +89,7 @@ const CardContainer = () => {
                 onDrop={onDrop}
                 viewMode={false}
                 relations={relations}
+                showRelate={showRelate}
 
             />
         </div>

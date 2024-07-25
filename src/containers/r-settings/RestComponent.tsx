@@ -42,7 +42,7 @@ const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
             <div className="right">
 
-                <CardComponent items={parts} selectItem={selectItem} relations={relations}
+                <CardComponent items={parts} selectItem={selectItem} relations={relations} showRelate={() => undefined}
                     dragItem={dragItem}
                     onDrop={onDrop} viewMode={viewMode} />
             </div>
