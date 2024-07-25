@@ -47,7 +47,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
         setShows(shows.filter(show => show !== id))
     }
     const checkedItem = (id: number) => {
-        console.log(id)
+        // console.log(id)
         const visibleIds = relations?.filter(rel => rel.UpperId === id).map(rel => rel.LowerId)
 
         if (viewMode) {
@@ -94,7 +94,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </span>
                                 </div>
                                 <div className="check">
-                                    <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id) }}>
+                                    <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id); setSelected(item.id) }}>
                                         Check
                                     </span>
                                 </div>
@@ -149,7 +149,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                         </span>
                                     </div>
                                     <div className="check">
-                                        <span className="material-symbols-outlined check" onClick={() => { showRelate(item.id, item.type) }}>
+                                        <span className="material-symbols-outlined check" onClick={() => { showRelate(item.id, item.type); setSelected(item.id) }}>
                                             Check
                                         </span>
                                     </div>
