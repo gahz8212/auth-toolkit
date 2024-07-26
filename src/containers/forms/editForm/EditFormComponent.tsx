@@ -167,7 +167,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
 
                             <div className="item_basket" onDragEnter={() => {
-                                // console.log(dragedItem)
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>
                                 {dragItems && dragItems.map((dragitem) =>

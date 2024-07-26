@@ -67,7 +67,9 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         // console.log('copyList', copyList)
         setOrders(copyList)
     }
-
+    const onSearchTextChange = (e: any) => {
+        dispatch(SearchActions.searchString(e.value))
+    }
     // const onSortChange = (e: any, orders: { name: string, sorting: string }[]) => {
     //     const { name, checked } = e.target;
     //     // console.log('orders', orders)
@@ -192,6 +194,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
                 onDragEnter={onDragEnter}
                 onDrop={onDrop}
                 orders={orders}
+                onSearchTextChange={onSearchTextChange}
             />
         </div>
     );

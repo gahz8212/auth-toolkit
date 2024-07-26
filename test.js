@@ -4,5 +4,9 @@ const array = [
   { id: 3, name: "lee jun", age: 49 },
   { id: 4, name: "park min young", age: 49 },
 ];
-const result = array.map((arr) => arr.name.match(/kim/));
-console.log(result[0].index);
+const search = (type, category) => {
+  const newExp = new RegExp(type);
+  const result = array.filter((arr) => newExp.test(arr[category]));
+  return result;
+};
+console.log(search(/mi\b/, "name"));

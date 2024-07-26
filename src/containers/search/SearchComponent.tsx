@@ -49,10 +49,11 @@ type Props = {
     orders: {
         name: string;
         sorting: string;
-    }[]
+    }[];
+    onSearchTextChange: (e: any) => void
 }
 const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, setFocus, onCheck,
-    onDragStart, onDragEnter, onDrop, orders
+    onDragStart, onDragEnter, onDrop, orders, onSearchTextChange
 }) => {
 
     const inputRef: React.LegacyRef<HTMLInputElement> | undefined = useRef(null);
@@ -60,7 +61,12 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
     return (
         <>
             <div className="nav_base"></div>
-            <form className={`search-container ${visible ? 'visible' : ''}`}>
+            <form className={`search-container ${visible ? 'visible' : ''}`}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    alert(inputRef.current?.value)
+                }}
+            >
                 <div className="input-type">
 
                     <input type="checkbox" name="typeALL" id="all" onChange={onChange} checked={search.all.typeALL === true} />
@@ -129,9 +135,15 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                 <div className={`search ${focus ? 'focus' : ''}`}>
                     <input type="text" className='searchInput'
                         onFocus={() => setFocus(!focus)}
-                        onBlur={() => setFocus(!focus)}
+                        onBlur={() => {
+                            setFocus(!focus);
+
+                        }}
+                        onChange={onSearchTextChange}
                         ref={inputRef}
-                        autoFocus />
+                        autoFocus
+
+                    />
 
                     <span className={`material-symbols-outlined `}
                         onClick={() => inputRef.current?.focus()}
