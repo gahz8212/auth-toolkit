@@ -64,8 +64,11 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
             <form className={`search-container ${visible ? 'visible' : ''}`}
                 onSubmit={(e) => {
                     e.preventDefault();
-                    alert(inputRef.current?.value)
+
                     onSearchTextChange(inputRef.current?.value)
+                    if (inputRef.current) {
+                        inputRef.current.value = ''
+                    }
                 }}
             >
                 <div className="input-type">
@@ -134,16 +137,13 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                 </div>
 
                 <div className={`search ${focus ? 'focus' : ''}`}>
-                    <input type="text" className='searchInput'
+                    <input type="text" className={`searchInput ${focus ? 'focus' : ''}`}
                         onFocus={() => setFocus(!focus)}
                         onBlur={() => {
                             setFocus(!focus);
-
                         }}
-
                         ref={inputRef}
                         autoFocus
-
                     />
 
                     <span className={`material-symbols-outlined `}
