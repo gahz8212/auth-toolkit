@@ -67,8 +67,19 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         // console.log('copyList', copyList)
         setOrders(copyList)
     }
-    const onSearchTextChange = (e: any) => {
-        dispatch(SearchActions.searchString(e.value))
+    const searchString = (search: string) => {
+        const exp = new RegExp(search, "i");
+        console.log(exp);
+        if (items) {
+            const result = items.filter((item) =>
+                exp.test(item.itemName)
+            );
+            dispatch(SearchActions.getFilteredItems(result))
+        }
+    }
+    const onSearchTextChange = (value: string) => {
+        searchString(value)
+
     }
     // const onSortChange = (e: any, orders: { name: string, sorting: string }[]) => {
     //     const { name, checked } = e.target;

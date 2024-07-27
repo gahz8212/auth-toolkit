@@ -195,14 +195,7 @@ const searchSlice = createSlice({
     checkAsc: (state, { payload: name }) => {
       state.sort[name].asc = !state.sort[name].asc;
     },
-    searchString: (state, { payload: searchString }) => {
-      const exp = new RegExp(searchString);
-      if (state.filteredItems) {
-        state.filteredItems = state.filteredItems?.filter((item) =>
-          exp.test(item.itemName)
-        );
-      }
-    },
+  
   },
 });
 export default searchSlice.reducer;

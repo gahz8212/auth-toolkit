@@ -65,6 +65,7 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                 onSubmit={(e) => {
                     e.preventDefault();
                     alert(inputRef.current?.value)
+                    onSearchTextChange(inputRef.current?.value)
                 }}
             >
                 <div className="input-type">
@@ -139,7 +140,7 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
                             setFocus(!focus);
 
                         }}
-                        onChange={onSearchTextChange}
+
                         ref={inputRef}
                         autoFocus
 
