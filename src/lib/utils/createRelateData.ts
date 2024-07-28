@@ -95,7 +95,6 @@ export const makeRelateData_View_Horizon = (
           top = lastTop + 50;
         }
       }
-      console.log("left", left);
       const newItem = {
         currentId: id,
         itemName: searchItemName(id),
@@ -107,7 +106,6 @@ export const makeRelateData_View_Horizon = (
         type: type,
       };
       viewArray.push(newItem);
-
       if (history.length > 0) {
         viewArray.forEach((arr) =>
           history.forEach((his, index) =>
@@ -120,11 +118,8 @@ export const makeRelateData_View_Horizon = (
       }
       if (children.length === 0) {
         lastTop = top > lastTop ? top + 30 : lastTop;
-
         inheritPointArray.pop();
         history.pop();
-        // extraTop = 0;
-        // extraLeft = 0;
         return;
       }
       for (let index = 0; index < children.length; index++) {
@@ -139,6 +134,9 @@ export const makeRelateData_View_Horizon = (
         inheritPoint = children[index].point;
         inheritPointArray.push(inheritPoint);
         extraLeft = index % 3;
+        if (index === 0 && extraLeft === 0) {
+          extraTop = 0;
+        }
         if (index > 0 && extraLeft === 0) {
           extraTop += 1;
         }
@@ -203,6 +201,8 @@ export const makeRelateData_View = (
     // Good: { groupName: string };
   }[]
 ) => {
+  let extraTop = 0;
+  let extraLeft = 0;
   let origin = 15;
   let lastTop = 0;
   let history: number[] = [];
@@ -304,7 +304,6 @@ export const makeRelateData_View = (
         lastTop = top > lastTop ? top + 30 : lastTop;
         inheritPointArray.pop();
         history.pop();
-
         return;
       }
       for (let index = 0; index < children.length; index++) {
@@ -318,13 +317,19 @@ export const makeRelateData_View = (
         }
         inheritPoint = children[index].point;
         inheritPointArray.push(inheritPoint);
-
+        extraLeft = index % 3;
+        if (index === 0 && extraLeft === 0) {
+          extraTop = 0;
+        }
+        if (index > 0 && extraLeft === 0) {
+          extraTop += 1;
+        }
         findChildren(
           children[index].current,
           itemName,
-          children[index].type === "PARTS" ? top : top + 80,
+          children[index].type === "PARTS" ? top + 80 * extraTop : top + 80,
           children[index].type === "PARTS"
-            ? left + 80 * (index + 1)
+            ? left + 80 * (extraLeft + 1)
             : left + 40,
           children[index].im_price,
           children[index].ex_price,
