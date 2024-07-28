@@ -5,7 +5,7 @@ import { itemActions, itemData } from '../../../store/slices/itemSlice';
 import { relateData, relateActions } from '../../../store/slices/relationSlice'
 import { editActions } from '../../../store/slices/editSlice';
 import { formSelector, formActions } from '../../../store/slices/formSlice';
-import { makeRelateData_View } from '../../../lib/utils/createRelateData'
+import { makeRelateData_View, makeRelateData_View_Horizon } from '../../../lib/utils/createRelateData'
 import { SearchActions, SearchData } from '../../../store/slices/searchSlice';
 const CardContainer = () => {
     const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const CardContainer = () => {
     const showRelate = (id: number, type: string) => {
         if (items) {
             if (typeof id === 'number' && type !== 'PARTS') {
-                const result = makeRelateData_View(id, relations, items)
+                const result = makeRelateData_View_Horizon(id, relations, items)
                 if (result) {
                     dispatch(relateActions.insertRelation_view(result))
                 }

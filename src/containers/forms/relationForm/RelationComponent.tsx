@@ -15,9 +15,9 @@ const RelationComponent: React.FC<Props> = ({ relate_view, closeForm }) => {
     // console.log(relate_view)
     return (<div style={{
         padding: '3rem', position: 'relative', backgroundColor: 'yellow'
-        , width: '300px', height: '300px', overflow: 'auto'
+        , width: '300px', height: '300px', overflow: 'auto',
     }}>
-        <button style={{ position: 'absolute', top: '10px', right: '0' }}
+        <button style={{ position: 'absolute', top: '50px', right: '30px' }}
             onClick={() => { closeForm() }}>X</button>
         {relate_view && relate_view.map(view => <div
             key={view.currentId}
@@ -30,7 +30,8 @@ const RelationComponent: React.FC<Props> = ({ relate_view, closeForm }) => {
                 fontSize: '.7rem',
                 width: '70px',
                 height: '70px',
-                marginLeft: '1rem'
+                marginLeft: '1rem',
+
             }}
         >
             <div>{view.itemName}</div>

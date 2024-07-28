@@ -1,5 +1,5 @@
 ///////합산가격과 위치값 계산/////////
-export const makeRelateData_View_horizon = (
+export const makeRelateData_View_Horizon = (
   selectedItem: number,
   relations:
     | {
@@ -15,10 +15,13 @@ export const makeRelateData_View_horizon = (
     im_price: number;
     sum_im_price: number;
     ex_price: number;
-    // type: string;
+    type: string;
   }[]
 ) => {
-  let lastLeft = 0;
+  let extraTop = 0;
+  let extraLeft = 0;
+  let origin = 15;
+  let lastTop = 0;
   let history: number[] = [];
   let viewArray: {
     currentId: number;
@@ -27,7 +30,7 @@ export const makeRelateData_View_horizon = (
     point: number;
     ex_price: number;
     sum_im_price: number;
-    // type: string;
+    type: string;
   }[] = [];
   let inheritPointArray: number[] = [];
   let inheritPoint = 1;
@@ -50,9 +53,9 @@ export const makeRelateData_View_horizon = (
       .filter((item) => item.id === id)
       .map((item) => item.itemName)[0];
   };
-  // const searchType = (id: number) => {
-  //   return items.filter((item) => item.id === id).map((item) => item.type)[0];
-  // };
+  const searchType = (id: number) => {
+    return items.filter((item) => item.id === id).map((item) => item.type)[0];
+  };
   const calculatePoint = (length: number) => {
     let point = 1;
     for (let i = length; i < inheritPointArray.length; i++) {
@@ -67,8 +70,8 @@ export const makeRelateData_View_horizon = (
     left: number,
     im_price: number,
     ex_price: number,
-    inheritPoint: number
-    // type: string
+    inheritPoint: number,
+    type: string
   ) => {
     if (relations) {
       const children = relations
@@ -79,7 +82,7 @@ export const makeRelateData_View_horizon = (
           im_price: searchIm_price(relate.LowerId),
           point: relate.point,
           ex_price: searchEx_price(relate.LowerId),
-          // type: searchType(relate.LowerId),
+          type: searchType(relate.LowerId),
         }));
       children.sort(
         (a, b) =>
@@ -87,10 +90,11 @@ export const makeRelateData_View_horizon = (
           relations.filter((relate) => relate.UpperId === b.current).length
       );
 
-      if (lastLeft >= left) {
-        left = lastLeft + 60;
+      if (type === "ASSY") {
+        if (lastTop >= top) {
+          top = lastTop + 50;
+        }
       }
-
       const newItem = {
         currentId: id,
         itemName: searchItemName(id),
@@ -99,7 +103,7 @@ export const makeRelateData_View_horizon = (
         point: inheritPoint,
         sum_im_price: im_price,
         ex_price: ex_price,
-        // type: type,
+        type: type,
       };
       viewArray.push(newItem);
 
@@ -114,31 +118,39 @@ export const makeRelateData_View_horizon = (
         );
       }
       if (children.length === 0) {
-        lastLeft = top > lastLeft ? top + 30 : lastLeft;
+        lastTop = top > lastTop ? top + 30 : lastTop;
         inheritPointArray.pop();
         history.pop();
+        extraTop = 0;
+        extraLeft = 0;
         return;
       }
       for (let index = 0; index < children.length; index++) {
         if (uppers?.includes(children[index].current)) {
           history = [selectedItem];
           inheritPointArray = [];
+          left = origin;
         }
         if (!history.includes(id)) {
           history.push(id);
         }
         inheritPoint = children[index].point;
         inheritPointArray.push(inheritPoint);
-
+        extraLeft = index % 3;
+        if (extraLeft === 0) {
+          extraTop += 1;
+        }
         findChildren(
           children[index].current,
           itemName,
-          top + 60,
-          left + 60 * index,
+          children[index].type === "PARTS" ? extraTop * top : top + 80,
+          children[index].type === "PARTS"
+            ? left + 80 * (index + 1) + extraLeft * left
+            : left + 40,
           children[index].im_price,
           children[index].ex_price,
-          inheritPoint
-          // children[index].type
+          inheritPoint,
+          children[index].type
         );
       }
     }
@@ -151,8 +163,8 @@ export const makeRelateData_View_horizon = (
       15,
       searchIm_price(selectedItem),
       searchEx_price(selectedItem),
-      inheritPoint
-      // searchType(selectedItem)
+      inheritPoint,
+      searchType(selectedItem)
     );
     return viewArray;
   };
@@ -290,6 +302,7 @@ export const makeRelateData_View = (
         lastTop = top > lastTop ? top + 30 : lastTop;
         inheritPointArray.pop();
         history.pop();
+
         return;
       }
       for (let index = 0; index < children.length; index++) {
