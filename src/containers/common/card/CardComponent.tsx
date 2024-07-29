@@ -25,15 +25,18 @@ type Props = {
     onDrop: () => void;
     viewMode: boolean;
     relations: { UpperId: number; LowerId: number; }[] | null;
-    showRelate: (id: number, type: string) => void;
+    showRelate: (id: number, type: string, event: any, visible: boolean) => void;
+    totalPrice: { [key: number]: number } | undefined;
 
 }
 
-const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations, showRelate }) => {
+const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations, showRelate, totalPrice }) => {
     // console.log('viewMode', viewMode)
+    // console.log('totalPrice',totalPrice)
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
     const [visibles, setVisibles] = useState<number[]>([])
+    const [relateVisible, setRelateVisible] = useState(false)
     const onDragStart = (index: number) => {
         dragItem(index);
     }
@@ -149,7 +152,10 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                         </span>
                                     </div>
                                     <div className="check">
-                                        <span className="material-symbols-outlined check" onClick={() => { showRelate(item.id, item.type); setSelected(item.id) }}>
+                                        <span className="material-symbols-outlined check" onClick={(e: any) => {
+                                            setRelateVisible(!relateVisible)
+                                            showRelate(item.id, item.type, e, relateVisible); setSelected(item.id)
+                                        }}>
                                             Check
                                         </span>
                                     </div>
@@ -160,11 +166,13 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </div>
                                 </div>
 
-                                <div>{item.id}</div>
-                                <div>{item.category}</div>
+                                {/* <div>{item.id}</div> */}
+                                {/* <div>{item.category}</div> */}
                                 <div>{item.itemName}</div>
-                                <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>
-                                <div>${item.ex_price}</div>
+
+                                <div> {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
+                                {item.im_price > 0 && <div>\{item.im_price}</div>}
+                                {item.ex_price > 0 && <div>${item.ex_price}</div>}
 
 
                             </div>

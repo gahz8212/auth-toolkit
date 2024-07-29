@@ -10,8 +10,9 @@ import { SearchActions, SearchData } from '../../../store/slices/searchSlice';
 const CardContainer = () => {
     const dispatch = useDispatch();
     const { items, status, relations } = useSelector(itemData);
-    const { search } = useSelector(SearchData)
-    const [openBasket, setOpenBasket] = useState(false)
+    const { search } = useSelector(SearchData);
+    const { totalPrice } = useSelector(relateData)
+
 
 
     const selectItem = (id: number | '') => {
@@ -33,26 +34,28 @@ const CardContainer = () => {
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
             const item = items.filter(item => item.id === id);
-            // if (typeof id === 'number') {
-            //     const result = makeRelateData_View(id, relations, items)
-            //     if (result) {
-            //         if (!openBasket)
-            //             dispatch(relateActions.insertRelation_view(result))
-            //     }
-            // }
             dispatch(editActions.selectItem(item[0]));
             dispatch(formActions.toggle_form({ form: 'edit', value: true }))
         }
     }
+    const showRelate = (id: number, type: string, event: any, visible: boolean) => {
 
-    const showRelate = (id: number, type: string) => {
         if (items) {
             if (typeof id === 'number' && type !== 'PARTS') {
                 const result = makeRelateData_View_Horizon(id, relations, items)
                 if (result) {
                     dispatch(relateActions.insertRelation_view(result))
                 }
-                dispatch(formActions.toggle_form({ form: 'relate', value: true }))
+                dispatch(formActions.toggle_form({ form: 'relate', value: visible }))
+                dispatch(formActions.changePosition({
+                    form: 'relate',
+                    position: {
+                        x:
+                            event.clientX >= 1200 ? event.clientX - 220 : event.clientX <= 200 ? event.clientX + 80 : event.clientX,
+
+                        y: event.clientY
+                    }
+                }))
             }
         }
     }
@@ -90,6 +93,7 @@ const CardContainer = () => {
                 viewMode={false}
                 relations={relations}
                 showRelate={showRelate}
+                totalPrice={totalPrice}
 
             />
         </div>

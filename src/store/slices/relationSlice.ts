@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
+  totalPrice: { [key: number]: number } | undefined;
   relate_view:
     | {
         [key: string]: number | string;
@@ -33,6 +34,7 @@ type State = {
     | null;
 };
 const initialState: State = {
+  totalPrice: undefined,
   relate_view: null,
   relate_view_horizon: null,
   relate_price: null,
@@ -43,10 +45,18 @@ const viewSelector = (state: RootState) => {
 const priceSelector = (state: RootState) => {
   return state.relate.relate_price;
 };
+const totalPriceSelector = (state: RootState) => {
+  return state.relate.totalPrice;
+};
 export const relateData = createSelector(
   viewSelector,
   priceSelector,
-  (relate_view, relate_price) => ({ relate_view, relate_price })
+  totalPriceSelector,
+  (relate_view, relate_price, totalPrice) => ({
+    relate_view,
+    relate_price,
+    totalPrice,
+  })
 );
 const relateSlice = createSlice({
   name: "relate",
@@ -75,6 +85,9 @@ const relateSlice = createSlice({
       if (state.relate_view) {
         state.relate_view[idx].point -= 1;
       }
+    },
+    calculateTotalPrice: (state, { payload: totalPrice }) => {
+      state.totalPrice = totalPrice;
     },
   },
 });

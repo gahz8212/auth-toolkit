@@ -317,7 +317,7 @@ export const makeRelateData_View = (
         }
         inheritPoint = children[index].point;
         inheritPointArray.push(inheritPoint);
-        extraLeft = index % 3;
+        extraLeft = index % 8;
         if (index === 0 && extraLeft === 0) {
           extraTop = 0;
         }

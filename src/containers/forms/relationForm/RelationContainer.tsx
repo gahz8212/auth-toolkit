@@ -15,10 +15,7 @@ const RelationContainer = () => {
         sum_im_price: number;
         ex_price: number;
     }[] | null>(relate_view)
-    const closeForm = () => {
 
-        dispatch(formActions.toggle_form({ form: 'relate', value: false }))
-    }
     useEffect(() => {
         if (relate_view) {
             const newItems = [...relate_view]
@@ -28,7 +25,7 @@ const RelationContainer = () => {
     }, [relate_view])
     return (
         <div>
-            <RelationComponent relate_view={onlyParts} closeForm={closeForm} />
+            <RelationComponent relate_view={onlyParts} />
         </div>
     );
 };

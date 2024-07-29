@@ -26,11 +26,12 @@ type Props = {
     dragItem: (id: number) => void;
     onDrop: () => void;
     viewMode: boolean;
-    relations: { UpperId: number; LowerId: number; }[] | null
+    relations: { UpperId: number; LowerId: number; }[] | null;
+    totalPrice: { [key: number]: number } | undefined;
 
 
 }
-const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations }) => {
+const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations, totalPrice }) => {
     if (items) {
         let parts;
         if (viewMode) {
@@ -44,7 +45,8 @@ const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
                 <CardComponent items={parts} selectItem={selectItem} relations={relations} showRelate={() => undefined}
                     dragItem={dragItem}
-                    onDrop={onDrop} viewMode={viewMode} />
+                    onDrop={onDrop} viewMode={viewMode}
+                    totalPrice={totalPrice} />
             </div>
 
         );

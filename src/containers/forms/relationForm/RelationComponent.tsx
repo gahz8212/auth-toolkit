@@ -9,16 +9,15 @@ type Props = {
         sum_im_price: number;
         ex_price: number;
     }[] | null;
-    closeForm: () => void
+
 }
-const RelationComponent: React.FC<Props> = ({ relate_view, closeForm }) => {
+const RelationComponent: React.FC<Props> = ({ relate_view, }) => {
     // console.log(relate_view)
     return (<div style={{
         padding: '3rem', position: 'relative', backgroundColor: 'yellow'
         , width: '300px', height: '300px', overflow: 'auto',
     }}>
-        <button style={{ position: 'absolute', top: '50px', right: '30px' }}
-            onClick={() => { closeForm() }}>X</button>
+
         {relate_view && relate_view.map(view => <div
             key={view.currentId}
             style={{

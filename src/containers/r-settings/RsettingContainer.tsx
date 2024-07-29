@@ -192,12 +192,8 @@ const RsettingContainer = () => {
             dispatch(itemActions.viewMatrix(newItem))
         } else {
             dispatch(itemActions.backupItems())
-
-
         }
     }
-
-
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -240,8 +236,9 @@ const RsettingContainer = () => {
                 }
                 return acc;
             }, {})
-            console.log('result', result)
+            // console.log('result', result)
             setTotalPrice(result)
+            dispatch(relateActions.calculateTotalPrice(result))
         }
     }, [dragItems])
 

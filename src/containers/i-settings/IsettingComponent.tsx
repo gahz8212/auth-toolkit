@@ -14,13 +14,15 @@ type Props = {
     openAddForm: () => void;
 
 
+
 }
 
 const IsettingComponent: React.FC<Props> = ({ input, edit, relate, openAddForm, changePosition }) => {
 
+
     const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
-    const relatePos = useDrag(params => { changePosition('relate', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+    // const relatePos = useDrag(params => { changePosition('relate', { x: params.offset[0] + xy.x, y: params.offset[1] + xy.y }) })
 
 
 
@@ -47,21 +49,16 @@ const IsettingComponent: React.FC<Props> = ({ input, edit, relate, openAddForm, 
                     <EditFormContainer />
                 </div>
             </div>}
-            {relate.visible && <div>
-                <div {...relatePos()} style={{ color: 'black', position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+            {relate.visible && <div style={{ position: 'fixed', top: relate.position.y + 40, left: relate.position.x - 130, zIndex: 1 }}>
+                {/* <div {...relatePos()} style={{ color: 'black', position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
                     <span style={{ color: 'black', display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>하위 아이템</span>
                 </div>
-                <div style={{ position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
-                    <RelationContainer />
-                </div>
+                <div style={{ , top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
+                </div> */}
+                <RelationContainer />
             </div>}
             <div style={{ height: '90px' }}></div>
-
-
-
-
             <CardContainer />
-
             <span onClick={openAddForm} className="material-symbols-outlined write">
                 edit_document
             </span>

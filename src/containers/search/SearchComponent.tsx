@@ -75,14 +75,12 @@ const SearchComponent: React.FC<Props> = ({ visible, onChange, search, focus, se
 
                     <input type="checkbox" name="typeALL" id="all" onChange={onChange} checked={search.all.typeALL === true} />
                     <label htmlFor="all">전체</label>
-
                     <input type="checkbox" name="SET" id="type-SET" onChange={onChange} checked={search.type.SET === true} />
                     <label htmlFor="type-SET">SET</label>
                     <input type="checkbox" name="ASSY" id="type-ASSY" onChange={onChange} checked={search.type.ASSY === true} />
                     <label htmlFor="type-ASSY">ASSY</label>
                     <input type="checkbox" name="PARTS" id="type-PARTS" onChange={onChange} checked={search.type.PARTS === true} />
                     <label htmlFor="type-PARTS">PARTS</label>
-
                 </div>
                 {(search.type.PARTS || search.type.ASSY) || (search.type.SET && <div className="input-set">
 
