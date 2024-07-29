@@ -65,13 +65,13 @@ type Props = {
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
-    openRelationView: (toggle: boolean) => void;
+  
     totalPrice: number;
     // dragItem: (id: number) => void;
     // onDrop: () => void;
 }
 const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType,
-    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations, openRelationView, totalPrice }) => {
+    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations,  totalPrice }) => {
     const [openViewer, setOpenViewer] = useState<boolean>(true);
 
 
@@ -109,7 +109,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
             }
             >
                 <div className={`form-category ${next.category}`}>
-                    {/* <div className='form-title edit'>아이템 수정</div> */}
+
                     <div className="selection">
                         <div className='main'>
                             <input type="radio" id="제품_edit" name="type" value="SET"
@@ -167,7 +167,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
 
                             <div className="item_basket" onDragEnter={() => {
-                                console.log(dragedItem)
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>
                                 {dragItems && dragItems.map((dragitem) =>
@@ -266,10 +265,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <textarea name="descript" value={next.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                                 </div>
                             </div>
-                            <button type="button" onClick={() => {
-                                openRelationView(openViewer);
-                                setOpenViewer(!openViewer)
-                            }}>연결보기</button>
+                           
                             <div className="item_basket" onDragEnter={() => {
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>

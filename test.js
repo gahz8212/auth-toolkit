@@ -1,21 +1,8 @@
-const objs = [
-  { id: 1, value: 100 },
-  { id: 2, value: 100 },
-  { id: 3, value: 100 },
-  { id: 1, value: 100 },
-  { id: 2, value: 100 },
-  { id: 1, value: 100 },
-  { id: 1, value: 100 },
-  { id: 1, value: 100 },
-
-  { id: 1, value: 100 },
-];
-const result = objs.reduce((acc, curr) => {
-  if (acc[curr.id]) {
-    acc[curr.id] += curr.value;
-  } else {
-    acc[curr.id] = curr.value;
+let extraTop = 0;
+for (let i = 0; i < 20; i++) {
+  const extraLeft = i % 3;
+  if (extraLeft === 0) {
+    extraTop += 1;
   }
-  return acc;
-}, {});
-console.log(result);
+  console.log(extraLeft, extraTop);
+}

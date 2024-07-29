@@ -7,10 +7,23 @@
   background: white;
   z-index: 1;
   min-width: 30%;
-
+  .sort {
+    display: flex;
+  }
   .search {
     position: relative;
     height: 30px;
+    width: 100px;
+    &:hover {
+      .searchInput {
+        border-color: green;
+        width: 200px;
+      }
+      & .material-symbols-outlined {
+        opacity: 0;
+        transform: translateX(170px);
+      }
+    }
     .searchInput {
       height: inherit;
       font-size: 1.125rem;
@@ -20,10 +33,13 @@
       border: none;
       border-bottom: 3px solid green;
       transition: 1s;
-      &:focus {
-        border-color: green;
+      &.focus {
         width: 200px;
       }
+    }
+    &.focus .material-symbols-outlined {
+      opacity: 0;
+      transform: translateX(170px);
     }
     & .material-symbols-outlined {
       position: absolute;
@@ -39,9 +55,5 @@
       opacity: 1;
       user-select: none;
     }
-  }
-  .search.focus .material-symbols-outlined {
-    opacity: 0;
-    transform: translateX(170px);
   }
 }

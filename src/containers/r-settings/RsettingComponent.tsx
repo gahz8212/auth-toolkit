@@ -5,7 +5,11 @@ import InputFormContainer from '../forms/inputForm/InputFormContainer';
 import EditFormContainer from "../forms/editForm/EditFormContainer";
 import LeftComponent from './LeftComponent';
 import RestComponent from './RestComponent';
+<<<<<<< HEAD
 import RViewComponent from '../i-settings/I_settingComponent';
+=======
+// import RViewComponent from '../i-settings/IsettingComponent';
+>>>>>>> search
 
 
 type Props = {
@@ -82,7 +86,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
                 </div>
                 <div style={{ position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
 
-                    <RViewComponent topMargin='3rem' relate_view={relate_view} />
+                    {/* <RViewComponent  /> */}
                 </div>
             </div>}
             {input.visible && <div >
@@ -106,7 +110,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
                 <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation} selectItem={selectItem}
                     addRelateGood={addRelateGood} relations={relations} inputDragItems={inputDragItems} changeView={changeView}
                     setOpenBasket={setOpenBasket} totalPrice={totalPrice} insertRelation_view={insertRelation_view} />
-                <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} viewMode={viewMode} relations={relations} />
+                <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} viewMode={viewMode} relations={relations} totalPrice={totalPrice} />
             </div>
         </div >
     );

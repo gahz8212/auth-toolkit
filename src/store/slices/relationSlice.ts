@@ -1,7 +1,20 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 type State = {
+  totalPrice: { [key: number]: number } | undefined;
   relate_view:
+    | {
+        [key: string]: number | string;
+        currentId: number;
+        itemName: string;
+        top: number;
+        left: number;
+        point: number;
+        sum_im_price: number;
+        ex_price: number;
+      }[]
+    | null;
+  relate_view_horizon:
     | {
         [key: string]: number | string;
         currentId: number;
@@ -21,7 +34,9 @@ type State = {
     | null;
 };
 const initialState: State = {
+  totalPrice: undefined,
   relate_view: null,
+  relate_view_horizon: null,
   relate_price: null,
 };
 const viewSelector = (state: RootState) => {
@@ -30,10 +45,18 @@ const viewSelector = (state: RootState) => {
 const priceSelector = (state: RootState) => {
   return state.relate.relate_price;
 };
+const totalPriceSelector = (state: RootState) => {
+  return state.relate.totalPrice;
+};
 export const relateData = createSelector(
   viewSelector,
   priceSelector,
-  (relate_view, relate_price) => ({ relate_view, relate_price })
+  totalPriceSelector,
+  (relate_view, relate_price, totalPrice) => ({
+    relate_view,
+    relate_price,
+    totalPrice,
+  })
 );
 const relateSlice = createSlice({
   name: "relate",
@@ -47,6 +70,10 @@ const relateSlice = createSlice({
       // console.log("relate", relate);
       state.relate_view = relate;
     },
+    insertRelation_view_horizon: (state, { payload: relate }) => {
+      // console.log("relate", relate);
+      state.relate_view_horizon = relate;
+    },
     insertRelation_price: (state, { payload: relate }) => {
       state.relate_price = relate;
     },
@@ -58,6 +85,9 @@ const relateSlice = createSlice({
       if (state.relate_view) {
         state.relate_view[idx].point -= 1;
       }
+    },
+    calculateTotalPrice: (state, { payload: totalPrice }) => {
+      state.totalPrice = totalPrice;
     },
   },
 });

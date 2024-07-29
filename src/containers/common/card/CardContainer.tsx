@@ -5,15 +5,17 @@ import { itemActions, itemData } from '../../../store/slices/itemSlice';
 import { relateData, relateActions } from '../../../store/slices/relationSlice'
 import { editActions } from '../../../store/slices/editSlice';
 import { formSelector, formActions } from '../../../store/slices/formSlice';
-import { makeRelateData_View } from '../../../lib/utils/createRelateData'
+import { makeRelateData_View, makeRelateData_View_Horizon } from '../../../lib/utils/createRelateData'
+import { SearchActions, SearchData } from '../../../store/slices/searchSlice';
 const CardContainer = () => {
     const dispatch = useDispatch();
     const { items, status, relations } = useSelector(itemData);
-    const [openBasket, setOpenBasket] = useState(false)
+    const { search } = useSelector(SearchData);
+    const { totalPrice } = useSelector(relateData)
+
 
 
     const selectItem = (id: number | '') => {
-
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
@@ -32,20 +34,31 @@ const CardContainer = () => {
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
             const item = items.filter(item => item.id === id);
-            if (typeof id === 'number') {
-                const result = makeRelateData_View(id, relations, items)
-                if (result) {
-
-                    if (!openBasket)
-                        dispatch(relateActions.insertRelation_view(result))
-                }
-            }
             dispatch(editActions.selectItem(item[0]));
             dispatch(formActions.toggle_form({ form: 'edit', value: true }))
         }
     }
+    const showRelate = (id: number, type: string, event: any, visible: boolean) => {
 
+        if (items) {
+            if (typeof id === 'number' && type !== 'PARTS') {
+                const result = makeRelateData_View_Horizon(id, relations, items)
+                if (result) {
+                    dispatch(relateActions.insertRelation_view(result))
+                }
+                dispatch(formActions.toggle_form({ form: 'relate', value: visible }))
+                dispatch(formActions.changePosition({
+                    form: 'relate',
+                    position: {
+                        x:
+                            event.clientX >= 1200 ? event.clientX - 220 : event.clientX <= 200 ? event.clientX + 80 : event.clientX,
 
+                        y: event.clientY
+                    }
+                }))
+            }
+        }
+    }
     const dragItem = (id: number | '') => {
         const item = items?.filter(item => item.id === id).map(item => (
             {
@@ -70,19 +83,17 @@ const CardContainer = () => {
         dispatch(itemActions.initialDragItem())
         dispatch(editActions.initialDragItem())
     }
-    // useEffect(() => {
-    //     dispatch(itemActions.initForm())
-    //     dispatch(itemActions.getItem())
-    // }, [dispatch])
     return (
         <div>
             <CardComponent
-                items={items}
+                items={search.filteredItems}
                 selectItem={selectItem}
                 dragItem={dragItem}
                 onDrop={onDrop}
                 viewMode={false}
                 relations={relations}
+                showRelate={showRelate}
+                totalPrice={totalPrice}
 
             />
         </div>
