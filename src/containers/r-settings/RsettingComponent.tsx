@@ -5,11 +5,7 @@ import InputFormContainer from '../forms/inputForm/InputFormContainer';
 import EditFormContainer from "../forms/editForm/EditFormContainer";
 import LeftComponent from './LeftComponent';
 import RestComponent from './RestComponent';
-<<<<<<< HEAD
 import RViewComponent from '../i-settings/I_settingComponent';
-=======
-// import RViewComponent from '../i-settings/IsettingComponent';
->>>>>>> search
 
 
 type Props = {
