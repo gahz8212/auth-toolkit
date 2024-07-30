@@ -14,11 +14,11 @@ const RsettingContainer = () => {
     const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
     const { status } = useSelector(editData);
-    const { relate_view } = useSelector(relateData);
+    const { relate_view, totalPrice } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [viewMode, setViewMode] = useState(false)
     const [openBasket, setOpenBasket] = useState(false)
-    const [totalPrice, setTotalPrice] = useState<{ [key: number]: number }>({})
+    const [totalPriceObject, setTotalPrice] = useState<{ [key: number]: number }>({})
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -165,17 +165,12 @@ const RsettingContainer = () => {
             setSelectedGoodId(item.id)
             // console.log(item.id)
             // insertRelation_view(item.id)
-
         }
-
-
     }
     const changeView = (toggle: boolean) => {
         setViewMode(toggle)
         if (toggle) {
-
             let newItem: {}[] = [];
-
             relate_view?.map(view => items?.map(item => {
                 if (item.id === view.currentId) {
                     newItem.push({
@@ -200,7 +195,6 @@ const RsettingContainer = () => {
         dispatch(itemActions.getItem())
         dispatch(relateActions.initRelate())
     }, [dispatch])
-
     useEffect(() => {
         if (status.message === 'good_ok') {
             if (items) {
@@ -211,37 +205,6 @@ const RsettingContainer = () => {
             }
         }
     }, [dispatch, status.message, selectedGoodId, items, relations])
-
-    useEffect(() => {
-        if (dragItems) {
-            const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
-                if (curr.type === 'SET' || curr.type === 'ASSY') {
-                    if (items) {
-                        const view = makeRelateData_Price(curr.id, relations, items)
-                        const price = view[0].sum_im_price * curr.point;
-                        if (acc[curr.targetId]) {
-                            acc[curr.targetId] = price + acc[curr.targetId]
-                        } else {
-                            acc[curr.targetId] = price
-
-                        }
-                    }
-                } else {
-                    if (acc[curr.targetId]) {
-                        acc[curr.targetId] += curr.im_price * curr.point
-                    } else {
-                        acc[curr.targetId] = curr.im_price * curr.point
-                    }
-
-                }
-                return acc;
-            }, {})
-            // console.log('result', result)
-            setTotalPrice(result)
-            dispatch(relateActions.calculateTotalPrice(result))
-        }
-    }, [dragItems])
-
     useEffect(() => {
         let newArray: { [key: string]: number | string }[] = [];
         relations?.filter(relation => items?.filter(item => {
@@ -257,13 +220,18 @@ const RsettingContainer = () => {
         // console.log('newArray', newArray)
         inputDragItems(newArray)
     }, [])
+    useEffect(() => {
+        if (totalPrice) {
+            setTotalPrice(totalPrice)
+        }
+    }, [totalPrice])
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
-            inputDragItems={inputDragItems} changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
-            totalPrice={totalPrice}
+            changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
+            totalPrice={totalPriceObject}
             insertRelation_view={insertRelation_view} />
     );
 };

@@ -27,14 +27,14 @@ type Props = {
         LowerId: number;
         point: number;
     }[] | null;
-    inputDragItems: (dragItems: {}[], selectedItem: number) => void;
+
     changeView: (toggle: boolean) => void;
     selectItem: (id: number) => void;
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
     totalPrice: { [key: number]: number };
     insertRelation_view: (id: number) => void;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, inputDragItems, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     // console.log(totalPrice)

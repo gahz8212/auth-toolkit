@@ -57,8 +57,8 @@ const IsettingComponent: React.FC<Props> = ({ input, edit, relate, openAddForm, 
                 </div> */}
                 <RelationContainer />
             </div>}
-            <div style={{ height: '90px' }}></div>
             <CardContainer />
+            <div style={{ height: '90px' }}></div>
             <span onClick={openAddForm} className="material-symbols-outlined write">
                 edit_document
             </span>
