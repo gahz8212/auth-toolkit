@@ -10,9 +10,9 @@ const HomeContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
 
-    const inputDragItems = (dragItems: {}[],) => {
-        dispatch(itemActions.inputDragItems(dragItems))
-    }
+    // const inputDragItems = (dragItems: {}[],) => {
+    //     dispatch(itemActions.inputDragItems(dragItems))
+    // }
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -32,7 +32,8 @@ const HomeContainer = () => {
         }))
 
         // console.log('newArray', newArray)
-        inputDragItems(newArray)
+        // inputDragItems(newArray)
+        dispatch(itemActions.inputDragItems(newArray))
     }, [])
     useEffect(() => {
         if (dragItems) {

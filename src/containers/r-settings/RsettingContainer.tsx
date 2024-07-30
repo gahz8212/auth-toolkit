@@ -218,7 +218,8 @@ const RsettingContainer = () => {
         }))
 
         // console.log('newArray', newArray)
-        inputDragItems(newArray)
+        // inputDragItems(newArray)
+        dispatch(itemActions.inputDragItems(newArray))
     }, [])
     useEffect(() => {
         if (totalPrice) {
