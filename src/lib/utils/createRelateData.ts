@@ -99,7 +99,7 @@ export const makeRelateData_View_Horizon = (
       const newItem = {
         currentId: id,
         itemName: searchItemName(id),
-        top: top - 80,
+        top: type === "ASSY" ? top - 80 : top,
         left: left,
         point: inheritPoint,
         sum_im_price: im_price,
