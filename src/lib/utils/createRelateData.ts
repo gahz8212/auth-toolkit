@@ -91,6 +91,7 @@ export const makeRelateData_View_Horizon = (
       );
 
       if (type === "ASSY") {
+        console.log("lastTop", lastTop, "top", top);
         if (lastTop >= top) {
           top = lastTop + 50;
         }
@@ -98,7 +99,7 @@ export const makeRelateData_View_Horizon = (
       const newItem = {
         currentId: id,
         itemName: searchItemName(id),
-        top: top,
+        top: top - 80,
         left: left,
         point: inheritPoint,
         sum_im_price: im_price,

@@ -18,6 +18,7 @@ type State = {
     | {
         [key: string]: number | string;
         currentId: number;
+        type: string;
         itemName: string;
         top: number;
         left: number;
@@ -42,6 +43,9 @@ const initialState: State = {
 const viewSelector = (state: RootState) => {
   return state.relate.relate_view;
 };
+const viewHorizonSelector = (state: RootState) => {
+  return state.relate.relate_view_horizon;
+};
 const priceSelector = (state: RootState) => {
   return state.relate.relate_price;
 };
@@ -50,10 +54,12 @@ const totalPriceSelector = (state: RootState) => {
 };
 export const relateData = createSelector(
   viewSelector,
+  viewHorizonSelector,
   priceSelector,
   totalPriceSelector,
-  (relate_view, relate_price, totalPrice) => ({
+  (relate_view, relate_view_horizon, relate_price, totalPrice) => ({
     relate_view,
+    relate_view_horizon,
     relate_price,
     totalPrice,
   })
@@ -77,10 +83,10 @@ const relateSlice = createSlice({
     insertRelation_price: (state, { payload: relate }) => {
       state.relate_price = relate;
     },
-    addCountRelateView: (state, { payload: itemId }) => {
-      if (state.relate_view) {
-      }
-    },
+    // addCountRelateView: (state, { payload: itemId }) => {
+    //   if (state.relate_view) {
+    //   }
+    // },
     removeCountRelateView: (state, { payload: idx }) => {
       if (state.relate_view) {
         state.relate_view[idx].point -= 1;

@@ -2,6 +2,7 @@ import React from 'react';
 type Props = {
     relate_view: {
         currentId: number;
+        type: string;
         itemName: string;
         top: number;
         left: number;

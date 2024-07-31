@@ -154,7 +154,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     <div className="check">
                                         <span className="material-symbols-outlined check" onClick={(e: any) => {
                                             setRelateVisible(!relateVisible)
-                                            showRelate(item.id, item.type, e, relateVisible); setSelected(item.id)
+                                            showRelate(item.id, item.type, e, relateVisible);
+                                            setSelected(item.id)
                                         }}>
                                             Check
                                         </span>
@@ -168,6 +169,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
                                 {/* <div>{item.id}</div> */}
                                 {/* <div>{item.category}</div> */}
+
                                 <div>{item.itemName}</div>
 
                                 <div> {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>

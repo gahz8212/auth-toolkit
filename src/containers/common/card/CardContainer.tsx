@@ -39,12 +39,11 @@ const CardContainer = () => {
         }
     }
     const showRelate = (id: number, type: string, event: any, visible: boolean) => {
-
         if (items) {
             if (typeof id === 'number' && type !== 'PARTS') {
                 const result = makeRelateData_View_Horizon(id, relations, items)
                 if (result) {
-                    dispatch(relateActions.insertRelation_view(result))
+                    dispatch(relateActions.insertRelation_view_horizon(result))
                 }
                 dispatch(formActions.toggle_form({ form: 'relate', value: visible }))
                 dispatch(formActions.changePosition({
