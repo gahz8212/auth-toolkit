@@ -51,7 +51,6 @@ const CardContainer = () => {
                     position: {
                         x:
                             event.clientX >= 1200 ? event.clientX - 220 : event.clientX <= 200 ? event.clientX + 80 : event.clientX,
-
                         y: event.clientY
                     }
                 }))
@@ -82,6 +81,7 @@ const CardContainer = () => {
         dispatch(itemActions.initialDragItem())
         dispatch(editActions.initialDragItem())
     }
+   
     return (
         <div>
             <CardComponent

@@ -167,7 +167,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </div>
                                 </div>
 
-                                {/* <div>{item.id}</div> */}
+                                <div>{item.id}</div>
                                 {/* <div>{item.category}</div> */}
 
                                 <div>{item.itemName}</div>

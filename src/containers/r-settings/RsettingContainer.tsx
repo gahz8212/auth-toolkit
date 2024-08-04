@@ -217,8 +217,6 @@ const RsettingContainer = () => {
             } else { return null }
         }))
 
-        // console.log('newArray', newArray)
-        // inputDragItems(newArray)
         dispatch(itemActions.inputDragItems(newArray))
     }, [])
     useEffect(() => {

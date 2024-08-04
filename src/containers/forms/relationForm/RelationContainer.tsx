@@ -21,7 +21,7 @@ const RelationContainer = () => {
     useEffect(() => {
         if (relate_view_horizon) {
             const newItems = [...relate_view_horizon]
-            newItems.splice(0, 1)
+            // newItems.splice(0, 1)
             setOnlyParts(newItems)
         }
     }, [relate_view_horizon])

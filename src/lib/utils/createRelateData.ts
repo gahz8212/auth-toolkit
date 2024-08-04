@@ -91,15 +91,15 @@ export const makeRelateData_View_Horizon = (
       );
 
       if (type === "ASSY") {
-        console.log("lastTop", lastTop, "top", top);
         if (lastTop >= top) {
           top = lastTop + 50;
         }
       }
+
       const newItem = {
         currentId: id,
         itemName: searchItemName(id),
-        top: type === "ASSY" ? top - 80 : top,
+        top: top,
         left: left,
         point: inheritPoint,
         sum_im_price: im_price,
@@ -371,20 +371,6 @@ export const makeRelateData_Price = (
     unit: string;
     im_price: number;
     sum_im_price: number;
-    // type: string;
-    // groupType: string;
-    // category: string;
-    // itemName: string;
-    // descript: string;
-    // ex_price: number;
-    // use: boolean;
-    // supplyer: string;
-    // weight: number;
-    // cbm: number;
-    // moq: number;
-    // set: boolean;
-    // Images: { url: string }[];
-    // Good: { groupName: string };
   }[]
 ) => {
   let history: number[] = [];
@@ -404,20 +390,11 @@ export const makeRelateData_Price = (
       .filter((item) => item.id === id)
       .map((item) => item.im_price)[0];
   };
-  // const searchEx_price = (id: number) => {
-  //   return items
-  //     .filter((item) => item.id === id)
-  //     .map((item) => item.ex_price)[0];
-  // };
-  // const searchItemName = (id: number) => {
-  //   return items
-  //     .filter((item) => item.id === id)
-  //     .map((item) => item.itemName)[0];
-  // };
+
   const calculatePoint = (length: number) => {
     let point = 1;
     for (let i = length; i < inheritPointArray.length; i++) {
-      point = inheritPointArray[i];
+      point = inheritPointArray[i] * point;
     }
     return point;
   };
@@ -436,14 +413,12 @@ export const makeRelateData_Price = (
           im_price: searchIm_price(relate.LowerId),
           point: relate.point,
         }));
-      // itemName: searchItemName(relate.LowerId),
-      // ex_price: searchEx_price(relate.LowerId),
-      // children.sort(
-      //   (a, b) =>
-      //     relations.filter((relate) => relate.UpperId === a.current).length -
-      //     relations.filter((relate) => relate.UpperId === b.current).length
-      // );
-      // console.log(children);
+
+      children.sort(
+        (a, b) =>
+          relations.filter((relate) => relate.UpperId === a.current).length -
+          relations.filter((relate) => relate.UpperId === b.current).length
+      );
 
       const newItem = {
         currentId: id,
@@ -453,7 +428,6 @@ export const makeRelateData_Price = (
         // ex_price: ex_price,
       };
       priceArray.push(newItem);
-
       if (history.length > 0) {
         priceArray.forEach((arr) =>
           history.forEach((his, index) =>

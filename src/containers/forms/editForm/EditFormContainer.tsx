@@ -125,11 +125,12 @@ const EditFormContainer = () => {
                 // console.log('newRelations', newRelations)
                 if (createdRelations && newRelations) {
                     // console.log('updateRelations', [...createdRelations, ...newRelations])
-                    dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
+                    dispatch(itemActions.updateRelation([...createdRelations, ...newRelations])
                         //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
 
-                    ))
+                    )
                 }
+
             }
         }
     }, [status, dispatch,])

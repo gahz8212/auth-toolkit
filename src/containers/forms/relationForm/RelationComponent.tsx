@@ -10,10 +10,8 @@ type Props = {
         sum_im_price: number;
         ex_price: number;
     }[] | null;
-
 }
 const RelationComponent: React.FC<Props> = ({ relate_view, }) => {
-    // console.log(relate_view)
     return (<div style={{
         padding: '3rem', position: 'relative', backgroundColor: 'yellow'
         , width: '300px', height: '300px', overflow: 'auto',
@@ -24,7 +22,7 @@ const RelationComponent: React.FC<Props> = ({ relate_view, }) => {
             style={{
                 marginTop: '1rem',
                 position: 'absolute',
-                top: view.top * 1.1,//type이 'parts'이면 -80을 제거해야 함.
+                top: view.top * 1.1,
                 left: view.left - 40,
                 border: '1px solid black',
                 fontSize: '.7rem',
