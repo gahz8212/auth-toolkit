@@ -189,17 +189,6 @@ export const makeRelateData_View = (
     sum_im_price: number;
     ex_price: number;
     type: string;
-    // descript: string;
-    // groupType: string;
-    // category: string;
-    // use: boolean;
-    // supplyer: string;
-    // weight: number;
-    // cbm: number;
-    // moq: number;
-    // set: boolean;
-    // Images: { url: string }[];
-    // Good: { groupName: string };
   }[]
 ) => {
   let extraTop = 0;
@@ -361,7 +350,7 @@ export const makeRelateData_Price = (
   selectedItem: number,
   relations:
     | {
-        UpperId: number;
+        UpperId: string | number;
         LowerId: number;
         point: number;
       }[]

@@ -30,17 +30,18 @@ const HomeContainer = () => {
                 return newArray;
             } else { return null }
         }))
+
         dispatch(itemActions.inputDragItems(newArray))
     }, [])
+
+
     useEffect(() => {
         if (dragItems) {
             const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
                         const view = makeRelateData_Price(curr.id, relations, items)
-                        console.log('view', view)
                         const price = view[0].sum_im_price * curr.point;
-                        console.log('price', price)
                         if (acc[curr.targetId]) {
                             acc[curr.targetId] = price + acc[curr.targetId]
                         } else {
@@ -56,14 +57,12 @@ const HomeContainer = () => {
                 }
                 return acc;
             }, {})
-
             dispatch(relateActions.calculateTotalPrice(result))
         }
     }, [dragItems])
 
     return (
         <HomeComponent
-
         />
     );
 };

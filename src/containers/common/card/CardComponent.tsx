@@ -114,7 +114,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     {item.im_price > 0 && <div>입고가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
                                     <div className='point'>x{item.point}</div>
                                 </>}
-                            {item.type !== 'PARTS' && <div>총입고가:\{(item.sum_im_price - item.im_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+                            {item.type !== 'PARTS' && <div> {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>}
 
                             {item.ex_price > 0 && <div>수출가:${item.ex_price}</div>}
 

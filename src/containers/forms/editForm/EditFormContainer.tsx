@@ -7,6 +7,8 @@ import { imageInsert } from '../../../lib/utils/createFormData'
 
 import EditFormComponent from './EditFormComponent';
 import { makeRelateData_Price } from '../../../lib/utils/createRelateData'
+import { changeRelationToDragItems, returnTotalPrice } from '../../../lib/utils/returnTotalPrice';
+import { relateActions } from '../../../store/slices/relationSlice';
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
@@ -91,12 +93,20 @@ const EditFormContainer = () => {
             const price = makeRelateData_Price(targetId, relations, items)[0].sum_im_price
             setTotalPrice(price)
         }
+        if (items) {
+            let idx = items.findIndex(item => item.id === itemId)
+            dispatch(itemActions.addCount_relate(idx))
+        }
     }
 
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems?.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.removeCount({ idx, targetId }))
+            if (items) {
+                let idx = items.findIndex(item => item.id === itemId)
+                dispatch(itemActions.removeCount_relate(idx))
+            }
         }
     }
 
@@ -125,7 +135,18 @@ const EditFormContainer = () => {
                 // console.log('newRelations', newRelations)
                 if (createdRelations && newRelations) {
                     // console.log('updateRelations', [...createdRelations, ...newRelations])
-                    dispatch(itemActions.updateRelation([...createdRelations, ...newRelations])
+                    const newCreateRelations = [...createdRelations, ...newRelations]
+                    //newCreateRelations:새로운 relations을 dragItems로 totalPrices를 만들자
+
+                    // console.log('newCreateRelations', newCreateRelations)
+                    const newArray = changeRelationToDragItems(items, newCreateRelations)
+                    // console.log('newArray', newArray)
+                    if (relations) {
+                        const totalPrice = returnTotalPrice(items, newCreateRelations, newArray);
+                        dispatch(relateActions.calculateTotalPrice(totalPrice))
+
+                    }
+                    dispatch(itemActions.updateRelation(newCreateRelations)
                         //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
 
                     )

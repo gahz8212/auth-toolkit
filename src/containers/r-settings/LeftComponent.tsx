@@ -31,7 +31,7 @@ type Props = {
     changeView: (toggle: boolean) => void;
     selectItem: (id: number) => void;
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
-    totalPrice: { [key: number]: number };
+    totalPrice: { [key: number]: number } | undefined;
     insertRelation_view: (id: number) => void;
 }
 const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view }) => {
@@ -52,7 +52,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>
-                                <div>입고가: {item.unit}{totalPrice[item.id] > 0 ? totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
+                                <div>입고가: {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
                                 <div>출고가: ${item.ex_price}</div>
                                 <div>설명: {item.descript}</div>
                             </div>
@@ -106,7 +106,13 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
-                        {openId.includes(item.id) && <button onClick={() => { addRelateGood({ id: item.id, dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id), type: 'left' }) }}>연결</button>}
+                        {openId.includes(item.id) && <button onClick={() => {
+                            addRelateGood({
+                                id: item.id,
+                                dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
+                                type: 'left'
+                            })
+                        }}>연결</button>}
                     </div>)}
             </div>
         </div>

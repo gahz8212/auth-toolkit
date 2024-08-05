@@ -8,6 +8,7 @@ import RsettingComponent from './RsettingComponent';
 
 import { makeRelateData_View, makeRelateData_Price } from '../../lib/utils/createRelateData'
 
+import { changeRelationToDragItems, returnTotalPrice } from '../../lib/utils/returnTotalPrice';
 
 const RsettingContainer = () => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const RsettingContainer = () => {
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [viewMode, setViewMode] = useState(false)
     const [openBasket, setOpenBasket] = useState(false)
-    const [totalPriceObject, setTotalPrice] = useState<{ [key: number]: number }>({})
+
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -126,11 +127,17 @@ const RsettingContainer = () => {
             // 실제 relations에서 변환된 dragItems가 아닌것만 남긴 relations     
             // console.log('createdRelations', createdRelations)
             // console.log('newRelations', newRelations)
-            if (createdRelations && newRelations) {
-                // console.log('updateRelations', [...createdRelations, ...newRelations])
-                dispatch(itemActions.updateRelation([...createdRelations, ...newRelations]
+            if (createdRelations && newRelations && items) {
+                const newCreateRelations = [...createdRelations, ...newRelations]
+                const newArray = changeRelationToDragItems(items, newCreateRelations)
+                if (relations) {
+                    const totalPrice = returnTotalPrice(items, newCreateRelations, newArray);
+                    dispatch(relateActions.calculateTotalPrice(totalPrice))
+
+                }
+                dispatch(itemActions.updateRelation(newCreateRelations)
                     //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
-                ))
+                )
             }
         }
     }
@@ -156,11 +163,10 @@ const RsettingContainer = () => {
         },
     ) => {
         dispatch(editActions.editItem(item))
-        console.log('item.dragItems', item.dragItems)
+        // console.log('item.dragItems', item.dragItems)
         //items의 point를 item.dragItems의 포인트로 변경
 
         if (typeof item.id === 'number') {
-
             addRelations(item.id)
             setSelectedGoodId(item.id)
             // console.log(item.id)
@@ -195,16 +201,7 @@ const RsettingContainer = () => {
         dispatch(itemActions.getItem())
         dispatch(relateActions.initRelate())
     }, [dispatch])
-    useEffect(() => {
-        if (status.message === 'good_ok') {
-            if (items) {
-                const result = makeRelateData_View(selectedGoodId, relations, items)
-                if (result) {
-                    dispatch(relateActions.insertRelation_view(result))
-                }
-            }
-        }
-    }, [dispatch, status.message, selectedGoodId, items, relations])
+
     useEffect(() => {
         let newArray: { [key: string]: number | string }[] = [];
         relations?.filter(relation => items?.filter(item => {
@@ -219,18 +216,30 @@ const RsettingContainer = () => {
 
         dispatch(itemActions.inputDragItems(newArray))
     }, [])
+
     useEffect(() => {
-        if (totalPrice) {
-            setTotalPrice(totalPrice)
+        if (status.message === 'good_ok') {
+            if (items) {
+                const result = makeRelateData_View(selectedGoodId, relations, items)
+                if (result) {
+                    dispatch(relateActions.insertRelation_view(result))
+                }
+            }
         }
-    }, [totalPrice])
+    }, [dispatch, status.message, selectedGoodId, items, relations])
+
+
+
+
+
+
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
             changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
-            totalPrice={totalPriceObject}
+            totalPrice={totalPrice}
             insertRelation_view={insertRelation_view} />
     );
 };
