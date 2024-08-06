@@ -3,7 +3,6 @@ import ExportComponent from './ExportComponent';
 import { useSelector, useDispatch } from 'react-redux'
 import { OrderAction, OrderData } from '../../store/slices/orderSlice';
 import { formActions, formSelector } from '../../store/slices/formSlice';
-// import * as XLSX from 'xlsx'
 import ExcelJS from 'exceljs';
 const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
@@ -31,7 +30,6 @@ const ExportContainer = () => {
             })
             const headers = worksheetData[0];
             const contents = worksheetData.slice(2);
-
             let parts = [];
             for (let content = 0; content < contents.length - 1; content++) {
                 const obj: { [key: string]: any } = {};
@@ -40,8 +38,6 @@ const ExportContainer = () => {
                     obj[headers[header]] = contents[content][header]
                 }
             }
-
-
         }
     }
     const onChangeOrder = async (e: any) => {
@@ -83,7 +79,6 @@ const ExportContainer = () => {
                 }
                 return result
             })
-
             dispatch(OrderAction.getData(filteredOrder));
             dispatch(OrderAction.inputOrder([filteredOrder, months]))
             if (orderInput.current) orderInput.current.value = ''
