@@ -107,6 +107,7 @@ const RsettingContainer = () => {
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
+
             dispatch(itemActions.removeCount({ idx, targetId }))
             // console.log('idx', itemId)
             if (items && viewMode) {
