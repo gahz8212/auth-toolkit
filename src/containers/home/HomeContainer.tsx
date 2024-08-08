@@ -7,6 +7,9 @@ import { makeRelateData_Price } from '../../lib/utils/createRelateData'
 import * as Excel from "exceljs";
 import { saveAs } from 'file-saver'
 import HomeComponent from './HomeComponent';
+import dtlogo from '../../../public/images/dtlogo.png'
+import sign from '../../../public/images/SIGN.png'
+
 const orders = [
     {
         orderNum: "A309012",
@@ -96,11 +99,11 @@ const description = {
         Carrier: '',
     },
     7: {
-        'Destination': '',
+        'Destination': 'Dallas, Texas USA.',
     },
     8: {
         'NO&Date': '',
-        page: '1 of 1'
+        page: '1 OF 1'
     },
     9: {
         'Payment': 'T/T Net 30days',
@@ -109,8 +112,9 @@ const description = {
         'Term': ['FOB BUSAN PORT IN KOREA', 'CIF'],
     },
     11: {
-        'Remarks': `A. This shipment doesn't contain solid wooden packing material.`,
-        'Forwarder': ''
+        'Remarks1': `A. This shipment doesn't contain `,
+        'Remarks2': `solid wooden packing material.`,
+        'Forwarder': 'B. '
     },
 }
 
@@ -132,13 +136,13 @@ const HomeContainer = () => {
             bottom: { style: "thin", color: { argb: "-100000f" } },
             right: { style: "thin", color: { argb: "-100000f" } },
         };
-        cell.font = {
-            name: "Arial Black",
-            size: 18,
-            bold: true,
-            color: { argb: "ff252525" },
+        // cell.font = {
+        //     name: "Arial",
+        //     size: 20,
+        //     bold: true,
+        //     color: { argb: "ff252525" },
 
-        };
+        // };
         cell.alignment = {
             vertical: "middle",
             horizontal: "center",
@@ -194,71 +198,151 @@ const HomeContainer = () => {
     const exportFile = async (rows: { orderNum: string, menu: string, price: number, date: string }[]) => {
         try {
             const workbook = new Excel.Workbook();
-            const worksheet = workbook.addWorksheet('Columns');
-            worksheet.getColumn(1).values = [
-                ,
-                ,
-                2,
-                description[1].shipper,
-                description[1].address1,
-                description[1].address2,
-                ,
-                ,
-                11]
-            worksheet.getColumn(1).style.font = { size: 9 }
+            const worksheet = workbook.addWorksheet('Invoice');
+            // worksheet.getColumn(1).style.font = { size: 9 }
             worksheet.columns = [
-                { header: '', key: '', width: columnWidths[0], style: { font: { size: 9, name: 'arial' } } },
-                { header: '', key: '', width: columnWidths[1], style: { font: { size: 9, name: 'arial' } } },
-                { header: '', key: '', width: columnWidths[2], style: { font: { size: 9, name: 'arial' } } },
-                { header: '', key: '', width: columnWidths[3], style: { font: { size: 9, name: 'arial' } } },
-                { header: '', key: '', width: columnWidths[4], style: { font: { size: 9, name: 'arial' } } },
-                { header: '', key: '', width: columnWidths[5], style: { font: { size: 9, name: 'arial' } } },
+                { header: '', key: '', width: columnWidths[0] + 0.58 },
+                { header: '', key: '', width: columnWidths[1] + 0.58 },
+                { header: '', key: '', width: columnWidths[2] + 0.58 },
+                { header: '', key: '', width: columnWidths[3] + 0.58 },
+                { header: '', key: '', width: columnWidths[4] + 0.58 },
+                { header: '', key: '', width: columnWidths[5] + 0.58 },
+
             ]
+
             worksheet.mergeCells("A1:F1")
-
-            // worksheet.getCell('A1').value = title[1]//COMMERCIAL INVOICE
-            worksheet.getCell('A1').value = {
-                richText: [{ font: { size: 12, bold: true, name: 'arial' }, text: title[0], }],
-
-            };
-            styleTitleCell(worksheet.getCell('A1'))
             worksheet.getRow(1).height = 40;
+            styleTitleCell(worksheet.getCell('A1'))
+            worksheet.getCell('A1').value = {
+                richText: [{ font: { name: 'Arial Black', size: 20, bold: true }, text: title[0], }],
+            };
 
 
-            worksheet.getCell('A2').value = { richText: [{ font: { size: 9, bold: true, name: 'arial' }, text: headers[0] }] }//1. Shipper/Exporter
-            // worksheet.getCell('A2').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('A6').value = headers[1]//2. Consignee
-            // worksheet.getCell('A6').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('A10').value = headers[2]//3. Notify Party
-            // worksheet.getCell('A10').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('A13').value = headers[3]//4. Port of Loading
-            // worksheet.getCell('A13').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('A15').value = headers[5]//6. Carrier
-            // worksheet.getCell('A15').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('B13').value = headers[4]//5. Sailing on or about
-            // worksheet.getCell('B13').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('B15').value = headers[6]//7. Final Destination
-            // worksheet.getCell('B15').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('C2').value = headers[7]//8. No. & Date of Invoice
-            // worksheet.getCell('C2').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('C5').value = headers[8]//9. Payment Terms and Conditions
-            // worksheet.getCell('C5').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('C8').value = headers[9]//10. Freight Term
-            // worksheet.getCell('C8').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('C12').value = headers[10]//11. Remarks
-            // worksheet.getCell('C12').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('A17').value = headers[11]//12. Mark & No.Pkgs
-            // worksheet.getCell('A17').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('B17').value = headers[12]//13. Description of goods
-            // worksheet.getCell('B17').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('C17').value = headers[13]//14. Quantity
-            // worksheet.getCell('C17').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('D17').value = headers[14]//Unit
-            // worksheet.getCell('D17').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('E17').value = headers[15]//15. Unit price
-            // worksheet.getCell('E17').style.font = { size: 9, name: 'arial', bold: true }
-            // worksheet.getCell('F17').value = headers[16]//16. Amount
-            // worksheet.getCell('F17').style.font = { size: 9, name: 'arial', bold: true }
+
+
+            for (let i = 1; i < 7; i++) {
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${17}`).border = {
+                    top: { style: 'thin' },
+                    bottom: { style: 'thin' },
+                    left: { style: 'thin' },
+                    right: { style: 'thin' }
+                }
+            }
+            for (let i = 1; i < 3; i++) {
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${5}`).border = { bottom: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${9}`).border = { bottom: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${12}`).border = { bottom: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${15}`).border = { top: { style: 'thin' } }
+            }
+            for (let i = 3; i < 7; i++) {
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${5}`).border = { top: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${8}`).border = { top: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${12}`).border = { top: { style: 'thin' } }
+                // worksheet.getCell(`${String.fromCharCode(i + 64)}${9}`).border = { bottom: { style: 'thin' } }
+                // worksheet.getCell(`${String.fromCharCode(i + 64)}${12}`).border = { bottom: { style: 'thin' } }
+                // worksheet.getCell(`${String.fromCharCode(i + 64)}${15}`).border = { top: { style: 'thin' }, right: { style: 'thin' } }
+            }
+            for (let i = 1; i < 60; i++) {
+                worksheet.getCell(`${String.fromCharCode(65)}${i}`).border = { left: { style: 'thin' } }
+                if (i === 1 || i === 5 || i === 9 || i === 12 || i === 14 || i === 16 || i === 17) {
+                    worksheet.getCell(`${String.fromCharCode(65)}${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+                }
+                worksheet.getCell(`${String.fromCharCode(67)}${i}`).border = { left: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(71)}${i}`).border = { left: { style: 'thin' } }
+                if (i === 1 || i === 4 || i === 7 || i === 11 || i === 16 || i === 17) {
+                    worksheet.getCell(`${String.fromCharCode(67)}${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+                }
+            }
+            for (let i = 13; i < 60; i++) {
+                worksheet.getCell(`${String.fromCharCode(66)}${i}`).border = { left: { style: 'thin' } }
+                if (i === 14 || i === 16 || i === 17) {
+                    worksheet.getCell(`${String.fromCharCode(66)}${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+                }
+            }
+            for (let i = 18; i < 60; i++) {
+                worksheet.getCell(`${String.fromCharCode(68)}${i}`).border = { left: { style: 'dotted' }, right: { style: 'dotted' } }
+                worksheet.getCell(`${String.fromCharCode(69)}${i}`).border = { right: { style: 'dotted' } }
+            }
+            const myBase64Image = 'data:image/png;base64,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'
+            const imageId2 = workbook.addImage({
+                base64: myBase64Image,
+                extension: 'png',
+            });
+            worksheet.addImage(imageId2, 'A18:A19');
+
+
+
+
+
+
+            worksheet.getCell('A2').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[0] }] }//1. Shipper/Exporter
+            worksheet.getCell('A3').alignment = { indent: 1 }
+            worksheet.getCell('A3').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[1].shipper }] }
+            worksheet.getCell('A4').alignment = { indent: 1 }
+            worksheet.getCell('A4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[1].address1 }] }
+            worksheet.getCell('A5').alignment = { indent: 1 }
+            worksheet.getCell('A5').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[1].address2 }] }
+
+            worksheet.getCell('A6').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[1] }] }//2. Consignee
+            worksheet.getCell('A7').alignment = { indent: 1 }
+            worksheet.getCell('A7').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[2].Consignee }] }
+            worksheet.getCell('A8').alignment = { indent: 1 }
+            worksheet.getCell('A8').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[2].address1 }] }
+            worksheet.getCell('A9').alignment = { indent: 1 }
+            worksheet.getCell('A9').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[2].address2 }] }
+
+            worksheet.getCell('A10').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[2] }] }//3. Notify Party
+            worksheet.getCell('A11').alignment = { indent: 1 }
+            worksheet.getCell('A11').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[3].Party }] }
+            worksheet.getCell('A12').alignment = { indent: 1 }
+            worksheet.getCell('A12').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[3].address1 }] }
+
+            worksheet.getCell('A13').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[3] }] }//4. Port of Loading
+            worksheet.getCell('A14').alignment = { indent: 1 }
+            worksheet.getCell('A14').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[4].Port[0] }] }
+
+            worksheet.getCell('A15').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[5] }] } //6. Carrier
+            worksheet.getCell('A16').alignment = { indent: 1 }
+            worksheet.getCell('A16').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[6].Carrier }] }
+
+            worksheet.getCell('B13').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[4] }] }//5. Sailing on or about
+            worksheet.getCell('B14').alignment = { indent: 1 }
+            worksheet.getCell('B14').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[5].Sailing }] }
+
+            worksheet.getCell('B15').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[6] }] }//7. Final Destination
+            worksheet.getCell('B16').alignment = { indent: 1 }
+            worksheet.getCell('B16').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: description[7].Destination }] }
+
+            worksheet.getCell('C2').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
+            worksheet.getCell('C3').alignment = { indent: 1 }
+            worksheet.getCell('C3').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
+            worksheet.getCell('F4').alignment = { horizontal: 'center' }
+            worksheet.getCell('F4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page }] }
+
+            worksheet.getCell('C5').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[8] }] }//9. Payment Terms and Conditions
+            worksheet.getCell('C6').alignment = { indent: 1 }
+            worksheet.getCell('C6').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[9].Payment }] }
+
+            worksheet.getCell('C8').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[9] }] }//10. Freight Term
+            worksheet.getCell('C9').alignment = { indent: 1 }
+            worksheet.getCell('C9').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[10].Term[0] }] }
+
+            worksheet.getCell('C12').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[10] }] }//11. Remarks
+            worksheet.getCell('C13').alignment = { indent: 1 }
+            worksheet.getCell('C13').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks1 }] }
+            worksheet.getCell('C14').alignment = { indent: 1 }
+            worksheet.getCell('C14').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks2 }] }
+            worksheet.getCell('C15').alignment = { indent: 1 }
+            worksheet.getCell('C15').value = { richText: [{ font: { name: 'Arial', size: 9, color: { argb: 'ff0' }, }, text: description[11].Forwarder }] }
+
+            worksheet.getCell('A17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[11] }] }//12. Mark & No.Pkgs
+            worksheet.getCell('B17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[12] }] }//13. Description of goods
+            worksheet.getCell('C17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[13] }] }//14. Quantity
+            worksheet.getCell('D17').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: headers[14] }] }//Unit
+            worksheet.getCell('D17').alignment = { horizontal: 'center' }
+            worksheet.getCell('E17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//15. Unit price
+            worksheet.getCell('F17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//16. Amount
+
 
 
 
