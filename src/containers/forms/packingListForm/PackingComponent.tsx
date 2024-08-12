@@ -4,8 +4,9 @@ type Props = {
     selectedMonth: string;
     packingData: any[] | undefined;
     totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[]
+    CartonExcelContainer: () => JSX.Element
 }
-const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalResult }) => {
+const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalResult,CartonExcelContainer }) => {
 
     let newData: { [key: string]: number | string }[] = []
     if (packingData && selectedMonth) {
@@ -86,6 +87,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
                     {React.Children.toArray(footer)}
                 </div>
             </div>
+            {<CartonExcelContainer />}
         </div>
 
     );

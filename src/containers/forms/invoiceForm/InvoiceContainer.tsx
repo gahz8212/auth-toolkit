@@ -1,5 +1,6 @@
 import React from 'react';
 import InvoiceComponent from './InvoiceComponent';
+import InvoiceExcelContainer from '../../excels/export/InvoiceExcelContainer';
 import { useDispatch, useSelector } from 'react-redux'
 import { OrderData } from '../../../store/slices/orderSlice';
 type Props = {
@@ -43,7 +44,9 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
             <InvoiceComponent
                 invoiceData={filteredInvoiceData}
                 selectedMonth={selectedMonth}
-                totalResult={totalResult} />
+                totalResult={totalResult}
+                InvoiceExcelContainer={InvoiceExcelContainer}
+            />
         </div>
     );
 };

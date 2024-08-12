@@ -3,9 +3,10 @@ import React from 'react';
 type Props = {
     invoiceData: any[] | undefined;
     totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[]
-    selectedMonth: string
+    selectedMonth: string;
+    InvoiceExcelContainer: () => JSX.Element
 }
-const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalResult }) => {
+const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalResult, InvoiceExcelContainer }) => {
     const datas = (
         invoiceData?.map(data => <div className='invoice-rows'>
             <div className='invoice-data'>{data.itemName}</div>
@@ -43,21 +44,9 @@ const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalRe
                     {React.Children.toArray(footer)}
                 </div>
             </div>
+            {<InvoiceExcelContainer />}
         </div>
-        // <div className='invoice-container'>
-        //     {invoiceData?.map(data => <div className='invoice-rows'>
-        //         <div className='invoice-item'>{data.Item}</div>
 
-
-        //         {data[selectedMonth] && <div className='invoice-count'>{data[selectedMonth].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-        //         {data[selectedMonth] && <div className='invoice-weight'>{data.weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-        //         {data[selectedMonth] && <div className='invoice-cbm'>{data.cbm.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-
-
-        //         {data.price && <div className='invoice-price'>{data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-
-        //     </div>)}
-        // </div>
     );
 };
 

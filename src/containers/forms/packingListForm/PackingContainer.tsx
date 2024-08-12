@@ -2,6 +2,7 @@ import React from 'react';
 import PackingComponent from './PackingComponent';
 import { useDispatch, useSelector } from 'react-redux'
 import { OrderData } from '../../../store/slices/orderSlice';
+import CartonExcelContainer from '../../excels/export/CartonExcelContainer';
 type Props = {
 
     selectedMonth: string
@@ -34,7 +35,9 @@ const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
             <PackingComponent
                 selectedMonth={selectedMonth}
                 packingData={filteredPackingData}
-                totalResult={totalResult} />
+                totalResult={totalResult} 
+                CartonExcelContainer={CartonExcelContainer}
+                />
         </div>
     );
 };
