@@ -53,7 +53,7 @@ const ExportComponent: React.FC<Props> = ({
     let dragItemKey = '';
     let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
-    const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
+    const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 820, y: params.offset[1] + 200 }) }))
     const addItemPos = useDrag((params => { changePosition('addItem', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
 
     let orderdata;

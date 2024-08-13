@@ -18,7 +18,7 @@ const initialState: State = {
   relate: { visible: false, position: { x: 250, y: 300 } },
   edit: { visible: false, position: { x: 250, y: 300 } },
   invoice: { visible: false, position: { x: 100, y: 200 } },
-  packing: { visible: false, position: { x: 100, y: 200 } },
+  packing: { visible: false, position: { x: 820, y: 200 } },
   addItem: { visible: false, position: { x: 100, y: 200 } },
 };
 const inputFormSelector = (state: RootState) => {
