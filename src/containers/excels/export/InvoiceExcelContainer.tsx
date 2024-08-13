@@ -421,7 +421,7 @@ const InvoiceExcelContainer = () => {
 
             worksheet.getCell('D116').alignment = { horizontal: 'center', vertical: 'middle' }
             worksheet.getCell('D116').value = {
-                richText: [{ font: { name: 'Arial', size: 11, bold: true }, text: 'Signed' }]
+                richText: [{ font: { name: 'Arial', size: 11, bold: true }, text: 'Signed By' }]
             }
             worksheet.getCell('C61').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
             worksheet.getCell('C62').alignment = { indent: 1 }

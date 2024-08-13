@@ -73,7 +73,7 @@ export const returnTotalPrice = (
         if (curr.type === "SET" || curr.type === "ASSY") {
           if (items) {
             const view = makeRelateData_Price(curr.id, relations, items);
-            console.log("view", view);
+
             const price = view[0].sum_im_price * curr.point;
 
             if (acc[curr.targetId]) {

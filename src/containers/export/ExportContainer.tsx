@@ -57,7 +57,15 @@ const ExportContainer = () => {
             })
             let headers = worksheetData[1]
             const months = headers.slice(2).map((month: string) => month.length > 3 ? month.slice(0, 3) : month)
-            headers = ['undefined', 'Item', ...months]
+            const monthResult: string[] = []
+            months.forEach((month: string) => {
+                const string = []
+                string.push(month[0].toUpperCase())
+                string.push(month[1].toLowerCase())
+                string.push(month[2].toLowerCase())
+                monthResult.push(string.join(''))
+            })
+            headers = ['undefined', 'Item', ...monthResult]
 
             const contents = worksheetData.slice(2)
             let orderSheet = [];
@@ -80,7 +88,7 @@ const ExportContainer = () => {
                 return result
             })
             dispatch(OrderAction.getData(filteredOrder));
-            dispatch(OrderAction.inputOrder([filteredOrder, months]))
+            dispatch(OrderAction.inputOrder([filteredOrder, monthResult]))
             if (orderInput.current) orderInput.current.value = ''
         }
     }

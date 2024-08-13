@@ -15,15 +15,21 @@ const headers = [
     '9. Payment Terms and Conditions',
     '10. Freight Term',
     '11. Remarks',
-    '12. Mark & No.Pkgs',
-    '13. Description of goods',
-    '14. Quantity',
-    'Unit',
-    '15. Unit price',
-    '16. Amount',
+    'Mark & No.Pkgs',
+    'Carton',
+    'No.',
+    'Items',
+    'Qty',
+    'C/T',
+    'Quantity',
+    '(Unit)',
+    'Weight(KG)',
+    'Net / Gross',
+    'Volume(CBM)',
+    'Net / Gross',
+
 ]
 const description = {
-
     1: {
         shipper: 'EUNKI ELECTRONICS CO., LTD.',
         tel: '               TEL : +82-(0)32-466-2687',
@@ -69,8 +75,7 @@ const description = {
     },
 }
 
-const columnWidths = [22, 30, 9.63, 4, 10.5, 10]
-// const columnWidths = [16.75, 9.88, 22.75, 4.75, 5.5, 4.63,5.1,7.3,6.38,6.38]
+const columnWidths = [22, 6.5, 22, 4, 4.5, 4.63, 5.1, 6.63, 5.25, 6.13]
 const CartonExcelContainer = () => {
     const styleTitleCell = (cell: Excel.Cell) => {
 
@@ -85,7 +90,7 @@ const CartonExcelContainer = () => {
     const makeCartonPacking = async () => {
         try {
             const workbook = new Excel.Workbook();
-            const worksheet = workbook.addWorksheet('Packing', { pageSetup: { paperSize: 9, margins: { left: 0.3, right: 0.3, top: 0, bottom: 0, header: 0, footer: 0 } } });
+            const worksheet = workbook.addWorksheet('Packing', { pageSetup: { paperSize: 9, margins: { left: 0, right: 0, top: 0, bottom: 0, header: 0, footer: 0 } } });
             // worksheet.getColumn(1).style.font = { size: 9 }
             worksheet.columns = [
                 { header: '', key: '', width: columnWidths[0] + 0.58 },
@@ -100,8 +105,16 @@ const CartonExcelContainer = () => {
                 { header: '', key: '', width: columnWidths[9] + 0.58 },
             ]
 
-            worksheet.mergeCells("A1:F1")
-            worksheet.mergeCells("B59:F59")
+            worksheet.mergeCells("A1:J1")
+            worksheet.mergeCells("B59:J59")
+            worksheet.mergeCells("A17:A18")
+            worksheet.mergeCells("C17:C18")
+            worksheet.mergeCells("E17:F17")
+            worksheet.mergeCells("E18:F18")
+            worksheet.mergeCells("G17:H17")
+            worksheet.mergeCells("G18:H18")
+            worksheet.mergeCells("I17:J17")
+            worksheet.mergeCells("I18:J18")
 
             worksheet.getRow(1).height = 36.75;
             for (let i = 2; i < 18; i++) {
@@ -117,53 +130,74 @@ const CartonExcelContainer = () => {
                 richText: [{ font: { name: 'Arial Black', size: 20, bold: true }, text: title[0], }],
             };
 
-            for (let i = 1; i < 7; i++) {
+            for (let i = 1; i < 10; i++) {
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${17}`).border = {
                     top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    right: { style: 'thin' }
+                }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${18}`).border = {
                     bottom: { style: 'thin' },
                     left: { style: 'thin' },
                     right: { style: 'thin' }
                 }
             }
-            for (let i = 1; i < 3; i++) {
+            for (let i = 1; i < 4; i++) {
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${5}`).border = { bottom: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${9}`).border = { bottom: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${12}`).border = { bottom: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${15}`).border = { top: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${17}`).alignment = { horizontal: 'center', vertical: 'middle' }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${18}`).alignment = { horizontal: 'center', vertical: 'middle' }
             }
-            for (let i = 3; i < 7; i++) {
+            for (let i = 4; i < 11; i++) {
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${5}`).border = { top: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${8}`).border = { top: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${12}`).border = { top: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${17}`).alignment = { horizontal: 'center' }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${18}`).alignment = { horizontal: 'center' }
+
             }
             for (let i = 2; i < 59; i++) {
                 worksheet.getCell(`A${i}`).border = { left: { style: 'thick' } }
-                if (i === 5 || i === 9 || i === 12 || i === 14 || i === 16 || i === 17) {
-                    worksheet.getCell(`${String.fromCharCode(65)}${i}`).border = { bottom: { style: 'thin' }, left: { style: 'thick' } }
+                if (i === 5 || i === 9 || i === 12 || i === 14 || i === 16 || i === 18) {
+                    worksheet.getCell(`A${i}`).border = { bottom: { style: 'thin' }, left: { style: 'thick' } }
                 }
-                worksheet.getCell(`F${i}`).border = { right: { style: 'thick' } }
-                if (i === 4 || i === 7 || i === 11 || i === 16 || i === 17) {
-                    worksheet.getCell(`${String.fromCharCode(67)}${i}`).border = { left: { style: 'thick' }, bottom: { style: 'thin' } }
-                    worksheet.getCell(`${String.fromCharCode(70)}${i}`).border = {
+                worksheet.getCell(`J${i}`).border = { right: { style: 'thick' } }
+                if (i === 4 || i === 7 || i === 11 || i === 16 || i === 18) {
+                    worksheet.getCell(`J${i}`).border = {
                         right: { style: 'thick' }, bottom: { style: 'thin' }
                     }
                 }
             }
 
             for (let i = 13; i < 59; i++) {
-                worksheet.getCell(`${String.fromCharCode(66)}${i}`).border = { left: { style: 'thin' } }
-                if (i === 14 || i === 16 || i === 17) {
-                    worksheet.getCell(`${String.fromCharCode(66)}${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+                worksheet.getCell(`B${i}`).border = { left: { style: 'thin' } }
+                if (i === 14 || i === 16 || i === 18) {
+                    worksheet.getCell(`${String.fromCharCode(66)}${i}`).border = { bottom: { style: 'thin' }, left: { style: 'thin' } }
                 }
             }
-            for (let i = 1; i < 59; i++) {
-                worksheet.getCell(`C${i}`).border = { left: { style: 'thin' } }
-                if (i === 4 || i === 7 || i === 11 || i === 16 || i === 17) {
-                    worksheet.getCell(`C${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+            for (let i = 2; i < 59; i++) {
+                worksheet.getCell(`C${i}`).border = { right: { style: 'thin' } }
+                if (i === 5 || i === 9 || i === 12 || i === 14 || i === 16 || i === 18) {
+                    worksheet.getCell(`C${i}`).border = { right: { style: 'thin' }, bottom: { style: 'thin' } }
                 }
             }
-            for (let i = 18; i < 59; i++) {
-                worksheet.getCell(`${String.fromCharCode(68)}${i}`).border = { left: { style: 'dotted' }, right: { style: 'dotted' } }
+            for (let i = 17; i < 59; i++) {
+                worksheet.getCell(`B${i}`).border = { right: { style: 'thin' }, left: { style: 'thin' } }
+                if (i === 17) {
+                    worksheet.getCell(`I${i}`).border = { top: { style: 'thin' }, right: { style: 'thick' } }
+                }
+                if (i === 18) {
+                    worksheet.getCell(`B${i}`).border = { bottom: { style: 'thin' }, right: { style: 'thin' }, left: { style: 'thin' } }
+                }
+            }
+            for (let i = 19; i < 59; i++) {
+                worksheet.getCell(`B${i}`).border = { right: { style: 'thin' }, left: { style: 'thin' } }
+                worksheet.getCell(`D${i}`).border = { right: { style: 'thin' } }
+                worksheet.getCell(`F${i}`).border = { left: { style: 'dotted' }, right: { style: 'thin' } }
+                worksheet.getCell(`H${i}`).border = { left: { style: 'dotted' }, right: { style: 'thin' } }
+                worksheet.getCell(`J${i}`).border = { left: { style: 'dotted' }, right: { style: 'thick' } }
             }
             worksheet.getCell('A1').border = {
                 top: { style: "thick" },
@@ -179,10 +213,7 @@ const CartonExcelContainer = () => {
                 left: { style: "thin" },
             };
             worksheet.getCell('A59').border = {
-                // top: { style: "thin" },
                 bottom: { style: "thick" },
-
-
                 left: { style: "thick" },
             };
 
@@ -233,49 +264,60 @@ const CartonExcelContainer = () => {
             worksheet.getCell('B59').value = {
                 richText: [{ font: { name: 'Arial', size: 12, bold: true }, text: 'To be continued.' }]
             }
-            worksheet.getCell('C2').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
-            worksheet.getCell('C3').alignment = { indent: 1 }
-            worksheet.getCell('C3').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
-            worksheet.getCell('F4').alignment = { horizontal: 'center' }
-            worksheet.getCell('F4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page1 }] }
+            worksheet.getCell('D2').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
+            worksheet.getCell('D3').alignment = { indent: 1 }
+            worksheet.getCell('D3').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
+            worksheet.getCell('J4').alignment = { horizontal: 'center' }
+            worksheet.getCell('J4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page1 }] }
 
-            worksheet.getCell('C5').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[8] }] }//9. Payment Terms and Conditions
-            worksheet.getCell('C6').alignment = { indent: 1 }
-            worksheet.getCell('C6').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[9].Payment }] }
+            worksheet.getCell('D5').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[8] }] }//9. Payment Terms and Conditions
+            worksheet.getCell('D6').alignment = { indent: 1 }
+            worksheet.getCell('D6').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[9].Payment }] }
 
-            worksheet.getCell('C8').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[9] }] }//10. Freight Term
-            worksheet.getCell('C9').alignment = { indent: 1 }
-            worksheet.getCell('C9').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[10].Term[0] }] }
+            worksheet.getCell('D8').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[9] }] }//10. Freight Term
+            worksheet.getCell('D9').alignment = { indent: 1 }
+            worksheet.getCell('D9').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[10].Term[0] }] }
 
-            worksheet.getCell('C12').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[10] }] }//11. Remarks
-            worksheet.getCell('C13').alignment = { indent: 1 }
-            worksheet.getCell('C13').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks1 }] }
-            worksheet.getCell('C14').alignment = { indent: 1 }
-            worksheet.getCell('C14').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks2 }] }
-            worksheet.getCell('C15').alignment = { indent: 1 }
-            worksheet.getCell('C15').value = { richText: [{ font: { name: 'Arial', size: 9, color: { argb: 'ff0' }, }, text: description[11].Forwarder }] }
+            worksheet.getCell('D12').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[10] }] }//11. Remarks
+            worksheet.getCell('D13').alignment = { indent: 1 }
+            worksheet.getCell('D13').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks1 }] }
+            worksheet.getCell('D14').alignment = { indent: 1 }
+            worksheet.getCell('D14').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks2 }] }
+            worksheet.getCell('D15').alignment = { indent: 1 }
+            worksheet.getCell('D15').value = { richText: [{ font: { name: 'Arial', size: 9, color: { argb: 'ff0' }, }, text: description[11].Forwarder }] }
 
-            worksheet.getCell('A17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[11] }] }//12. Mark & No.Pkgs
-            worksheet.getCell('B17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[12] }] }//13. Description of goods
-            worksheet.getCell('C17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[13] }] }//14. Quantity
-            worksheet.getCell('D17').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: headers[14] }] }//Unit
-            worksheet.getCell('D17').alignment = { horizontal: 'center' }
-            worksheet.getCell('E17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//15. Unit price
-            worksheet.getCell('F17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//16. Amount
+            worksheet.getCell('A17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[11] }] }//Mark & No.Pkgs
+            worksheet.getCell('B17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[12] }] }//Carton
+            worksheet.getCell('B18').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[13] }] }//No.
+            worksheet.getCell('C17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[14] }] }//Items
+            worksheet.getCell('D17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//Qty
+            worksheet.getCell('D18').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//C/T
+            worksheet.getCell('E17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[17] }] }//Quantity
+            worksheet.getCell('E18').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[18] }] }//(Unit)
+            worksheet.getCell('G17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[19] }] }//Weight
+            worksheet.getCell('G18').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[20] }] }//Net/Gross
+            worksheet.getCell('I17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[21] }] }//Volume(CBM)
+            worksheet.getCell('I18').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[22] }] }//Net/Gross
 
 
             //===================================================================================================================================================
 
-            worksheet.mergeCells("A60:F60")
-            worksheet.mergeCells("B114:B115")
-            worksheet.mergeCells("E114:F115")
-            worksheet.mergeCells("A116:F116")
+            worksheet.mergeCells("A60:J60")
+            worksheet.mergeCells("A116:J116")
+            worksheet.mergeCells("A76:A77")
+            worksheet.mergeCells("C76:C77")
+            worksheet.mergeCells("E76:F76")
+            worksheet.mergeCells("E77:F77")
+            worksheet.mergeCells("G76:H76")
+            worksheet.mergeCells("G77:H77")
+            worksheet.mergeCells("I76:J76")
+            worksheet.mergeCells("I77:J77")
 
             worksheet.getRow(60).height = 36.75;
-            for (let i = 61; i < 77; i++) {
+            for (let i = 61; i < 78; i++) {
                 worksheet.getRow(i).height = 14.25
             }
-            for (let i = 77; i < 116; i++) {
+            for (let i = 78; i < 116; i++) {
                 worksheet.getRow(i).height = 12
             }
             worksheet.getRow(116).height = 69
@@ -285,34 +327,42 @@ const CartonExcelContainer = () => {
                 richText: [{ font: { name: 'Arial Black', size: 20, bold: true }, text: title[0], }],
             };
 
-            for (let i = 1; i < 7; i++) {
+            for (let i = 1; i < 10; i++) {
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${76}`).border = {
                     top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    right: { style: 'thin' }
+                }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${77}`).border = {
                     bottom: { style: 'thin' },
                     left: { style: 'thin' },
                     right: { style: 'thin' }
                 }
             }
-            for (let i = 1; i < 3; i++) {
+            for (let i = 1; i < 4; i++) {
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${64}`).border = { bottom: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${68}`).border = { bottom: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${71}`).border = { bottom: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${74}`).border = { top: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${76}`).alignment = { horizontal: 'center', vertical: 'middle' }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${77}`).alignment = { horizontal: 'center', vertical: 'middle' }
             }
-            for (let i = 3; i < 7; i++) {
+            for (let i = 4; i < 11; i++) {
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${64}`).border = { top: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${67}`).border = { top: { style: 'thin' } }
                 worksheet.getCell(`${String.fromCharCode(i + 64)}${71}`).border = { top: { style: 'thin' } }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${76}`).alignment = { horizontal: 'center' }
+                worksheet.getCell(`${String.fromCharCode(i + 64)}${77}`).alignment = { horizontal: 'center' }
+
             }
             for (let i = 61; i < 116; i++) {
                 worksheet.getCell(`A${i}`).border = { left: { style: 'thick' } }
-                if (i === 64 || i === 68 || i === 71 || i === 73 || i === 75 || i === 76) {
-                    worksheet.getCell(`A${i}`).border = { left: { style: 'thick' }, bottom: { style: 'thin' } }
+                if (i === 64 || i === 68 || i === 71 || i === 73 || i === 75 || i === 77) {
+                    worksheet.getCell(`A${i}`).border = { bottom: { style: 'thin' }, left: { style: 'thick' } }
                 }
-                worksheet.getCell(`F${i}`).border = { right: { style: 'thick' } }
-                if (i === 63 || i === 66 || i === 70 || i === 75 || i === 76) {
-                    worksheet.getCell(`C${i}`).border = { bottom: { style: 'thin' } }
-                    worksheet.getCell(`F${i}`).border = {
+                worksheet.getCell(`J${i}`).border = { right: { style: 'thick' } }
+                if (i === 63 || i === 66 || i === 70 || i === 75 || i === 77) {
+                    worksheet.getCell(`J${i}`).border = {
                         right: { style: 'thick' }, bottom: { style: 'thin' }
                     }
                 }
@@ -320,18 +370,31 @@ const CartonExcelContainer = () => {
 
             for (let i = 72; i < 116; i++) {
                 worksheet.getCell(`B${i}`).border = { left: { style: 'thin' } }
-                if (i === 73 || i === 75 || i === 76) {
-                    worksheet.getCell(`B${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+                if (i === 73 || i === 75 || i === 77) {
+                    worksheet.getCell(`B${i}`).border = { bottom: { style: 'thin' }, left: { style: 'thin' } }
                 }
             }
-            for (let i = 60; i < 116; i++) {
-                worksheet.getCell(`C${i}`).border = { left: { style: 'thin' } }
-                if (i === 63 || i === 66 || i === 70 || i === 75 || i === 76) {
-                    worksheet.getCell(`C${i}`).border = { left: { style: 'thin' }, bottom: { style: 'thin' } }
+            for (let i = 61; i < 116; i++) {
+                worksheet.getCell(`C${i}`).border = { right: { style: 'thin' } }
+                if (i === 64 || i === 68 || i === 71 || i === 73 || i === 75 || i === 77) {
+                    worksheet.getCell(`C${i}`).border = { right: { style: 'thin' }, bottom: { style: 'thin' } }
                 }
             }
-            for (let i = 77; i < 114; i++) {
-                worksheet.getCell(`${String.fromCharCode(68)}${i}`).border = { left: { style: 'dotted' }, right: { style: 'dotted' } }
+            for (let i = 76; i < 116; i++) {
+                worksheet.getCell(`B${i}`).border = { right: { style: 'thin' }, left: { style: 'thin' } }
+                if (i === 76) {
+                    worksheet.getCell(`I${i}`).border = { top: { style: 'thin' }, right: { style: 'thick' } }
+                }
+                if (i === 77) {
+                    worksheet.getCell(`B${i}`).border = { bottom: { style: 'thin' }, right: { style: 'thin' }, left: { style: 'thin' } }
+                }
+            }
+            for (let i = 78; i < 116; i++) {
+                worksheet.getCell(`B${i}`).border = { right: { style: 'thin' }, left: { style: 'thin' } }
+                worksheet.getCell(`D${i}`).border = { right: { style: 'thin' } }
+                worksheet.getCell(`F${i}`).border = { left: { style: 'dotted' }, right: { style: 'thin' } }
+                worksheet.getCell(`H${i}`).border = { left: { style: 'dotted' }, right: { style: 'thin' } }
+                worksheet.getCell(`J${i}`).border = { left: { style: 'dotted' }, right: { style: 'thick' } }
             }
             worksheet.getCell('A60').border = {
                 top: { style: "thick" },
@@ -339,34 +402,16 @@ const CartonExcelContainer = () => {
                 right: { style: "thick" },
                 left: { style: "thick" },
             };
-            worksheet.getCell('B114').border = {
+            worksheet.getCell('B116').border = {
                 top: { style: "thin" },
-                bottom: { style: "thin" },
-                right: { style: "thin" },
-                left: { style: "thin" },
-            };
-            worksheet.getCell('F114').border = {
-                top: { style: "thin" },
-                bottom: { style: "thin" },
-                right: { style: "thick" },
-                left: { style: "thin" },
-            };
-            worksheet.getCell('C114').border = {
-                top: { style: "thin" },
-            };
-            worksheet.getCell('D114').border = {
-                top: { style: "thin" },
-            };
-            worksheet.getCell('D116').border = {
-                top: { style: "thin" },
+                right: { style: 'thick' },
                 bottom: { style: "thick" },
-                right: { style: "thick" },
                 left: { style: "thick" },
             };
-
-
-
-
+            // worksheet.getCell('A116').border = {
+            //     bottom: { style: "thick" },
+            //     left: { style: "thick" },
+            // };
 
             worksheet.getCell('A61').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[0] }] }//1. Shipper/Exporter
             worksheet.getCell('A62').alignment = { indent: 1 }
@@ -409,55 +454,46 @@ const CartonExcelContainer = () => {
             worksheet.getCell('B74').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[6] }] }//7. Final Destination
             worksheet.getCell('B75').alignment = { indent: 1 }
             worksheet.getCell('B75').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: description[7].Destination }] }
-            worksheet.getCell('B114').alignment = { horizontal: 'center', vertical: 'middle' }
-            worksheet.getCell('B114').value = {
-                richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'TOTAL' }]
-            }
+            worksheet.getCell('B115').alignment = { horizontal: 'center', vertical: 'middle' }
 
-
-            worksheet.getCell('D114').alignment = { horizontal: 'center', vertical: 'middle' }
-            worksheet.getCell('D114').value = {
-                richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'SET' }]
-            }
-            worksheet.getCell('D115').alignment = { horizontal: 'center', vertical: 'middle' }
-            worksheet.getCell('D115').value = {
-                richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'EA' }]
-            }
-
-            worksheet.getCell('D116').alignment = { horizontal: 'center', vertical: 'middle' }
+            worksheet.getCell('B116').alignment = { horizontal: 'center', vertical: 'middle' }
             worksheet.getCell('D116').value = {
-                richText: [{ font: { name: 'Arial', size: 11, bold: true }, text: 'Signed by' }]
+                richText: [{ font: { name: 'Arial', size: 12, bold: true }, text: 'Signed by' }]
             }
-            worksheet.getCell('C61').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
-            worksheet.getCell('C62').alignment = { indent: 1 }
-            worksheet.getCell('C62').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
-            worksheet.getCell('F63').alignment = { horizontal: 'center' }
-            worksheet.getCell('F63').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page2 }] }
+            worksheet.getCell('D61').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
+            worksheet.getCell('D62').alignment = { indent: 1 }
+            worksheet.getCell('D62').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
+            worksheet.getCell('J63').alignment = { horizontal: 'center' }
+            worksheet.getCell('J63').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page1 }] }
 
-            worksheet.getCell('C64').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[8] }] }//9. Payment Terms and Conditions
-            worksheet.getCell('C65').alignment = { indent: 1 }
-            worksheet.getCell('C65').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[9].Payment }] }
+            worksheet.getCell('D64').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[8] }] }//9. Payment Terms and Conditions
+            worksheet.getCell('D65').alignment = { indent: 1 }
+            worksheet.getCell('D65').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[9].Payment }] }
 
-            worksheet.getCell('C67').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[9] }] }//10. Freight Term
-            worksheet.getCell('C68').alignment = { indent: 1 }
-            worksheet.getCell('C68').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[10].Term[0] }] }
+            worksheet.getCell('D67').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[9] }] }//10. Freight Term
+            worksheet.getCell('D68').alignment = { indent: 1 }
+            worksheet.getCell('D68').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[10].Term[0] }] }
 
-            worksheet.getCell('C71').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[10] }] }//11. Remarks
-            worksheet.getCell('C72').alignment = { indent: 1 }
-            worksheet.getCell('C72').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks1 }] }
-            worksheet.getCell('C73').alignment = { indent: 1 }
-            worksheet.getCell('C73').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks2 }] }
-            worksheet.getCell('C74').alignment = { indent: 1 }
-            worksheet.getCell('C74').value = { richText: [{ font: { name: 'Arial', size: 9, color: { argb: 'ff0' }, }, text: description[11].Forwarder }] }
+            worksheet.getCell('D71').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[10] }] }//11. Remarks
+            worksheet.getCell('D72').alignment = { indent: 1 }
+            worksheet.getCell('D72').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks1 }] }
+            worksheet.getCell('D73').alignment = { indent: 1 }
+            worksheet.getCell('D73').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[11].Remarks2 }] }
+            worksheet.getCell('D74').alignment = { indent: 1 }
+            worksheet.getCell('D74').value = { richText: [{ font: { name: 'Arial', size: 9, color: { argb: 'ff0' }, }, text: description[11].Forwarder }] }
 
-            worksheet.getCell('A76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[11] }] }//12. Mark & No.Pkgs
-            worksheet.getCell('B76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[12] }] }//13. Description of goods
-            worksheet.getCell('C76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[13] }] }//14. Quantity
-            worksheet.getCell('D76').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: headers[14] }] }//Unit
-            worksheet.getCell('D76').alignment = { horizontal: 'center' }
-            worksheet.getCell('E76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//15. Unit price
-            worksheet.getCell('F76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//16. Amount
-
+            worksheet.getCell('A76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[11] }] }//Mark & No.Pkgs
+            worksheet.getCell('B76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[12] }] }//Carton
+            worksheet.getCell('B77').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[13] }] }//No.
+            worksheet.getCell('C76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[14] }] }//Items
+            worksheet.getCell('D76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//Qty
+            worksheet.getCell('D77').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//C/T
+            worksheet.getCell('E76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[17] }] }//Quantity
+            worksheet.getCell('E77').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[18] }] }//(Unit)
+            worksheet.getCell('G76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[19] }] }//Weight
+            worksheet.getCell('G77').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[20] }] }//Net/Gross
+            worksheet.getCell('I76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[21] }] }//Volume(CBM)
+            worksheet.getCell('I77').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[22] }] }//Net/Gross
 
 
 
@@ -470,7 +506,7 @@ const CartonExcelContainer = () => {
             });
 
             worksheet.addImage(imageSign, {
-                tl: { col: 2, row: 115.3 }, ext: { width: 270, height: 40 }, editAs: 'absolute'
+                tl: { col: 4, row: 115.3 }, ext: { width: 270, height: 40 }, editAs: 'absolute'
             });
 
 
@@ -482,10 +518,10 @@ const CartonExcelContainer = () => {
                 extension: 'png',
             });
             worksheet.addImage(imageDiamond, {
-                tl: { col: 0.5, row: 18 }, ext: { width: 150, height: 80 }, editAs: 'absolute'
+                tl: { col: 0.5, row: 19 }, ext: { width: 150, height: 80 }, editAs: 'absolute'
             });
             worksheet.addImage(imageDiamond, {
-                tl: { col: 0.5, row: 77 }, ext: { width: 150, height: 80 }, editAs: 'absolute'
+                tl: { col: 0.5, row: 78 }, ext: { width: 150, height: 80 }, editAs: 'absolute'
             });
 
             const imageEK_logo = './images/ek_logo.png';
