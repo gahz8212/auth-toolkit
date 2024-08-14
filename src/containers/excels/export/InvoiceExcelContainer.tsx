@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import * as Excel from 'exceljs'
 import { saveAs } from 'file-saver';
 import ExportExcelComponent from './InvoiceExcelComponent';
+import { OrderData } from '../../../store/slices/orderSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const title = ['COMMERCIAL INVOICE', 'PROFORMA INVOICE'];
 const headers = [
     '1. Shipper/Exporter',
@@ -70,16 +73,38 @@ const description = {
 }
 
 const columnWidths = [22, 30, 9.63, 4, 10.5, 10]
-const InvoiceExcelContainer = () => {
-    const styleTitleCell = (cell: Excel.Cell) => {
+const invoiceData = { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] };
 
+type Props = {
+    selectedMonth: string
+}
+
+const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
+    const dispatch = useDispatch();
+    const { orderData } = useSelector(OrderData)
+    const selectedOrderData = orderData?.filter(data => data[selectedMonth])
+        .map(data => (
+            {
+                category: data.category,
+                name: data.itemName,
+                amount: data[selectedMonth],
+                price: data.ex_price,
+                sets: data.sets
+
+            }))
+    console.log(selectedOrderData)
+    if (selectedOrderData) {
+        const arrayDatas = selectedOrderData.reduce((acc: { EDT: {}[], NOBARK: {}[], RDT: {}[], LAUNCHER: {}[] }, cur) => {
+            acc[cur.amount].push({ name: cur.name })
+        }, invoiceData)
+        console.log(arrayDatas)
+    }
+    const styleTitleCell = (cell: Excel.Cell) => {
         cell.alignment = {
             vertical: "middle",
             horizontal: "center",
             wrapText: true,
         };
-
-
     };
     const makeInvoice = async () => {
         try {

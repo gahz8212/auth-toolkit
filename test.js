@@ -8,7 +8,7 @@ const objArray = [
   { category: "EDT", itemName: "SPR", price: 90 },
 ];
 const categories = objArray.reduce((acc, curr) => {
-  acc[curr.category].push(curr.itemName);
+  acc[curr.category].push({ name: curr.itemName, price: curr.price });
   return acc;
 }, invoiceDate);
 // .sort((a, b) => {
@@ -16,7 +16,28 @@ const categories = objArray.reduce((acc, curr) => {
 //   const prev = sortRef.findIndex((sort) => sort === b);
 //   return next - prev;
 // });
-console.log(categories);
+// console.log(Object.entries(categories)[0]);
+
+const keys = Object.keys(categories);
+const result = keys.map((key, index) => Object.entries(categories)[index]);
+console.log(result);
+let row = 0;
+
+for (let i = 0; i < result.length; i++) {
+  const category = result[i][0];
+  const items = result[i][1];
+  row++;
+  console.log(row, category);
+
+  // eslint-disable-next-line no-loop-func
+  items.map((item) => {
+    row += 1;
+    return console.log(row, item.name, item.price);
+  });
+}
+
+// const result = categories.map((category) => Object.keys(category));
+// console.log(result);
 // const sortRef = ["FEB", "SEP", "OCT", "JAN"];
 // const Qmonths = ["JAN", "OCT"];
 // Qmonths.sort((a, b) => {
