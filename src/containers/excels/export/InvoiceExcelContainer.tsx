@@ -73,7 +73,7 @@ const description = {
 }
 
 const columnWidths = [22, 30, 9.63, 4, 10.5, 10]
-const invoiceData = { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] };
+// const invoiceData = { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] };
 
 type Props = {
     selectedMonth: string
@@ -92,12 +92,21 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 sets: data.sets
 
             }))
-    console.log(selectedOrderData)
+    // console.log(selectedOrderData)
     if (selectedOrderData) {
-        const arrayDatas = selectedOrderData.reduce((acc: { EDT: {}[], NOBARK: {}[], RDT: {}[], LAUNCHER: {}[] }, cur) => {
-            acc[cur.amount].push({ name: cur.name })
-        }, invoiceData)
-        console.log(arrayDatas)
+
+        // { category: 'EDT'|'NOBARK'|'RDT'|'LAUNCHER'; name: string; amount: Number, price: number; sets:string }' 형식에 '{ EDT: never[]; NOBARK: never[]; RDT: never[]; LAUNCHER: never[]; }
+
+
+        const arrayDatas = selectedOrderData.reduce(
+            (acc: { [key: string]: {}[] }, curr) => {
+                acc[curr.category].push({ name: curr.name, amount: curr.amount, price: curr.price, sets: curr.sets })
+                return acc;
+            }, { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] })
+        const keys = Object.keys(arrayDatas)
+        const result = keys.map((key, index) => Object.entries(arrayDatas)[index])
+        console.log(result)
+        // const changedOrders=
     }
     const styleTitleCell = (cell: Excel.Cell) => {
         cell.alignment = {

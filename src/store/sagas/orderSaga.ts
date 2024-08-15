@@ -13,6 +13,7 @@ function* getDummyItemSaga() {
 function* getOrderDataSaga() {
   try {
     const response: { data: any[] } = yield call(orderAPI.getOrderData);
+  
     yield put(OrderAction.getOrderDataSuccess(response.data));
     yield put(OrderAction.inputOrderSuccess(response.data));
   } catch (e: any) {
