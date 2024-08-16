@@ -21,6 +21,9 @@ const categories = objArray.reduce((acc, curr) => {
 const keys = Object.keys(categories);
 const result = keys.map((key, index) => Object.entries(categories)[index]);
 console.log(result);
+let rowCounts = result.length;
+// rowCounts += result.map((res) => res[1].length);
+console.log("rowCount", rowCounts);
 let row = 0;
 
 for (let i = 0; i < result.length; i++) {
