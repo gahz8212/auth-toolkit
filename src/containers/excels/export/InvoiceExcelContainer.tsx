@@ -135,9 +135,9 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 { header: '', key: '', width: columnWidths[5] + 0.58 },
             ]
             if (rowCount + 2 > 37) {
+
                 worksheet.mergeCells("A1:F1")
                 worksheet.mergeCells("B59:F59")
-
                 worksheet.getRow(1).height = 36.75;
                 for (let i = 2; i < 18; i++) {
                     worksheet.getRow(i).height = 14.25
@@ -145,7 +145,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 for (let i = 18; i < 59; i++) {
                     worksheet.getRow(i).height = 12
                     worksheet.getCell(`B${i}`).font = { size: 9, name: 'arial' }
-                    worksheet.getCell(`B${i}`).alignment = { vertical: 'middle', indent: 1 }
+                    worksheet.getCell(`B${i}`).alignment = { horizontal: 'left', vertical: 'middle', indent: 1 }
                     worksheet.getCell(`C${i}`).style = { numFmt: '#,###' }
                     worksheet.getCell(`C${i}`).alignment = { vertical: 'middle', }
                     worksheet.getCell(`C${i}`).font = { size: 9, name: 'arial' }
@@ -327,7 +327,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 for (let i = 77; i < 116; i++) {
                     worksheet.getRow(i).height = 12
                     worksheet.getCell(`B${i}`).font = { size: 9, name: 'arial' }
-                    worksheet.getCell(`B${i}`).alignment = { vertical: 'middle', indent: 1 }
+                    worksheet.getCell(`B${i}`).alignment = { horizontal: 'left', vertical: 'middle', indent: 1 }
                     worksheet.getCell(`C${i}`).style = { numFmt: '#,###' }
                     worksheet.getCell(`C${i}`).alignment = { vertical: 'middle', }
                     worksheet.getCell(`C${i}`).font = { size: 9, name: 'arial' }
@@ -419,6 +419,14 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 };
                 worksheet.getCell('D114').border = {
                     top: { style: "thin" },
+                };
+                worksheet.getCell('E114').border = {
+                    top: { style: "thin" },
+                    left: { style: "thin" },
+                };
+                worksheet.getCell('E115').border = {
+
+                    left: { style: "thin" },
                 };
                 worksheet.getCell('D116').border = {
                     top: { style: "thin" },
@@ -520,48 +528,61 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 worksheet.getCell('D76').alignment = { horizontal: 'center' }
                 worksheet.getCell('E76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//15. Unit price
                 worksheet.getCell('F76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//16. Amount
-
+                let extraRow = 0;
                 for (let i = 0; i < result.length; i++) {
                     const category = result[i][0];
                     const items = result[i][1];
                     row++;
-                    worksheet.getCell(`B${row + 76}`).font = { bold: true, size: 10 }
-                    worksheet.getCell(`B${row + 76}`).alignment = { indent: 0, vertical: 'middle' }
-                    worksheet.getCell(`B${row + 76}`).value = i + 1 + '. ' + category
+                    if (row > 41) {
+                        extraRow = 18
+                    } else {
+                        extraRow = 0;
+                    }
+                    // console.log(row + 17 + extraRow)
+                    worksheet.getCell(`B${row + 17 + extraRow}`).font = { bold: true, size: 10 }
+                    worksheet.getCell(`B${row + 17 + extraRow}`).alignment = { indent: 0, vertical: 'middle' }
+                    worksheet.getCell(`B${row + 17 + extraRow}`).value = i + 1 + '. ' + category
 
                     // eslint-disable-next-line no-loop-func
                     items.forEach(item => {
-                        row += 1;
-                        worksheet.getCell(`B${row + 76}`).value = item.name
-                        worksheet.getCell(`C${row + 76}`).value = item.amount
-                        worksheet.getCell(`D${row + 76}`).value = item.sets
-                        worksheet.getCell(`E${row + 76}`).value = item.price
-                        worksheet.getCell(`F${row + 76}`).value = item.price * item.amount
+                        row++;
+                        // console.log('row', row)
+                        if (row > 41) {
+                            extraRow = 19
+                            worksheet.getCell(`B${row + 16 + extraRow}`).value = 'to be continued.'
+                        } else {
+                            extraRow = 0;
+                        }
+                        worksheet.getCell(`B${row + 17 + extraRow}`).value = item.name
+                        worksheet.getCell(`C${row + 17 + extraRow}`).value = item.amount
+                        worksheet.getCell(`D${row + 17 + extraRow}`).value = item.sets
+                        worksheet.getCell(`E${row + 17 + extraRow}`).value = item.price
+                        worksheet.getCell(`F${row + 17 + extraRow}`).value = item.price * item.amount
                     })
                 }
                 for (let i = 2; i < 7; i++) {
                     if (i === 2) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 76}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 17 + extraRow}`).border = {
                             left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, right: { style: 'thin' }
                         }
                     }
                     if (i === 3) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 76}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 17 + extraRow}`).border = {
                             left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
                         }
                     }
                     if (i === 4) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 76}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 17 + extraRow}`).border = {
                             left: { style: 'dotted' }, right: { style: 'dotted' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
                         }
                     }
                     if (i === 5) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 76}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 17 + extraRow}`).border = {
                             bottom: { style: 'double', color: { argb: 'ff0000' } }
                         }
                     }
                     if (i === 6) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 76}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${row + 17 + extraRow}`).border = {
                             right: { style: 'thick' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'dotted' }
                         }
                     }
@@ -619,7 +640,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 for (let i = 18; i < 57; i++) {
                     worksheet.getRow(i).height = 12
                     worksheet.getCell(`B${i}`).font = { size: 9, name: 'arial' }
-                    worksheet.getCell(`B${i}`).alignment = { vertical: 'middle', indent: 1 }
+                    worksheet.getCell(`B${i}`).alignment = { horizontal: 'left', vertical: 'middle', indent: 1 }
                     worksheet.getCell(`C${i}`).style = { numFmt: '#,###' }
                     worksheet.getCell(`C${i}`).alignment = { vertical: 'middle', }
                     worksheet.getCell(`C${i}`).font = { size: 9, name: 'arial' }
