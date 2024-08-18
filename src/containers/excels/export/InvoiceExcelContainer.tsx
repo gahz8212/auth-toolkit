@@ -276,7 +276,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 worksheet.getCell('B15').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[6] }] }//7. Final Destination
                 worksheet.getCell('B16').alignment = { indent: 1 }
                 worksheet.getCell('B16').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: description[7].Destination }] }
-         
+
 
                 worksheet.getCell('B59').alignment = { horizontal: 'left', vertical: 'middle' }
                 worksheet.getCell('B59').value = {
@@ -533,8 +533,8 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                     const category = result[i][0];
                     const items = result[i][1];
                     row++;
-                    if (row > 41) {
-                        extraRow = 18
+                    if (row > 35) {
+                        extraRow = 25
                     } else {
                         extraRow = 0;
                     }
@@ -547,9 +547,9 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                     items.forEach(item => {
                         row++;
                         // console.log('row', row)
-                        if (row > 41) {
-                            extraRow = 19
-                            worksheet.getCell(`B${row + 16 + extraRow}`).value = 'to be continued.'
+                        if (row > 35) {
+                            worksheet.getCell(`B77`).value = 'to be continued.'
+                            extraRow = 25
                         } else {
                             extraRow = 0;
                         }
