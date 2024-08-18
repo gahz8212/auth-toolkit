@@ -276,7 +276,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 worksheet.getCell('B15').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[6] }] }//7. Final Destination
                 worksheet.getCell('B16').alignment = { indent: 1 }
                 worksheet.getCell('B16').value = { richText: [{ font: { name: 'Arial', size: 9, }, text: description[7].Destination }] }
-                worksheet.getCell('B55').alignment = { horizontal: 'center', vertical: 'middle' }
+         
 
                 worksheet.getCell('B59').alignment = { horizontal: 'left', vertical: 'middle' }
                 worksheet.getCell('B59').value = {
