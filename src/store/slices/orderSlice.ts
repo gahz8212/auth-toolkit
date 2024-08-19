@@ -3,7 +3,7 @@ import { RootState } from "..";
 type State = {
   orderFile: ArrayBuffer | undefined | null;
   orderData: any[] | null;
-  packingData: any[] | null;
+  // packingData: any[] | null;
   palletData: any[] | null;
   months: string[] | null;
   dummyItems: any[] | null;
@@ -13,7 +13,7 @@ type State = {
 const initialState: State = {
   orderFile: null,
   orderData: null,
-  packingData: null,
+  // packingData: null,
   palletData: null,
   months: null,
   dummyItems: null,
@@ -60,11 +60,10 @@ const orderSlice = createSlice({
       state.status.error = "";
     },
     inputOrderSuccess: (state, { payload: order }) => {
-      
       state.status.loading = false;
       state.status.error = "";
       state.orderData = order;
-      state.packingData = order;
+      // state.packingData = order;
       state.months = Object.keys(order[0]).slice(1, 6);
     },
     inputOrderFailure: (state, { payload: error }) => {

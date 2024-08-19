@@ -3,7 +3,7 @@ import * as Excel from 'exceljs'
 import { saveAs } from 'file-saver';
 import ExportExcelComponent from './InvoiceExcelComponent';
 import { OrderData } from '../../../store/slices/orderSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 
 const title = ['COMMERCIAL INVOICE', 'PROFORMA INVOICE'];
 const headers = [
@@ -80,11 +80,11 @@ type Props = {
 }
 
 const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
-    const dispatch = useDispatch();
     const { orderData } = useSelector(OrderData)
     let rowCount = 0;
     let result: [string, { name: string, amount: number, price: number, sets: string }[]][];
     let row = 0
+    let categoryNum = 1;
     const selectedOrderData = orderData?.filter(data => data[selectedMonth])
         .map(data => (
             {
@@ -529,36 +529,39 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 worksheet.getCell('E76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[15] }] }//15. Unit price
                 worksheet.getCell('F76').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//16. Amount
                 let extraRow = 0;
-                for (let i = 0; i < result.length; i++) {
-                    const category = result[i][0];
-                    const items = result[i][1];
-                    row++;
-                    if (row > 35) {
-                        extraRow = 25
-                    } else {
-                        extraRow = 0;
-                    }
-                    // console.log(row + 17 + extraRow)
-                    worksheet.getCell(`B${row + 17 + extraRow}`).font = { bold: true, size: 10 }
-                    worksheet.getCell(`B${row + 17 + extraRow}`).alignment = { indent: 0, vertical: 'middle' }
-                    worksheet.getCell(`B${row + 17 + extraRow}`).value = i + 1 + '. ' + category
 
-                    // eslint-disable-next-line no-loop-func
-                    items.forEach(item => {
+                for (let i = 0; i < result.length; i++) {
+                    const items = result[i][1];
+                    if (items.length > 0) {
+                        const category = result[i][0];
                         row++;
-                        // console.log('row', row)
                         if (row > 35) {
-                            worksheet.getCell(`B77`).value = 'to be continued.'
                             extraRow = 25
                         } else {
                             extraRow = 0;
                         }
-                        worksheet.getCell(`B${row + 17 + extraRow}`).value = item.name
-                        worksheet.getCell(`C${row + 17 + extraRow}`).value = item.amount
-                        worksheet.getCell(`D${row + 17 + extraRow}`).value = item.sets
-                        worksheet.getCell(`E${row + 17 + extraRow}`).value = item.price
-                        worksheet.getCell(`F${row + 17 + extraRow}`).value = item.price * item.amount
-                    })
+                        // console.log(row + 17 + extraRow)
+                        worksheet.getCell(`B${row + 17 + extraRow}`).font = { bold: true, size: 10 }
+                        worksheet.getCell(`B${row + 17 + extraRow}`).alignment = { indent: 0, vertical: 'middle' }
+                        worksheet.getCell(`B${row + 17 + extraRow}`).value = categoryNum++ + '. ' + category
+
+                        // eslint-disable-next-line no-loop-func
+                        items.forEach(item => {
+                            row++;
+                            // console.log('row', row)
+                            if (row > 35) {
+                                worksheet.getCell(`B77`).value = 'Continued'
+                                extraRow = 25
+                            } else {
+                                extraRow = 0;
+                            }
+                            worksheet.getCell(`B${row + 17 + extraRow}`).value = item.name
+                            worksheet.getCell(`C${row + 17 + extraRow}`).value = item.amount
+                            worksheet.getCell(`D${row + 17 + extraRow}`).value = item.sets
+                            worksheet.getCell(`E${row + 17 + extraRow}`).value = item.price
+                            worksheet.getCell(`F${row + 17 + extraRow}`).value = item.price * item.amount
+                        })
+                    }
                 }
                 for (let i = 2; i < 7; i++) {
                     if (i === 2) {
@@ -844,22 +847,24 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 worksheet.getCell('F17').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[16] }] }//16. Amount
 
                 for (let i = 0; i < result.length; i++) {
-                    const category = result[i][0];
                     const items = result[i][1];
-                    row++;
-                    worksheet.getCell(`B${row + 17}`).font = { bold: true, size: 10 }
-                    worksheet.getCell(`B${row + 17}`).alignment = { indent: 0, vertical: 'middle' }
-                    worksheet.getCell(`B${row + 17}`).value = i + 1 + '. ' + category
+                    if (items.length > 0) {
+                        const category = result[i][0];
+                        row++;
+                        worksheet.getCell(`B${row + 17}`).font = { bold: true, size: 10 }
+                        worksheet.getCell(`B${row + 17}`).alignment = { indent: 0, vertical: 'middle' }
+                        worksheet.getCell(`B${row + 17}`).value = categoryNum++ + '. ' + category
 
-                    // eslint-disable-next-line no-loop-func
-                    items.forEach(item => {
-                        row += 1;
-                        worksheet.getCell(`B${row + 17}`).value = item.name
-                        worksheet.getCell(`C${row + 17}`).value = item.amount
-                        worksheet.getCell(`D${row + 17}`).value = item.sets
-                        worksheet.getCell(`E${row + 17}`).value = item.price
-                        worksheet.getCell(`F${row + 17}`).value = item.price * item.amount
-                    })
+                        // eslint-disable-next-line no-loop-func
+                        items.forEach(item => {
+                            row += 1;
+                            worksheet.getCell(`B${row + 17}`).value = item.name
+                            worksheet.getCell(`C${row + 17}`).value = item.amount
+                            worksheet.getCell(`D${row + 17}`).value = item.sets
+                            worksheet.getCell(`E${row + 17}`).value = item.price
+                            worksheet.getCell(`F${row + 17}`).value = item.price * item.amount
+                        })
+                    }
                 }
                 for (let i = 2; i < 7; i++) {
                     if (i === 2) {

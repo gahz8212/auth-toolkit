@@ -46,6 +46,7 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
                 selectedMonth={selectedMonth}
                 totalResult={totalResult}
                 InvoiceExcelContainer={() => <InvoiceExcelContainer selectedMonth={selectedMonth} />} />
+                
         </div>
     );
 };

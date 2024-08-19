@@ -6,7 +6,7 @@ type Props = {
     totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[]
     CartonExcelContainer: () => JSX.Element
 }
-const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalResult,CartonExcelContainer }) => {
+const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalResult, CartonExcelContainer }) => {
 
     let newData: { [key: string]: number | string }[] = []
     if (packingData && selectedMonth) {
@@ -55,9 +55,9 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
             <div className='packing-data'>{data.itemName}</div>
             {/* {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
             {/* {data[selectedMonth] && <div className='invoice-data'>${(data.ex_price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
-            {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-            {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq * data.weight).toFixed(1)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-            {data[selectedMonth] && <div className='invoice-data'>{(data[selectedMonth] / data.moq * data.cbm).toFixed(2)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {<div className='invoice-data'>{(data.CT_qty)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {<div className='invoice-data'>{(data.CT_qty * data.weight).toFixed(1)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
+            {<div className='invoice-data'>{(data.CT_qty * data.cbm).toFixed(2)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
         </div>)
     )
     const footer = (totalResult?.map(result => <div className='tr'>
