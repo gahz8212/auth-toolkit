@@ -6,13 +6,12 @@ import { formActions, formSelector } from '../../store/slices/formSlice';
 import ExcelJS from 'exceljs';
 const ExportContainer = () => {
     const orderInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
-
     const partsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const itemsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const dispatch = useDispatch()
     const { orderData, months } = useSelector(OrderData)
     const [model, setModel] = useState<string>('model')
-    const { invoice, packing, addItem } = useSelector(formSelector)
+    const { invoice, packing, addItem, pallet } = useSelector(formSelector)
 
     const onChangeParts = async (e: any) => {
         const selectedFile = e.target.files[0];
@@ -128,7 +127,9 @@ const ExportContainer = () => {
     }
     const openPackingForm = () => {
         dispatch(formActions.toggle_form({ form: 'packing', value: !packing.visible }))
+        dispatch(formActions.toggle_form({ form: 'pallet', value: !pallet.visible }))
     }
+
     const openAddItemForm = () => {
 
 
@@ -167,6 +168,7 @@ const ExportContainer = () => {
             invoiceForm={invoice}
             packingForm={packing}
             addItemForm={addItem}
+            palletForm={pallet}
             openInvoiceForm={openInvoiceForm}
             openPackingForm={openPackingForm}
             openAddItemForm={openAddItemForm}

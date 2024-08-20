@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import InvoiceContainer from '../forms/invoiceForm/InvoiceContainer';
 import PackingContainer from '../forms/packingListForm/PackingContainer';
 import AddItemContainer from '../forms/addItemForm/AddItemContainer';
+import PalletContainer from '../forms/packingListForm/PalletContainer';
 import { useDrag } from 'react-use-gesture';
 import { OrderAction } from '../../store/slices/orderSlice'
 import { useDispatch } from 'react-redux'
@@ -25,6 +26,7 @@ type Props = {
     invoiceForm: { visible: boolean; position: { x: number; y: number } };
     packingForm: { visible: boolean; position: { x: number; y: number } };
     addItemForm: { visible: boolean; position: { x: number; y: number } };
+    palletForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
 
 }
@@ -42,6 +44,7 @@ const ExportComponent: React.FC<Props> = ({
     invoiceForm,
     packingForm,
     addItemForm,
+    palletForm,
     openInvoiceForm,
     openPackingForm,
     openAddItemForm,
@@ -54,6 +57,7 @@ const ExportComponent: React.FC<Props> = ({
     let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
     const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 820, y: params.offset[1] + 200 }) }))
+    const palletPos = useDrag((params => { changePosition('pallet', { x: params.offset[0] + 1400, y: params.offset[1] + 200 }) }))
     const addItemPos = useDrag((params => { changePosition('addItem', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
 
     let orderdata;
@@ -143,6 +147,33 @@ const ExportComponent: React.FC<Props> = ({
                 </div>
                 <div style={{ position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 2 }}>
                     <PackingContainer
+                        selectedMonth={selectedMonth || months![0]}
+                    />
+                </div>
+            </div>}
+            {palletForm.visible && <div>
+                <div {...palletPos()} style={{
+                    color: 'black',
+                    width: '100px',
+                    cursor: 'pointer',
+                    position: 'fixed',
+                    top: palletForm.position.y,
+                    left: palletForm.position.x,
+                    zIndex: 4,
+                    textAlign: 'center'
+                }}>
+                    <span style={{
+                        display: 'inline-block',
+                        height: '50px',
+                        width: '100px',
+                        fontWeight: '700',
+                        paddingTop: '0.5rem',
+                        userSelect: 'none',
+                        textAlign: "center"
+                    }}>PALLET</span>
+                </div>
+                <div style={{ position: 'fixed', top: palletForm.position.y, left: palletForm.position.x, zIndex: 2 }}>
+                    <PalletContainer
                         selectedMonth={selectedMonth || months![0]}
                     />
                 </div>

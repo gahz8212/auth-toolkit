@@ -3,7 +3,7 @@ import * as Excel from 'exceljs'
 import { saveAs } from 'file-saver';
 import ExportExcelComponent from './InvoiceExcelComponent';
 import { OrderData } from '../../../store/slices/orderSlice';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const title = ['COMMERCIAL INVOICE', 'PROFORMA INVOICE'];
 const headers = [
@@ -72,7 +72,7 @@ const description = {
     },
 }
 
-const columnWidths = [22, 30, 9.63, 4, 10.5, 10]
+const columnWidths = [20, 32, 9.63, 4, 10.5, 10]
 // const invoiceData = { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] };
 
 type Props = {
@@ -497,7 +497,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
 
                 worksheet.getCell('D116').alignment = { horizontal: 'center', vertical: 'middle' }
                 worksheet.getCell('D116').value = {
-                    richText: [{ font: { name: 'Arial', size: 11, bold: true }, text: 'Signed By' }]
+                    richText: [{ font: { name: 'Arial', size: 12, bold: true }, text: 'Signed by' }]
                 }
                 worksheet.getCell('C61').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
                 worksheet.getCell('C62').alignment = { indent: 1 }
@@ -550,6 +550,8 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                             row++;
                             // console.log('row', row)
                             if (row > 35) {
+                                worksheet.getCell(`B77`).alignment = { indent: 0 }
+                                // worksheet.getCell(`B77`).font = { bold: true }
                                 worksheet.getCell(`B77`).value = 'Continued'
                                 extraRow = 25
                             } else {
@@ -642,6 +644,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                 }
                 for (let i = 18; i < 57; i++) {
                     worksheet.getRow(i).height = 12
+                    // worksheet.getRow(i).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`B${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`B${i}`).alignment = { horizontal: 'left', vertical: 'middle', indent: 1 }
                     worksheet.getCell(`C${i}`).style = { numFmt: '#,###' }
@@ -814,13 +817,13 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
 
                 worksheet.getCell('D57').alignment = { horizontal: 'center', vertical: 'middle' }
                 worksheet.getCell('D57').value = {
-                    richText: [{ font: { name: 'Arial', size: 11, bold: true }, text: 'Signed By' }]
+                    richText: [{ font: { name: 'Arial', size: 12, bold: true }, text: 'Signed by' }]
                 }
                 worksheet.getCell('C2').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
                 worksheet.getCell('C3').alignment = { indent: 1 }
                 worksheet.getCell('C3').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
                 worksheet.getCell('F4').alignment = { horizontal: 'center' }
-                worksheet.getCell('F4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page2 }] }
+                worksheet.getCell('F4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8].page1 }] }
 
                 worksheet.getCell('C5').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[8] }] }//9. Payment Terms and Conditions
                 worksheet.getCell('C6').alignment = { indent: 1 }

@@ -2,7 +2,7 @@
 import React from 'react';
 type Props = {
     invoiceData: any[] | undefined;
-    totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[]
+    totalResult: { [x: string]: { carton: number; weight: number; set: number; ea: number; price: number; }; }[]
     selectedMonth: string;
     InvoiceExcelContainer: () => JSX.Element
 }
@@ -19,7 +19,8 @@ const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalRe
     )
     const footer = (totalResult?.map(result => <div className='tr'>
         {result[selectedMonth] && <div className='th'>TOTAL</div>}
-        {result[selectedMonth] && <div className='th'>{result[selectedMonth].carton}C/T</div>}
+        {result[selectedMonth] && <div className='th'>{result[selectedMonth].set.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} SET</div>}
+        {result[selectedMonth] && <div className='th'>{result[selectedMonth].ea.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} EA</div>}
         {/* {result[selectedMonth] && <div className='th'>{result[selectedMonth].weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</div>} */}
         {/* {result[selectedMonth] && <div className='th'>{result[selectedMonth].cbm.toFixed(1)}CBM</div>} */}
         {result[selectedMonth] && <div className='th'>${result[selectedMonth].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}

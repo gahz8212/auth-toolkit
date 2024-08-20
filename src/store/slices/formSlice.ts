@@ -11,6 +11,7 @@ type State = {
   invoice: { visible: boolean; position: { x: number; y: number } };
   packing: { visible: boolean; position: { x: number; y: number } };
   addItem: { visible: boolean; position: { x: number; y: number } };
+  pallet: { visible: boolean; position: { x: number; y: number } };
 };
 
 const initialState: State = {
@@ -19,6 +20,7 @@ const initialState: State = {
   edit: { visible: false, position: { x: 250, y: 300 } },
   invoice: { visible: false, position: { x: 100, y: 200 } },
   packing: { visible: false, position: { x: 820, y: 200 } },
+  pallet: { visible: false, position: { x: 1400, y: 200 } },
   addItem: { visible: false, position: { x: 100, y: 200 } },
 };
 const inputFormSelector = (state: RootState) => {
@@ -39,6 +41,9 @@ const packingFormSelector = (state: RootState) => {
 const addItemFormSelector = (state: RootState) => {
   return state.form.addItem;
 };
+const palletFormSelector = (state: RootState) => {
+  return state.form.pallet;
+};
 export const formSelector = createSelector(
   inputFormSelector,
   editFormSelector,
@@ -46,13 +51,15 @@ export const formSelector = createSelector(
   packingFormSelector,
   addItemFormSelector,
   relateFormSelector,
-  (input, edit, invoice, packing, addItem, relate) => ({
+  palletFormSelector,
+  (input, edit, invoice, packing, addItem, relate, pallet) => ({
     input,
     edit,
     invoice,
     packing,
     addItem,
     relate,
+    pallet,
   })
 );
 const formSlice = createSlice({

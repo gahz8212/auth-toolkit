@@ -15,25 +15,24 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
 
     // 하단 total에 들어가는 데이터 객체
     // invoiceData는 헤더만 추출하기 위해 필요
-    let totalResult: { [x: string]: { carton: number; weight: number; cbm: number; price: number; }; }[] = [];
+    let totalResult: { [x: string]: { carton: number; weight: number; set: number; ea: number; price: number; }; }[] = [];
     if (orderData) {
         const headers = Object.keys(orderData[0]).slice(1, 6)
-
-
         totalResult =
             headers.map(header => {
                 let carton = 0;
                 let weight = 0;
-                let cbm = 0;
+                let set = 0;
+                let ea = 0;
                 let price = 0;
                 orderData?.forEach(invoice => {
-                    carton += invoice[header] / invoice.moq;
+                    invoice.sets === 'SET' ? set += invoice[header] : ea += invoice[header]
                     weight += invoice.weight * invoice[header] / invoice.moq;
-                    cbm += invoice.cbm * invoice[header] / invoice.moq;
+                    // cbm += invoice.cbm * invoice[header] / invoice.moq;
                     price += invoice[header] * invoice.ex_price;
                 }
                 )
-                return { [header]: { carton, weight, cbm, price } };
+                return { [header]: { carton, weight, set, ea, price } };
             })
     }
 
@@ -46,7 +45,7 @@ const InvoiceContainer: React.FC<Props> = ({ selectedMonth }) => {
                 selectedMonth={selectedMonth}
                 totalResult={totalResult}
                 InvoiceExcelContainer={() => <InvoiceExcelContainer selectedMonth={selectedMonth} />} />
-                
+
         </div>
     );
 };
