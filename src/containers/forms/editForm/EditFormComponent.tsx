@@ -163,9 +163,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                             </div>
 
-
-
-
                             <div className="item_basket" onDragEnter={() => {
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>

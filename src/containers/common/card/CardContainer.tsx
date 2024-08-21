@@ -81,7 +81,7 @@ const CardContainer = () => {
         dispatch(itemActions.initialDragItem())
         dispatch(editActions.initialDragItem())
     }
-   
+
     return (
         <div>
             <CardComponent

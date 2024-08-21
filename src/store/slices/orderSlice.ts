@@ -4,7 +4,13 @@ type State = {
   orderFile: ArrayBuffer | undefined | null;
   orderData: any[] | null;
   // packingData: any[] | null;
-  palletData: any[] | null;
+  palletData: {
+    [key: number]: {
+      [key: string]: string | number;
+      item: string;
+      amount: number;
+    }[];
+  };
   months: string[] | null;
   dummyItems: any[] | null;
 
@@ -14,7 +20,30 @@ const initialState: State = {
   orderFile: null,
   orderData: null,
   // packingData: null,
-  palletData: null,
+  palletData: {
+    0: [
+      { item: "CC 360", amount: 10 },
+      { item: "H2O 1820", amount: 10 },
+      { item: "RAPT 1400", amount: 10 },
+    ],
+    1: [{ item: "", amount: 0 }],
+
+    2: [{ item: "", amount: 0 }],
+
+    3: [{ item: "", amount: 0 }],
+
+    4: [{ item: "", amount: 0 }],
+
+    5: [{ item: "", amount: 0 }],
+
+    6: [{ item: "", amount: 0 }],
+
+    7: [{ item: "", amount: 0 }],
+
+    8: [{ item: "", amount: 0 }],
+
+    9: [{ item: "", amount: 0 }],
+  },
   months: null,
   dummyItems: null,
   // invoiceData: null,
@@ -29,14 +58,19 @@ const monthSelector = (state: RootState) => {
 const dummyItemSelector = (state: RootState) => {
   return state.order.dummyItems;
 };
+const palletSelector = (state: RootState) => {
+  return state.order.palletData;
+};
 export const OrderData = createSelector(
   orderSelector,
   monthSelector,
   dummyItemSelector,
-  (orderData, months, dummyItems) => ({
+  palletSelector,
+  (orderData, months, dummyItems, palletData) => ({
     orderData,
     months,
     dummyItems,
+    palletData,
   })
 );
 const orderSlice = createSlice({
@@ -112,6 +146,11 @@ const orderSlice = createSlice({
       state.status.error = error;
       state.status.loading = false;
       state.status.message = "";
+    },
+    settingPallet: (state, { payload: packingData }) => {
+      const { pNo, itemData } = packingData;
+      // console.log("result", state.palletData[0][1].item);
+      state.palletData[pNo].push(itemData);
     },
   },
 });

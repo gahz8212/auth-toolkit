@@ -34,9 +34,11 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
     const dragOverItem = useRef<number>(0);
     const dragItemStart = (index: number) => {
         dragItem.current = index
+        console.log('dragItem.current', dragItem.current)
     }
     const dragItemEnter = (index: number) => {
         dragOverItem.current = index
+        console.log('dragOverItem.current', dragOverItem.current)
     }
     const drop = () => {
         const newList = JSON.parse(JSON.stringify(newData));

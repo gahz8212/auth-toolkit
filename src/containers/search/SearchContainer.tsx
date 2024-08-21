@@ -24,7 +24,7 @@ const SearchContainer: React.FC<Props> = ({ setVisible, visible }) => {
         { name: '생성일', sorting: 'createdAt' }])
     const onChange = (e: any) => {
         const { name, checked } = e.target;
-        console.log(name, checked)
+        // console.log(name, checked)
         if (name === 'typeALL') {
             dispatch(SearchActions.typeALL(checked))
         } else if (name === 'groupALL') {

@@ -1,35 +1,67 @@
-import { autoBatchEnhancer } from '@reduxjs/toolkit';
-import React from 'react';
 
-const PalletComponent = () => {
+import React, { useRef } from 'react';
+type Props = {
+    palletData: {
+        [key: number]: { [key: string]: string | number; }[]
+    }
+
+    settingPallet: (Pnumber: number, itemData: { item: string, amount: number }) => void
+
+}
+type Items = {
+    items: {
+        [key: string]: string | number;
+    }[];
+
+}
+const PalletItems: React.FC<Items> = ({ items }) => {
+
+    return <div>
+        {items.map(item => <div>{item.item}</div>)}
+    </div>
+}
+const PalletComponent: React.FC<Props> = ({ palletData, settingPallet }) => {
+
+    // const dragItem = useRef<number>(0);
+    const dragOverItem = useRef<number>(0);
+    const dragItemEnter = (index: number) => {
+        dragOverItem.current = index
+        console.log('dragOverItem.current', dragOverItem.current)
+        settingPallet(dragOverItem.current, { item: 'test', amount: 10 })
+    }
+    const values = Object.values(palletData)
+    // console.log('values', values)
+    if (!palletData) { return null }
     return (
         <div>
             <div style={{
-                width: '120px',
+                width: '500px',
                 height: '600px',
                 background: 'yellowgreen',
                 padding: '1rem',
-                overflowY: 'auto'
+                overflowY: 'auto',
+                display: 'flex',
+                flexWrap: 'wrap',
 
             }}>
+                {values.map((data, index) => <div
+                    key={index}
+                    draggable
+                    onDragEnter={() => { dragItemEnter(index) }}
+                    style={{
+                        width: '200px', height: '100px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center'
+                    }}
+                >
+                    <div >
+                        {index + 1}
+                    </div>
+                    <PalletItems items={data} />
+                </div>)}
 
-                <div style={{
-                    width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center'
-                }}>1</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>2</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>3</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>4</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>5</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>6</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>7</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>8</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>9</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>10</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>11</div>
-                <div style={{ width: '80px', height: '50px', border: '3px dotted green', margin: '1rem auto', background: 'white', textAlign: 'center' }}>12</div>
             </div>
-        </div >
+            {/* <button type='button' onClick={settingPallet}>설정</button> */}
+        </div>
     );
-};
 
+}
 export default PalletComponent;
