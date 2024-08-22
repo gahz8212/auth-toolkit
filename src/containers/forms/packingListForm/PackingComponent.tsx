@@ -36,23 +36,33 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
         dragItem.current = index
         console.log('dragItem.current', dragItem.current)
     }
-    const dragItemEnter = (index: number) => {
-        dragOverItem.current = index
-        console.log('dragOverItem.current', dragOverItem.current)
-    }
-    const drop = () => {
-        const newList = JSON.parse(JSON.stringify(newData));
-        let target = newList[dragOverItem.current]
-        newList[dragOverItem.current] = newList[dragItem.current]
-        newList[dragItem.current] = target
-        // console.log(newList)
-    }
+    // const dragItemEnter = (index: number) => {
+    //     dragOverItem.current = index
+    //     console.log('dragOverItem.current', dragOverItem.current)
+    // }
+    // const drop = () => {
+    //     const newList = JSON.parse(JSON.stringify(newData));
+    //     let target = newList[dragOverItem.current]
+    //     newList[dragOverItem.current] = newList[dragItem.current]
+    //     newList[dragItem.current] = target
+    //     // console.log(newList)
+    // }
     const datas = (
         packingData?.map((data, index) => <div className='packing-rows'
             draggable
-            onDragStart={() => { dragItemStart(index) }}
-            onDragEnter={() => { dragItemEnter(index) }}
-            onDragEnd={drop}
+            onDragStart={(e) => {
+                dragItemStart(index)
+                const img = new Image();
+                img.src = './images/knight.png'
+
+                e.dataTransfer.setDragImage(img, 100, 100)
+                e.dataTransfer.setData('item', JSON.stringify({ name: data.itemName, amount: data.amount }))
+
+
+            }
+            }
+        // onDragOver={(e) => { dragItemEnter(index); }}
+        // onDrop={drop}
         >
             <div className='packing-data'>{data.itemName}</div>
             {/* {data[selectedMonth] && <div className='invoice-data'>{data[selectedMonth]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>} */}
@@ -60,7 +70,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
             {<div className='invoice-data'>{(data.CT_qty)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
             {<div className='invoice-data'>{(data.CT_qty * data.weight).toFixed(1)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
             {<div className='invoice-data'>{(data.CT_qty * data.cbm).toFixed(2)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-        </div>)
+        </div >)
     )
     const footer = (totalResult?.map(result => <div className='tr'>
         {result[selectedMonth] && <div className='th'>TOTAL</div>}

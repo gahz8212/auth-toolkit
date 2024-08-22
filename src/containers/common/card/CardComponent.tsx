@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 type Props = {
     items: {
         id: number,
@@ -141,7 +142,12 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                     ${visibles.includes(item.id) ? 'visible' : ""}
                     ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`}
                             draggable
-                            onDragStart={() => { onDragStart(item.id) }}
+                            onDragStart={(e) => {
+                                onDragStart(item.id)
+                                const img = new Image();
+                                img.src = './images/knight.png'
+                                e.dataTransfer.setDragImage(img, 150, 150)
+                            }}
                             onDragEnd={onDrop}
                         >
                             <div className={`info text ${item.category} `}>

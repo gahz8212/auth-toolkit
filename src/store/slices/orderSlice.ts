@@ -21,11 +21,7 @@ const initialState: State = {
   orderData: null,
   // packingData: null,
   palletData: {
-    0: [
-      { item: "CC 360", amount: 10 },
-      { item: "H2O 1820", amount: 10 },
-      { item: "RAPT 1400", amount: 10 },
-    ],
+    0: [{ item: "", amount: 0 }],
     1: [{ item: "", amount: 0 }],
 
     2: [{ item: "", amount: 0 }],
@@ -149,6 +145,7 @@ const orderSlice = createSlice({
     },
     settingPallet: (state, { payload: packingData }) => {
       const { pNo, itemData } = packingData;
+      console.log("pNo", pNo + 1, "itemData", itemData);
       // console.log("result", state.palletData[0][1].item);
       state.palletData[pNo].push(itemData);
     },
