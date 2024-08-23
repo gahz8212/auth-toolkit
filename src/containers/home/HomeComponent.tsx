@@ -22,7 +22,7 @@ const HomeComponent = () => {
         >🦓</div>
         <div
             style={{ width: '300px', height: '300px', border: '3px dotted black', margin: '0 auto' }}
-            draggable
+            // draggable
 
             onDragEnter={e => { }}
             onDragOver={(e) => {

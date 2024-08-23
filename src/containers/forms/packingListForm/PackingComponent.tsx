@@ -7,7 +7,7 @@ type Props = {
     CartonExcelContainer: () => JSX.Element
 }
 const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalResult, CartonExcelContainer }) => {
-
+    // console.log('packingData', packingData)
     let newData: { [key: string]: number | string }[] = []
     if (packingData && selectedMonth) {
         const headers = Object.keys(packingData[0]).slice(1, 6)
@@ -30,12 +30,12 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
             }
         }
     }
-    const dragItem = useRef<number>(0);
-    const dragOverItem = useRef<number>(0);
-    const dragItemStart = (index: number) => {
-        dragItem.current = index
-        console.log('dragItem.current', dragItem.current)
-    }
+    // const dragItem = useRef<number>(0);
+    // const dragOverItem = useRef<number>(0);
+    // const dragItemStart = (index: number) => {
+    //     dragItem.current = index
+    //     // console.log('dragItem.current', dragItem.current)
+    // }
     // const dragItemEnter = (index: number) => {
     //     dragOverItem.current = index
     //     console.log('dragOverItem.current', dragOverItem.current)
@@ -51,12 +51,22 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
         packingData?.map((data, index) => <div className='packing-rows'
             draggable
             onDragStart={(e) => {
-                dragItemStart(index)
+                // console.log(data)
+                // dragItemStart(index)
                 const img = new Image();
-                img.src = './images/knight.png'
+                img.src = './images/package.png'
+                e.dataTransfer.setDragImage(img, 50, 50)
+                e.dataTransfer.setData('item', JSON.stringify({
+                    name: data.itemName,
+                    CT_qty: data.CT_qty,
+                    quantity: data.quantity,
+                    weight: data.weight,
+                    moq: data.moq,
+                    cbm: data.cbm,
+                    sets: data.sets,
+                    mode: 'copy'
 
-                e.dataTransfer.setDragImage(img, 100, 100)
-                e.dataTransfer.setData('item', JSON.stringify({ name: data.itemName, amount: data.amount }))
+                }))
 
 
             }

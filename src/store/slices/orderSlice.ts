@@ -8,7 +8,7 @@ type State = {
     [key: number]: {
       [key: string]: string | number;
       item: string;
-      amount: number;
+      CT_qty: number;
     }[];
   };
   months: string[] | null;
@@ -21,24 +21,16 @@ const initialState: State = {
   orderData: null,
   // packingData: null,
   palletData: {
-    0: [{ item: "", amount: 0 }],
-    1: [{ item: "", amount: 0 }],
-
-    2: [{ item: "", amount: 0 }],
-
-    3: [{ item: "", amount: 0 }],
-
-    4: [{ item: "", amount: 0 }],
-
-    5: [{ item: "", amount: 0 }],
-
-    6: [{ item: "", amount: 0 }],
-
-    7: [{ item: "", amount: 0 }],
-
-    8: [{ item: "", amount: 0 }],
-
-    9: [{ item: "", amount: 0 }],
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
   },
   months: null,
   dummyItems: null,
@@ -146,8 +138,32 @@ const orderSlice = createSlice({
     settingPallet: (state, { payload: packingData }) => {
       const { pNo, itemData } = packingData;
       console.log("pNo", pNo + 1, "itemData", itemData);
-      // console.log("result", state.palletData[0][1].item);
+      const items = state.palletData[pNo].map((data) => data.item);
+      if (!items.includes(itemData.item)) {
+        state.palletData[pNo].push(itemData);
+      }
+    },
+    updatePallet: (state, { payload: packingData }) => {
+      const { pNo, itemData } = packingData;
+      //드래그중에 컨트롤키 누르면 복사 아니면 이동
+      //이동일때는 기존의 파렛트 인덱스에서 삭제
       state.palletData[pNo].push(itemData);
+    },
+    addCount: (state, { payload: items }) => {
+      const { id, item } = items;
+      console.log(id, item);
+      let idx = state.palletData[id].findIndex((data) => data.item === item);
+      state.palletData[id][idx].CT_qty += 1;
+    },
+    removeCount: (state, { payload: items }) => {
+      const { id, item } = items;
+      console.log(id, item);
+      let idx = state.palletData[id].findIndex((data) => data.item === item);
+      state.palletData[id][idx].CT_qty -= 1;
+      if (state.palletData[id][idx].CT_qty < 1) {
+        alert("remove");
+        state.palletData[id].splice(1, idx);
+      }
     },
   },
 });

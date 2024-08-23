@@ -1,47 +1,73 @@
-const objArr = [
-  { id: 1, name: "aaa", amount: 10, moq: 10, price: 10 },
-  { id: 2, name: "bbb", amount: 11, moq: 10, price: 9 },
-  { id: 3, name: "ccc", amount: 12, moq: 10, price: 8 },
-  { id: 4, name: "ddd", amount: 6, moq: 10, price: 9 },
+const objArray = [
+  { name: "aaa", age: 30 },
+  { name: "bbb", age: 33 },
+  { name: "ccc", age: 20 },
+  { name: "ddd", age: 10 },
 ];
-const newObjArr = [...objArr];
-newObjArr.forEach((obj) => {
-  if (obj.amount % obj.moq) {
-    if (obj.amount % obj.moq === obj.amount) {
-      if ((obj.amount / obj.moq) * 100 > 50) {
-      } else {
-        const idx = objArr.findIndex((newobj) => newobj.name === obj.name);
+const oldobj = { name: "aaa", age: 30 };
+const newobj = { name: "eee", age: 50 };
+let idx = objArray.findIndex(
+  (array) => JSON.stringify(array) === JSON.stringify(oldobj)
+);
+objArray.splice(idx, 1, newobj);
+console.log(objArray);
+// // const str = "h2o add-on rx (orange)";
+// // const str = "bp tc1 add-on rx";
+// const str = "dummy launcher";
+// let lastIndex = str.search(/launcher/);
+// let color = str.match(/(?<=\()\w+(?=\))/);
+// console.log(lastIndex, color);
+// if (lastIndex) {
+//   let newname = str.substring(0, lastIndex);
+//   console.log(newname + "add (" + color[0][0] + ")");
+// }
+//결과값이 0보다 크면
+// console.log(/add/i.test(str));
 
-        objArr.splice(idx, 1);
-        objArr.push({
-          id: obj.id,
-          name: obj.name,
-          amount: obj.amount % obj.moq,
-          moq: obj.moq,
-          price: obj.price,
-        });
-      }
-    } else {
-      const idx = objArr.findIndex((newobj) => newobj.name === obj.name);
-      const newObj = {
-        id: obj.id,
-        name: obj.name,
-        amount: obj.amount - (obj.amount % obj.moq),
-        moq: obj.moq,
-        price: obj.price,
-      };
-      objArr.splice(idx, 1, newObj);
-      objArr.push({
-        id: obj.id,
-        name: obj.name,
-        amount: obj.amount % obj.moq,
-        moq: obj.moq,
-        price: obj.price,
-      });
-    }
-  }
-});
-console.log(objArr);
+// const objArr = [
+//   { id: 1, name: "aaa", amount: 10, moq: 10, price: 10 },
+//   { id: 2, name: "bbb", amount: 11, moq: 10, price: 9 },
+//   { id: 3, name: "ccc", amount: 12, moq: 10, price: 8 },
+//   { id: 4, name: "ddd", amount: 6, moq: 10, price: 9 },
+// ];
+// const newObjArr = [...objArr];
+// newObjArr.forEach((obj) => {
+//   if (obj.amount % obj.moq) {
+//     if (obj.amount % obj.moq === obj.amount) {
+//       if ((obj.amount / obj.moq) * 100 > 50) {
+//       } else {
+//         const idx = objArr.findIndex((newobj) => newobj.name === obj.name);
+
+//         objArr.splice(idx, 1);
+//         objArr.push({
+//           id: obj.id,
+//           name: obj.name,
+//           amount: obj.amount % obj.moq,
+//           moq: obj.moq,
+//           price: obj.price,
+//         });
+//       }
+//     } else {
+//       const idx = objArr.findIndex((newobj) => newobj.name === obj.name);
+//       const newObj = {
+//         id: obj.id,
+//         name: obj.name,
+//         amount: obj.amount - (obj.amount % obj.moq),
+//         moq: obj.moq,
+//         price: obj.price,
+//       };
+//       objArr.splice(idx, 1, newObj);
+//       objArr.push({
+//         id: obj.id,
+//         name: obj.name,
+//         amount: obj.amount % obj.moq,
+//         moq: obj.moq,
+//         price: obj.price,
+//       });
+//     }
+//   }
+// });
+// console.log(objArr);
 // const sortRef = ["EDT", "NB", "DL"];
 // const invoiceDate = { EDT: [], NB: [], DL: [] };
 // const objArray = [
