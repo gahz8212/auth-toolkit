@@ -8,7 +8,7 @@ type Props = {
     selectedMonth: string
 }
 const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
-    const { orderData } = useSelector(OrderData)
+    const { orderData, palletData } = useSelector(OrderData)
     const filteredPackingData = orderData?.filter((data) => data[selectedMonth])
         .map(data => (
             {
@@ -103,7 +103,10 @@ const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
                 selectedMonth={selectedMonth}
                 packingData={filteredPackingData}
                 totalResult={totalResult}
-                CartonExcelContainer={() => <CartonExcelContainer  packingData={filteredPackingData} />} />
+                CartonExcelContainer={() => <CartonExcelContainer
+                    packingData={filteredPackingData}
+                    palletData={palletData}
+                />} />
 
         </div>
     );

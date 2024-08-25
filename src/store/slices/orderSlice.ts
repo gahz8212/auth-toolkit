@@ -9,6 +9,8 @@ type State = {
       [key: string]: string | number;
       item: string;
       CT_qty: number;
+      weight: number;
+      cbm: number;
     }[];
   };
   months: string[] | null;
