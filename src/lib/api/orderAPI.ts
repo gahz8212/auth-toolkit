@@ -11,3 +11,9 @@ export const getOrderData = () => {
 export const getDummyItem = () => {
   return client.get("/order/getDummyItem");
 };
+export const palletInput = (palletData: {
+  [key: string]: { [key: string]: string | number }[];
+}) => {
+  console.log("palletData", palletData);
+  return client.post("/order/palletData", palletData);
+};

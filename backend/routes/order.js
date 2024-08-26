@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Good, Item, Order } = require("../models");
+const { Good, Item, Order, Pallet } = require("../models");
 const { sequelize } = require("../models");
 router.get("/getOrderData", async (req, res) => {
   try {
@@ -176,6 +176,28 @@ router.post("/goodinput", async (req, res) => {
   } catch (e) {
     console.error(e);
     return res.status(400).json(e.message);
+  }
+});
+
+router.post("/palletData", async (req, res) => {
+  try {
+    const palletData = req.body;
+    console.log(palletData);
+    await Pallet.destroy({ where: {} });
+    for (let i = 0; i < 10; i++) {
+      palletData[i].map(async (pallet) => {
+        await Pallet.create({
+          no: i,
+          item: pallet.item,
+          ct: pallet.CT_qty,
+          weight: pallet.weight,
+          cbm: pallet.cbm,
+        });
+      });
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(200).json("pallet_input_ok");
   }
 });
 

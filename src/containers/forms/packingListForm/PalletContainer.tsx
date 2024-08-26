@@ -9,7 +9,14 @@ const PalletContainer: React.FC<Props> = ({ selectedMonth }) => {
     const { palletData } = useSelector(OrderData)
     const dispatch = useDispatch();
     const settingPallet = (Pnumber: number, itemData: { item: string, CT_qty: number, quantity: number, weight: number, moq: number, cbm: number, sets: string, mode: string }) => {
-        dispatch(OrderAction.settingPallet({ pNo: Pnumber, itemData }))
+
+        if (itemData.mode === 'move') {
+            dispatch(OrderAction.settingPallet({ pNo: Pnumber, itemData }))
+
+        } else {
+            dispatch(OrderAction.updatePallet({ pNo: Pnumber, itemData }))
+
+        }
     }
     const addCount = (id: number, item: string) => {
         dispatch(OrderAction.addCount({ id, item }))
@@ -18,10 +25,14 @@ const PalletContainer: React.FC<Props> = ({ selectedMonth }) => {
         dispatch(OrderAction.removeCount({ id, item }))
 
     }
+    const onInputPallet = () => {
+        dispatch(OrderAction.inputPallet(palletData))
+    }
     return (
         <div>
             <PalletComponent palletData={palletData} settingPallet={settingPallet}
-                addCount={addCount} removeCount={removeCount} />
+                addCount={addCount} removeCount={removeCount}
+                onInputPallet={onInputPallet} />
         </div>
     );
 };

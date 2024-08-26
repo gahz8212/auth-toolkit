@@ -95,6 +95,25 @@ const orderSlice = createSlice({
       state.status.loading = false;
       state.status.message = "";
     },
+    inputPallet: (
+      state,
+      action: PayloadAction<{
+        [key: string]: { [key: string]: string | number }[];
+      }>
+    ) => {
+      state.status.loading = true;
+      state.status.error = "";
+    },
+    inputPalletSuccess: (state, { payload: palletData }) => {
+      state.status.loading = false;
+      state.status.error = "";
+      state.palletData = palletData;
+    },
+    inputPalletFailure: (state, action: PayloadAction<any[] | null>) => {
+      state.status.loading = false;
+      state.status.error = "";
+      state.status.message = "";
+    },
     getDummyItem: (state) => {
       state.status.loading = true;
       state.status.error = "";
@@ -147,6 +166,7 @@ const orderSlice = createSlice({
     },
     updatePallet: (state, { payload: packingData }) => {
       const { pNo, itemData } = packingData;
+      console.log("itemData", itemData);
       //드래그중에 컨트롤키 누르면 복사 아니면 이동
       //이동일때는 기존의 파렛트 인덱스에서 삭제
       state.palletData[pNo].push(itemData);
@@ -159,12 +179,10 @@ const orderSlice = createSlice({
     },
     removeCount: (state, { payload: items }) => {
       const { id, item } = items;
-      console.log(id, item);
       let idx = state.palletData[id].findIndex((data) => data.item === item);
       state.palletData[id][idx].CT_qty -= 1;
       if (state.palletData[id][idx].CT_qty < 1) {
-        alert("remove");
-        state.palletData[id].splice(1, idx);
+        state.palletData[id].splice(idx, 1);
       }
     },
   },

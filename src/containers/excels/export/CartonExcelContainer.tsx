@@ -301,6 +301,9 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                 worksheet.getCell('B59').value = {
                     richText: [{ font: { name: 'Arial', size: 12, bold: true }, text: 'To be continued.' }]
                 }
+                worksheet.getCell('C78').value = {
+                    richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'Continued.' }]
+                }
                 worksheet.getCell('D2').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: headers[7] }] }//8. No. & Date of Invoice
                 worksheet.getCell('D3').alignment = { indent: 1 }
                 worksheet.getCell('D3').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[8]['NO&Date'] }] }
@@ -600,105 +603,110 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                 worksheet.getCell('F114').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'SET' }] }
                 worksheet.getCell('F115').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'EA' }] }
 
-                if (packingData) {
-                    let totalCT = 0;
-                    let dataLength = 0;
-                    if (type === 'CT') {
+                let dataLength = 0;
+                let extraPage = 0
+                if (type === 'CT') {
+                    if (packingData) {
+                        let totalCT = 0;
                         // eslint-disable-next-line no-loop-func
                         packingData.forEach((item, index) => {
+                            if (index + 19 > 58) {
+                                extraPage = 20
+                            }
                             if (index) {
                                 if (totalCT + 1 <= item.CT_qty + totalCT) {
-                                    worksheet.getCell(`B${index + 19}`).value = `${totalCT + 1} - ${item.CT_qty + totalCT}`
+                                    worksheet.getCell(`B${index + 19 + extraPage}`).value = `${totalCT + 1} - ${item.CT_qty + totalCT}`
                                 } else {
-                                    worksheet.getCell(`B${index + 19}`).value = `${totalCT + 1} -`
+                                    worksheet.getCell(`B${index + 19 + extraPage}`).value = `${totalCT + 1} -`
                                 }
                             } else {
-                                worksheet.getCell(`B${index + 19}`).value = `1 - ${item.CT_qty}`
+                                worksheet.getCell(`B${index + 19 + extraPage}`).value = `1 - ${item.CT_qty}`
                             }
-
-                            worksheet.getCell(`C${index + 19}`).value = item.itemName
-                            worksheet.getCell(`D${index + 19}`).value = item.CT_qty
-                            worksheet.getCell(`E${index + 19}`).value = item.quantity
-                            worksheet.getCell(`F${index + 19}`).value = item.sets
-                            worksheet.getCell(`G${index + 19}`).value = item.weight
-                            worksheet.getCell(`H${index + 19}`).value = item.weight * item.CT_qty
-                            worksheet.getCell(`I${index + 19}`).value = item.cbm
-                            worksheet.getCell(`J${index + 19}`).value = item.cbm * item.CT_qty
+                            worksheet.getCell(`C${index + 19 + extraPage}`).value = item.itemName
+                            worksheet.getCell(`D${index + 19 + extraPage}`).value = item.CT_qty
+                            worksheet.getCell(`E${index + 19 + extraPage}`).value = item.quantity
+                            worksheet.getCell(`F${index + 19 + extraPage}`).value = item.sets
+                            worksheet.getCell(`G${index + 19 + extraPage}`).value = item.weight
+                            worksheet.getCell(`H${index + 19 + extraPage}`).value = item.weight * item.CT_qty
+                            worksheet.getCell(`I${index + 19 + extraPage}`).value = item.cbm
+                            worksheet.getCell(`J${index + 19 + extraPage}`).value = item.cbm * item.CT_qty
                             totalCT += item.CT_qty
                         })
-                        dataLength = packingData.length
-                    } else {
-                        let rowData = 0
-                        for (let i = 0; i < 10; i++) {
-                            // eslint-disable-next-line no-loop-func
-                            palletData[i].forEach((item, index) => {
-                                if (!index) {
-
-                                    worksheet.getCell(`B${19 + rowData}`).value = i
-                                }
-
-
-                                worksheet.getCell(`C${19 + rowData}`).value = item.item
-                                worksheet.getCell(`D${19 + rowData}`).value = item.CT_qty
-                                worksheet.getCell(`E${19 + rowData}`).value = item.quantity
-                                worksheet.getCell(`F${19 + rowData}`).value = item.sets
-                                worksheet.getCell(`G${19 + rowData}`).value = item.weight
-                                worksheet.getCell(`H${19 + rowData}`).value = item.weight * item.CT_qty
-                                worksheet.getCell(`I${19 + rowData}`).value = item.cbm
-                                worksheet.getCell(`J${19 + rowData}`).value = item.cbm * item.CT_qty
-                                rowData += 1
-                            })
-                            dataLength = rowData
+                        dataLength = packingData.length + extraPage
+                    }
+                } else {
+                    let rowData = 0
+                    for (let i = 0; i < 10; i++) {
+                        // eslint-disable-next-line no-loop-func
+                        palletData[i].forEach((item, index) => {
+                            if (index + 19 > 58) {
+                                extraPage = 20
+                            }
+                            if (!index) {
+                                worksheet.getCell(`B${19 + rowData + extraPage}`).value = i
+                            }
+                            worksheet.getCell(`C${19 + rowData + extraPage}`).value = item.item
+                            worksheet.getCell(`D${19 + rowData + extraPage}`).value = item.CT_qty
+                            worksheet.getCell(`E${19 + rowData + extraPage}`).value = item.quantity
+                            worksheet.getCell(`F${19 + rowData + extraPage}`).value = item.sets
+                            worksheet.getCell(`G${19 + rowData + extraPage}`).value = item.weight
+                            worksheet.getCell(`H${19 + rowData + extraPage}`).value = item.weight * item.CT_qty
+                            worksheet.getCell(`I${19 + rowData + extraPage}`).value = item.cbm
+                            worksheet.getCell(`J${19 + rowData + extraPage}`).value = item.cbm * item.CT_qty
+                            rowData += 1
+                        })
+                        dataLength = rowData + extraPage
+                    }
+                }
+                for (let i = 2; i < 11; i++) {
+                    if (i === 2) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, right: { style: 'thin' }
                         }
-                        for (let i = 2; i < 11; i++) {
-                            if (i === 2) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, right: { style: 'thin' }
-                                }
-                            }
-                            if (i === 3) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
-                                }
-                            }
-                            if (i === 4) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
-                                }
-                            }
-                            if (i === 5) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } }
-                                }
-                            }
-                            if (i === 6) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'dotted' }, right: { style: 'thin' }
-                                }
-                            }
-                            if (i === 7) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } },
-                                }
-                            }
-                            if (i === 8) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } },
-                                }
-                            }
-                            if (i === 9) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'thin' }, right: { style: 'dotted' }
-                                }
-                            }
-                            if (i === 10) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
-                                    right: { style: 'thick' }, bottom: { style: 'double', color: { argb: 'ff0000' } },
-                                }
-                            }
+                    }
+                    if (i === 3) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
+                        }
+                    }
+                    if (i === 4) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
+                        }
+                    }
+                    if (i === 5) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } }
+                        }
+                    }
+                    if (i === 6) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'dotted' }, right: { style: 'thin' }
+                        }
+                    }
+                    if (i === 7) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } },
+                        }
+                    }
+                    if (i === 8) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } },
+                        }
+                    }
+                    if (i === 9) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'thin' }, right: { style: 'dotted' }
+                        }
+                    }
+                    if (i === 10) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            right: { style: 'thick' }, bottom: { style: 'double', color: { argb: 'ff0000' } },
                         }
                     }
                 }
+
+
 
 
                 const image_sign = './images/sign.png'
@@ -1008,10 +1016,12 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                 worksheet.getCell('B55').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'TOTAL' }] }//Net/Gross
                 worksheet.getCell('F55').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'SET' }] }//Net/Gross
                 worksheet.getCell('F56').value = { richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: 'EA' }] }//Net/Gross
-                alert(type)
-                if (packingData) {
-                    let totalCT = 0;
-                    if (type === 'CT') {
+
+                let dataLength = 0;
+                if (type === 'CT') {
+                    if (packingData) {
+                        let totalCT = 0;
+                        dataLength = packingData.length
                         // eslint-disable-next-line no-loop-func
                         packingData.forEach((item, index) => {
                             if (index) {
@@ -1034,75 +1044,80 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                             worksheet.getCell(`J${index + 19}`).value = item.cbm * item.CT_qty
                             totalCT += item.CT_qty
                         })
-                    } else {
-                        let lowData = 0;
-                        for (let i = 0; i < 10; i++) {
-                            // eslint-disable-next-line no-loop-func
-                            palletData[i].forEach((item, index) => {
-                                if (!index) {
-
-                                    worksheet.getCell(`B${19 + lowData}`).value = i + 1
-                                }
-                                worksheet.getCell(`C${19 + lowData}`).value = item.item
-                                worksheet.getCell(`D${19 + lowData}`).value = item.CT_qty
-                                worksheet.getCell(`E${19 + lowData}`).value = item.quantity
-                                worksheet.getCell(`F${19 + lowData}`).value = item.sets
-                                worksheet.getCell(`G${19 + lowData}`).value = item.weight
-                                worksheet.getCell(`H${19 + lowData}`).value = item.weight * item.CT_qty
-                                worksheet.getCell(`I${19 + lowData}`).value = item.cbm
-                                worksheet.getCell(`J${19 + lowData}`).value = item.cbm * item.CT_qty
-                                lowData += 1
-                            })
+                    }
+                } else {
+                    let lowData = 0;
+                    for (let i = 0; i < 10; i++) {
+                        // eslint-disable-next-line no-loop-func
+                        palletData[i].forEach((item, index) => {
+                            if (!index) {
+                                worksheet.getCell(`B${19 + lowData}`).alignment = { vertical: 'top', horizontal: 'centerContinuous' }
+                                worksheet.getCell(`B${19 + lowData}`).value = `${i + 1}      ${palletData[i].reduce((acc, curr) => {
+                                    acc += curr.CT_qty
+                                    return acc
+                                }, 0)}`
+                            }
+                            worksheet.getCell(`C${19 + lowData}`).value = item.item
+                            worksheet.getCell(`D${19 + lowData}`).value = item.CT_qty
+                            worksheet.getCell(`E${19 + lowData}`).value = item.quantity
+                            worksheet.getCell(`F${19 + lowData}`).value = item.sets
+                            worksheet.getCell(`G${19 + lowData}`).value = item.weight
+                            worksheet.getCell(`H${19 + lowData}`).value = item.weight * item.CT_qty
+                            worksheet.getCell(`I${19 + lowData}`).value = item.cbm
+                            worksheet.getCell(`J${19 + lowData}`).value = item.cbm * item.CT_qty
+                            lowData += 1
+                        })
+                    }
+                    dataLength = lowData;
+                }
+                for (let i = 2; i < 11; i++) {
+                    if (i === 2) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, right: { style: 'thin' }
                         }
-                        for (let i = 2; i < 11; i++) {
-                            if (i === 2) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, right: { style: 'thin' }
-                                }
-                            }
-                            if (i === 3) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
-                                }
-                            }
-                            if (i === 4) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
-                                }
-                            }
-                            if (i === 5) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } }
-                                }
-                            }
-                            if (i === 6) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'dotted' }, right: { style: 'thin' }
-                                }
-                            }
-                            if (i === 7) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } },
-                                }
-                            }
-                            if (i === 8) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } },
-                                }
-                            }
-                            if (i === 9) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'thin' }, right: { style: 'dotted' }
-                                }
-                            }
-                            if (i === 10) {
-                                worksheet.getCell(`${String.fromCharCode(i + 64)}${packingData.length + 18}`).border = {
-                                    right: { style: 'thick' }, bottom: { style: 'double', color: { argb: 'ff0000' } },
-                                }
-                            }
+                    }
+                    if (i === 3) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
+                        }
+                    }
+                    if (i === 4) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
+                        }
+                    }
+                    if (i === 5) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } }
+                        }
+                    }
+                    if (i === 6) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'dotted' }, right: { style: 'thin' }
+                        }
+                    }
+                    if (i === 7) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } },
+                        }
+                    }
+                    if (i === 8) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } },
+                        }
+                    }
+                    if (i === 9) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'thin' }, right: { style: 'dotted' }
+                        }
+                    }
+                    if (i === 10) {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                            right: { style: 'thick' }, bottom: { style: 'double', color: { argb: 'ff0000' } },
                         }
                     }
                 }
+
                 const image_sign = './images/sign.png'
                 const response_sign = await fetch(image_sign)
                 const buffer_sign = await response_sign.arrayBuffer();
@@ -1144,7 +1159,12 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
             const blob = new Blob([fileData], {
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             })
-            saveAs(blob, 'C/T_PACKING')
+            if (type === 'CT') {
+                saveAs(blob, 'C/T_PACKING')
+            } else {
+                saveAs(blob, 'P/T_PACKING')
+
+            }
         } catch (e) {
             console.error(e)
         }

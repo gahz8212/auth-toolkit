@@ -550,8 +550,8 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                             row++;
                             // console.log('row', row)
                             if (row > 35) {
-                                worksheet.getCell(`B77`).alignment = { indent: 0 }
-                                // worksheet.getCell(`B77`).font = { bold: true }
+                                worksheet.getCell(`B77`).alignment = { indent: 0, vertical: 'middle' }
+                                worksheet.getCell(`B77`).font = { bold: true, name: 'arial', size: 9 }
                                 worksheet.getCell(`B77`).value = 'Continued'
                                 extraRow = 25
                             } else {

@@ -7,7 +7,8 @@ type Props = {
     }
     settingPallet: (Pnumber: number, itemData: { item: string, CT_qty: number, quantity: number, weight: number, moq: number, cbm: number, sets: string, mode: string }) => void
     addCount: (id: number, item: string) => void;
-    removeCount: (id: number, item: string) => void
+    removeCount: (id: number, item: string) => void;
+    onInputPallet: () => void
 }
 type Items = {
     items: {
@@ -17,10 +18,27 @@ type Items = {
     removeCount: (id: number, item: string) => void;
     index: number;
 }
-const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index }) => {
+const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, }) => {
 
     return <div>
-        {items.map(item => item.item && <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 15 }}>
+        {items.map(item => item.item && <div
+            draggable
+            onDragStart={(e) => {
+                const img = new Image();
+                img.src = './images/package.png'
+                e.dataTransfer.setDragImage(img, 50, 50)
+                e.dataTransfer.setData('item', JSON.stringify({
+                    name: item.item,
+                    CT_qty: item.CT_qty,
+                    quantity: item.quantity,
+                    weight: item.weight,
+                    moq: item.moq,
+                    cbm: item.cbm,
+                    sets: item.sets,
+                    mode: 'copy'
+                }))
+            }}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 15 }}>
             <span style={{ display: 'flex', width: '85%', }}>
                 {typeof item.item === 'string' &&
                     select_modelname(item.item)
@@ -50,7 +68,7 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index }) =
         }
     </div >
 }
-const PalletComponent: React.FC<Props> = ({ palletData, settingPallet, addCount, removeCount }) => {
+const PalletComponent: React.FC<Props> = ({ palletData, settingPallet, addCount, removeCount, onInputPallet }) => {
 
     const drop = (index: number, itemName: { name: string, CT_qty: number, quantity: number, weight: number, moq: number, cbm: number, sets: string, mode: string }) => {
         settingPallet(index, {
@@ -107,7 +125,7 @@ const PalletComponent: React.FC<Props> = ({ palletData, settingPallet, addCount,
                 </div>)}
 
             </div>
-
+            <button onClick={onInputPallet}>입력</button>
         </div>
     );
 

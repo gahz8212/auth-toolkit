@@ -64,7 +64,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
                     moq: data.moq,
                     cbm: data.cbm,
                     sets: data.sets,
-                    mode: 'copy'
+                    mode: 'move'
 
                 }))
 

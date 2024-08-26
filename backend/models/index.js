@@ -11,6 +11,7 @@ const Order = require("./orders");
 const GoodBackup = require("./good-backup");
 const ItemBackup = require("./item-backup");
 const Relation = require("./relation");
+const Pallet = require("./pallet");
 
 const sequelize = new Sequelize(
   config.database,
@@ -28,6 +29,7 @@ db.Order = Order;
 db.GoodBackup = GoodBackup;
 db.ItemBackup = ItemBackup;
 db.Relation = Relation;
+db.Pallet = Pallet;
 // db.OrderSheet = OrderSheet;
 User.init(sequelize);
 Item.init(sequelize);
@@ -38,6 +40,7 @@ GoodBackup.init(sequelize);
 ItemBackup.init(sequelize);
 Order.init(sequelize);
 Relation.init(sequelize);
+Pallet.init(sequelize);
 
 Image.associate(db);
 Good.associate(db);
