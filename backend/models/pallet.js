@@ -5,9 +5,11 @@ module.exports = class Pallet extends Sequelize.Model {
       {
         no: { type: Sequelize.INTEGER, allowNull: true },
         item: { type: Sequelize.STRING(50), allowNull: true },
-        ct: { type: Sequelize.INTEGER, allowNull: true },
-        weight: { type: Sequelize.INTEGER, allowNull: true },
-        cbm: { type: Sequelize.INTEGER, allowNull: true },
+        CT_qty: { type: Sequelize.INTEGER, allowNull: true },
+        moq: { type: Sequelize.INTEGER, allowNull: true },
+        sets: { type: Sequelize.STRING(3), allowNull: true },
+        weight: { type: Sequelize.FLOAT(4, 1), allowNull: true },
+        cbm: { type: Sequelize.FLOAT(4, 3), allowNull: true },
       },
       {
         sequelize,

@@ -5,7 +5,16 @@ type Props = {
 const InvoiceExcelComponent: React.FC<Props> = ({ makeInvoice }) => {
     return (
         <div>
-            <button type='button' onClick={makeInvoice}>인보이스 출력</button>
+
+            <input type="checkbox" name="" id="invoice" checked={true} />
+            <label htmlFor="invoice">인보이스</label>
+            <input type="checkbox" name="" id="carton" />
+            <label htmlFor="carton">CT_packing</label>
+            <input type="checkbox" name="" id="pallet" />
+            <label htmlFor="pallet">PT_packing</label>
+            <div>
+                <button type='button' onClick={makeInvoice}>출력</button>
+            </div>
 
         </div>
     );

@@ -189,7 +189,9 @@ router.post("/palletData", async (req, res) => {
         await Pallet.create({
           no: i,
           item: pallet.item,
-          ct: pallet.CT_qty,
+          CT_qty: pallet.CT_qty,
+          moq: pallet.moq,
+          sets: pallet.sets,
           weight: pallet.weight,
           cbm: pallet.cbm,
         });
@@ -198,6 +200,17 @@ router.post("/palletData", async (req, res) => {
   } catch (e) {
     console.error(e);
     return res.status(200).json("pallet_input_ok");
+  }
+});
+router.get("/getPalletData", async (req, res) => {
+  try {
+    const data = await Pallet.findAll({
+      attributes: ["no", "item", "CT_qty", "moq", "weight", "cbm"],
+    });
+    // console.log(data.length);
+    return res.status(200).json(data);
+  } catch (e) {
+    return res.status(400).json(e);
   }
 });
 

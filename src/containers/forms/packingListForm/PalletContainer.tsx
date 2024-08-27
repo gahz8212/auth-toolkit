@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PalletComponent from './PalletComponent';
 import { useSelector, useDispatch } from 'react-redux'
 import { OrderData, OrderAction } from '../../../store/slices/orderSlice';
@@ -18,8 +18,11 @@ const PalletContainer: React.FC<Props> = ({ selectedMonth }) => {
 
         }
     }
-    const addCount = (id: number, item: string) => {
-        dispatch(OrderAction.addCount({ id, item }))
+    const removeItem = (id: number, item: string) => {
+        dispatch(OrderAction.removeItem({ id, item }))
+    }
+    const addCount = (id: number, item: string, value: number) => {
+        dispatch(OrderAction.addCount({ id, item, value }))
     }
     const removeCount = (id: number, item: string) => {
         dispatch(OrderAction.removeCount({ id, item }))
@@ -28,11 +31,18 @@ const PalletContainer: React.FC<Props> = ({ selectedMonth }) => {
     const onInputPallet = () => {
         dispatch(OrderAction.inputPallet(palletData))
     }
+    const resetPallet = () => {
+        dispatch(OrderAction.resetPallet())
+    }
+    useEffect(() => {
+
+        dispatch(OrderAction.getPalletData())
+    }, [])
     return (
         <div>
             <PalletComponent palletData={palletData} settingPallet={settingPallet}
                 addCount={addCount} removeCount={removeCount}
-                onInputPallet={onInputPallet} />
+                onInputPallet={onInputPallet} removeItem={removeItem} resetPallet={resetPallet} />
         </div>
     );
 };

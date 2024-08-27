@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as Excel from 'exceljs'
 import { saveAs } from 'file-saver';
 import CartonExcelComponent from './CartonExcelComponent';
@@ -80,17 +80,14 @@ const columnWidths = [20, 7.5, 23.5, 3.5, 4.5, 4.63, 5.1, 6.63, 5.25, 5.6]
 type Props = {
 
     packingData: { itemName: string; CT_qty: number; quantity: number; weight: number; moq: number; cbm: number; sets: string; }[] | undefined,
-    palletData: { [key: number]: { [key: string]: string | number; item: string; CT_qty: number; weight: number, cbm: number }[]; };
+    palletData: { [key: number]: { [key: string]: string | number; item: string; CT_qty: number; weight: number, cbm: number, moq: number }[]; };
 }
 const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
     // const { orderData } = useSelector(OrderData)
     let rowCount = 0;
-
     if (packingData) {
         rowCount = packingData.length
     }
-
-
     const styleTitleCell = (cell: Excel.Cell) => {
 
         cell.alignment = {
@@ -98,8 +95,6 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
             horizontal: "center",
             wrapText: true,
         };
-
-
     };
     const makeCartonPacking = async (type: string) => {
         try {
@@ -129,7 +124,6 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                 worksheet.mergeCells("G18:H18")
                 worksheet.mergeCells("I17:J17")
                 worksheet.mergeCells("I18:J18")
-
                 worksheet.getRow(1).height = 36.75;
                 for (let i = 2; i < 18; i++) {
                     worksheet.getRow(i).height = 14.25
@@ -222,6 +216,7 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                 }
                 for (let i = 17; i < 59; i++) {
                     worksheet.getCell(`B${i}`).border = { right: { style: 'thin' }, left: { style: 'thin' } }
+                    worksheet.getCell(`C${i}`).border = { right: { style: 'thin' } }
                     if (i === 17) {
                         worksheet.getCell(`I${i}`).border = { top: { style: 'thin' }, right: { style: 'thick' } }
                     }
@@ -639,20 +634,35 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                     for (let i = 0; i < 10; i++) {
                         // eslint-disable-next-line no-loop-func
                         palletData[i].forEach((item, index) => {
-                            if (index + 19 > 58) {
+                            if (rowData + 19 > 58) {
                                 extraPage = 20
+
                             }
                             if (!index) {
-                                worksheet.getCell(`B${19 + rowData + extraPage}`).value = i
+
+                                worksheet.getCell(`B${19 + rowData + extraPage}`).alignment = { vertical: 'top', horizontal: 'centerContinuous' }
+                                worksheet.getCell(`B${19 + rowData + extraPage}`).value = `${i + 1}      ${palletData[i].reduce((acc, curr) => {
+                                    acc += curr.CT_qty
+                                    return acc
+                                }, 0)}`
+
+                                worksheet.getCell(`H${19 + rowData + extraPage}`).value = palletData[i].reduce((acc, curr) => {
+                                    acc += curr.weight * curr.CT_qty + 9
+                                    return acc
+                                }, 0)
+
+                                worksheet.getCell(`J${19 + rowData + extraPage} `).value = palletData[i].reduce((acc, curr) => {
+                                    acc += curr.cbm * curr.CT_qty
+                                    return acc
+                                }, 0)
                             }
                             worksheet.getCell(`C${19 + rowData + extraPage}`).value = item.item
                             worksheet.getCell(`D${19 + rowData + extraPage}`).value = item.CT_qty
-                            worksheet.getCell(`E${19 + rowData + extraPage}`).value = item.quantity
+                            worksheet.getCell(`E${19 + rowData + extraPage}`).value = item.CT_qty * item.moq
                             worksheet.getCell(`F${19 + rowData + extraPage}`).value = item.sets
                             worksheet.getCell(`G${19 + rowData + extraPage}`).value = item.weight
-                            worksheet.getCell(`H${19 + rowData + extraPage}`).value = item.weight * item.CT_qty
                             worksheet.getCell(`I${19 + rowData + extraPage}`).value = item.cbm
-                            worksheet.getCell(`J${19 + rowData + extraPage}`).value = item.cbm * item.CT_qty
+
                             rowData += 1
                         })
                         dataLength = rowData + extraPage
@@ -1056,15 +1066,23 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                                     acc += curr.CT_qty
                                     return acc
                                 }, 0)}`
+
+                                worksheet.getCell(`H${19 + lowData}`).value = palletData[i].reduce((acc, curr) => {
+                                    acc += curr.weight * curr.CT_qty + 9
+                                    return acc
+                                }, 0)
+
+                                worksheet.getCell(`J${19 + lowData} `).value = palletData[i].reduce((acc, curr) => {
+                                    acc += curr.cbm * curr.CT_qty
+                                    return acc
+                                }, 0)
                             }
-                            worksheet.getCell(`C${19 + lowData}`).value = item.item
-                            worksheet.getCell(`D${19 + lowData}`).value = item.CT_qty
-                            worksheet.getCell(`E${19 + lowData}`).value = item.quantity
-                            worksheet.getCell(`F${19 + lowData}`).value = item.sets
-                            worksheet.getCell(`G${19 + lowData}`).value = item.weight
-                            worksheet.getCell(`H${19 + lowData}`).value = item.weight * item.CT_qty
-                            worksheet.getCell(`I${19 + lowData}`).value = item.cbm
-                            worksheet.getCell(`J${19 + lowData}`).value = item.cbm * item.CT_qty
+                            worksheet.getCell(`C${19 + lowData} `).value = item.item
+                            worksheet.getCell(`D${19 + lowData} `).value = item.CT_qty
+                            worksheet.getCell(`E${19 + lowData} `).value = item.CT_qty * item.moq
+                            worksheet.getCell(`F${19 + lowData} `).value = item.sets
+                            worksheet.getCell(`G${19 + lowData} `).value = item.weight
+                            worksheet.getCell(`I${19 + lowData} `).value = item.cbm
                             lowData += 1
                         })
                     }
@@ -1072,47 +1090,47 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                 }
                 for (let i = 2; i < 11; i++) {
                     if (i === 2) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             left: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }, right: { style: 'thin' }
                         }
                     }
                     if (i === 3) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
                         }
                     }
                     if (i === 4) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             left: { style: 'dotted' }, right: { style: 'thin' }, bottom: { style: 'double', color: { argb: 'ff0000' } }
                         }
                     }
                     if (i === 5) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             bottom: { style: 'double', color: { argb: 'ff0000' } }
                         }
                     }
                     if (i === 6) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'dotted' }, right: { style: 'thin' }
                         }
                     }
                     if (i === 7) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             bottom: { style: 'double', color: { argb: 'ff0000' } },
                         }
                     }
                     if (i === 8) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             bottom: { style: 'double', color: { argb: 'ff0000' } },
                         }
                     }
                     if (i === 9) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             bottom: { style: 'double', color: { argb: 'ff0000' } }, left: { style: 'thin' }, right: { style: 'dotted' }
                         }
                     }
                     if (i === 10) {
-                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18}`).border = {
+                        worksheet.getCell(`${String.fromCharCode(i + 64)}${dataLength + 18} `).border = {
                             right: { style: 'thick' }, bottom: { style: 'double', color: { argb: 'ff0000' } },
                         }
                     }

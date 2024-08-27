@@ -21,6 +21,18 @@ function* getOrderDataSaga() {
     yield put(OrderAction.getOrderDataFailure(e.response.data));
   }
 }
+function* getPalletDataSaga() {
+  try {
+    const response: {
+      data: { [key: string]: { [key: string]: string | number }[] };
+    } = yield call(orderAPI.getPalletData);
+    // console.log("response.data", response.data);
+    yield put(OrderAction.getPalletDataSuccess(response.data));
+  } catch (e: any) {
+    console.error(e);
+    yield put(OrderAction.getPalletDataFailure(e.response.data));
+  }
+}
 function* inputOrderSaga(action: { payload: any[] | null }) {
   try {
     const response: { data: any[] } = yield call(
@@ -66,4 +78,5 @@ export function* orderSaga() {
   yield takeLatest(OrderAction.getOrderData, getOrderDataSaga);
   yield takeLatest(OrderAction.getDummyItem, getDummyItemSaga);
   yield takeLatest(OrderAction.inputPallet, inputPalletSaga);
+  yield takeLatest(OrderAction.getPalletData, getPalletDataSaga);
 }

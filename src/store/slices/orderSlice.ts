@@ -11,6 +11,7 @@ type State = {
       CT_qty: number;
       weight: number;
       cbm: number;
+      moq: number;
     }[];
   };
   months: string[] | null;
@@ -156,25 +157,53 @@ const orderSlice = createSlice({
       state.status.loading = false;
       state.status.message = "";
     },
+    getPalletData: (state) => {
+      state.status.error = "";
+      state.status.loading = true;
+      state.status.message = "";
+    },
+    getPalletDataSuccess: (state, { payload: palletData }) => {
+      state.status.error = "";
+      state.status.loading = false;
+      console.log("palletData", palletData);
+      for (let i = 0; i < 10; i++) {
+        state.palletData[i] = palletData.filter(
+          (data: { no: number }) => data.no === i
+        );
+      }
+    },
+    getPalletDataFailure: (state, { payload: error }) => {
+      state.status.error = error;
+      state.status.loading = false;
+      state.status.message = "";
+    },
     settingPallet: (state, { payload: packingData }) => {
       const { pNo, itemData } = packingData;
-      console.log("pNo", pNo + 1, "itemData", itemData);
+      // console.log("pNo", pNo + 1, "itemData", itemData);
       const items = state.palletData[pNo].map((data) => data.item);
       if (!items.includes(itemData.item)) {
-        state.palletData[pNo].push(itemData);
+        state.palletData[pNo] = [itemData, ...state.palletData[pNo]];
       }
     },
     updatePallet: (state, { payload: packingData }) => {
       const { pNo, itemData } = packingData;
-      console.log("itemData", itemData);
+      // console.log("itemData", itemData);
       //드래그중에 컨트롤키 누르면 복사 아니면 이동
       //이동일때는 기존의 파렛트 인덱스에서 삭제
-      state.palletData[pNo].push(itemData);
+      const items = state.palletData[pNo].map((data) => data.item);
+      if (!items.includes(itemData.item)) {
+        state.palletData[pNo] = [itemData, ...state.palletData[pNo]];
+      }
     },
     addCount: (state, { payload: items }) => {
-      const { id, item } = items;
-      console.log(id, item);
+      const { id, item, value } = items;
+      // console.log(value);
+
       let idx = state.palletData[id].findIndex((data) => data.item === item);
+      // if (state.palletData[id][idx].CT_qty === value) {
+      //   state.palletData[id][idx].CT_qty = value;
+      // } else {
+      // }
       state.palletData[id][idx].CT_qty += 1;
     },
     removeCount: (state, { payload: items }) => {
@@ -182,10 +211,19 @@ const orderSlice = createSlice({
       let idx = state.palletData[id].findIndex((data) => data.item === item);
       state.palletData[id][idx].CT_qty -= 1;
       if (state.palletData[id][idx].CT_qty < 1) {
-        state.palletData[id].splice(idx, 1);
+        state.palletData[id][idx].CT_qty = 1;
       }
+    },
+    removeItem: (state, { payload: items }) => {
+      const { id, item } = items;
+      let idx = state.palletData[id].findIndex((data) => data.item === item);
+      state.palletData[id].splice(idx, 1);
+    },
+    resetPallet: (state) => {
+      state.palletData = initialState.palletData;
     },
   },
 });
+
 export default orderSlice.reducer;
 export const OrderAction = orderSlice.actions;
