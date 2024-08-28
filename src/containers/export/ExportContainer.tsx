@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ExportComponent from './ExportComponent';
 import { useSelector, useDispatch } from 'react-redux'
 import { OrderAction, OrderData } from '../../store/slices/orderSlice';
+import { itemData } from '../../store/slices/itemSlice';
 import { formActions, formSelector } from '../../store/slices/formSlice';
 import ExcelJS from 'exceljs';
 const ExportContainer = () => {
@@ -10,6 +11,7 @@ const ExportContainer = () => {
     const itemsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const dispatch = useDispatch()
     const { orderData, months } = useSelector(OrderData)
+    const { repairs } = useSelector(itemData)
     const [model, setModel] = useState<string>('model')
     const { invoice, packing, addItem, pallet } = useSelector(formSelector)
 
@@ -173,6 +175,7 @@ const ExportContainer = () => {
             openPackingForm={openPackingForm}
             openAddItemForm={openAddItemForm}
             changePosition={changePosition}
+            repairs={repairs}
         />
     );
 };

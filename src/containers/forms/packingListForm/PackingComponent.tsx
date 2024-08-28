@@ -82,7 +82,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
             {<div className='invoice-data'>{(data.CT_qty * data.cbm).toFixed(2)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
         </div >)
     )
-    const footer = (totalResult?.map(result => <div className='tr'>
+    const footer = (totalResult?.map((result, index) => <div key={index} className='tr'>
         {result[selectedMonth] && <div className='th'>TOTAL</div>}
         {result[selectedMonth] && <div className='th'>{result[selectedMonth].carton}C/T</div>}
         {result[selectedMonth] && <div className='th'>{result[selectedMonth].weight.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Kg</div>}
@@ -96,7 +96,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
                 <div className='thead'>
                     <div className='tr'>
                         <div className='th'>Item</div>
-                        {/* <div className='th'>수량</div> */}
+
                         <div className='th'>카톤</div>
                         <div className='th'>무게(Kg)</div>
                         <div className='th'>CBM</div>

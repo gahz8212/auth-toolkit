@@ -149,6 +149,17 @@ type State = {
       }[]
     | null;
   imageList: { url: string }[];
+  repairs:
+    | {
+        id: number;
+        itemName: string;
+        ex_price: number;
+        quantity: number;
+        CT_qty: number;
+        weight: number;
+        cbm: number;
+      }[]
+    | null;
 
   status: { error: string; message: string; loading: boolean };
 };
@@ -180,6 +191,26 @@ const initialState: State = {
   T_dragItems: [],
   backup: null,
   imageList: [],
+  repairs: [
+    {
+      id: 0,
+      itemName: "reapair1",
+      ex_price: 1,
+      quantity: 10,
+      CT_qty: 0,
+      weight: 0,
+      cbm: 0,
+    },
+    {
+      id: 1,
+      itemName: "reapair2",
+      ex_price: 1,
+      quantity: 20,
+      CT_qty: 0,
+      weight: 0,
+      cbm: 0,
+    },
+  ],
   status: { error: "", message: "", loading: false },
 };
 const inputSelector = (state: RootState) => {
@@ -210,6 +241,9 @@ const TdragItemsSelector = (state: RootState) => {
 const relationSelector = (state: RootState) => {
   return state.item.relations;
 };
+const repairsSelector = (state: RootState) => {
+  return state.item.repairs;
+};
 
 export const itemData = createSelector(
   inputSelector,
@@ -221,6 +255,7 @@ export const itemData = createSelector(
   dragItemsSelector,
   TdragItemsSelector,
   relationSelector,
+  repairsSelector,
 
   (
     input,
@@ -231,7 +266,8 @@ export const itemData = createSelector(
     dragItem,
     dragItems,
     T_dragItems,
-    relations
+    relations,
+    repairs
   ) => ({
     input,
     imageList,
@@ -242,6 +278,7 @@ export const itemData = createSelector(
     dragItems,
     T_dragItems,
     relations,
+    repairs,
   })
 );
 
@@ -450,7 +487,6 @@ const itemSlice = createSlice({
       }
     },
     removeCount_relate: (state, { payload: itemsId }) => {
-  
       if (state.items) {
         if (state.items && state.items[itemsId].point > 0) {
           state.items[itemsId].point = state.items[itemsId].point - 1;
@@ -479,6 +515,15 @@ const itemSlice = createSlice({
     updateRelation: (state, { payload: newRelations }) => {
       // console.log("newRelations", newRelations);
       state.relations = newRelations;
+    },
+    addRepairs: (state, { payload: newRepairs }) => {
+      const repairs = state.repairs?.map((repare) => repare.itemName);
+      if (!repairs?.includes(newRepairs)) {
+        state.repairs?.unshift(newRepairs);
+      }
+    },
+    removeRepairs: (state, { payload: id }) => {
+      const idx = state.repairs?.filter((repair) => repair.id === id);
     },
   },
 });

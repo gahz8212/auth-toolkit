@@ -26,9 +26,12 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
     const [inter, setInter] = useState<NodeJS.Timeout | undefined>(undefined)
 
     function inCrease(id: number, item: string, value: number) {
-        setInter(setInterval(() => {
-            addCount(id, item, value)
-        }, 100))
+        setInter(
+            setInterval(() => {
+                addCount(id, item, value)
+            }, 100)
+
+        )
     }
     function deCrease(id: number, item: string) {
         setInter(setInterval(() => {

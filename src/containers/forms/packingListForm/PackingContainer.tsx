@@ -13,7 +13,7 @@ const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
         .map(data => (
             {
                 itemName: data.itemName,
-                CT_qty: data[selectedMonth] / data.moq,
+                CT_qty: data.moq ? (data[selectedMonth] / data.moq) : 0,
                 quantity: data[selectedMonth],
                 weight: data.weight,
                 moq: data.moq,
@@ -21,6 +21,7 @@ const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
                 sets: data.sets
 
             }))
+    console.log('filteredPackingData', filteredPackingData)
     if (filteredPackingData) {
         let selectedapplyMoqData = [...filteredPackingData]
         selectedapplyMoqData.forEach(data => {
@@ -96,6 +97,7 @@ const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
                 })
                 return { [header]: { carton, weight, cbm, price } };
             })
+
     }
     return (
         <div>

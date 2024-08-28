@@ -60,6 +60,7 @@ router.post("/orderinput", async (req, res) => {
     const [results, metadata] = await sequelize.query(
       `
       SELECT 
+     
       G.itemName,
       O.${order[1][0]}, 
       O.${order[1][1]}, 
@@ -92,6 +93,7 @@ router.post("/orderinput", async (req, res) => {
     await sequelize.query(`
   create table ordersheet (
     SELECT 
+  
     G.itemName ,
     O.${order[1][0]}, 
     O.${order[1][1]}, 
@@ -182,7 +184,7 @@ router.post("/goodinput", async (req, res) => {
 router.post("/palletData", async (req, res) => {
   try {
     const palletData = req.body;
-    console.log(palletData);
+    // console.log(palletData);
     await Pallet.destroy({ where: {} });
     for (let i = 0; i < 10; i++) {
       palletData[i].map(async (pallet) => {
@@ -205,7 +207,7 @@ router.post("/palletData", async (req, res) => {
 router.get("/getPalletData", async (req, res) => {
   try {
     const data = await Pallet.findAll({
-      attributes: ["no", "item", "CT_qty", "moq", "weight", "cbm"],
+      attributes: ["no", "item", "CT_qty", "moq", "sets", "weight", "cbm"],
     });
     // console.log(data.length);
     return res.status(200).json(data);

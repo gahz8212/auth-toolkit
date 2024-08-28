@@ -96,6 +96,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
 
             }))
     // console.log(selectedOrderData)
+    // console.log('selectedOrderData', selectedOrderData)
     if (selectedOrderData) {
 
         // { category: 'EDT'|'NOBARK'|'RDT'|'LAUNCHER'; name: string; amount: Number, price: number; sets:string }' 형식에 '{ EDT: never[]; NOBARK: never[]; RDT: never[]; LAUNCHER: never[]; }
@@ -103,9 +104,9 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
 
         const arrayDatas = selectedOrderData.reduce(
             (acc: { [key: string]: { name: string, amount: number, price: number, sets: string }[] }, curr) => {
-                acc[curr.category].push({ name: curr.name, amount: curr.amount, price: curr.price, sets: curr.sets })
+                acc[curr.category || 'PARTS'].push({ name: curr.name, amount: curr.amount, price: curr.price, sets: curr.sets })
                 return acc;
-            }, { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] })
+            }, { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [], PARTS: [] })
         const keys = Object.keys(arrayDatas)
         result = keys.map((key, index) => Object.entries(arrayDatas)[index])
         // console.log('result', result)
@@ -151,7 +152,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                     worksheet.getCell(`C${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`D${i}`).alignment = { vertical: 'middle', horizontal: 'center' }
                     worksheet.getCell(`D${i}`).font = { size: 9, name: 'arial' }
-                    worksheet.getCell(`E${i}`).style = { numFmt: '#,###.0' }
+                    worksheet.getCell(`E${i}`).style = { numFmt: '#,###.00' }
                     worksheet.getCell(`E${i}`).alignment = { vertical: 'middle', }
                     worksheet.getCell(`E${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`F${i}`).style = { numFmt: '#,###.0' }
@@ -333,7 +334,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                     worksheet.getCell(`C${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`D${i}`).alignment = { vertical: 'middle', horizontal: 'center' }
                     worksheet.getCell(`D${i}`).font = { size: 9, name: 'arial' }
-                    worksheet.getCell(`E${i}`).style = { numFmt: '#,###.0' }
+                    worksheet.getCell(`E${i}`).style = { numFmt: '#,###.00' }
                     worksheet.getCell(`E${i}`).alignment = { vertical: 'middle', }
                     worksheet.getCell(`E${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`F${i}`).style = { numFmt: '#,###.0' }
@@ -652,7 +653,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                     worksheet.getCell(`C${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`D${i}`).alignment = { vertical: 'middle', horizontal: 'center' }
                     worksheet.getCell(`D${i}`).font = { size: 9, name: 'arial' }
-                    worksheet.getCell(`E${i}`).style = { numFmt: '#,###.0' }
+                    worksheet.getCell(`E${i}`).style = { numFmt: '#,###.00' }
                     worksheet.getCell(`E${i}`).alignment = { vertical: 'middle', }
                     worksheet.getCell(`E${i}`).font = { size: 9, name: 'arial' }
                     worksheet.getCell(`F${i}`).style = { numFmt: '#,###.0' }
@@ -755,17 +756,12 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
                     left: { style: "thick" },
                 };
 
-
-
-
-
                 worksheet.getCell('A2').value = { richText: [{ font: { name: 'Arial', bold: true, size: 9 }, text: headers[0] }] }//1. Shipper/Exporter
                 worksheet.getCell('A3').alignment = { indent: 1 }
                 worksheet.getCell('A3').value = {
                     richText: [{ font: { name: 'Arial', size: 9, bold: true }, text: description[1].shipper },
                     { font: { name: 'Arial', size: 9, bold: false }, text: description[1].tel }]
                 }
-
                 worksheet.getCell('A4').alignment = { indent: 1 }
                 worksheet.getCell('A4').value = { richText: [{ font: { name: 'Arial', size: 9 }, text: description[1].address1 }] }
                 worksheet.getCell('A5').alignment = { indent: 1 }

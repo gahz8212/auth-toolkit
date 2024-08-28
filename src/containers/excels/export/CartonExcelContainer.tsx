@@ -647,9 +647,9 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                                 }, 0)}`
 
                                 worksheet.getCell(`H${19 + rowData + extraPage}`).value = palletData[i].reduce((acc, curr) => {
-                                    acc += curr.weight * curr.CT_qty + 9
+                                    acc += curr.weight * curr.CT_qty
                                     return acc
-                                }, 0)
+                                }, 0) + 9
 
                                 worksheet.getCell(`J${19 + rowData + extraPage} `).value = palletData[i].reduce((acc, curr) => {
                                     acc += curr.cbm * curr.CT_qty
@@ -1068,9 +1068,9 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                                 }, 0)}`
 
                                 worksheet.getCell(`H${19 + lowData}`).value = palletData[i].reduce((acc, curr) => {
-                                    acc += curr.weight * curr.CT_qty + 9
+                                    acc += curr.weight * curr.CT_qty
                                     return acc
-                                }, 0)
+                                }, 0) + 9
 
                                 worksheet.getCell(`J${19 + lowData} `).value = palletData[i].reduce((acc, curr) => {
                                     acc += curr.cbm * curr.CT_qty
@@ -1079,7 +1079,7 @@ const CartonExcelContainer: React.FC<Props> = ({ packingData, palletData }) => {
                             }
                             worksheet.getCell(`C${19 + lowData} `).value = item.item
                             worksheet.getCell(`D${19 + lowData} `).value = item.CT_qty
-                            worksheet.getCell(`E${19 + lowData} `).value = item.CT_qty * item.moq
+                            worksheet.getCell(`E${19 + lowData} `).value = item.CT_qty * item.moq || item.quantity
                             worksheet.getCell(`F${19 + lowData} `).value = item.sets
                             worksheet.getCell(`G${19 + lowData} `).value = item.weight
                             worksheet.getCell(`I${19 + lowData} `).value = item.cbm

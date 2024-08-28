@@ -9,6 +9,7 @@ type State = {
       [key: string]: string | number;
       item: string;
       CT_qty: number;
+      sets: string;
       weight: number;
       cbm: number;
       moq: number;
@@ -165,7 +166,7 @@ const orderSlice = createSlice({
     getPalletDataSuccess: (state, { payload: palletData }) => {
       state.status.error = "";
       state.status.loading = false;
-      console.log("palletData", palletData);
+      // console.log("palletData", palletData);
       for (let i = 0; i < 10; i++) {
         state.palletData[i] = palletData.filter(
           (data: { no: number }) => data.no === i

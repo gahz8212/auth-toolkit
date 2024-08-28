@@ -28,6 +28,15 @@ type Props = {
     addItemForm: { visible: boolean; position: { x: number; y: number } };
     palletForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
+    repairs: {
+        id: number;
+        itemName: string;
+        ex_price: number;
+        quantity: number;
+        CT_qty: number;
+        weight: number;
+        cbm: number;
+    }[] | null
 
 }
 const ExportComponent: React.FC<Props> = ({
@@ -48,7 +57,8 @@ const ExportComponent: React.FC<Props> = ({
     openInvoiceForm,
     openPackingForm,
     openAddItemForm,
-    changePosition
+    changePosition,
+    repairs
 }) => {
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
@@ -267,6 +277,21 @@ const ExportComponent: React.FC<Props> = ({
                                     <th>부자재</th>
                                     <th>수량</th>
                                 </tr>
+                                {repairs?.map(repair => <tr>
+                                    <td>{repair.itemName}</td>
+                                    <td>{repair.quantity}</td>
+                                </tr>)}
+
+
+
+
+
+                                {/* {repairs && repairs.map(repair => {
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                    })
+                                } */}
                             </table>
                         </div>
                     </div>

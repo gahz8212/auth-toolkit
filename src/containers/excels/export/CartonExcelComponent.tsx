@@ -4,13 +4,14 @@ type Props = {
 
 }
 const CartonExcelComponent: React.FC<Props> = ({ makeCartonPacking }) => {
+    const onChange = () => {  }
     return (
         <div>
             <input type="checkbox" name="" id="invoice" />
             <label htmlFor="invoice">인보이스</label>
-            <input type="checkbox" name="" id="carton" checked={true} />
+            <input type="checkbox" name="" id="carton" checked={true} onChange={onChange} />
             <label htmlFor="carton">CT_packing</label>
-            <input type="checkbox" name="" id="pallet" />
+            <input type="checkbox" name="" id="pallet"  onChange={onChange}/>
             <label htmlFor="pallet">PT_packing</label>
             <div>
 

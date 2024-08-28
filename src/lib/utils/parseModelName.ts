@@ -182,6 +182,6 @@ export const select_modelname = (modelname: string) => {
       return "RDL";
 
     default:
-      return `Don't know`;
+      return modelname;
   }
 };
