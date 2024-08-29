@@ -13,4 +13,17 @@
       transform: scale(1.4);
     }
   }
+  .material-symbols-outlined.picker {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: 0.5s;
+    color: red;
+    &:hover {
+      color: red;
+      transform: scale(1.4);
+    }
+  }
 }

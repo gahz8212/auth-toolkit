@@ -104,24 +104,9 @@
     }
     .summary {
       // border: 1px solid black;
+
       width: 500px;
-      .forms {
-        width: 300px;
-        margin: 0.7rem auto;
-        .material-symbols-outlined {
-          font-size: 48px;
-          font-weight: 700;
-          color: cornflowerblue;
-          cursor: pointer;
-        }
-        .material-symbols-outlined.packing {
-          color: tomato;
-          margin-left: 1.5rem;
-        }
-      }
       .buttons {
-        // margin: 0 auto;
-        // background-color: yellow;
         width: 300px;
       }
       .selector {
@@ -143,13 +128,11 @@
         .arrow {
           cursor: pointer;
           user-select: none;
-
           margin: 0 auto;
           width: 500px;
           z-index: 1;
           position: absolute;
           top: 50%;
-
           display: flex;
           justify-content: space-between;
 
@@ -189,10 +172,12 @@
             transform: translateX(-200px);
             opacity: 0;
           }
+
           .partsTable {
             transition: 0.5s;
             transform: translateX(-200px);
             opacity: 1;
+            height: 450px;
           }
           .back {
             opacity: 0;
@@ -202,34 +187,105 @@
           }
         }
 
-        table {
+        .repairs {
           width: 400px;
-          height: 450px;
+          // height: 450px;
           max-height: 450px;
-          tr,
-          th,
-          td {
-            border-collapse: collapse;
-            border: 1px solid black;
-          }
+          border: 1px solid black;
 
-          td {
-            width: 30px;
-            // height: 40px;
-          }
           .header {
             height: 100px;
           }
           .body {
-            th:first-child {
-              width: 80%;
+            min-height: 600px;
+            .titles {
+              display: flex;
+              align-items: center;
+              height: 2rem;
+
+              border-top: 1px solid black;
+              border-bottom: 1px solid black;
+              .title {
+                text-align: center;
+                &:first-of-type {
+                  width: 40%;
+                }
+                &:nth-of-type(2) {
+                  width: 10%;
+                }
+                &:nth-of-type(3) {
+                  width: 10%;
+                }
+                &:nth-of-type(4) {
+                  width: 20%;
+                }
+                &:last-of-type {
+                  width: 20%;
+                }
+              }
+            }
+            .articles {
+              .items {
+                align-items: center;
+                display: flex;
+                height: 30px;
+                .item {
+                  padding: 0.3rem;
+                  &:first-of-type {
+                    width: 40%;
+                    margin-left: 0.5rem;
+                  }
+                  &:nth-of-type(2) {
+                    width: 10%;
+                    text-align: end;
+                  }
+                  &:nth-of-type(3) {
+                    width: 10%;
+                    text-align: end;
+                  }
+                  &:nth-of-type(4) {
+                    width: 20%;
+                    text-align: end;
+                  }
+                  &:last-of-type {
+                    width: 20%;
+                    text-align: end;
+                  }
+                }
+              }
             }
           }
         }
       }
+      .sel_cbm {
+        border: none;
+        border-bottom: 1px solid black;
+        font-size: 1rem;
+      }
+      .input_weight {
+        width: 50px;
+        text-align: right;
+        border: none;
+        border-bottom: 1px solid black;
+        font-size: 1rem;
+      }
       .buttons {
         input[type="file"] {
           display: none;
+        }
+      }
+      .forms {
+        width: 300px;
+        margin: 0.7rem auto;
+        .material-symbols-outlined {
+          font-size: 48px;
+          font-weight: 700;
+          color: cornflowerblue;
+          cursor: pointer;
+        }
+        .material-symbols-outlined.packing {
+          color: tomato;
+          margin-left: 1.5rem;
         }
       }
     }

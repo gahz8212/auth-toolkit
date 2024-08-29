@@ -153,6 +153,8 @@ type State = {
     | {
         id: number;
         itemName: string;
+        unit: string;
+        im_price: number;
         ex_price: number;
         quantity: number;
         CT_qty: number;
@@ -195,15 +197,19 @@ const initialState: State = {
     {
       id: 0,
       itemName: "reapair1",
+      unit: "\\",
+      im_price: 1000,
       ex_price: 1,
       quantity: 10,
-      CT_qty: 0,
+      CT_qty: 1,
       weight: 0,
       cbm: 0,
     },
     {
       id: 1,
       itemName: "reapair2",
+      unit: "\\",
+      im_price: 900,
       ex_price: 1,
       quantity: 20,
       CT_qty: 0,
@@ -518,7 +524,7 @@ const itemSlice = createSlice({
     },
     addRepairs: (state, { payload: newRepairs }) => {
       const repairs = state.repairs?.map((repare) => repare.itemName);
-      if (!repairs?.includes(newRepairs)) {
+      if (!repairs?.includes(newRepairs.itemName)) {
         state.repairs?.unshift(newRepairs);
       }
     },

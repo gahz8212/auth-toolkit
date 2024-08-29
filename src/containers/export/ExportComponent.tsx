@@ -220,19 +220,10 @@ const ExportComponent: React.FC<Props> = ({
                     <div className='buttons'>
                         <label htmlFor="orders">Order 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="orders" id="orders" onChange={onChangeOrder} ref={orderInput} />
-
-                        {/* <label htmlFor="parts">부자재 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
-                        <input type="file" name="parts" id="parts" onChange={onChangeParts} ref={partsInput} />
-                        <button onClick={openAddItemForm}>추가 입력</button> */}
-
-
-
-
-
                         <label htmlFor="parts">아이템 입력 <img src='/images/excel_btn.png' alt='excel'></img></label>
                         <input type="file" name="parts" id="parts" onChange={onChangeItem} ref={itemsInput} />
-
                     </div>
+
                     <div className="selector">
                         {months?.map((month, index) =>
                             <div key={index}>
@@ -242,6 +233,7 @@ const ExportComponent: React.FC<Props> = ({
                                 <label htmlFor={month}>{month}</label>
                             </div>)}
                     </div>
+
                     <div className={`sumTable  ${model === 'parts' ? "model" : 'parts'}`}>
                         <div className="arrow">
                             {<span className="material-symbols-outlined back" onClick={() => {
@@ -256,43 +248,76 @@ const ExportComponent: React.FC<Props> = ({
                             </span>}
                         </div>
                         <div className="modelTable">
-                            <table>
-                                <tr className='header'>
-                                    <td colSpan={3}>
-                                    </td>
-                                </tr>
-                                <tr className='body'>
-                                    <th>제품</th>
-                                    <th>수량</th>
-                                </tr>
-                            </table>
+                            <div className='repairs'>
+                                <div className='header'>
+
+                                </div>
+                                <div className='body'>
+                                    <div className="titles">
+
+                                        <div className='title'>부자재</div>
+                                        <div className='title'>수량</div>
+                                        <div className='title'>C/T</div>
+                                        <div className='title'>weight</div>
+                                        <div className='title'>cbm</div>
+                                    </div>
+                                    <div className="articles">
+
+                                        {repairs?.map(repair => <div className='items'>
+                                            <div className='item'>{repair.itemName}</div>
+                                            <div className='item'>{repair.quantity}</div>
+                                            <div className='item'>{repair.CT_qty}</div>
+                                            <div className='item'>{repair.CT_qty > 0 && repair.weight}</div>
+                                            <div className='item'>{repair.CT_qty > 0 &&
+                                                <select>
+                                                    <option value="자체">자체</option>
+                                                    <option value="0.044">iDT</option>
+                                                    <option value="0.04">CC360</option>
+                                                    <option value="0.044">SPT</option>
+                                                </select>}</div>
+                                        </div>)}
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <div className="partsTable">
-                            <table>
-                                <tr className='header'>
-                                    <td colSpan={3}></td>
-                                </tr>
-                                <tr className='body'>
 
-                                    <th>부자재</th>
-                                    <th>수량</th>
-                                </tr>
-                                {repairs?.map(repair => <tr>
-                                    <td>{repair.itemName}</td>
-                                    <td>{repair.quantity}</td>
-                                </tr>)}
+                            <div className='repairs'>
+                                <div className='header'>
 
+                                </div>
+                                <div className='body'>
+                                    <div className="titles">
 
+                                        <div className='title'>부자재</div>
+                                        <div className='title'>수량</div>
+                                        <div className='title'>C/T</div>
+                                        <div className='title'>weight</div>
+                                        <div className='title'>cbm</div>
+                                    </div>
+                                    <div className="articles">
 
+                                        {repairs?.map(repair => <div className='items'>
+                                            <div className='item'>{repair.itemName}</div>
+                                            <div className='item'>{repair.quantity}</div>
+                                            <div className='item'>{repair.CT_qty}</div>
+                                            <div className='item'>{repair.CT_qty > 0 &&
+                                                <input type='number' value={repair.weight} className='input_weight'></input>
+                                            }</div>
+                                            <div className='item'>{repair.CT_qty > 0 &&
+                                                <select className='sel_cbm' value={0.04}>
+                                                    <option value="자체">자체</option>
+                                                    <option value="0.044">iDT</option>
+                                                    <option value="0.04">CC360</option>
+                                                    <option value="0.044">SPT</option>
+                                                </select>}</div>
+                                        </div>)}
 
-
-                                {/* {repairs && repairs.map(repair => {
-                                        <tr>
-                                            <td></td>
-                                        </tr>
-                                    })
-                                } */}
-                            </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className='forms'>

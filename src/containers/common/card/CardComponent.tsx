@@ -85,7 +85,12 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         }
                         style={{ position: 'absolute', left: item.left * 1.5, top: item.top * 1.7 }}
                         draggable
-                        onDragStart={() => { onDragStart(item.id) }}
+                        onDragStart={(e) => {
+                            onDragStart(item.id);
+                            let img = new Image();
+                            img.src = './images/package.png'
+                            e.dataTransfer.setDragImage(img, 100, 100)
+                        }}
                         onDragEnd={onDrop}
 
                     >
@@ -145,8 +150,18 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             onDragStart={(e) => {
                                 onDragStart(item.id)
                                 const img = new Image();
-                                img.src = './images/knight.png'
-                                e.dataTransfer.setDragImage(img, 150, 150)
+                                img.src = './images/package.png'
+                                e.dataTransfer.setDragImage(img, 50, 50)
+                                e.dataTransfer.setData('pickedItem', JSON.stringify(
+                                    {
+                                        id: item.id,
+                                        itemName: item.itemName,
+                                        unit: item.unit,
+                                        im_price: item.im_price,
+                                        ex_price: item.ex_price,
+
+
+                                    }))
                             }}
                             onDragEnd={onDrop}
                         >

@@ -7,12 +7,19 @@ import IsettingComponent from './IsettingComponent';
 // import { relateActions } from '../../store/slices/relationSlice';
 const IsettingContainer = () => {
   const dispatch = useDispatch();
-  const { input, edit, relate } = useSelector(formSelector)
+  const { input, edit, relate, picker } = useSelector(formSelector)
   // const { items, dragItems, relations } = useSelector(itemData)
 
 
-  const openAddForm = () => {
-    dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
+  const openForm = (form: string) => {
+    if (form === 'input') {
+
+      dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
+    } else {
+
+      dispatch(formActions.toggle_form({ form: 'picker', value: !picker.visible }))
+    }
+
   }
   const changePosition = (form: string, position: { x: number, y: number }) => {
     dispatch(formActions.changePosition({ form, position }))
@@ -23,7 +30,8 @@ const IsettingContainer = () => {
       input={input}
       edit={edit}
       relate={relate}
-      openAddForm={openAddForm}
+      picker={picker}
+      openForm={openForm}
       changePosition={changePosition}
 
     />
