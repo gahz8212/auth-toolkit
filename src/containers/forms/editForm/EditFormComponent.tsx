@@ -74,17 +74,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
     insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations,  totalPrice }) => {
     const [openViewer, setOpenViewer] = useState<boolean>(true);
 
-
-    // let sum_im_price = dragItems?.reduce((acc, curr) => {
-    //     if (typeof curr.sum_im_price === 'number') {
-    //         if (curr.type === 'SET' || curr.type === 'ASSY') {
-    //             acc += totalPrice;
-    //         }
-    //         acc += curr.sum_im_price;
-    //     }
-    //     return acc;
-    // }, 0)
-
     return (
         <div className={`form-type ${next.type}`}>
 

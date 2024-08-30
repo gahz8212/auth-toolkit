@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Item, Image, Good, Relation } = require("../models");
+const { Item, Image, Good, Relation, Picker } = require("../models");
 const { Op } = require("sequelize");
 
 const upload = multer({
@@ -258,6 +258,38 @@ router.post("/excelAdd", async (req, res) => {
       });
 
       return res.status(200).json(finddatas);
+    }
+  } catch (e) {
+    return res.status(400).json(e.message);
+  }
+});
+router.post("/inputRepair", async (req, res) => {
+  const repairs = req.body;
+
+  try {
+    repairs.map(
+      async (repair) =>
+        await Picker.create({
+          itemName: repair.itemName,
+          unit: repair.unit,
+          im_price: repair.im_price,
+          ex_price: repair.ex_price,
+          // supplyer: repair.supplyer,
+          ItemId: repair.id,
+        })
+    );
+    return res.status(200);
+  } catch (e) {
+    return res.status(400).json(e.message);
+  }
+});
+router.get("/getRepairs", async (req, res) => {
+  try {
+    const pickedDatas = await Picker.findAll({});
+    if (pickedDatas) {
+      console.log(pickedDatas);
+
+      return res.status(200).json(pickedDatas);
     }
   } catch (e) {
     return res.status(400).json(e.message);

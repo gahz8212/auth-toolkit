@@ -1,6 +1,8 @@
 import React from 'react';
 type Props = {
     inputRepairs: (picked: {}) => void;
+    removeRepair: (id: number) => void;
+    inputRepair: () => void;
     repairs: {
         id: number;
         itemName: string;
@@ -11,9 +13,10 @@ type Props = {
         CT_qty: number;
         weight: number;
         cbm: number;
-    }[] | null
+    }[] | null;
+    initRepairs: () => void;
 }
-const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, repairs }) => {
+const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, removeRepair, repairs, inputRepair, initRepairs }) => {
     return (
         <div className='wrap-picker'>
             <div className='title'>아이템 수집</div>
@@ -39,7 +42,8 @@ const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, repairs }) => {
                     <div>{repair.itemName}</div>
                     <div>{repair.unit}{repair.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                     <div>${repair.ex_price}</div>
-                    <div>
+                    <div className='trashBtn'
+                        onClick={() => removeRepair(repair.id)}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>
@@ -49,8 +53,8 @@ const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, repairs }) => {
             </div>
             <div className="controls">
 
-                <button type="button">초기화</button>
-                <button type="button">입력</button>
+                <button type="button" onClick={initRepairs}>초기화</button>
+                <button type="button" onClick={inputRepair}>입력</button>
             </div>
             <div className="bar-btn">
                 <button>X</button>

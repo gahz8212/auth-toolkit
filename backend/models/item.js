@@ -68,6 +68,16 @@ module.exports = class Item extends Sequelize.Model {
               updateAt: Date.now(),
               ItemId: item.id,
             });
+            await sequelize.models.Picker.update(
+              {
+                item: item.itemName,
+                unit: item.unit,
+                im_price: item.im_price,
+                ex_price: item.ex_price,
+                supplyer: item.supplyer,
+              },
+              { where: { ItemId: item.id } }
+            );
           },
           afterDestroy: async (item) => {
             await sequelize.models.ItemBackup.create({
@@ -104,6 +114,7 @@ module.exports = class Item extends Sequelize.Model {
   static associate(db) {
     db.Item.hasMany(db.Image);
     db.Item.belongsTo(db.Good);
+    db.Item.hasMany(db.Picker);
     db.Item.belongsToMany(db.Item, {
       through: "Relation",
       as: "Upper",

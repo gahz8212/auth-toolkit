@@ -12,6 +12,7 @@ const GoodBackup = require("./good-backup");
 const ItemBackup = require("./item-backup");
 const Relation = require("./relation");
 const Pallet = require("./pallet");
+const Picker = require("./picker");
 
 const sequelize = new Sequelize(
   config.database,
@@ -30,10 +31,10 @@ db.GoodBackup = GoodBackup;
 db.ItemBackup = ItemBackup;
 db.Relation = Relation;
 db.Pallet = Pallet;
+db.Picker = Picker;
 // db.OrderSheet = OrderSheet;
 User.init(sequelize);
 Item.init(sequelize);
-
 Image.init(sequelize);
 Good.init(sequelize);
 GoodBackup.init(sequelize);
@@ -41,10 +42,11 @@ ItemBackup.init(sequelize);
 Order.init(sequelize);
 Relation.init(sequelize);
 Pallet.init(sequelize);
+Picker.init(sequelize);
 
 Image.associate(db);
 Good.associate(db);
-
 GoodBackup.associate(db);
 Item.associate(db);
+Picker.associate(db);
 module.exports = db;

@@ -65,6 +65,13 @@
           color: orangered;
         }
       }
+      .trashBtn {
+        cursor: pointer;
+        &:hover {
+          // transition: 0.5s;
+          transform: scale(1.2);
+        }
+      }
     }
   }
   .controls {

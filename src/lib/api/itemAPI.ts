@@ -43,3 +43,9 @@ export const excelAdd = (datas: any[] | null) => {
   // console.log("exceldatas", datas);
   return client.post("/item/excelAdd", datas);
 };
+export const inputRepairs = (repairs: {}[] | null) => {
+  return client.post("/item/inputRepair", repairs);
+};
+export const getRepairs = () => {
+  return client.get("/item/getRepairs");
+};

@@ -91,8 +91,44 @@ function* getItemSaga() {
     yield put(itemActions.getItemFailure(e.response.data));
   }
 }
+function* inputRepairSaga(action: {
+  payload:
+    | {
+        id: number;
+        itemName: string;
+        unit: string;
+        im_price: number;
+        ex_price: number;
+        quantity: number;
+        CT_qty: number;
+        weight: number;
+        cbm: number;
+      }[]
+    | null;
+}) {
+  try {
+    const response: { data: {}[] } = yield call(
+      itemAPI.inputRepairs,
+      action.payload
+    );
+    yield put(itemActions.inputRepairSuccess(response.data));
+  } catch (e: any) {
+    console.error(e);
+    yield put(itemActions.inputRepairFailure(e.response.data));
+  }
+}
+function* getRepairsSaga() {
+  try {
+    const response: { data: {}[] } = yield call(itemAPI.getRepairs);
+    yield put(itemActions.getRepairSuccess(response.data));
+  } catch (e: any) {
+    yield put(itemActions.getRepairFailure(e.response.data));
+  }
+}
 export function* itemSaga() {
   yield takeLatest(itemActions.addImage, addImageSaga);
   yield takeLatest(itemActions.addItem, addItemSaga);
   yield takeLatest(itemActions.getItem, getItemSaga);
+  yield takeLatest(itemActions.inputRepairs, inputRepairSaga);
+  yield takeLatest(itemActions.getRepairs, getRepairsSaga);
 }

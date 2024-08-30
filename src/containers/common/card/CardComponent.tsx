@@ -65,9 +65,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
         }
 
     }
-    // const changePosition = (form: string, position: { x: number, y: number }) => {
-    //     dispatch(formActions.changePosition({ form, position }))
-    //   }
+
 
     return (
         <>

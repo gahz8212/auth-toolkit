@@ -151,6 +151,7 @@ type State = {
   imageList: { url: string }[];
   repairs:
     | {
+        [key: string]: string | number;
         id: number;
         itemName: string;
         unit: string;
@@ -193,30 +194,7 @@ const initialState: State = {
   T_dragItems: [],
   backup: null,
   imageList: [],
-  repairs: [
-    {
-      id: 0,
-      itemName: "reapair1",
-      unit: "\\",
-      im_price: 1000,
-      ex_price: 1,
-      quantity: 10,
-      CT_qty: 1,
-      weight: 0,
-      cbm: 0,
-    },
-    {
-      id: 1,
-      itemName: "reapair2",
-      unit: "\\",
-      im_price: 900,
-      ex_price: 1,
-      quantity: 20,
-      CT_qty: 0,
-      weight: 0,
-      cbm: 0,
-    },
-  ],
+  repairs: [],
   status: { error: "", message: "", loading: false },
 };
 const inputSelector = (state: RootState) => {
@@ -529,7 +507,71 @@ const itemSlice = createSlice({
       }
     },
     removeRepairs: (state, { payload: id }) => {
-      const idx = state.repairs?.filter((repair) => repair.id === id);
+      let idx = state.repairs?.findIndex((repair) => repair.id === id);
+      if (idx !== undefined) state.repairs?.splice(idx, 1);
+    },
+    inputRepairs: (
+      state,
+      action: PayloadAction<
+        | {
+            id: number;
+            itemName: string;
+            unit: string;
+            im_price: number;
+            ex_price: number;
+            quantity: number;
+            CT_qty: number;
+            weight: number;
+            cbm: number;
+          }[]
+        | null
+      >
+    ) => {
+      state.status.error = "";
+      state.status.message = "";
+    },
+    inputRepairSuccess: (state, { payload: newRepair }) => {
+      if (newRepair) {
+        state.repairs = newRepair;
+      }
+    },
+    inputRepairFailure: (state, { payload: e }) => {
+      state.status.error = e;
+      state.status.message = "";
+    },
+    getRepairs: (state) => {
+      state.status.error = "";
+      state.status.message = "";
+    },
+    getRepairSuccess: (state, { payload: repairsfromDB }) => {
+      state.status.error = "";
+      state.status.message = "get repairs ok";
+      state.repairs = repairsfromDB;
+    },
+    getRepairFailure: (state, { payload: e }) => {
+      state.status.error = e;
+      state.status.message = "get repairs ng";
+    },
+    updateRepair: (state, { payload: item }) => {
+      const { id, dragItems, type, ...rests } = item;
+      let idx = state.repairs?.findIndex((repair) => repair.id === id);
+
+      const keys = Object.keys(rests);
+      const values: number[] = Object.values(rests);
+
+      keys.forEach((key, index) => {
+        if (state.repairs) {
+          if (idx !== undefined && idx >= 0) {
+            state.repairs[idx][key] = values[index];
+          }
+        }
+      });
+    },
+    initRepairs: (state) => {
+      let result = window.confirm("선택한 아이템을 모두 지웁니다.");
+      if (result) {
+        state.repairs = initialState.repairs;
+      }
     },
   },
 });

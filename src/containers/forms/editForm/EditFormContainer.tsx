@@ -44,6 +44,7 @@ const EditFormContainer = () => {
         },
     ) => {
         dispatch(editActions.editItem(item))
+        dispatch(itemActions.updateRepair(item))
     }
     const removeItem = (id: number | '') => {
         dispatch(editActions.removeItem(id))
