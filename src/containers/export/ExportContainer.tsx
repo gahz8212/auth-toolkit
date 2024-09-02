@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ExportComponent from './ExportComponent';
 import { useSelector, useDispatch } from 'react-redux'
 import { OrderAction, OrderData } from '../../store/slices/orderSlice';
-import { itemData } from '../../store/slices/itemSlice';
+import { itemData, itemActions } from '../../store/slices/itemSlice';
 import { formActions, formSelector } from '../../store/slices/formSlice';
 import ExcelJS from 'exceljs';
 const ExportContainer = () => {
@@ -148,6 +148,11 @@ const ExportContainer = () => {
             dispatch(OrderAction.getOrderData())
         }
     }, [dispatch, orderData])
+    useEffect(() => {
+
+        dispatch(itemActions.getRepairs())
+
+    }, [])
     useEffect(() => {
         return () => {
             dispatch(formActions.initPosition('invoice'))

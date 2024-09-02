@@ -1,16 +1,24 @@
 const objArray = [
-  { name: "aaa", age: 30 },
-  { name: "bbb", age: 33 },
-  { name: "ccc", age: 20 },
-  { name: "ddd", age: 10 },
+  { name: "aaa", age: 30, check: true },
+  { name: "bbb", age: 33, check: false },
+  { name: "ccc", age: 20, check: true },
+  { name: "ddd", age: 10, check: false },
 ];
-const oldobj = { name: "aaa", age: 30 };
-const newobj = { name: "eee", age: 50 };
-let idx = objArray.findIndex(
-  (array) => JSON.stringify(array) === JSON.stringify(oldobj)
-);
-objArray.splice(idx, 1, newobj);
-console.log(objArray);
+objArray.map((obj) => {
+
+  if (obj.check) {
+    let arr = [];
+    arr.push(obj);
+  }
+ 
+});
+// const oldobj = { name: "aaa", age: 30 };
+// const newobj = { name: "eee", age: 50 };
+// let idx = objArray.findIndex(
+//   (array) => JSON.stringify(array) === JSON.stringify(oldobj)
+// );
+// objArray.splice(idx, 1, newobj);
+// console.log(objArray);
 // // const str = "h2o add-on rx (orange)";
 // // const str = "bp tc1 add-on rx";
 // const str = "dummy launcher";

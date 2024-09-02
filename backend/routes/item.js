@@ -265,7 +265,7 @@ router.post("/excelAdd", async (req, res) => {
 });
 router.post("/inputRepair", async (req, res) => {
   const repairs = req.body;
-
+  await Picker.destroy({ where: {} });
   try {
     repairs.map(
       async (repair) =>

@@ -291,6 +291,7 @@ const ExportComponent: React.FC<Props> = ({
                                 <div className='body'>
                                     <div className="titles">
 
+
                                         <div className='title'>부자재</div>
                                         <div className='title'>수량</div>
                                         <div className='title'>C/T</div>
@@ -300,13 +301,14 @@ const ExportComponent: React.FC<Props> = ({
                                     <div className="articles">
 
                                         {repairs?.map(repair => <div className='items'>
+                                            <div className='item'><input type="checkbox" name="" id="" /></div>
                                             <div className='item'>{repair.itemName}</div>
-                                            <div className='item'>{repair.quantity}</div>
-                                            <div className='item'>{repair.CT_qty}</div>
-                                            <div className='item'>{repair.CT_qty > 0 &&
-                                                <input type='number' value={repair.weight} className='input_weight'></input>
+                                            <div className='item'>1000</div>
+                                            <div className='item'>10</div>
+                                            <div className='item'>{
+                                                <input type='number' value={repair.weight} className='input_weight' min={0} step={0.01}></input>
                                             }</div>
-                                            <div className='item'>{repair.CT_qty > 0 &&
+                                            <div className='item'>{
                                                 <select className='sel_cbm' value={0.04}>
                                                     <option value="자체">자체</option>
                                                     <option value="0.044">iDT</option>
