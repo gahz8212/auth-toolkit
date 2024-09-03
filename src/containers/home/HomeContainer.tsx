@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { itemData, itemActions } from '../../store/slices/itemSlice';
 import { relateActions } from '../../store/slices/relationSlice'
@@ -13,10 +13,10 @@ const HomeContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, relations } = useSelector(itemData)
 
-  
 
- 
-        
+
+
+
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -51,6 +51,7 @@ const HomeContainer = () => {
                             acc[curr.targetId] = price + acc[curr.targetId]
                         } else {
                             acc[curr.targetId] = price
+                            
                         }
                     }
                 } else {
@@ -68,8 +69,8 @@ const HomeContainer = () => {
 
     return (
         <HomeComponent
-            // list={orders}
-            
+        // list={orders}
+
         />
     );
 };

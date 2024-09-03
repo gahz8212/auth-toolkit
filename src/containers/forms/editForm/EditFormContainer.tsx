@@ -26,17 +26,11 @@ const EditFormContainer = () => {
         if (name === 'use' || name === 'set') {
             value = value === '1' ? true : false
         }
-        if (name === 'type') {
-            // dispatch(editActions.initForm())
-            // dispatch(editActions.changeInitial({ name, value }))
-        }
         dispatch(editActions.changeField({ name, value }))
     }
-
     const editImage = async (e: any) => {
         const formData = imageInsert(e, next.Images)
         dispatch(editActions.editImage(await formData))
-
     }
     const editItem = (
         item: {
@@ -138,12 +132,12 @@ const EditFormContainer = () => {
                     // console.log('updateRelations', [...createdRelations, ...newRelations])
                     const newCreateRelations = [...createdRelations, ...newRelations]
                     //newCreateRelations:새로운 relations을 dragItems로 totalPrices를 만들자
-
                     // console.log('newCreateRelations', newCreateRelations)
                     const newArray = changeRelationToDragItems(items, newCreateRelations)
                     // console.log('newArray', newArray)
+
                     if (relations) {
-                        const totalPrice = returnTotalPrice(items, newCreateRelations, newArray);
+                        const totalPrice = returnTotalPrice(newItems, newCreateRelations, newArray);
                         dispatch(relateActions.calculateTotalPrice(totalPrice))
 
                     }

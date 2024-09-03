@@ -65,13 +65,13 @@ type Props = {
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
-  
+
     totalPrice: number;
     // dragItem: (id: number) => void;
     // onDrop: () => void;
 }
 const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType,
-    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations,  totalPrice }) => {
+    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations, totalPrice }) => {
     const [openViewer, setOpenViewer] = useState<boolean>(true);
 
     return (
@@ -92,6 +92,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                 }
                 if (dragItems) {
                     const newItem = ({ id: next.id, ...changedProps, dragItems, type: 'rest' })
+                    // Object.keys(changedProps)
+
                     editItem(newItem)
                 }
             }
@@ -251,7 +253,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     <textarea name="descript" value={next.descript} onChange={onChange} placeholder='결합물 설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                                 </div>
                             </div>
-                           
+
                             <div className="item_basket" onDragEnter={() => {
                                 if (dragedItem) drag_on(next.id, dragedItem.id)
                             }}>

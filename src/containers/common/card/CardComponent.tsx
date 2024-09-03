@@ -32,8 +32,8 @@ type Props = {
 }
 
 const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, viewMode, relations, showRelate, totalPrice }) => {
-    // console.log('viewMode', viewMode)
-    // console.log('totalPrice',totalPrice)
+
+
     const [selected, setSelected] = useState<number | ''>()
     const [shows, setShows] = useState<number[]>([])
     const [visibles, setVisibles] = useState<number[]>([])
@@ -53,9 +53,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
     const checkedItem = (id: number) => {
         // console.log(id)
         const visibleIds = relations?.filter(rel => rel.UpperId === id).map(rel => rel.LowerId)
-
         if (viewMode) {
-
             if (visibles.length === 0 && visibleIds) {
                 setVisibles([...visibles, ...visibleIds])
             }
@@ -63,10 +61,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                 setVisibles([])
             }
         }
-
     }
-
-
     return (
         <>
             {viewMode ? <div className="item-list"
@@ -191,9 +186,9 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
 
                                 <div>{item.itemName}</div>
 
-                                <div> {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
-                                {item.im_price > 0 && <div>\{item.im_price}</div>}
-                                {item.ex_price > 0 && <div>${item.ex_price}</div>}
+                                <div>합산 {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
+                                {<div>입고\{item.im_price}</div>}
+                                {<div>수출${item.ex_price}</div>}
 
 
                             </div>

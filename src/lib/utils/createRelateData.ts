@@ -102,8 +102,8 @@ export const makeRelateData_View_Horizon = (
         top: top,
         left: left,
         point: inheritPoint,
-        sum_im_price: im_price,
-        ex_price: ex_price,
+        sum_im_price: Number(im_price),
+        ex_price: Number(ex_price),
         type: type,
       };
       viewArray.push(newItem);
@@ -274,8 +274,8 @@ export const makeRelateData_View = (
         top: top,
         left: left,
         point: inheritPoint,
-        sum_im_price: im_price,
-        ex_price: ex_price,
+        sum_im_price: Number(im_price),
+        ex_price: Number(ex_price),
         type: type,
       };
       viewArray.push(newItem);
@@ -412,10 +412,11 @@ export const makeRelateData_Price = (
       const newItem = {
         currentId: id,
         point: inheritPoint,
-        sum_im_price: im_price,
+        sum_im_price: Number(im_price), //이렇게 강제로 형 변환을 시켜줘야 하나.
         // itemName: searchItemName(id),
         // ex_price: ex_price,
       };
+
       priceArray.push(newItem);
       if (history.length > 0) {
         priceArray.forEach((arr) =>

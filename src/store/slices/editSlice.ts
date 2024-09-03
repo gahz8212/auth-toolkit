@@ -220,6 +220,7 @@ const editSlice = createSlice({
     editItemSuccess: (state, { payload: message }) => {
       // console.log(result.relations);
       state.status.message = message;
+ 
       state.status.error = "";
     },
     editItemFailure: (state, { payload: error }) => {
