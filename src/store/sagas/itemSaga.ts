@@ -95,6 +95,7 @@ function* inputRepairSaga(action: {
   payload:
     | {
         id: number;
+        check:boolean;
         itemName: string;
         unit: string;
         im_price: number;

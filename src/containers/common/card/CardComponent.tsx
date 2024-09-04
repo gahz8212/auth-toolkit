@@ -181,14 +181,14 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </div>
                                 </div>
 
-                                <div>{item.id}</div>
+                                {/* <div>{item.id}</div> */}
                                 {/* <div>{item.category}</div> */}
 
                                 <div>{item.itemName}</div>
 
                                 <div>합산 {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
-                                {<div>입고\{item.im_price}</div>}
-                                {<div>수출${item.ex_price}</div>}
+                                {item.im_price > 0 && <div>입고\{item.im_price}</div>}
+                                {item.ex_price > 0 && <div>수출${item.ex_price}</div>}
 
 
                             </div>

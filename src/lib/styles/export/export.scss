@@ -212,21 +212,22 @@
               .title {
                 text-align: center; //부자재
                 &:first-of-type {
-                  width: 42%;
+                  width: 43%;
                 }
                 &:nth-of-type(2) {
                   //수량
-                  width: 15%;
-                  margin-left: 0.5rem;
+                  // background: yellow;
+                  width: 18%;
+                  text-align: right;
                 }
+                // &:nth-of-type(3) {
+                //   //C/T
+                //   width: 6%;
+                // }
                 &:nth-of-type(3) {
-                  //C/T
-                  width: 6%;
-                }
-                &:nth-of-type(4) {
                   //weight
                   width: 14%;
-                  margin-left: 0.5rem;
+                  // margin-left: 0.5rem;
                   // background-color: aqua;
                 }
 
@@ -248,36 +249,29 @@
                     width: 3%;
                   }
                   &:nth-of-type(2) {
-                    width: 38%;
+                    width: 50%;
                     text-align: start;
                   }
                   &:nth-of-type(3) {
-                    width: 8%;
-                    // background: yellow;
+                    width: 10%;
                     text-align: end;
                   }
                   &:nth-of-type(4) {
-                    width: 5%;
-                    text-align: end;
-                    // background: green;
-                    margin-left: 0.5rem;
-                  }
-                  &:nth-of-type(5) {
                     //weight
-                    width: 10%;
+                    width: 5%;
                     text-align: end;
                     // background: yellow;
                     .input_weight {
-                      width: 50px;
+                      width: 30px;
                       text-align: right;
                       border: none;
                       border-bottom: 1px solid black;
                       font-size: 0.8rem;
                     }
                   }
-                  &:last-of-type {
+                  &:nth-of-type(5) {
                     //cbm
-                    width: 15%;
+                    width: 20%;
                     text-align: end;
                     // background: yellow;
                     margin-left: 0.5rem;
@@ -285,6 +279,19 @@
                       border: none;
                       border-bottom: 1px solid black;
                       font-size: 0.8rem;
+                    }
+                  }
+                  &:last-of-type {
+                    //cbm
+                    width: 5%;
+                    .material-symbols-outlined.trash {
+                      color: orange;
+                      cursor: pointer;
+                      user-select: none;
+                      transition: 0.4s;
+                      &:hover {
+                        color: orangered;
+                      }
                     }
                   }
                 }

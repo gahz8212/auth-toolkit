@@ -270,6 +270,7 @@ router.post("/inputRepair", async (req, res) => {
     repairs.map(
       async (repair) =>
         await Picker.create({
+          check: repair.check,
           itemName: repair.itemName,
           unit: repair.unit,
           im_price: repair.im_price,
@@ -287,7 +288,7 @@ router.get("/getRepairs", async (req, res) => {
   try {
     const pickedDatas = await Picker.findAll({});
     if (pickedDatas) {
-      console.log(pickedDatas);
+      // console.log(pickedDatas);
 
       return res.status(200).json(pickedDatas);
     }

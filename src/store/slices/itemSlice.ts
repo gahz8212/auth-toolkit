@@ -151,8 +151,9 @@ type State = {
   imageList: { url: string }[];
   repairs:
     | {
-        [key: string]: string | number;
+        [key: string]: string | number | boolean;
         id: number;
+        check: boolean;
         itemName: string;
         unit: string;
         im_price: number;
@@ -515,6 +516,7 @@ const itemSlice = createSlice({
       action: PayloadAction<
         | {
             id: number;
+            check: boolean;
             itemName: string;
             unit: string;
             im_price: number;

@@ -3,6 +3,7 @@ module.exports = class Picker extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        check: { type: Sequelize.BOOLEAN, defaultValue: false },
         itemName: { type: Sequelize.STRING(50), allowNull: false },
         unit: { type: Sequelize.STRING(3), allowNull: false },
         im_price: { type: Sequelize.FLOAT(9, 2), allowNull: true },

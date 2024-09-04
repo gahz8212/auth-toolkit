@@ -133,8 +133,6 @@ const ExportContainer = () => {
     }
 
     const openAddItemForm = () => {
-
-
         // alert('db 가져오는 중')
         dispatch(formActions.toggle_form({ form: 'addItem', value: !addItem.visible }))
         dispatch(OrderAction.getDummyItem())
@@ -142,7 +140,13 @@ const ExportContainer = () => {
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
-
+    const removeRepairs = (id: number) => {
+        dispatch(itemActions.removeRepairs(id))
+    }
+    const onChangeRepair = (e: any) => {
+        const { name, checked, value, id } = e.target
+        console.log(name, checked, value, id)
+    }
     useEffect(() => {
         if (!orderData) {
             dispatch(OrderAction.getOrderData())
@@ -167,6 +171,7 @@ const ExportContainer = () => {
             onChangeParts={onChangeParts}
             onChangeOrder={onChangeOrder}
             onChangeItem={onChangeItem}
+            onChangeRepair={onChangeRepair}
             orderInput={orderInput}
             partsInput={partsInput}
             itemsInput={itemsInput}
@@ -181,6 +186,7 @@ const ExportContainer = () => {
             openAddItemForm={openAddItemForm}
             changePosition={changePosition}
             repairs={repairs}
+            removeRepairs={removeRepairs}
         />
     );
 };

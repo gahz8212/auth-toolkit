@@ -11,10 +11,10 @@ type Props = {
     setModel: React.Dispatch<React.SetStateAction<string>>
     onChangeParts: (e: any) => void;
     onChangeOrder: (e: any) => void;
-
     onChangeItem: (e: any) => void;
-    orderInput: React.LegacyRef<HTMLInputElement> | undefined;
+    onChangeRepair: (e: any) => void;
 
+    orderInput: React.LegacyRef<HTMLInputElement> | undefined;
     partsInput: React.LegacyRef<HTMLInputElement> | undefined;
     itemsInput: React.LegacyRef<HTMLInputElement> | undefined;
     orderData: any[] | null;
@@ -30,6 +30,7 @@ type Props = {
     changePosition: (form: string, position: { x: number, y: number }) => void;
     repairs: {
         id: number;
+        check: boolean;
         itemName: string;
         ex_price: number;
         quantity: number;
@@ -37,6 +38,7 @@ type Props = {
         weight: number;
         cbm: number;
     }[] | null
+    removeRepairs: (id: number) => void;
 
 }
 const ExportComponent: React.FC<Props> = ({
@@ -58,7 +60,9 @@ const ExportComponent: React.FC<Props> = ({
     openPackingForm,
     openAddItemForm,
     changePosition,
-    repairs
+    repairs,
+    removeRepairs,
+    onChangeRepair
 }) => {
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
@@ -98,7 +102,7 @@ const ExportComponent: React.FC<Props> = ({
                     onDragEnter={() => { onDragEnter(tr, td) }}
                     onDragEnd={onDrop}
 
-                >{data[month]}
+                >{data[month] > 0 && data[month].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     {/* <input type="number" name={`${month}`} value={data[month]} onChange={(e) => { onChange(e, tr) }} /> */}
                 </div>)}
         </div>
@@ -257,7 +261,7 @@ const ExportComponent: React.FC<Props> = ({
 
                                         <div className='title'>부자재</div>
                                         <div className='title'>수량</div>
-                                        <div className='title'>C/T</div>
+                                        {/* <div className='title'>C/T</div> */}
                                         <div className='title'>weight</div>
                                         <div className='title'>cbm</div>
                                     </div>
@@ -266,15 +270,20 @@ const ExportComponent: React.FC<Props> = ({
                                         {repairs?.map(repair => <div className='items'>
                                             <div className='item'>{repair.itemName}</div>
                                             <div className='item'>{repair.quantity}</div>
-                                            <div className='item'>{repair.CT_qty}</div>
+                                            {/* <div className='item'>{repair.CT_qty}</div> */}
                                             <div className='item'>{repair.CT_qty > 0 && repair.weight}</div>
                                             <div className='item'>{repair.CT_qty > 0 &&
                                                 <select>
                                                     <option value="자체">자체</option>
-                                                    <option value="0.044">iDT</option>
+                                                    <option value="0.036">iDT</option>
                                                     <option value="0.04">CC360</option>
                                                     <option value="0.044">SPT</option>
                                                 </select>}</div>
+                                            <div>
+                                                <span className="material-symbols-outlined">
+                                                    delete
+                                                </span>
+                                            </div>
                                         </div>)}
 
                                     </div>
@@ -294,19 +303,19 @@ const ExportComponent: React.FC<Props> = ({
 
                                         <div className='title'>부자재</div>
                                         <div className='title'>수량</div>
-                                        <div className='title'>C/T</div>
-                                        <div className='title'>weight</div>
+                                        {/* <div className='title'>C/T</div> */}
+                                        <div className='title'>Kg</div>
                                         <div className='title'>cbm</div>
                                     </div>
                                     <div className="articles">
 
                                         {repairs?.map(repair => <div className='items'>
-                                            <div className='item'><input type="checkbox" name="" id="" /></div>
+                                            <div className='item'><input type="checkbox" name="check" id={repair.id.toString()} checked={repair.check === true} onChange={onChangeRepair} /></div>
                                             <div className='item'>{repair.itemName}</div>
-                                            <div className='item'>1000</div>
-                                            <div className='item'>10</div>
+                                            <div className='item'>{repair.quantity > 0 && repair.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+                                            {/* <div className='item'>10</div> */}
                                             <div className='item'>{
-                                                <input type='number' value={repair.weight} className='input_weight' min={0} step={0.01}></input>
+                                                <input type='number' name="weight" value={repair.weight} onChange={onChangeRepair} className='input_weight' min={0} step={0.01}></input>
                                             }</div>
                                             <div className='item'>{
                                                 <select className='sel_cbm' value={0.04}>
@@ -315,6 +324,11 @@ const ExportComponent: React.FC<Props> = ({
                                                     <option value="0.04">CC360</option>
                                                     <option value="0.044">SPT</option>
                                                 </select>}</div>
+                                            <div className='item' onClick={() => { removeRepairs(repair.id) }}>
+                                                <span className="material-symbols-outlined trash">
+                                                    delete
+                                                </span>
+                                            </div>
                                         </div>)}
 
                                     </div>

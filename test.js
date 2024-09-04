@@ -1,17 +1,37 @@
 const objArray = [
   { name: "aaa", age: 30, check: true },
   { name: "bbb", age: 33, check: false },
+  { name: "ggg", age: 10, check: true },
   { name: "ccc", age: 20, check: true },
   { name: "ddd", age: 10, check: false },
+  { name: "eee", age: 10, check: true },
+  { name: "fff", age: 10, check: false },
 ];
-objArray.map((obj) => {
-
+let total = [];
+let array = [];
+objArray.forEach((obj, index) => {
   if (obj.check) {
-    let arr = [];
-    arr.push(obj);
+    array.push(index);
   }
- 
 });
+array = [...array, objArray.length];
+for (let i = 0; i < array.length; i++) {
+  let arr = new Array(0);
+  for (let j = array[i]; j < array[i + 1]; j++) {
+    arr.push(objArray[j]);
+  }
+  total.push(arr);
+}
+total.pop();
+console.log(total);
+// console.log(array);
+
+// for (let i = 0; i < array.length; i++) {
+//   for (let j = i; j <= array[i + 1]; j++) {
+//     arr.push(array[j]);
+//   }
+// }
+// console.log(arr);
 // const oldobj = { name: "aaa", age: 30 };
 // const newobj = { name: "eee", age: 50 };
 // let idx = objArray.findIndex(
