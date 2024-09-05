@@ -20,6 +20,11 @@ const ItemPickerContainer = () => {
     const initRepairs = () => {
         dispatch(itemActions.initRepairs())
     }
+    const onChange = (e: any) => {
+        const { name, value, id } = e.target
+        console.log('name, value, id', name, value, id)
+        dispatch(itemActions.onChangeRepairs({ name, id, value }))
+    }
     useEffect(() => {
         dispatch(itemActions.getRepairs())
     }, [])
@@ -31,7 +36,8 @@ const ItemPickerContainer = () => {
                 repairs={repairs}
                 inputRepair={inputRepair}
                 initRepairs={initRepairs}
-                 />
+                onChange={onChange}
+            />
         </div>
     );
 };

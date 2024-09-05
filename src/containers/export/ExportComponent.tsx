@@ -39,6 +39,7 @@ type Props = {
         cbm: number;
     }[] | null
     removeRepairs: (id: number) => void;
+    partPackaging: { [key: number]: {} } | undefined
 
 }
 const ExportComponent: React.FC<Props> = ({
@@ -62,7 +63,8 @@ const ExportComponent: React.FC<Props> = ({
     changePosition,
     repairs,
     removeRepairs,
-    onChangeRepair
+    onChangeRepair,
+    partPackaging
 }) => {
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
@@ -76,6 +78,7 @@ const ExportComponent: React.FC<Props> = ({
 
     let orderdata;
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
+
     const onDragStart = (index: number, column: number) => {
         dragItem.current = index;
         dragItemKey = months ? months[column] : '';
@@ -294,12 +297,34 @@ const ExportComponent: React.FC<Props> = ({
                         <div className="partsTable">
 
                             <div className='repairs'>
-                                <div className='header'>
+                                <div className='header' style={{ display: 'flex', padding: '1rem' }}>
+                                    <div>
 
+                                        <div>
+
+                                            <label htmlFor='exNo'>출고넘버</label>
+                                            <input type="text" name="" id="exNo" placeholder='EK-' />
+                                        </div>
+                                        <div>
+
+                                            <label htmlFor='vess'>Vessel</label>
+                                            <input type="text" name="" id="vess" />
+                                        </div>
+                                    </div>
+                                    <div>
+
+                                        <div>
+                                            <label htmlFor="boat">Boat</label><input type="radio" name="boat" id="" checked />
+                                            <label htmlFor="air">Air</label><input type="radio" name="air" id="" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="lcl">LCL</label><input type="radio" name="tr" id="lcl" checked />
+                                            <label htmlFor="fcl">FCL</label><input type="radio" name="tr" id="fcl" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className='body'>
                                     <div className="titles">
-
 
                                         <div className='title'>부자재</div>
                                         <div className='title'>수량</div>
@@ -308,18 +333,31 @@ const ExportComponent: React.FC<Props> = ({
                                         <div className='title'>cbm</div>
                                     </div>
                                     <div className="articles">
+                                        {repairs?.map((repair) => <div className={`items`}
+                                            draggable={repair.check}
+                                            onDragStart={(e) => {
+                                                const img = new Image();
+                                                img.src = '/images/package.png'
+                                                e.dataTransfer.setDragImage(img, 50, 50)
+                                                if (partPackaging) {
 
-                                        {repairs?.map(repair => <div className='items'>
-                                            <div className='item'><input type="checkbox" name="check" id={repair.id.toString()} checked={repair.check === true} onChange={onChangeRepair} /></div>
-                                            <div className='item'>{repair.itemName}</div>
-                                            <div className='item'>{repair.quantity > 0 && repair.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+                                                    console.log(partPackaging[repair.id])
+                                                }
+                                            }}
+                                        >
+                                            <div className='item'><input type="checkbox" name="check" id={repair.id.toString()} checked={repair.check}
+                                                onChange={onChangeRepair} /></div>
+                                            <div className={`item ${repair.check ? 'selected' : ''}`}>{repair.itemName}</div>
+                                            <div className='item'>{repair.quantity}</div>
+                                            {/* <div className='item'>{repair.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div> */}
                                             {/* <div className='item'>10</div> */}
                                             <div className='item'>{
-                                                <input type='number' name="weight" value={repair.weight} onChange={onChangeRepair} className='input_weight' min={0} step={0.01}></input>
+                                                repair.check && <input type='number' name="weight" value={repair.weight} onChange={onChangeRepair} className='input_weight' min={0} step={0.01}></input>
                                             }</div>
                                             <div className='item'>{
-                                                <select className='sel_cbm' value={0.04}>
-                                                    <option value="자체">자체</option>
+                                                repair.check &&
+                                                <select className='sel_cbm' value={repair.cbm} defaultValue="선택">
+                                                    <option value="선택">선택</option>
                                                     <option value="0.044">iDT</option>
                                                     <option value="0.04">CC360</option>
                                                     <option value="0.044">SPT</option>
@@ -330,7 +368,6 @@ const ExportComponent: React.FC<Props> = ({
                                                 </span>
                                             </div>
                                         </div>)}
-
                                     </div>
                                 </div>
                             </div>

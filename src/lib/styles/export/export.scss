@@ -230,7 +230,6 @@
                   // margin-left: 0.5rem;
                   // background-color: aqua;
                 }
-
                 &:last-of-type {
                   width: 15%;
                   // margin-left: 0.5rem;
@@ -243,6 +242,9 @@
                 align-items: center;
                 height: 30px;
                 font-size: 0.9rem;
+                .selected {
+                  font-weight: 800;
+                }
                 .item {
                   padding: 0.3rem;
                   &:first-of-type {
@@ -251,6 +253,7 @@
                   &:nth-of-type(2) {
                     width: 50%;
                     text-align: start;
+                    cursor: pointer;
                   }
                   &:nth-of-type(3) {
                     width: 10%;

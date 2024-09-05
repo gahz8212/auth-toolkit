@@ -1,29 +1,39 @@
-const objArray = [
-  { name: "aaa", age: 30, check: true },
-  { name: "bbb", age: 33, check: false },
-  { name: "ggg", age: 10, check: true },
-  { name: "ccc", age: 20, check: true },
-  { name: "ddd", age: 10, check: false },
-  { name: "eee", age: 10, check: true },
-  { name: "fff", age: 10, check: false },
-];
-let total = [];
-let array = [];
-objArray.forEach((obj, index) => {
-  if (obj.check) {
-    array.push(index);
-  }
-});
-array = [...array, objArray.length];
-for (let i = 0; i < array.length; i++) {
-  let arr = new Array(0);
-  for (let j = array[i]; j < array[i + 1]; j++) {
-    arr.push(objArray[j]);
-  }
-  total.push(arr);
+const obj = {};
+const arr = [1, 2, 3];
+for (let i = 0; i < 30; i += 2) {
+  obj[i] = arr;
 }
-total.pop();
-console.log(total);
+console.log(obj);
+
+// const objArray = [
+//   { name: "aaa", age: 30, check: true },
+//   { name: "bbb", age: 33, check: false },
+//   { name: "ggg", age: 10, check: true },
+//   { name: "ccc", age: 20, check: true },
+//   { name: "ddd", age: 10, check: false },
+//   { name: "eee", age: 10, check: true },
+//   { name: "fff", age: 10, check: false },
+// ];
+// let total = [];
+// let array = [];
+// objArray.forEach((obj, index) => {
+//   if (obj.check) {
+//     array.push(index);
+//   }
+// });
+// array = [...array, objArray.length];
+// for (let i = 0; i < array.length; i++) {
+//   let arr = new Array(0);
+//   for (let j = array[i]; j < array[i + 1]; j++) {
+//     arr.push(objArray[j]);
+//   }
+//   let obj = { i };
+//   console.log(obj);
+//   total.push(arr);
+// }
+// total.pop();
+// console.log(total[4]);
+
 // console.log(array);
 
 // for (let i = 0; i < array.length; i++) {

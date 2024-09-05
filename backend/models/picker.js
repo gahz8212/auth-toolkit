@@ -8,6 +8,7 @@ module.exports = class Picker extends Sequelize.Model {
         unit: { type: Sequelize.STRING(3), allowNull: false },
         im_price: { type: Sequelize.FLOAT(9, 2), allowNull: true },
         ex_price: { type: Sequelize.FLOAT(9, 3), allowNull: true },
+        quantity: { type: Sequelize.INTEGER, allowNull: null, defaultValue: 0 },
         supplyer: { type: Sequelize.STRING(50), allowNull: true },
       },
       {

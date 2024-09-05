@@ -275,6 +275,7 @@ router.post("/inputRepair", async (req, res) => {
           unit: repair.unit,
           im_price: repair.im_price,
           ex_price: repair.ex_price,
+          quantity: repair.quantity,
           // supplyer: repair.supplyer,
           ItemId: repair.id,
         })

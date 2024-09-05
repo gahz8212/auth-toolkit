@@ -575,6 +575,19 @@ const itemSlice = createSlice({
         state.repairs = initialState.repairs;
       }
     },
+    onChangeRepairs: (state, { payload: values }) => {
+      const { name, checked, value, id } = values;
+      if (state.repairs) {
+        const idx = state.repairs?.findIndex(
+          (repair) => repair.id === Number(id)
+        );
+        if (name === "check") {
+          state.repairs[idx].check = checked;
+        } else {
+          state.repairs[idx][name] = value;
+        }
+      }
+    },
   },
 });
 export default itemSlice.reducer;

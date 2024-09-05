@@ -14,7 +14,7 @@ const ExportContainer = () => {
     const { repairs } = useSelector(itemData)
     const [model, setModel] = useState<string>('model')
     const { invoice, packing, addItem, pallet } = useSelector(formSelector)
-
+    const [partPackaging, setPartPackaging] = useState<{}>()
     const onChangeParts = async (e: any) => {
         const selectedFile = e.target.files[0];
         const fileType = [
@@ -146,6 +146,8 @@ const ExportContainer = () => {
     const onChangeRepair = (e: any) => {
         const { name, checked, value, id } = e.target
         console.log(name, checked, value, id)
+        dispatch(itemActions.onChangeRepairs({ name, checked, value, id }))
+
     }
     useEffect(() => {
         if (!orderData) {
@@ -157,6 +159,58 @@ const ExportContainer = () => {
         dispatch(itemActions.getRepairs())
 
     }, [])
+    useEffect(() => {
+
+        if (repairs) {
+
+            let total: { [key: number]: {} } = {}
+            let array: number[] = [];
+            repairs?.forEach((repair, index) => {
+                if (repair.check) {
+                    array.push(index)
+                }
+            })
+            array = [...array, repairs.length]
+            // console.log(array)
+            for (let i = 0; i < array.length; i++) {
+                let arr = new Array(0);
+                for (let j = array[i]; j < array[i + 1]; j++) {
+                    arr.push(repairs[j])
+
+                }
+                if (arr.length > 0)
+                    total[arr[0].id] = arr
+            }
+
+            // total.pop()
+            setPartPackaging(total)
+
+        }
+    }, [repairs])
+    // useEffect(() => {
+    //     const result: { [key: number]: {} } = {}
+    //     const data = [
+    //         { id: 11, name: 'kim' },
+    //         { id: 2, name: 'lee' },
+    //         { id: 33, name: 'choi' },
+    //         { id: 4, name: 'lim' },
+    //         { id: 5, name: 'park' },
+    //     ]
+    //     const array = [0, 2, 5]
+    //     for (let i = 0; i < array.length; i++) {
+    //         let arr = new Array(0)
+    //         for (let j = array[i]; j < array[i + 1]; j++) {
+    //             arr.push(data[j])
+    //         }
+
+    //         console.log('arr', arr)
+    //         if (arr.length > 0) {
+
+    //             result[arr[0].id] = arr
+    //         }
+    //     }
+    //     console.log(result)
+    // }, [])
     useEffect(() => {
         return () => {
             dispatch(formActions.initPosition('invoice'))
@@ -187,6 +241,7 @@ const ExportContainer = () => {
             changePosition={changePosition}
             repairs={repairs}
             removeRepairs={removeRepairs}
+            partPackaging={partPackaging}
         />
     );
 };
