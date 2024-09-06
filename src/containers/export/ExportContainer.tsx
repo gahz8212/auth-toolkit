@@ -11,10 +11,11 @@ const ExportContainer = () => {
     const itemsInput: React.LegacyRef<HTMLInputElement> | undefined = useRef(null)
     const dispatch = useDispatch()
     const { orderData, months } = useSelector(OrderData)
-    const { repairs } = useSelector(itemData)
+    const { pickedData } = useSelector(itemData)
     const [model, setModel] = useState<string>('model')
     const { invoice, packing, addItem, pallet } = useSelector(formSelector)
     const [partPackaging, setPartPackaging] = useState<{}>()
+    // const [select, setSelect] = useState<boolean>(false)
     const onChangeParts = async (e: any) => {
         const selectedFile = e.target.files[0];
         const fileType = [
@@ -140,13 +141,14 @@ const ExportContainer = () => {
     const changePosition = (form: string, position: { x: number, y: number }) => {
         dispatch(formActions.changePosition({ form, position }))
     }
-    const removeRepairs = (id: number) => {
-        dispatch(itemActions.removeRepairs(id))
+    const removePicked = (id: number) => {
+        dispatch(itemActions.removePicked(id))
     }
-    const onChangeRepair = (e: any) => {
+    const onChangePicked = (e: any) => {
+
         const { name, checked, value, id } = e.target
         console.log(name, checked, value, id)
-        dispatch(itemActions.onChangeRepairs({ name, checked, value, id }))
+        dispatch(itemActions.onChangePicked({ name, checked, value, id }))
 
     }
     useEffect(() => {
@@ -156,26 +158,26 @@ const ExportContainer = () => {
     }, [dispatch, orderData])
     useEffect(() => {
 
-        dispatch(itemActions.getRepairs())
+        dispatch(itemActions.getPicked())
 
     }, [])
     useEffect(() => {
 
-        if (repairs) {
+        if (pickedData) {
 
             let total: { [key: number]: {} } = {}
             let array: number[] = [];
-            repairs?.forEach((repair, index) => {
-                if (repair.check) {
+            pickedData?.forEach((picked, index) => {
+                if (picked.check) {
                     array.push(index)
                 }
             })
-            array = [...array, repairs.length]
+            array = [...array, pickedData.length]
             // console.log(array)
             for (let i = 0; i < array.length; i++) {
                 let arr = new Array(0);
                 for (let j = array[i]; j < array[i + 1]; j++) {
-                    arr.push(repairs[j])
+                    arr.push(pickedData[j])
 
                 }
                 if (arr.length > 0)
@@ -186,7 +188,32 @@ const ExportContainer = () => {
             setPartPackaging(total)
 
         }
-    }, [repairs])
+    }, [pickedData])
+    const setSelect = (select: boolean) => {
+
+        if (select) {
+            dispatch(itemActions.allSelect())
+        } else {
+            dispatch(itemActions.allClear())
+        }
+    }
+    const inputRepairToOrdersheet = (repair: {
+        item: string;
+        month: string;
+        quantity: number;
+        description: string;
+        category: string;
+        unit: string;
+        ex_price: number;
+        sets: string;
+        weight: number;
+        cbm: number;
+        number1: number;
+        use: boolean;
+    }[]) => {
+        console.log(repair)
+        dispatch(OrderAction.inputRepairToOrderSheet(repair))
+    }
     // useEffect(() => {
     //     const result: { [key: number]: {} } = {}
     //     const data = [
@@ -225,7 +252,7 @@ const ExportContainer = () => {
             onChangeParts={onChangeParts}
             onChangeOrder={onChangeOrder}
             onChangeItem={onChangeItem}
-            onChangeRepair={onChangeRepair}
+            onChangePicked={onChangePicked}
             orderInput={orderInput}
             partsInput={partsInput}
             itemsInput={itemsInput}
@@ -239,9 +266,11 @@ const ExportContainer = () => {
             openPackingForm={openPackingForm}
             openAddItemForm={openAddItemForm}
             changePosition={changePosition}
-            repairs={repairs}
-            removeRepairs={removeRepairs}
+            pickedData={pickedData}
+            removePicked={removePicked}
             partPackaging={partPackaging}
+            setSelect={setSelect}
+            inputRepairToOrdersheet={inputRepairToOrdersheet}
         />
     );
 };

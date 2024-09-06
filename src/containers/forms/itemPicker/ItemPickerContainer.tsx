@@ -3,39 +3,39 @@ import ItemPickerComponent from './ItemPickerComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import { itemData, itemActions } from '../../../store/slices/itemSlice'
 const ItemPickerContainer = () => {
-    const { repairs } = useSelector(itemData)
+    const { pickedData } = useSelector(itemData)
     const dispatch = useDispatch();
-    const inputRepairs = (picked: {}) => {
+    const addPicked = (picked: {}) => {
         if (picked) {
-            dispatch(itemActions.addRepairs(picked))
+            dispatch(itemActions.addPicked(picked))
         }
     }
-    const removeRepair = (id: number) => {
+    const removePicked = (id: number) => {
         if (id)
-            dispatch(itemActions.removeRepairs(id))
+            dispatch(itemActions.removePicked(id))
     }
-    const inputRepair = () => {
-        dispatch(itemActions.inputRepairs(repairs))
+    const inputPicked = () => {
+        dispatch(itemActions.inputPicked(pickedData))
     }
-    const initRepairs = () => {
-        dispatch(itemActions.initRepairs())
+    const initPicked = () => {
+        dispatch(itemActions.initPicked())
     }
     const onChange = (e: any) => {
         const { name, value, id } = e.target
         console.log('name, value, id', name, value, id)
-        dispatch(itemActions.onChangeRepairs({ name, id, value }))
+        dispatch(itemActions.onChangePicked({ name, id, value }))
     }
     useEffect(() => {
-        dispatch(itemActions.getRepairs())
+        dispatch(itemActions.getPicked())
     }, [])
     return (
         <div>
             <ItemPickerComponent
-                inputRepairs={inputRepairs}
-                removeRepair={removeRepair}
-                repairs={repairs}
-                inputRepair={inputRepair}
-                initRepairs={initRepairs}
+                inputPicked={inputPicked}
+                removePicked={removePicked}
+                pickedData={pickedData}
+                addPicked={addPicked}
+                initPicked={initPicked}
                 onChange={onChange}
             />
         </div>

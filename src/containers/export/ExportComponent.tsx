@@ -12,7 +12,7 @@ type Props = {
     onChangeParts: (e: any) => void;
     onChangeOrder: (e: any) => void;
     onChangeItem: (e: any) => void;
-    onChangeRepair: (e: any) => void;
+    onChangePicked: (e: any) => void;
 
     orderInput: React.LegacyRef<HTMLInputElement> | undefined;
     partsInput: React.LegacyRef<HTMLInputElement> | undefined;
@@ -28,7 +28,7 @@ type Props = {
     addItemForm: { visible: boolean; position: { x: number; y: number } };
     palletForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
-    repairs: {
+    pickedData: {
         id: number;
         check: boolean;
         itemName: string;
@@ -38,9 +38,23 @@ type Props = {
         weight: number;
         cbm: number;
     }[] | null
-    removeRepairs: (id: number) => void;
+    removePicked: (id: number) => void;
     partPackaging: { [key: number]: {} } | undefined
-
+    setSelect: (select: boolean) => void;
+    inputRepairToOrdersheet: (repair: {
+        item: string;
+        month: string;
+        quantity: number;
+        description: string;
+        category: string;
+        unit: string;
+        ex_price: number;
+        sets: string;
+        weight: number;
+        cbm: number;
+        number1: number;
+        use: boolean;
+    }[]) => void;
 }
 const ExportComponent: React.FC<Props> = ({
     model,
@@ -61,10 +75,12 @@ const ExportComponent: React.FC<Props> = ({
     openPackingForm,
     openAddItemForm,
     changePosition,
-    repairs,
-    removeRepairs,
-    onChangeRepair,
-    partPackaging
+    pickedData,
+    removePicked,
+    onChangePicked,
+    partPackaging,
+    setSelect,
+    inputRepairToOrdersheet
 }) => {
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
@@ -75,9 +91,10 @@ const ExportComponent: React.FC<Props> = ({
     const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 820, y: params.offset[1] + 200 }) }))
     const palletPos = useDrag((params => { changePosition('pallet', { x: params.offset[0] + 1400, y: params.offset[1] + 200 }) }))
     const addItemPos = useDrag((params => { changePosition('addItem', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
-
+    // console.log(pickedData)
     let orderdata;
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
+
 
     const onDragStart = (index: number, column: number) => {
         dragItem.current = index;
@@ -270,12 +287,12 @@ const ExportComponent: React.FC<Props> = ({
                                     </div>
                                     <div className="articles">
 
-                                        {repairs?.map(repair => <div className='items'>
-                                            <div className='item'>{repair.itemName}</div>
-                                            <div className='item'>{repair.quantity}</div>
-                                            {/* <div className='item'>{repair.CT_qty}</div> */}
-                                            <div className='item'>{repair.CT_qty > 0 && repair.weight}</div>
-                                            <div className='item'>{repair.CT_qty > 0 &&
+                                        {pickedData?.map(picked => <div className='items'>
+                                            <div className='item'>{picked.itemName}</div>
+                                            <div className='item'>{picked.quantity}</div>
+                                            {/* <div className='item'>{picked.CT_qty}</div> */}
+                                            <div className='item'>{picked.CT_qty > 0 && picked.weight}</div>
+                                            <div className='item'>{picked.CT_qty > 0 &&
                                                 <select>
                                                     <option value="자체">자체</option>
                                                     <option value="0.036">iDT</option>
@@ -307,19 +324,23 @@ const ExportComponent: React.FC<Props> = ({
                                         </div>
                                         <div>
 
-                                            <label htmlFor='vess'>Vessel</label>
+                                            <label htmlFor='vess'>Vessel/Voy</label>
                                             <input type="text" name="" id="vess" />
                                         </div>
                                     </div>
                                     <div>
 
                                         <div>
-                                            <label htmlFor="boat">Boat</label><input type="radio" name="boat" id="" checked />
-                                            <label htmlFor="air">Air</label><input type="radio" name="air" id="" />
+                                            <label htmlFor="boat">Boat</label><input type="radio" name="tr" id="boat" checked />
+                                            <label htmlFor="air">Air</label><input type="radio" name="tr" id="air" />
                                         </div>
                                         <div>
-                                            <label htmlFor="lcl">LCL</label><input type="radio" name="tr" id="lcl" checked />
-                                            <label htmlFor="fcl">FCL</label><input type="radio" name="tr" id="fcl" />
+                                            <label htmlFor="Rohlig">Rohlig</label><input type="radio" name="forw" id="Rohlig" checked />
+                                            <label htmlFor="NNR">NNR</label><input type="radio" name="forw" id="NNR" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="fcl">FCL</label><input type="radio" name="ct" id="fcl" />
+                                            <label htmlFor="lcl">LCL</label><input type="radio" name="ct" id="lcl" checked />
                                         </div>
                                     </div>
                                 </div>
@@ -333,42 +354,66 @@ const ExportComponent: React.FC<Props> = ({
                                         <div className='title'>cbm</div>
                                     </div>
                                     <div className="articles">
-                                        {repairs?.map((repair) => <div className={`items`}
-                                            draggable={repair.check}
+                                        {pickedData?.map((picked) => <div className={`items`}
+                                            draggable={picked.check}
                                             onDragStart={(e) => {
                                                 const img = new Image();
                                                 img.src = '/images/package.png'
                                                 e.dataTransfer.setDragImage(img, 50, 50)
                                                 if (partPackaging) {
 
-                                                    console.log(partPackaging[repair.id])
+                                                    console.log(partPackaging[picked.id])
                                                 }
                                             }}
                                         >
-                                            <div className='item'><input type="checkbox" name="check" id={repair.id.toString()} checked={repair.check}
-                                                onChange={onChangeRepair} /></div>
-                                            <div className={`item ${repair.check ? 'selected' : ''}`}>{repair.itemName}</div>
-                                            <div className='item'>{repair.quantity}</div>
-                                            {/* <div className='item'>{repair.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div> */}
-                                            {/* <div className='item'>10</div> */}
+                                            <div className='item'><input type="checkbox" name="check" id={picked.id.toString()} checked={picked.check}
+                                                onChange={onChangePicked}
+                                            // onChange={() => { console.log(pickedData) }}
+                                            /></div>
+                                            <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.itemName}</div>
+                                            <div className='item'>{picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                                             <div className='item'>{
-                                                repair.check && <input type='number' name="weight" value={repair.weight} onChange={onChangeRepair} className='input_weight' min={0} step={0.01}></input>
+                                                picked.check && <input type='number' name="weight" value={picked.weight} onChange={onChangePicked} className='input_weight' min={0} step={0.01}></input>
                                             }</div>
                                             <div className='item'>{
-                                                repair.check &&
-                                                <select className='sel_cbm' value={repair.cbm} defaultValue="선택">
+                                                picked.check &&
+                                                <select className='sel_cbm' value={picked.cbm} defaultValue="선택">
                                                     <option value="선택">선택</option>
                                                     <option value="0.044">iDT</option>
                                                     <option value="0.04">CC360</option>
                                                     <option value="0.044">SPT</option>
                                                 </select>}</div>
-                                            <div className='item' onClick={() => { removeRepairs(repair.id) }}>
+                                            <div className='item' onClick={() => { removePicked(picked.id) }}>
                                                 <span className="material-symbols-outlined trash">
                                                     delete
                                                 </span>
                                             </div>
                                         </div>)}
                                     </div>
+                                </div>
+                                <div className='btns'>
+                                    <button type='button' onClick={() => setSelect(true)}>전체 선택</button>
+                                    <button type='button' onClick={() => setSelect(false)}>전체 취소</button>
+                                    <button type='button' onClick={() => {
+                                        const result = pickedData?.map(data => ({
+                                            item: data.itemName,
+                                            month: months ? months[0] : '',
+                                            quantity: data.quantity,
+                                            description: '',
+                                            category: 'Repair',
+                                            unit: '$',
+                                            ex_price: data.ex_price,
+                                            sets: 'EA',
+                                            weight: data.weight,
+                                            cbm: data.cbm,
+                                            number1: 9,
+                                            use: true,
+                                        }))
+                                        if (result) {
+
+                                            inputRepairToOrdersheet(result)
+                                        }
+                                    }}>저장</button>
                                 </div>
                             </div>
                         </div>

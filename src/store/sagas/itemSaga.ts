@@ -91,7 +91,7 @@ function* getItemSaga() {
     yield put(itemActions.getItemFailure(e.response.data));
   }
 }
-function* inputRepairSaga(action: {
+function* inputPickedSaga(action: {
   payload:
     | {
         id: number;
@@ -109,27 +109,27 @@ function* inputRepairSaga(action: {
 }) {
   try {
     const response: { data: {}[] } = yield call(
-      itemAPI.inputRepairs,
+      itemAPI.inputPicked,
       action.payload
     );
-    yield put(itemActions.inputRepairSuccess(response.data));
+    yield put(itemActions.inputPickedSuccess(response.data));
   } catch (e: any) {
     console.error(e);
-    yield put(itemActions.inputRepairFailure(e.response.data));
+    yield put(itemActions.inputPickedFailure(e.response.data));
   }
 }
-function* getRepairsSaga() {
+function* getPickedsSaga() {
   try {
-    const response: { data: {}[] } = yield call(itemAPI.getRepairs);
-    yield put(itemActions.getRepairSuccess(response.data));
+    const response: { data: {}[] } = yield call(itemAPI.getPicked);
+    yield put(itemActions.getPickedSuccess(response.data));
   } catch (e: any) {
-    yield put(itemActions.getRepairFailure(e.response.data));
+    yield put(itemActions.getPickedFailure(e.response.data));
   }
 }
 export function* itemSaga() {
   yield takeLatest(itemActions.addImage, addImageSaga);
   yield takeLatest(itemActions.addItem, addItemSaga);
   yield takeLatest(itemActions.getItem, getItemSaga);
-  yield takeLatest(itemActions.inputRepairs, inputRepairSaga);
-  yield takeLatest(itemActions.getRepairs, getRepairsSaga);
+  yield takeLatest(itemActions.inputPicked, inputPickedSaga);
+  yield takeLatest(itemActions.getPicked, getPickedsSaga);
 }

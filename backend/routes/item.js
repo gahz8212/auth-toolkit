@@ -263,21 +263,21 @@ router.post("/excelAdd", async (req, res) => {
     return res.status(400).json(e.message);
   }
 });
-router.post("/inputRepair", async (req, res) => {
-  const repairs = req.body;
+router.post("/inputPicked", async (req, res) => {
+  const picked = req.body;
   await Picker.destroy({ where: {} });
   try {
-    repairs.map(
-      async (repair) =>
+    picked.map(
+      async (pick) =>
         await Picker.create({
-          check: repair.check,
-          itemName: repair.itemName,
-          unit: repair.unit,
-          im_price: repair.im_price,
-          ex_price: repair.ex_price,
-          quantity: repair.quantity,
-          // supplyer: repair.supplyer,
-          ItemId: repair.id,
+          check: pick.check,
+          itemName: pick.itemName,
+          unit: pick.unit,
+          im_price: pick.im_price,
+          ex_price: pick.ex_price,
+          quantity: pick.quantity,
+          // supplyer: pick.supplyer,
+          ItemId: pick.id,
         })
     );
     return res.status(200);
@@ -285,7 +285,7 @@ router.post("/inputRepair", async (req, res) => {
     return res.status(400).json(e.message);
   }
 });
-router.get("/getRepairs", async (req, res) => {
+router.get("/getPicked", async (req, res) => {
   try {
     const pickedDatas = await Picker.findAll({});
     if (pickedDatas) {

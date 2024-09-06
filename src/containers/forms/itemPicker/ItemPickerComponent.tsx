@@ -1,9 +1,9 @@
 import React from 'react';
 type Props = {
-    inputRepairs: (picked: {}) => void;
-    removeRepair: (id: number) => void;
-    inputRepair: () => void;
-    repairs: {
+    addPicked: (picked: {}) => void;
+    removePicked: (id: number) => void;
+    inputPicked: () => void;
+    pickedData: {
         id: number;
         itemName: string;
         unit: string,
@@ -14,10 +14,10 @@ type Props = {
         weight: number;
         cbm: number;
     }[] | null;
-    initRepairs: () => void;
+    initPicked: () => void;
     onChange: (e: any) => void;
 }
-const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, removeRepair, repairs, inputRepair, initRepairs, onChange }) => {
+const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedData, inputPicked, initPicked, onChange }) => {
     return (
         <div className='wrap-picker'>
             <div className='title'>아이템 수집</div>
@@ -34,19 +34,19 @@ const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, removeRepair, repa
                     e.preventDefault();
                     const pickedItem = JSON.parse(e.dataTransfer.getData('pickedItem'))
                     if (pickedItem) {
-                        inputRepairs(pickedItem)
+                        addPicked(pickedItem)
                     }
                 }}
 
 
             >
-                {repairs && repairs.map(repair => <div key={repair.itemName} className='pickedList'>
-                    <div>{repair.itemName}</div>
-                    <div>{repair.unit}{repair.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
-                    <div>${repair.ex_price}</div>
-                    <div><input type='text' name='quantity' min={0} value={repair.quantity} id={repair.id.toString()} placeholder='수량을 입력 하세요' onChange={onChange} /></div>
+                {pickedData && pickedData.map(picked => <div key={picked.itemName} className='pickedList'>
+                    <div>{picked.itemName}</div>
+                    <div>{picked.unit}{picked.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+                    <div>${picked.ex_price}</div>
+                    <div><input type='text' name='quantity' min={0} value={picked.quantity} id={picked.id.toString()} placeholder='수량을 입력 하세요' onChange={onChange} /></div>
                     <div className='trashBtn'
-                        onClick={() => removeRepair(repair.id)}>
+                        onClick={() => removePicked(picked.id)}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>
@@ -56,8 +56,8 @@ const ItemPickerComponent: React.FC<Props> = ({ inputRepairs, removeRepair, repa
             </div>
             <div className="controls">
 
-                <button type="button" onClick={initRepairs}>초기화</button>
-                <button type="button" onClick={inputRepair}>입력</button>
+                <button type="button" onClick={initPicked}>초기화</button>
+                <button type="button" onClick={inputPicked}>입력</button>
             </div>
             <div className="bar-btn">
                 <button>X</button>

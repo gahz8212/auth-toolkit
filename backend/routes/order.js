@@ -215,5 +215,22 @@ router.get("/getPalletData", async (req, res) => {
     return res.status(400).json(e);
   }
 });
+router.post("/inputRepair", async (req, res) => {
+  const repair = req.body;
+  try {
+    console.log(repair);
+    repair.map(
+      async (rep) =>
+        await sequelize.query(
+          `
 
+    insert into ordersheet (itemName,${rep.month},number1)value('${rep.item}',${rep.quantity},${rep.number1})
+    `
+        )
+    );
+    return res.status(200);
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+});
 module.exports = router;

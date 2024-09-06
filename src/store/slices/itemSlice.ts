@@ -149,7 +149,7 @@ type State = {
       }[]
     | null;
   imageList: { url: string }[];
-  repairs:
+  pickedData:
     | {
         [key: string]: string | number | boolean;
         id: number;
@@ -195,7 +195,7 @@ const initialState: State = {
   T_dragItems: [],
   backup: null,
   imageList: [],
-  repairs: [],
+  pickedData: [],
   status: { error: "", message: "", loading: false },
 };
 const inputSelector = (state: RootState) => {
@@ -226,8 +226,8 @@ const TdragItemsSelector = (state: RootState) => {
 const relationSelector = (state: RootState) => {
   return state.item.relations;
 };
-const repairsSelector = (state: RootState) => {
-  return state.item.repairs;
+const pickedDataSelector = (state: RootState) => {
+  return state.item.pickedData;
 };
 
 export const itemData = createSelector(
@@ -240,7 +240,7 @@ export const itemData = createSelector(
   dragItemsSelector,
   TdragItemsSelector,
   relationSelector,
-  repairsSelector,
+  pickedDataSelector,
 
   (
     input,
@@ -252,7 +252,7 @@ export const itemData = createSelector(
     dragItems,
     T_dragItems,
     relations,
-    repairs
+    pickedData
   ) => ({
     input,
     imageList,
@@ -263,7 +263,7 @@ export const itemData = createSelector(
     dragItems,
     T_dragItems,
     relations,
-    repairs,
+    pickedData,
   })
 );
 
@@ -501,17 +501,17 @@ const itemSlice = createSlice({
       // console.log("newRelations", newRelations);
       state.relations = newRelations;
     },
-    addRepairs: (state, { payload: newRepairs }) => {
-      const repairs = state.repairs?.map((repare) => repare.itemName);
+    addPicked: (state, { payload: newRepairs }) => {
+      const repairs = state.pickedData?.map((picked) => picked.itemName);
       if (!repairs?.includes(newRepairs.itemName)) {
-        state.repairs?.unshift(newRepairs);
+        state.pickedData?.unshift(newRepairs);
       }
     },
-    removeRepairs: (state, { payload: id }) => {
-      let idx = state.repairs?.findIndex((repair) => repair.id === id);
-      if (idx !== undefined) state.repairs?.splice(idx, 1);
+    removePicked: (state, { payload: id }) => {
+      let idx = state.pickedData?.findIndex((picked) => picked.id === id);
+      if (idx !== undefined) state.pickedData?.splice(idx, 1);
     },
-    inputRepairs: (
+    inputPicked: (
       state,
       action: PayloadAction<
         | {
@@ -532,61 +532,67 @@ const itemSlice = createSlice({
       state.status.error = "";
       state.status.message = "";
     },
-    inputRepairSuccess: (state, { payload: newRepair }) => {
+    inputPickedSuccess: (state, { payload: newRepair }) => {
       if (newRepair) {
-        state.repairs = newRepair;
+        state.pickedData = newRepair;
       }
     },
-    inputRepairFailure: (state, { payload: e }) => {
+    inputPickedFailure: (state, { payload: e }) => {
       state.status.error = e;
       state.status.message = "";
     },
-    getRepairs: (state) => {
+    getPicked: (state) => {
       state.status.error = "";
       state.status.message = "";
     },
-    getRepairSuccess: (state, { payload: repairsfromDB }) => {
+    getPickedSuccess: (state, { payload: repairsfromDB }) => {
       state.status.error = "";
       state.status.message = "get repairs ok";
-      state.repairs = repairsfromDB;
+      state.pickedData = repairsfromDB;
     },
-    getRepairFailure: (state, { payload: e }) => {
+    getPickedFailure: (state, { payload: e }) => {
       state.status.error = e;
       state.status.message = "get repairs ng";
     },
-    updateRepair: (state, { payload: item }) => {
+    updatePicked: (state, { payload: item }) => {
       const { id, dragItems, type, ...rests } = item;
-      let idx = state.repairs?.findIndex((repair) => repair.id === id);
+      let idx = state.pickedData?.findIndex((picked) => picked.id === id);
 
       const keys = Object.keys(rests);
       const values: number[] = Object.values(rests);
 
       keys.forEach((key, index) => {
-        if (state.repairs) {
+        if (state.pickedData) {
           if (idx !== undefined && idx >= 0) {
-            state.repairs[idx][key] = values[index];
+            state.pickedData[idx][key] = values[index];
           }
         }
       });
     },
-    initRepairs: (state) => {
+    initPicked: (state) => {
       let result = window.confirm("선택한 아이템을 모두 지웁니다.");
       if (result) {
-        state.repairs = initialState.repairs;
+        state.pickedData = initialState.pickedData;
       }
     },
-    onChangeRepairs: (state, { payload: values }) => {
+    onChangePicked: (state, { payload: values }) => {
       const { name, checked, value, id } = values;
-      if (state.repairs) {
-        const idx = state.repairs?.findIndex(
-          (repair) => repair.id === Number(id)
+      if (state.pickedData) {
+        const idx = state.pickedData?.findIndex(
+          (picked) => picked.id === Number(id)
         );
         if (name === "check") {
-          state.repairs[idx].check = checked;
+          state.pickedData[idx].check = checked;
         } else {
-          state.repairs[idx][name] = value;
+          state.pickedData[idx][name] = value;
         }
       }
+    },
+    allSelect: (state) => {
+      state.pickedData?.map((pick) => (pick.check = true));
+    },
+    allClear: (state) => {
+      state.pickedData?.map((pick) => (pick.check = false));
     },
   },
 });

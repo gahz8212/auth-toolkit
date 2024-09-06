@@ -72,6 +72,34 @@ function* inputPalletSaga(action: {
     yield put(OrderAction.inputPalletFailure(e.response.data));
   }
 }
+function* inputRepairToOrderSheetSaga(action: {
+  payload:
+    | {
+        item: string;
+        month: string;
+        quantity: number;
+        description: string;
+        category: string;
+        unit: string;
+        ex_price: number;
+        sets: string;
+        weight: number;
+        cbm: number;
+        number1: number;
+        use: boolean;
+      }[]
+    | null;
+}) {
+  try {
+    const response: { data: string } = yield call(
+      orderAPI.inputRepairToOrdersheet,
+      action.payload
+    );
+    yield put(OrderAction.inputRepairToOrderSheetSuccess(response.data));
+  } catch (e: any) {
+    yield put(OrderAction.inputRepairToOrderSheetFailure(e.response.data));
+  }
+}
 export function* orderSaga() {
   yield takeLatest(OrderAction.inputOrder, inputOrderSaga);
   yield takeLatest(OrderAction.inputGood, inputGoodSaga);
@@ -79,4 +107,8 @@ export function* orderSaga() {
   yield takeLatest(OrderAction.getDummyItem, getDummyItemSaga);
   yield takeLatest(OrderAction.inputPallet, inputPalletSaga);
   yield takeLatest(OrderAction.getPalletData, getPalletDataSaga);
+  yield takeLatest(
+    OrderAction.inputRepairToOrderSheet,
+    inputRepairToOrderSheetSaga
+  );
 }

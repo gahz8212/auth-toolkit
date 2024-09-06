@@ -15,6 +15,24 @@ type State = {
       moq: number;
     }[];
   };
+  repairData:
+    | {
+        [key: string]: string | number | boolean;
+        item: string;
+        month: number;
+        description: string;
+        category: string;
+        unit: string;
+        ex_price: number;
+        CT_qty: number;
+        sets: string;
+        weight: number;
+        cbm: number;
+        moq: number;
+        number1: number;
+        use: boolean;
+      }[]
+    | null;
   months: string[] | null;
   dummyItems: any[] | null;
 
@@ -36,6 +54,7 @@ const initialState: State = {
     8: [],
     9: [],
   },
+  repairData: null,
   months: null,
   dummyItems: null,
   // invoiceData: null,
@@ -53,11 +72,13 @@ const dummyItemSelector = (state: RootState) => {
 const palletSelector = (state: RootState) => {
   return state.order.palletData;
 };
+
 export const OrderData = createSelector(
   orderSelector,
   monthSelector,
   dummyItemSelector,
   palletSelector,
+
   (orderData, months, dummyItems, palletData) => ({
     orderData,
     months,
@@ -222,6 +243,36 @@ const orderSlice = createSlice({
     },
     resetPallet: (state) => {
       state.palletData = initialState.palletData;
+    },
+    inputRepairToOrderSheet: (
+      state,
+      action: PayloadAction<
+        | {
+            item: string;
+            month: string;
+            quantity: number;
+            description: string;
+            category: string;
+            unit: string;
+            ex_price: number;
+            sets: string;
+            weight: number;
+            cbm: number;
+            number1: number;
+            use: boolean;
+          }[]
+        | null
+      >
+    ) => {
+      state.status.loading = true;
+      state.status.error = "";
+    },
+    inputRepairToOrderSheetSuccess: (state, { payload: message }) => {
+      state.status.message = message;
+      state.status.error = "";
+    },
+    inputRepairToOrderSheetFailure: (state, { payload: error }) => {
+      state.status.error = error;
     },
   },
 });

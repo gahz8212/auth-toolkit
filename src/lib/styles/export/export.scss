@@ -133,7 +133,7 @@
           user-select: none;
           margin: 0 auto;
           width: 500px;
-          z-index: 1;
+          z-index: 0;
           position: absolute;
           top: 50%;
           display: flex;
@@ -248,7 +248,7 @@
                 .item {
                   padding: 0.3rem;
                   &:first-of-type {
-                    width: 3%;
+                    width: 4%;
                   }
                   &:nth-of-type(2) {
                     width: 50%;
@@ -297,6 +297,35 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+          .btns {
+            // background: yellow;
+            text-align: right;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            button {
+              font-size: 0.9rem;
+              margin-left: 1rem;
+              padding: 0.3rem 0.5rem;
+              border: none;
+              border-radius: 8px;
+              background: yellowgreen;
+              transition: 0.4s;
+              cursor: pointer;
+              &:hover {
+                background-color: green;
+                color: white;
+              }
+              &:first-of-type {
+              }
+              &:last-of-type {
+                background: pink;
+                &:hover {
+                  background-color: hotpink;
+                  color: white;
                 }
               }
             }

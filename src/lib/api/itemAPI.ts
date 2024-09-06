@@ -43,9 +43,9 @@ export const excelAdd = (datas: any[] | null) => {
   // console.log("exceldatas", datas);
   return client.post("/item/excelAdd", datas);
 };
-export const inputRepairs = (repairs: {}[] | null) => {
-  return client.post("/item/inputRepair", repairs);
+export const inputPicked = (picked: {}[] | null) => {
+  return client.post("/item/inputPicked", picked);
 };
-export const getRepairs = () => {
-  return client.get("/item/getRepairs");
+export const getPicked = () => {
+  return client.get("/item/getPicked");
 };
