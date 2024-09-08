@@ -400,7 +400,7 @@ const ExportComponent: React.FC<Props> = ({
                                             month: months ? months[0] : '',
                                             quantity: data.quantity,
                                             description: '',
-                                            category: 'Repair',
+                                            category: 'REPAIR',
                                             unit: '$',
                                             ex_price: data.ex_price,
                                             sets: 'EA',

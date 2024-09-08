@@ -218,13 +218,14 @@ router.get("/getPalletData", async (req, res) => {
 router.post("/inputRepair", async (req, res) => {
   const repair = req.body;
   try {
+    // await sequelize.query(`delete from ordersheet where category==='REPAIR'`);
     console.log(repair);
+
     repair.map(
       async (rep) =>
         await sequelize.query(
           `
-
-    insert into ordersheet (itemName,${rep.month},number1)value('${rep.item}',${rep.quantity},${rep.number1})
+    insert into ordersheet (itemName,category,${rep.month},number1,sets)value('${rep.item}','${rep.category}',${rep.quantity},${rep.number1},'${rep.sets}')
     `
         )
     );
