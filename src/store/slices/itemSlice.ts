@@ -152,7 +152,7 @@ type State = {
   pickedData:
     | {
         [key: string]: string | number | boolean;
-        id: number;
+        itemId: number;
         check: boolean;
         itemName: string;
         unit: string;
@@ -515,7 +515,7 @@ const itemSlice = createSlice({
       state,
       action: PayloadAction<
         | {
-            id: number;
+            itemId: number;
             check: boolean;
             itemName: string;
             unit: string;
@@ -556,7 +556,7 @@ const itemSlice = createSlice({
     },
     updatePicked: (state, { payload: item }) => {
       const { id, dragItems, type, ...rests } = item;
-      let idx = state.pickedData?.findIndex((picked) => picked.id === id);
+      let idx = state.pickedData?.findIndex((picked) => picked.itemId === id);
 
       const keys = Object.keys(rests);
       const values: number[] = Object.values(rests);
@@ -577,6 +577,7 @@ const itemSlice = createSlice({
     },
     onChangePicked: (state, { payload: values }) => {
       const { name, checked, value, id } = values;
+      console.log("values", values);
       if (state.pickedData) {
         const idx = state.pickedData?.findIndex(
           (picked) => picked.id === Number(id)

@@ -23,7 +23,7 @@ export const getPalletData = () => {
 export const inputRepairToOrdersheet = (
   repair:
     | {
-        item: string;
+        itemName: string;
         month: string;
         quantity: number;
         description: string;
@@ -39,6 +39,7 @@ export const inputRepairToOrdersheet = (
     | null
 ) => {
   if (repair) {
+    console.log(repair);
     return client.post("/order/inputRepair", repair);
   }
 };

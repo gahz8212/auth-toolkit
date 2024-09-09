@@ -198,46 +198,27 @@ const ExportContainer = () => {
         }
     }
     const inputRepairToOrdersheet = (repair: {
-        item: string;
+        itemId: number
+        itemName: string;
+        check: boolean;
         month: string;
         quantity: number;
         description: string;
         category: string;
         unit: string;
+        im_price: number;
         ex_price: number;
         sets: string;
         weight: number;
         cbm: number;
+        CT_qty: number;
         number1: number;
         use: boolean;
     }[]) => {
-        console.log(repair)
+
         dispatch(OrderAction.inputRepairToOrderSheet(repair))
+        dispatch(itemActions.inputPicked(repair))
     }
-    // useEffect(() => {
-    //     const result: { [key: number]: {} } = {}
-    //     const data = [
-    //         { id: 11, name: 'kim' },
-    //         { id: 2, name: 'lee' },
-    //         { id: 33, name: 'choi' },
-    //         { id: 4, name: 'lim' },
-    //         { id: 5, name: 'park' },
-    //     ]
-    //     const array = [0, 2, 5]
-    //     for (let i = 0; i < array.length; i++) {
-    //         let arr = new Array(0)
-    //         for (let j = array[i]; j < array[i + 1]; j++) {
-    //             arr.push(data[j])
-    //         }
-
-    //         console.log('arr', arr)
-    //         if (arr.length > 0) {
-
-    //             result[arr[0].id] = arr
-    //         }
-    //     }
-    //     console.log(result)
-    // }, [])
     useEffect(() => {
         return () => {
             dispatch(formActions.initPosition('invoice'))

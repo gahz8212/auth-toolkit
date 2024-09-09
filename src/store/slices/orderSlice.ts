@@ -248,7 +248,7 @@ const orderSlice = createSlice({
       state,
       action: PayloadAction<
         | {
-            item: string;
+          itemName: string;
             month: string;
             quantity: number;
             description: string;

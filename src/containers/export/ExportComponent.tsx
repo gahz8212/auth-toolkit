@@ -29,9 +29,10 @@ type Props = {
     palletForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
     pickedData: {
-        id: number;
+        itemId: number;
         check: boolean;
         itemName: string;
+        im_price: number;
         ex_price: number;
         quantity: number;
         CT_qty: number;
@@ -42,16 +43,20 @@ type Props = {
     partPackaging: { [key: number]: {} } | undefined
     setSelect: (select: boolean) => void;
     inputRepairToOrdersheet: (repair: {
-        item: string;
+        itemId: number;
+        check: boolean;
+        itemName: string;
         month: string;
         quantity: number;
         description: string;
         category: string;
         unit: string;
+        im_price: number
         ex_price: number;
         sets: string;
         weight: number;
         cbm: number;
+        CT_qty: number;
         number1: number;
         use: boolean;
     }[]) => void;
@@ -349,7 +354,7 @@ const ExportComponent: React.FC<Props> = ({
 
                                         <div className='title'>부자재</div>
                                         <div className='title'>수량</div>
-                                        {/* <div className='title'>C/T</div> */}
+                                        <div className='title'>C/T</div>
                                         <div className='title'>Kg</div>
                                         <div className='title'>cbm</div>
                                     </div>
@@ -362,29 +367,34 @@ const ExportComponent: React.FC<Props> = ({
                                                 e.dataTransfer.setDragImage(img, 50, 50)
                                                 if (partPackaging) {
 
-                                                    console.log(partPackaging[picked.id])
+                                                    console.log(partPackaging[picked.itemId])
                                                 }
                                             }}
                                         >
-                                            <div className='item'><input type="checkbox" name="check" id={picked.id.toString()} checked={picked.check}
+                                            <div className='item'><input type="checkbox" name="check" id={String(picked.itemId)} checked={picked.check}
                                                 onChange={onChangePicked}
-                                            // onChange={() => { console.log(pickedData) }}
                                             /></div>
                                             <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.itemName}</div>
                                             <div className='item'>{picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                                             <div className='item'>{
-                                                picked.check && <input type='number' name="weight" value={picked.weight} onChange={onChangePicked} className='input_weight' min={0} step={0.01}></input>
+                                                picked.check && <input type='number' name="ct" id={String(picked.itemId)} value={picked.CT_qty} onChange={onChangePicked} className='input_ct' ></input>
+                                            }</div>
+                                            <div className='item'>{
+                                                picked.check && <input type='number' name="weight" id={String(picked.itemId)} value={picked.weight} onChange={onChangePicked} className='input_weight'></input>
                                             }</div>
                                             <div className='item'>{
                                                 picked.check &&
-                                                <select className='sel_cbm' value={picked.cbm} defaultValue="선택">
+                                                <select className='sel_cbm' name='cbm' value={picked.cbm} id={String(picked.itemId)} defaultValue="선택" onChange={onChangePicked}>
                                                     <option value="선택">선택</option>
                                                     <option value="0.044">iDT</option>
                                                     <option value="0.04">CC360</option>
                                                     <option value="0.044">SPT</option>
                                                 </select>}</div>
-                                            <div className='item' onClick={() => { removePicked(picked.id) }}>
-                                                <span className="material-symbols-outlined trash">
+                                            <div className={`item ${picked.check ? 'selected' : ''}`} onClick={() => {
+                                                if (!picked.check)
+                                                    removePicked(picked.itemId)
+                                            }}>
+                                                <span className={`material-symbols-outlined trash `}>
                                                     delete
                                                 </span>
                                             </div>
@@ -396,22 +406,27 @@ const ExportComponent: React.FC<Props> = ({
                                     <button type='button' onClick={() => setSelect(false)}>전체 취소</button>
                                     <button type='button' onClick={() => {
                                         const result = pickedData?.map(data => ({
-                                            item: data.itemName,
+                                            itemId: data.itemId,
+                                            check: data.check,
+                                            itemName: data.itemName,
                                             month: months ? months[0] : '',
                                             quantity: data.quantity,
                                             description: '',
                                             category: 'REPAIR',
                                             unit: '$',
+                                            im_price: data.im_price,
                                             ex_price: data.ex_price,
                                             sets: 'EA',
                                             weight: data.weight,
                                             cbm: data.cbm,
+                                            CT_qty: data.CT_qty,
                                             number1: 9,
                                             use: true,
                                         }))
                                         if (result) {
 
                                             inputRepairToOrdersheet(result)
+
                                         }
                                     }}>저장</button>
                                 </div>

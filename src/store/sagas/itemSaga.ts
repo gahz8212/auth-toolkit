@@ -94,8 +94,8 @@ function* getItemSaga() {
 function* inputPickedSaga(action: {
   payload:
     | {
-        id: number;
-        check:boolean;
+        itemId: number;
+        check: boolean;
         itemName: string;
         unit: string;
         im_price: number;

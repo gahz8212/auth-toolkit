@@ -4,7 +4,7 @@ type Props = {
     removePicked: (id: number) => void;
     inputPicked: () => void;
     pickedData: {
-        id: number;
+        itemId: number;
         itemName: string;
         unit: string,
         im_price: number,
@@ -34,6 +34,7 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
                     e.preventDefault();
                     const pickedItem = JSON.parse(e.dataTransfer.getData('pickedItem'))
                     if (pickedItem) {
+                        // console.log('pickedItem', pickedItem)
                         addPicked(pickedItem)
                     }
                 }}
@@ -44,9 +45,9 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
                     <div>{picked.itemName}</div>
                     <div>{picked.unit}{picked.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                     <div>${picked.ex_price}</div>
-                    <div><input type='text' name='quantity' min={0} value={picked.quantity} id={picked.id.toString()} placeholder='수량을 입력 하세요' onChange={onChange} /></div>
+                    <div><input type='text' name='quantity' min={0} value={picked.quantity} id={picked.itemId.toString()} placeholder='수량을 입력 하세요' onChange={onChange} /></div>
                     <div className='trashBtn'
-                        onClick={() => removePicked(picked.id)}>
+                        onClick={() => removePicked(picked.itemId)}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>

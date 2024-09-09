@@ -112,7 +112,7 @@ router.post("/orderinput", async (req, res) => {
     L.number1,
     L.number2,
     L.use,
-    date_format(L.input_date,'%Y-%m-%d')
+    date_format(L.input_date,'%Y-%m-%d') 
     FROM good G inner join item L on G.id=L.id right join orders O on G.groupName=O.Item
     WHERE L.use=1 
     ORDER BY L.number1,L.number2
@@ -218,17 +218,29 @@ router.get("/getPalletData", async (req, res) => {
 router.post("/inputRepair", async (req, res) => {
   const repair = req.body;
   try {
-    // await sequelize.query(`delete from ordersheet where category==='REPAIR'`);
-    console.log(repair);
+    await sequelize.query(`delete from ordersheet where category='REPAIR'`);
 
-    repair.map(
-      async (rep) =>
-        await sequelize.query(
-          `
-    insert into ordersheet (itemName,category,${rep.month},number1,sets)value('${rep.item}','${rep.category}',${rep.quantity},${rep.number1},'${rep.sets}')
-    `
-        )
-    );
+    repair.map(async (rep) => {
+      if (rep.descript === undefined) {
+        rep.descript = " ";
+      }
+      if (rep.cbm === undefined) {
+        rep.cbm = 0;
+      }
+      if (rep.im_price === undefined) {
+        rep.im_price = 0;
+      }
+      if (rep.ex_price === undefined) {
+        rep.ex_price = 0;
+      }
+      if (rep.weight === undefined) {
+        rep.weight = 0;
+      }
+      return await sequelize.query(
+        `
+    insert into ordersheet (itemName,category,${rep.month},descript,unit,im_price,ex_price,weight,cbm,number1,sets)value('${rep.item}','${rep.category}',${rep.quantity},'${rep.descript}','${rep.unit}',${rep.im_price},${rep.ex_price},${rep.weight},${rep.cbm},${rep.number1},'${rep.sets}')`
+      );
+    });
     return res.status(200);
   } catch (e) {
     return res.status(400).json(e);

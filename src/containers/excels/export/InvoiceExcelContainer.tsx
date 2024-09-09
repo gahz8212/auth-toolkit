@@ -73,7 +73,7 @@ const description = {
 }
 
 const columnWidths = [20, 32, 9.63, 4, 10.5, 10]
-// const invoiceData = { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [] };
+
 
 type Props = {
     selectedMonth: string
@@ -106,7 +106,7 @@ const InvoiceExcelContainer: React.FC<Props> = ({ selectedMonth }) => {
             (acc: { [key: string]: { name: string, amount: number, price: number, sets: string }[] }, curr) => {
                 acc[curr.category || 'PARTS'].push({ name: curr.name, amount: curr.amount, price: curr.price, sets: curr.sets })
                 return acc;
-            }, { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [], PARTS: [] })
+            }, { EDT: [], NOBARK: [], RDT: [], LAUNCHER: [], REPAIR: [] })
         const keys = Object.keys(arrayDatas)
         result = keys.map((key, index) => Object.entries(arrayDatas)[index])
         // console.log('result', result)

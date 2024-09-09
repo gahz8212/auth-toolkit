@@ -132,7 +132,7 @@
           cursor: pointer;
           user-select: none;
           margin: 0 auto;
-          width: 500px;
+          width: 700px;
           z-index: 0;
           position: absolute;
           top: 50%;
@@ -191,7 +191,7 @@
         }
 
         .repairs {
-          width: 400px;
+          width: 500px;
           // height: 450px;
           // max-height: 450px;
           border: 1px solid black;
@@ -212,27 +212,25 @@
               .title {
                 text-align: center; //부자재
                 &:first-of-type {
-                  width: 43%;
+                  width: 300px;
                 }
                 &:nth-of-type(2) {
                   //수량
-                  // background: yellow;
-                  width: 18%;
+                  width: 10%;
+                  text-align: center;
+                }
+                &:nth-of-type(3) {
+                  //C/T
+                  width: 10%;
                   text-align: right;
                 }
-                // &:nth-of-type(3) {
-                //   //C/T
-                //   width: 6%;
-                // }
-                &:nth-of-type(3) {
+                &:nth-of-type(4) {
                   //weight
-                  width: 14%;
-                  // margin-left: 0.5rem;
-                  // background-color: aqua;
+                  width: 10%;
                 }
                 &:last-of-type {
-                  width: 15%;
-                  // margin-left: 0.5rem;
+                  width: 8%;
+                  padding-right: 1.5rem;
                 }
               }
             }
@@ -245,26 +243,30 @@
                 .selected {
                   font-weight: 800;
                 }
+
                 .item {
                   padding: 0.3rem;
+                  //check
                   &:first-of-type {
                     width: 4%;
                   }
+                  //itemName
                   &:nth-of-type(2) {
                     width: 50%;
                     text-align: start;
                     cursor: pointer;
                   }
+                  //quantity
                   &:nth-of-type(3) {
-                    width: 10%;
+                    width: 7%;
                     text-align: end;
                   }
                   &:nth-of-type(4) {
-                    //weight
+                    //ct
                     width: 5%;
                     text-align: end;
-                    // background: yellow;
-                    .input_weight {
+                    margin-left: 0.3rem;
+                    .input_ct {
                       width: 30px;
                       text-align: right;
                       border: none;
@@ -273,10 +275,22 @@
                     }
                   }
                   &:nth-of-type(5) {
-                    //cbm
-                    width: 20%;
+                    //weight
+                    width: 5%;
                     text-align: end;
-                    // background: yellow;
+                    margin-left: 0.3rem;
+                    .input_weight {
+                      width: 30px;
+                      text-align: right;
+                      border: none;
+                      border-bottom: 1px solid black;
+                      font-size: 0.8rem;
+                    }
+                  }
+                  &:nth-of-type(6) {
+                    //cbm
+                    width: 10%;
+                    text-align: end;
                     margin-left: 0.5rem;
                     .sel_cbm {
                       border: none;
@@ -285,9 +299,24 @@
                     }
                   }
                   &:last-of-type {
-                    //cbm
+                    //trash
                     width: 5%;
                     .material-symbols-outlined.trash {
+                      color: orange;
+                      cursor: pointer;
+                      user-select: none;
+                      transition: 0.4s;
+                      &:hover {
+                        color: orangered;
+                      }
+                    }
+                  }
+                  &:last-of-type.selected {
+                    //trash
+
+                    display: none;
+                    .material-symbols-outlined.trash {
+                      display: none;
                       color: orange;
                       cursor: pointer;
                       user-select: none;
