@@ -10,19 +10,21 @@ const ItemPickerContainer = () => {
             dispatch(itemActions.addPicked(picked))
         }
     }
+    const initPicked = () => {
+        dispatch(itemActions.initPicked())
+    }
     const removePicked = (id: number) => {
         if (id)
             dispatch(itemActions.removePicked(id))
     }
     const inputPicked = () => {
+
         dispatch(itemActions.inputPicked(pickedData))
-    }
-    const initPicked = () => {
-        dispatch(itemActions.initPicked())
+        // dispatch(itemActions.getPicked())
     }
     const onChange = (e: any) => {
         const { name, value, id } = e.target
-        console.log('name, value, id', name, value, id)
+        // console.log('name, value, id', name, value, id)
         dispatch(itemActions.onChangePicked({ name, id, value }))
     }
     useEffect(() => {

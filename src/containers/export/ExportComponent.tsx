@@ -29,7 +29,8 @@ type Props = {
     palletForm: { visible: boolean; position: { x: number; y: number } };
     changePosition: (form: string, position: { x: number, y: number }) => void;
     pickedData: {
-        itemId: number;
+        id: number;
+        ItemId: number;
         check: boolean;
         itemName: string;
         im_price: number;
@@ -43,7 +44,8 @@ type Props = {
     partPackaging: { [key: number]: {} } | undefined
     setSelect: (select: boolean) => void;
     inputRepairToOrdersheet: (repair: {
-        itemId: number;
+        id: number;
+        ItemId: number;
         check: boolean;
         itemName: string;
         month: string;
@@ -59,6 +61,7 @@ type Props = {
         CT_qty: number;
         number1: number;
         use: boolean;
+       
     }[]) => void;
 }
 const ExportComponent: React.FC<Props> = ({
@@ -319,31 +322,32 @@ const ExportComponent: React.FC<Props> = ({
                         <div className="partsTable">
 
                             <div className='repairs'>
-                                <div className='header' style={{ display: 'flex', padding: '1rem' }}>
-                                    <div>
-
-                                        <div>
-
-                                            <label htmlFor='exNo'>출고넘버</label>
+                                <div className='header' >
+                                    <div className='input_types'>
+                                        <div className='input_type'>
+                                            <div>
+                                                <label htmlFor='exNo'>출고넘버</label>
+                                            </div>
                                             <input type="text" name="" id="exNo" placeholder='EK-' />
                                         </div>
-                                        <div>
-
-                                            <label htmlFor='vess'>Vessel/Voy</label>
+                                        <div className='input_type'>
+                                            <div>
+                                                <label htmlFor='vess'>Vessel/Voy</label>
+                                            </div>
                                             <input type="text" name="" id="vess" />
                                         </div>
                                     </div>
-                                    <div>
 
-                                        <div>
+                                    <div>
+                                        <div className='radio_type'>
                                             <label htmlFor="boat">Boat</label><input type="radio" name="tr" id="boat" checked />
                                             <label htmlFor="air">Air</label><input type="radio" name="tr" id="air" />
                                         </div>
-                                        <div>
+                                        <div className='radio_type'>
                                             <label htmlFor="Rohlig">Rohlig</label><input type="radio" name="forw" id="Rohlig" checked />
                                             <label htmlFor="NNR">NNR</label><input type="radio" name="forw" id="NNR" />
                                         </div>
-                                        <div>
+                                        <div className='radio_type'>
                                             <label htmlFor="fcl">FCL</label><input type="radio" name="ct" id="fcl" />
                                             <label htmlFor="lcl">LCL</label><input type="radio" name="ct" id="lcl" checked />
                                         </div>
@@ -359,7 +363,7 @@ const ExportComponent: React.FC<Props> = ({
                                         <div className='title'>cbm</div>
                                     </div>
                                     <div className="articles">
-                                        {pickedData?.map((picked) => <div className={`items`}
+                                        {pickedData?.map((picked) => <div className={`items`} key={picked.ItemId}
                                             draggable={picked.check}
                                             onDragStart={(e) => {
                                                 const img = new Image();
@@ -367,24 +371,24 @@ const ExportComponent: React.FC<Props> = ({
                                                 e.dataTransfer.setDragImage(img, 50, 50)
                                                 if (partPackaging) {
 
-                                                    console.log(partPackaging[picked.itemId])
+                                                    console.log(partPackaging[picked.ItemId])
                                                 }
                                             }}
                                         >
-                                            <div className='item'><input type="checkbox" name="check" id={String(picked.itemId)} checked={picked.check}
+                                            <div className='item'><input type="checkbox" name="check" id={String(picked.ItemId)} checked={picked.check}
                                                 onChange={onChangePicked}
                                             /></div>
-                                            <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.itemName}</div>
+                                            <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.ItemId}-{picked.itemName}</div>
                                             <div className='item'>{picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                                             <div className='item'>{
-                                                picked.check && <input type='number' name="ct" id={String(picked.itemId)} value={picked.CT_qty} onChange={onChangePicked} className='input_ct' ></input>
+                                                picked.check && <input type='number' name="CT_qty" id={picked.ItemId.toString()} value={picked.CT_qty} onChange={onChangePicked} className='input_ct' ></input>
                                             }</div>
                                             <div className='item'>{
-                                                picked.check && <input type='number' name="weight" id={String(picked.itemId)} value={picked.weight} onChange={onChangePicked} className='input_weight'></input>
+                                                picked.check && <input type='number' name="weight" id={String(picked.ItemId)} value={picked.weight} onChange={onChangePicked} className='input_weight'></input>
                                             }</div>
                                             <div className='item'>{
                                                 picked.check &&
-                                                <select className='sel_cbm' name='cbm' value={picked.cbm} id={String(picked.itemId)} defaultValue="선택" onChange={onChangePicked}>
+                                                <select className='sel_cbm' name='cbm' value={picked.cbm} id={String(picked.ItemId)} onChange={onChangePicked}>
                                                     <option value="선택">선택</option>
                                                     <option value="0.044">iDT</option>
                                                     <option value="0.04">CC360</option>
@@ -392,7 +396,7 @@ const ExportComponent: React.FC<Props> = ({
                                                 </select>}</div>
                                             <div className={`item ${picked.check ? 'selected' : ''}`} onClick={() => {
                                                 if (!picked.check)
-                                                    removePicked(picked.itemId)
+                                                    removePicked(picked.ItemId)
                                             }}>
                                                 <span className={`material-symbols-outlined trash `}>
                                                     delete
@@ -406,7 +410,8 @@ const ExportComponent: React.FC<Props> = ({
                                     <button type='button' onClick={() => setSelect(false)}>전체 취소</button>
                                     <button type='button' onClick={() => {
                                         const result = pickedData?.map(data => ({
-                                            itemId: data.itemId,
+                                            id: data.id,
+                                            ItemId: data.ItemId,
                                             check: data.check,
                                             itemName: data.itemName,
                                             month: months ? months[0] : '',

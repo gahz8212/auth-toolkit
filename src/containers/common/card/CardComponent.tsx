@@ -147,7 +147,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 e.dataTransfer.setDragImage(img, 50, 50)
                                 e.dataTransfer.setData('pickedItem', JSON.stringify(
                                     {
-                                        id: item.id,
+                                        ItemId: item.id,
                                         itemName: item.itemName,
                                         unit: item.unit,
                                         im_price: item.im_price,

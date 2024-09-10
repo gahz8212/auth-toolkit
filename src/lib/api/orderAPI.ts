@@ -24,6 +24,7 @@ export const inputRepairToOrdersheet = (
   repair:
     | {
         itemName: string;
+        check:boolean;
         month: string;
         quantity: number;
         description: string;

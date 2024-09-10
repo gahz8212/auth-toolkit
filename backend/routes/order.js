@@ -236,9 +236,14 @@ router.post("/inputRepair", async (req, res) => {
       if (rep.weight === undefined) {
         rep.weight = 0;
       }
+      if (rep.check) {
+        rep.moq = rep.quantity / rep.CT_qty;
+      } else {
+        rep.moq = 0;
+      }
       return await sequelize.query(
         `
-    insert into ordersheet (itemName,category,${rep.month},descript,unit,im_price,ex_price,weight,cbm,number1,sets)value('${rep.item}','${rep.category}',${rep.quantity},'${rep.descript}','${rep.unit}',${rep.im_price},${rep.ex_price},${rep.weight},${rep.cbm},${rep.number1},'${rep.sets}')`
+    insert into ordersheet (itemName,category,${rep.month},descript,unit,im_price,ex_price,weight,cbm,number1,number2,sets,moq)value('${rep.itemName}','${rep.category}',${rep.quantity},'${rep.descript}','${rep.unit}',${rep.im_price},${rep.ex_price},${rep.weight},${rep.cbm},${rep.number1},${rep.id},'${rep.sets}',${rep.moq})`
       );
     });
     return res.status(200);

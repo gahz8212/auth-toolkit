@@ -4,7 +4,8 @@ type Props = {
     removePicked: (id: number) => void;
     inputPicked: () => void;
     pickedData: {
-        itemId: number;
+        id: number;
+        ItemId: number;
         itemName: string;
         unit: string,
         im_price: number,
@@ -22,10 +23,11 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
         <div className='wrap-picker'>
             <div className='title'>아이템 수집</div>
             <div className='header'>
+                <div>ID</div>
                 <div>품명</div>
                 <div>입고단가</div>
                 <div>수출단가</div>
-                <div>수량</div>
+                <div>수출수량</div>
 
             </div>
             <div className="itemList"
@@ -34,7 +36,7 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
                     e.preventDefault();
                     const pickedItem = JSON.parse(e.dataTransfer.getData('pickedItem'))
                     if (pickedItem) {
-                        // console.log('pickedItem', pickedItem)
+                        console.log('pickedItem', pickedItem)
                         addPicked(pickedItem)
                     }
                 }}
@@ -42,12 +44,13 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
 
             >
                 {pickedData && pickedData.map(picked => <div key={picked.itemName} className='pickedList'>
+                    <div>{picked.ItemId}</div>
                     <div>{picked.itemName}</div>
                     <div>{picked.unit}{picked.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                     <div>${picked.ex_price}</div>
-                    <div><input type='text' name='quantity' min={0} value={picked.quantity} id={picked.itemId.toString()} placeholder='수량을 입력 하세요' onChange={onChange} /></div>
+                    <div><input type='text' name='quantity' min={0} value={picked.quantity} id={picked.ItemId.toString()} placeholder='수량을 입력 하세요' onChange={onChange} /></div>
                     <div className='trashBtn'
-                        onClick={() => removePicked(picked.itemId)}>
+                        onClick={() => removePicked(picked.ItemId)}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>

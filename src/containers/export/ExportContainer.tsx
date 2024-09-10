@@ -160,7 +160,7 @@ const ExportContainer = () => {
 
         dispatch(itemActions.getPicked())
 
-    }, [])
+    }, [dispatch])
     useEffect(() => {
 
         if (pickedData) {
@@ -198,7 +198,8 @@ const ExportContainer = () => {
         }
     }
     const inputRepairToOrdersheet = (repair: {
-        itemId: number
+        id: number;
+        ItemId: number
         itemName: string;
         check: boolean;
         month: string;
@@ -214,6 +215,7 @@ const ExportContainer = () => {
         CT_qty: number;
         number1: number;
         use: boolean;
+      
     }[]) => {
 
         dispatch(OrderAction.inputRepairToOrderSheet(repair))

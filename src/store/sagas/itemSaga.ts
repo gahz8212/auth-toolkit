@@ -94,7 +94,8 @@ function* getItemSaga() {
 function* inputPickedSaga(action: {
   payload:
     | {
-        itemId: number;
+        id: number;
+        ItemId: number;
         check: boolean;
         itemName: string;
         unit: string;
@@ -108,7 +109,7 @@ function* inputPickedSaga(action: {
     | null;
 }) {
   try {
-    const response: { data: {}[] } = yield call(
+    const response: { data: string } = yield call(
       itemAPI.inputPicked,
       action.payload
     );

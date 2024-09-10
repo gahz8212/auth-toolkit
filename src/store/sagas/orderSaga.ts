@@ -75,7 +75,9 @@ function* inputPalletSaga(action: {
 function* inputRepairToOrderSheetSaga(action: {
   payload:
     | {
-      itemName: string;
+        id: number;
+        check: boolean;
+        itemName: string;
         month: string;
         quantity: number;
         description: string;

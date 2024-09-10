@@ -170,6 +170,7 @@ const orderSlice = createSlice({
       state.status.message = "";
     },
     getOrderDataSuccess: (state, { payload: invoiceData }) => {
+      // console.log("invoiceData", invoiceData);
       state.status.error = "";
       state.status.loading = false;
       state.orderData = invoiceData;
@@ -248,7 +249,9 @@ const orderSlice = createSlice({
       state,
       action: PayloadAction<
         | {
-          itemName: string;
+            id: number;
+            check: boolean;
+            itemName: string;
             month: string;
             quantity: number;
             description: string;

@@ -265,9 +265,9 @@ router.post("/excelAdd", async (req, res) => {
 });
 router.post("/inputPicked", async (req, res) => {
   const picked = req.body;
+  console.log("picked", picked);
   await Picker.destroy({ where: {} });
   try {
-    console.log(picked);
     picked.map(
       async (pick) =>
         await Picker.create({
@@ -277,13 +277,15 @@ router.post("/inputPicked", async (req, res) => {
           im_price: pick.im_price,
           ex_price: pick.ex_price,
           quantity: pick.quantity,
-          weight: pick.weight,
-          cbm: pick.cbm,
+          weight: pick.check ? pick.weight : null,
+          cbm: pick.check ? pick.cbm : null,
+          CT_qty: pick.check ? pick.CT_qty : null,
           // supplyer: pick.supplyer,
-          ItemId: pick.id,
+          ItemId: pick.ItemId,
         })
     );
-    return res.status(200);
+
+    return res.status(200).json("inputPicked_ok");
   } catch (e) {
     return res.status(400).json(e.message);
   }

@@ -152,7 +152,8 @@ type State = {
   pickedData:
     | {
         [key: string]: string | number | boolean;
-        itemId: number;
+        id: number;
+        ItemId: number;
         check: boolean;
         itemName: string;
         unit: string;
@@ -502,20 +503,21 @@ const itemSlice = createSlice({
       state.relations = newRelations;
     },
     addPicked: (state, { payload: newRepairs }) => {
-      const repairs = state.pickedData?.map((picked) => picked.itemName);
-      if (!repairs?.includes(newRepairs.itemName)) {
-        state.pickedData?.unshift(newRepairs);
-      }
+      state.pickedData?.unshift(newRepairs);
+      // const repairs = state.pickedData?.map((picked) => picked.itemName);
+      // if (!repairs?.includes(newRepairs.itemName)) {
+      // }
     },
     removePicked: (state, { payload: id }) => {
-      let idx = state.pickedData?.findIndex((picked) => picked.id === id);
+      let idx = state.pickedData?.findIndex((picked) => picked.ItemId === id);
       if (idx !== undefined) state.pickedData?.splice(idx, 1);
     },
     inputPicked: (
       state,
       action: PayloadAction<
         | {
-            itemId: number;
+            id: number;
+            ItemId: number;
             check: boolean;
             itemName: string;
             unit: string;
@@ -532,10 +534,9 @@ const itemSlice = createSlice({
       state.status.error = "";
       state.status.message = "";
     },
-    inputPickedSuccess: (state, { payload: newRepair }) => {
-      if (newRepair) {
-        state.pickedData = newRepair;
-      }
+    inputPickedSuccess: (state, { payload: message }) => {
+      state.status.message = message;
+      state.status.error = "";
     },
     inputPickedFailure: (state, { payload: e }) => {
       state.status.error = e;
@@ -555,9 +556,11 @@ const itemSlice = createSlice({
       state.status.message = "get repairs ng";
     },
     updatePicked: (state, { payload: item }) => {
-      const { id, dragItems, type, ...rests } = item;
-      let idx = state.pickedData?.findIndex((picked) => picked.itemId === id);
-
+      const { ItemId, dragItems, type, ...rests } = item;
+      let idx = state.pickedData?.findIndex((picked) =>
+        picked.ItemId ? picked.ItemId === ItemId : picked.id === ItemId
+      );
+      console.log(ItemId, idx, rests);
       const keys = Object.keys(rests);
       const values: number[] = Object.values(rests);
 
@@ -577,10 +580,10 @@ const itemSlice = createSlice({
     },
     onChangePicked: (state, { payload: values }) => {
       const { name, checked, value, id } = values;
-      console.log("values", values);
+      // console.log("values", values);
       if (state.pickedData) {
         const idx = state.pickedData?.findIndex(
-          (picked) => picked.id === Number(id)
+          (picked) => picked.ItemId === Number(id)
         );
         if (name === "check") {
           state.pickedData[idx].check = checked;
