@@ -61,7 +61,7 @@ type Props = {
         CT_qty: number;
         number1: number;
         use: boolean;
-       
+
     }[]) => void;
 }
 const ExportComponent: React.FC<Props> = ({
@@ -371,7 +371,8 @@ const ExportComponent: React.FC<Props> = ({
                                                 e.dataTransfer.setDragImage(img, 50, 50)
                                                 if (partPackaging) {
 
-                                                    console.log(partPackaging[picked.ItemId])
+                                                    e.dataTransfer.setData('item',
+                                                        JSON.stringify({ summary: partPackaging[picked.id], key: picked.id, data: partPackaging, mode: 'repair' }))
                                                 }
                                             }}
                                         >

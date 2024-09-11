@@ -23,7 +23,7 @@ const PackingContainer: React.FC<Props> = ({ selectedMonth }) => {
 
 
             }))
-    console.log('filteredPackingData', filteredPackingData)
+    // console.log('filteredPackingData', filteredPackingData)
     if (filteredPackingData) {
         let selectedapplyMoqData = [...filteredPackingData]
         selectedapplyMoqData.forEach(data => {

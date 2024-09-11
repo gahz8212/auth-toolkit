@@ -145,8 +145,17 @@ const PalletComponent: React.FC<Props> = ({ palletData, settingPallet, addCount,
                     onDrop={(e) => {
                         // e.preventDefault()
                         const { name, CT_qty, quantity, weight, moq, cbm, sets, mode } = JSON.parse(e.dataTransfer.getData('item'))
+
+                        if (mode === 'move' || mode === 'copy') {
+
+                            // const { summary, key, data, mode } = JSON.parse(e.dataTransfer.getData('item'))
+                            // console.log(summary[0])
+                            drop(index, { name, CT_qty, quantity, weight, moq, cbm, sets, mode })
+                        } else {
+                            const { summary, key, data, mode } = JSON.parse(e.dataTransfer.getData('item'))
+                            console.log(summary[0].itemName)
+                        }
                         e.currentTarget.style.background = "white"
-                        drop(index, { name, CT_qty, quantity, weight, moq, cbm, sets, mode })
                     }}
                 >
                     <div style={{ position: 'absolute', left: index < 9 ? "40%" : "30%", fontSize: '80px', opacity: '.1', userSelect: 'none' }}>
