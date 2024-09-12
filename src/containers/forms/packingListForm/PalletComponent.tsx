@@ -64,7 +64,7 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                     select_modelname(item.item)
                 }
             </span>
-            <div className='material-symbols' >
+            {item.CT_qty ? <div className='material-symbols' >
                 <span className="material-symbols-outlined add"
                     onClick={() => {
                         if (typeof item.item === 'string' && typeof item.CT_qty === 'number')
@@ -81,7 +81,7 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                     add_circle
                 </span>
                 <span className='CT_qty'>{item.CT_qty}</span>
-                <span className="material-symbols-outlined remove"
+                <span className="material-symbols-outlined remove "
 
                     onClick={() => {
                         if (typeof item.item === 'string') {
@@ -98,20 +98,24 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                                 }
                             }
                         }
-                    }
-                    }
-                    onMouseDown={() => {
-                        if (item && typeof item.item === 'string') {
-                            deCrease(index, item.item)
-                        }
-                    }}
-                    onMouseUp={() => {
-                        clearInterval(inter)
                     }}
                 >
                     do_not_disturb_on
                 </span>
-            </div>
+            </div> : <div><span className="material-symbols-outlined remove repair"
+                onClick={() => {
+                    // eslint-disable-next-line no-restricted-globals
+                    let result = confirm('이 품목을 삭제합니까?')
+                    if (result) {
+                        if (typeof item.item === 'string') {
+                            removeItem(index, item.item)
+                        }
+                    }
+                }
+                }
+            >
+                delete
+            </span></div>}
         </div>)
         }
     </div >
@@ -152,8 +156,18 @@ const PalletComponent: React.FC<Props> = ({ palletData, settingPallet, addCount,
                             // console.log(summary[0])
                             drop(index, { name, CT_qty, quantity, weight, moq, cbm, sets, mode })
                         } else {
-                            const { summary, key, data, mode } = JSON.parse(e.dataTransfer.getData('item'))
-                            console.log(summary[0].itemName)
+                            const { summary, key, data, mode } = JSON.parse(e.dataTransfer.getData('item'));
+                            summary.sort((a: { id: number }, b: { id: number }) => b.id - a.id).map((data: {
+                                itemName: string,
+                                CT_qty: number,
+                                quantity: number,
+                                weight: number,
+                                moq: number,
+                                cbm: number,
+                                sets: string,
+                                mode: string
+                            }) => drop(index, { name: data.itemName, CT_qty: data.CT_qty, quantity: data.quantity, weight: data.weight, moq: data.moq, cbm: data.cbm, sets: data.sets, mode: data.mode }))
+
                         }
                         e.currentTarget.style.background = "white"
                     }}

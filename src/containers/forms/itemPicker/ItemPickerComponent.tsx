@@ -23,7 +23,7 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
         <div className='wrap-picker'>
             <div className='title'>아이템 수집</div>
             <div className='header'>
-                <div>ID</div>
+                {/* <div>ID</div> */}
                 <div>품명</div>
                 <div>입고단가</div>
                 <div>수출단가</div>
@@ -36,15 +36,15 @@ const ItemPickerComponent: React.FC<Props> = ({ addPicked, removePicked, pickedD
                     e.preventDefault();
                     const pickedItem = JSON.parse(e.dataTransfer.getData('pickedItem'))
                     if (pickedItem) {
-                        console.log('pickedItem', pickedItem)
                         addPicked(pickedItem)
                     }
                 }}
 
 
             >
-                {pickedData && pickedData.map(picked => <div key={picked.itemName} className='pickedList'>
-                    <div>{picked.ItemId}</div>
+                {pickedData && pickedData.map((picked) => <div key={picked.itemName} className='pickedList'>
+
+                    {/* <div>{picked.ItemId}</div> */}
                     <div>{picked.itemName}</div>
                     <div>{picked.unit}{picked.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                     <div>${picked.ex_price}</div>

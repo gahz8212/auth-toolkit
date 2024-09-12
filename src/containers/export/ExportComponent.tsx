@@ -6,6 +6,7 @@ import PalletContainer from '../forms/packingListForm/PalletContainer';
 import { useDrag } from 'react-use-gesture';
 import { OrderAction } from '../../store/slices/orderSlice'
 import { useDispatch } from 'react-redux'
+import { itemActions } from '../../store/slices/itemSlice';
 type Props = {
     model: string
     setModel: React.Dispatch<React.SetStateAction<string>>
@@ -93,42 +94,43 @@ const ExportComponent: React.FC<Props> = ({
     const dragItem: any = useRef();
     const dragOverItem: any = useRef();
     const dispatch = useDispatch();
-    let dragItemKey = '';
-    let dragOverItemKey = ''
     const invoicePos = useDrag((params => { changePosition('invoice', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
     const packingPos = useDrag((params => { changePosition('packing', { x: params.offset[0] + 820, y: params.offset[1] + 200 }) }))
     const palletPos = useDrag((params => { changePosition('pallet', { x: params.offset[0] + 1400, y: params.offset[1] + 200 }) }))
     const addItemPos = useDrag((params => { changePosition('addItem', { x: params.offset[0] + 100, y: params.offset[1] + 200 }) }))
+    // let dragItemKey = '';
+    // let dragOverItemKey = ''
     // console.log(pickedData)
     let orderdata;
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
 
 
-    const onDragStart = (index: number, column: number) => {
-        dragItem.current = index;
-        dragItemKey = months ? months[column] : '';
-    }
-    const onDragEnter = (index: number, column: number) => {
-        dragOverItem.current = index;
-        dragOverItemKey = months ? months[column] : '';
-    }
-    const onDrop = () => {
-        const copyList: { [key: string]: number | string | null }[] = JSON.parse(JSON.stringify(orderData))
-        copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey];
-        copyList[dragItem.current][dragItemKey] = null
-        dragItem.current = null;
-        dragOverItem.current = null;
-        dispatch(OrderAction.getData(copyList))
-    }
+    // const onDragStart = (index: number, column: number) => {
+    //     dragItem.current = index;
+    //     dragItemKey = months ? months[column] : '';
+    // }
+    // const onDragEnter = (index: number, column: number) => {
+    //     dragOverItem.current = index;
+    //     dragOverItemKey = months ? months[column] : '';
+    // }
+    // const onDrop = () => {
+    //     const copyList: { [key: string]: number | string | null }[] = JSON.parse(JSON.stringify(orderData))
+    //     copyList[dragOverItem.current][dragOverItemKey] = copyList[dragItem.current][dragItemKey];
+    //     copyList[dragItem.current][dragItemKey] = null
+    //     dragItem.current = null;
+    //     dragOverItem.current = null;
+    //     dispatch(OrderAction.getData(copyList))
+    // }
+
     orderdata = orderData?.map((data, tr) =>
         <div className='tr'>
             <div className='td'>{data.itemName}</div>
             {months?.map((month, td) =>
                 <div className='td'
-                    draggable
-                    onDragStart={() => { onDragStart(tr, td) }}
-                    onDragEnter={() => { onDragEnter(tr, td) }}
-                    onDragEnd={onDrop}
+                // draggable
+                // onDragStart={() => { onDragStart(tr, td) }}
+                // onDragEnter={() => { onDragEnter(tr, td) }}
+                // onDragEnd={onDrop}
 
                 >{data[month] > 0 && data[month].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     {/* <input type="number" name={`${month}`} value={data[month]} onChange={(e) => { onChange(e, tr) }} /> */}
@@ -282,38 +284,66 @@ const ExportComponent: React.FC<Props> = ({
                         <div className="modelTable">
                             <div className='repairs'>
                                 <div className='header'>
-
                                 </div>
                                 <div className='body'>
                                     <div className="titles">
-
                                         <div className='title'>부자재</div>
                                         <div className='title'>수량</div>
-                                        {/* <div className='title'>C/T</div> */}
-                                        <div className='title'>weight</div>
+                                        <div className='title'>C/T</div>
+                                        <div className='title'>Kg</div>
                                         <div className='title'>cbm</div>
                                     </div>
                                     <div className="articles">
+                                        {pickedData?.map((picked, index) => <div className={`items`} key={picked.ItemId}
+                                            draggable={!picked.check}
+                                            onDragStart={(e) => {
+                                                const img = new Image();
+                                                img.src = '/images/package.png'
+                                                e.dataTransfer.setDragImage(img, 50, 50)
+                                                dragItem.current = index
 
-                                        {pickedData?.map(picked => <div className='items'>
-                                            <div className='item'>{picked.itemName}</div>
-                                            <div className='item'>{picked.quantity}</div>
-                                            {/* <div className='item'>{picked.CT_qty}</div> */}
-                                            <div className='item'>{picked.CT_qty > 0 && picked.weight}</div>
-                                            <div className='item'>{picked.CT_qty > 0 &&
-                                                <select>
-                                                    <option value="자체">자체</option>
-                                                    <option value="0.036">iDT</option>
+                                            }}
+                                            onDragEnter={() => {
+                                                dragOverItem.current = index
+                                            }}
+                                            onDragOver={e => { e.preventDefault() }}
+                                            onDrop={() => {
+                                                const copyList: { id: number; ItemId: number; check: boolean; itemName: string; unit: string; im_price: number; ex_price: number; quantity: number; CT_qty: number; weight: number; cbm: number; }[] = JSON.parse(JSON.stringify(pickedData));
+                                                copyList[dragOverItem.current] = copyList[dragItem.current];
+                                                copyList[dragItem.current] = copyList[dragOverItem.current];
+                                                dragOverItem.current = null;
+                                                dragItem.current = null;
+                                                // dispatch(itemActions.inputPicked(copyList))
+                                            }}
+                                        >
+                                            <div className='item'><input type="checkbox" name="check" id={String(picked.ItemId)} checked={picked.check}
+                                                onChange={onChangePicked}
+                                            /></div>
+                                            <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.itemName}</div>
+                                            <div className='item'>{picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+                                            <div className='item'>{
+                                                picked.check && <input type='number' name="CT_qty" id={picked.ItemId.toString()} value={picked.CT_qty} onChange={onChangePicked} className='input_ct' ></input>
+                                            }</div>
+                                            <div className='item'>{
+                                                picked.check && <input type='number' name="weight" id={String(picked.ItemId)} value={picked.weight} onChange={onChangePicked} className='input_weight'></input>
+                                            }</div>
+                                            <div className='item'>{
+                                                picked.check &&
+                                                <select className='sel_cbm' name='cbm' value={picked.cbm} id={String(picked.ItemId)} onChange={onChangePicked}>
+                                                    <option value="선택">선택</option>
+                                                    <option value="0.044">iDT</option>
                                                     <option value="0.04">CC360</option>
                                                     <option value="0.044">SPT</option>
                                                 </select>}</div>
-                                            <div>
-                                                <span className="material-symbols-outlined">
+                                            <div className={`item ${picked.check ? 'selected' : ''}`} onClick={() => {
+                                                if (!picked.check)
+                                                    removePicked(picked.ItemId)
+                                            }}>
+                                                <span className={`material-symbols-outlined trash `}>
                                                     delete
                                                 </span>
                                             </div>
                                         </div>)}
-
                                     </div>
                                 </div>
                             </div>
@@ -379,7 +409,7 @@ const ExportComponent: React.FC<Props> = ({
                                             <div className='item'><input type="checkbox" name="check" id={String(picked.ItemId)} checked={picked.check}
                                                 onChange={onChangePicked}
                                             /></div>
-                                            <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.ItemId}-{picked.itemName}</div>
+                                            <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.itemName}</div>
                                             <div className='item'>{picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                                             <div className='item'>{
                                                 picked.check && <input type='number' name="CT_qty" id={picked.ItemId.toString()} value={picked.CT_qty} onChange={onChangePicked} className='input_ct' ></input>

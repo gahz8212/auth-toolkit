@@ -18,7 +18,6 @@ const ItemPickerContainer = () => {
             dispatch(itemActions.removePicked(id))
     }
     const inputPicked = () => {
-
         dispatch(itemActions.inputPicked(pickedData))
         // dispatch(itemActions.getPicked())
     }

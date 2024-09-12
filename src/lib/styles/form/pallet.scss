@@ -54,6 +54,11 @@
       &:hover {
         color: red;
       }
+      &.repair {
+        margin-right: 2rem;
+        font-size: 1.4rem;
+        color: hotpink;
+      }
     }
   }
 }
