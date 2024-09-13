@@ -91,7 +91,7 @@ const PackingComponent: React.FC<Props> = ({ selectedMonth, packingData, totalRe
     </div>))
     return (
         <div className='packing-container'>
-
+            <div className="title">PACKING</div>
             <div className='table'>
                 <div className='thead'>
                     <div className='tr'>

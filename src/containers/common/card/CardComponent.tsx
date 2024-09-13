@@ -138,6 +138,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                     ${selected === item.id ? 'selected' : ''} 
                     ${shows.includes(item.id) ? 'back' : ""}
                     ${visibles.includes(item.id) ? 'visible' : ""}
+                    ${item.category}
                     ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}`}
                             draggable
                             onDragStart={(e) => {
@@ -152,13 +153,11 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                         unit: item.unit,
                                         im_price: item.im_price,
                                         ex_price: item.ex_price,
-
-
                                     }))
                             }}
                             onDragEnd={onDrop}
                         >
-                            <div className={`info text ${item.category} `}>
+                            <div className={`info text`}>
                                 <div className="footer">
                                     <div className="edit">
                                         <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>

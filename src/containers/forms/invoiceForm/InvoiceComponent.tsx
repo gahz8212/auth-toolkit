@@ -23,7 +23,7 @@ const InvoiceComponent: React.FC<Props> = ({ invoiceData, selectedMonth, totalRe
     </div>))
     return (
         <div className='invoice-container'>
-
+            <div className='title'>INVOICE</div>
             <div className='table'>
                 <div className='thead'>
                     <div className='tr'>

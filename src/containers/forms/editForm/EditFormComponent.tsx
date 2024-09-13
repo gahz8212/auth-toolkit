@@ -75,8 +75,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
     const [openViewer, setOpenViewer] = useState<boolean>(true);
 
     return (
-        <div className={`form-type ${next.type}`}>
-
+        <div className={`form-type`}>
+            <div className={`title  ${next.type}`}>EDIT</div>
             <form className='edit-form' onSubmit={(e) => {
 
                 e.preventDefault();

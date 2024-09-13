@@ -1,5 +1,5 @@
-.home-wraper {
-  width: 100%;
+.isetting-wraper {
+  width: 90%;
 
   .material-symbols-outlined.write {
     position: fixed;
@@ -8,6 +8,7 @@
     font-size: 3rem;
     cursor: pointer;
     transition: 0.5s;
+    user-select: none;
     &:hover {
       color: black;
       transform: scale(1.4);
@@ -21,6 +22,7 @@
     cursor: pointer;
     transition: 0.5s;
     color: red;
+    user-select: none;
     &:hover {
       color: red;
       transform: scale(1.4);

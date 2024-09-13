@@ -80,9 +80,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
     return (
         <div className={`form-type ${input.type}`}>
+            <div className={ `title ${input.type}`}>INPUT</div>
             <form className='input-form' onSubmit={(e) => {
                 e.preventDefault();
-
+                
                 addItem({
                     type: input.type,
                     groupType: input.groupType,
@@ -103,7 +104,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     dragItems: T_dragItems,
                     // visible: false
                 })
-
+                
             }}>
                 <div className={`form-category ${input.category}`}>
 

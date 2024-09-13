@@ -1,10 +1,22 @@
 .invoice-container,
 .packing-container {
-  //   border: 1px solid black;
-  padding: 30px 10px;
-  border: 1px solid black;
   border-radius: 10px;
+  //   border: 1px solid black;
+  // padding: 0 10px;
+  border: 1px solid black;
+  // border-radius: 10px;
   background: white;
+  .title {
+    width: 100%;
+    color: black;
+    height: 30px;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
   .table {
     width: 500px;
 

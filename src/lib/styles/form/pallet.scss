@@ -1,13 +1,27 @@
-.wrap-pallet {
-  display: flex;
-  width: 530px;
-  background: gray;
-  padding: 0.5rem;
-  padding-top: 1rem;
-  overflow-y: auto;
-  flex-wrap: wrap;
+.wrap-pallets {
+  border: 1px solid black;
   border-radius: 10px;
-  //   border: 1px solid black;
+  .title {
+    width: 100%;
+    color: black;
+    height: 30px;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .wrap-pallet {
+    display: flex;
+    width: 530px;
+    background: gray;
+    padding: 0.5rem;
+    padding-top: 1rem;
+    overflow-y: auto;
+    flex-wrap: wrap;
+
+  }
 }
 .outline-pallet {
   position: relative;

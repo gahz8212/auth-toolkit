@@ -1,40 +1,69 @@
 .item-list {
   width: 95%;
-  margin: 5rem auto;
+  margin: 6rem auto;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  padding-top: 40px;
-  transition: 0.4s;
+  // padding-top: 40px;
+  // transition: 1s;
   .infos {
-    width: 100px;
-    height: 110px;
+    width: 150px;
+    height: 180px;
     position: relative;
     margin: 0.6rem;
     cursor: pointer;
     box-sizing: border-box;
-    border-radius: 10px;
+    // border-radius: 8px;
+    position: relative;
+
+    transition: 1s;
+    &:hover {
+      &::before {
+        content: "";
+        width: 170px;
+        height: 200px;
+        border: 4px solid orange;
+        position: absolute;
+        z-index: 0;
+        top: -15px;
+        left: -15px;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+    }
+    &.NOBARK {
+      background-color: floralwhite;
+    }
+    &.RDT {
+      background-color: azure;
+    }
+    &.EDT {
+      background-color: whitesmoke;
+    }
+    &.LAUNCHER {
+      background-color: beige;
+    }
+    &.회로 {
+      background-color: whitesmoke;
+    }
+    &.전장 {
+      background-color: rgba(255, 182, 193, 0.39);
+    }
+    &.기구 {
+      background-color: rgb(240, 230, 140);
+    }
+    &.포장 {
+      background-color: rgba(153, 205, 50, 0.521);
+    }
+    &.기타 {
+      background-color: lightgray;
+    }
 
     @media (prefers-reduced-motion: no-preference) {
       &.selected {
         animation: selectedItem-float infinite 1s linear;
       }
-      &:hover {
-        animation: none;
-      }
     }
-    // &.selected::before {
-    //   content: "";
-    //   width: 125px;
-    //   height: 135px;
-    //   display: block;
-    //   position: absolute;
-    //   background-color: red;
-    //   top: -18px;
-    //   left: -18px;
-    //   border-radius: 8px;
-    //   opacity: 0.5;
-    // }
     &.SET {
       border: 5px solid green;
     }
@@ -45,69 +74,63 @@
       border: 5px dashed rgb(114, 153, 37);
     }
 
-    transition: 0.3s;
+    // transition: 1s;
     .info {
-      width: 100%;
-      height: 100%;
-      // border: 3px solid gray;
-      position: absolute;
+      // width: 100%;
+      // height: 100%;
       backface-visibility: hidden;
-      transition: 0.5s;
-    }
-
-    .info.text {
-      &.회로 {
-        background-color: cornflowerblue;
-      }
-      &.전장 {
-        background-color: lightpink;
-      }
-      &.기구 {
-        background-color: khaki;
-      }
-      &.포장 {
-        background-color: yellowgreen;
-      }
-      &.기타 {
-        background-color: lightgray;
-      }
-      .point {
-        font-size: 30px;
-        font-weight: bolder;
-        color: orangered;
-        position: absolute;
-        top: -10px;
-        right: -10px;
-      }
-      .footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-
-        .edit,
-        .check,
-        .redo {
-          &:hover {
-            color: gray;
+      &.text {
+        padding: 1rem;
+        border: 1px solid black;
+        .point {
+          font-size: 30px;
+          font-weight: bolder;
+          color: orangered;
+          position: absolute;
+          top: -10px;
+          right: -10px;
+        }
+        .footer {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          .edit,
+          .check,
+          .redo {
+            &:hover {
+              color: gray;
+            }
           }
         }
       }
     }
     .info.image {
-      &.전장 {
-        background-color: orange;
+      &.NOBARK {
+        background-color: floralwhite;
+      }
+      &.RDT {
+        background-color: azure;
+      }
+      &.EDT {
+        background-color: rgba(0, 0, 255, 0.05);
+      }
+      &.LAUNCHER {
+        background-color: beige;
       }
       &.회로 {
-        background-color: cornflowerblue;
+        background-color: whitesmoke;
+      }
+      &.전장 {
+        background-color: rgba(255, 182, 193, 0.39);
       }
       &.기구 {
-        background-color: khaki;
+        background-color: rgb(240, 230, 140);
       }
       &.포장 {
-        background-color: yellowgreen;
+        background-color: rgba(153, 205, 50, 0.521);
       }
       &.기타 {
         background-color: lightgray;

@@ -30,13 +30,21 @@ const IsettingComponent: React.FC<Props> = ({ input, edit, relate, openForm, cha
 
 
     return (
-        <div className='home-wraper'>
+        <div className='isetting-wraper'>
 
 
             {input.visible && <div >
-
-                <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 입력</span>
+                <div {...inputPos()} style={{
+                    color: 'white',
+                    width: '300px',
+                    position: 'fixed',
+                    top: input.position.y,
+                    left: input.position.x,
+                    zIndex: 2,
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+                }}>
+                    <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
 
@@ -45,15 +53,24 @@ const IsettingComponent: React.FC<Props> = ({ input, edit, relate, openForm, cha
             </div>}
 
             {edit.visible && <div>
-                <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 수정</span>
+                <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px', boxSizing: 'border-box' }}>
+                    <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
                     <EditFormContainer />
                 </div>
             </div>}
             {picker.visible && <div>
-                <div {...pickerPos()} style={{ color: 'white', position: 'fixed', top: picker.position.y, left: picker.position.x, zIndex: 2, textAlign: 'center', width: '300px', boxSizing: 'border-box' }}>
+                <div {...pickerPos()} style={{
+                    color: 'white',
+                    position: 'fixed',
+                    top: picker.position.y,
+                    left: picker.position.x,
+                    zIndex: 2,
+                    textAlign: 'center',
+                    width: '300px',
+                    boxSizing: 'border-box'
+                }}>
                     <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: picker.position.y, left: picker.position.x, zIndex: 1 }}>

@@ -141,28 +141,17 @@ const ExportComponent: React.FC<Props> = ({
     return (
         <div className='export-wrapper'>
             {invoiceForm.visible && <div>
-                <div {...invoicePos()}
-
-                    style={{
-                        color: 'black',
-                        position: 'fixed',
-                        top: invoiceForm.position.y,
-                        left: invoiceForm.position.x,
-                        zIndex: 6,
-                        width: '520px',
-                        cursor: 'pointer',
-                    }}>
-                    <span style={{
-                        display: 'block',
-                        background: 'transparent',
-                        width: '100%',
-                        height: '50px',
-                        fontWeight: '700',
-                        paddingTop: '0.5rem',
-                        userSelect: 'none',
-                        textAlign: "center"
-                    }}>INVOICE</span>
-                    {/* <div className="spacer" style={{ height: '10px', background: 'green' }}></div> */}
+                <div {...invoicePos()} style={{
+                    color: 'black',
+                    position: 'fixed',
+                    top: invoiceForm.position.y,
+                    left: invoiceForm.position.x,
+                    zIndex: 4,
+                    textAlign: 'center',
+                    width: '520px',
+                    boxSizing: 'border-box'
+                }}>
+                    <div style={{ width: '520px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: invoiceForm.position.y, left: invoiceForm.position.x, zIndex: 2 }}>
                     <InvoiceContainer selectedMonth={selectedMonth || months![0]} />
@@ -172,22 +161,14 @@ const ExportComponent: React.FC<Props> = ({
                 <div {...packingPos()} style={{
                     color: 'black',
                     width: '520px',
-                    cursor: 'pointer',
                     position: 'fixed',
                     top: packingForm.position.y,
                     left: packingForm.position.x,
                     zIndex: 4,
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
                 }}>
-                    <span style={{
-                        display: 'inline-block',
-                        height: '50px',
-                        width: '500px',
-                        fontWeight: '700',
-                        paddingTop: '0.5rem',
-                        userSelect: 'none',
-                        textAlign: "center"
-                    }}>PACKING</span>
+                    <div style={{ width: '520px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: packingForm.position.y, left: packingForm.position.x, zIndex: 2 }}>
                     <PackingContainer
@@ -198,23 +179,21 @@ const ExportComponent: React.FC<Props> = ({
             {palletForm.visible && <div>
                 <div {...palletPos()} style={{
                     color: 'black',
-                    width: '100px',
-                    cursor: 'pointer',
+                    width: '650px',
                     position: 'fixed',
                     top: palletForm.position.y,
                     left: palletForm.position.x,
                     zIndex: 4,
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+
                 }}>
-                    <span style={{
-                        display: 'inline-block',
-                        height: '50px',
-                        width: '100px',
-                        fontWeight: '700',
-                        paddingTop: '0.5rem',
+                    <div style={{
+                        width: '650px',
+                        padding: '1rem',
                         userSelect: 'none',
-                        textAlign: "center"
-                    }}>PALLET</span>
+
+                    }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: palletForm.position.y, left: palletForm.position.x, zIndex: 2 }}>
                     <PalletContainer
@@ -222,7 +201,7 @@ const ExportComponent: React.FC<Props> = ({
                     />
                 </div>
             </div>}
-            {addItemForm.visible && <div>
+            {/* {addItemForm.visible && <div>
                 <div {...addItemPos()} style={{ color: 'black', position: 'fixed', top: addItemForm.position.y, left: addItemForm.position.x, zIndex: 3, textAlign: 'center', width: '300px' }}>
                     <span style={{ display: 'inline-block', width: '500px', fontWeight: '700', paddingTop: '0.5rem', userSelect: 'none', textAlign: "center" }}>ADD</span>
                 </div>
@@ -231,7 +210,7 @@ const ExportComponent: React.FC<Props> = ({
                     // selectedMonth={selectedMonth}
                     />
                 </div>
-            </div>}
+            </div>} */}
 
             <div className="export-container">
                 <div className="orderSheet">
@@ -309,18 +288,20 @@ const ExportComponent: React.FC<Props> = ({
                                             onDragOver={e => { e.preventDefault() }}
                                             onDrop={() => {
                                                 const copyList: { id: number; ItemId: number; check: boolean; itemName: string; unit: string; im_price: number; ex_price: number; quantity: number; CT_qty: number; weight: number; cbm: number; }[] = JSON.parse(JSON.stringify(pickedData));
+                                                const temp = copyList[dragOverItem.current]
                                                 copyList[dragOverItem.current] = copyList[dragItem.current];
-                                                copyList[dragItem.current] = copyList[dragOverItem.current];
+                                                copyList[dragItem.current] = temp
                                                 dragOverItem.current = null;
                                                 dragItem.current = null;
-                                                // dispatch(itemActions.inputPicked(copyList))
+                                                console.log('copyList', copyList)
+                                                dispatch(itemActions.changeRepair(copyList))
                                             }}
                                         >
                                             <div className='item'><input type="checkbox" name="check" id={String(picked.ItemId)} checked={picked.check}
                                                 onChange={onChangePicked}
                                             /></div>
                                             <div className={`item ${picked.check ? 'selected' : ''}`}>{picked.itemName}</div>
-                                            <div className='item'>{picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+                                            <div className='item'>{picked.quantity ? picked.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
                                             <div className='item'>{
                                                 picked.check && <input type='number' name="CT_qty" id={picked.ItemId.toString()} value={picked.CT_qty} onChange={onChangePicked} className='input_ct' ></input>
                                             }</div>
@@ -393,17 +374,32 @@ const ExportComponent: React.FC<Props> = ({
                                         <div className='title'>cbm</div>
                                     </div>
                                     <div className="articles">
-                                        {pickedData?.map((picked) => <div className={`items`} key={picked.ItemId}
+                                        {pickedData?.map((picked, index) => <div className={`items`} key={picked.ItemId}
+
                                             draggable={picked.check}
                                             onDragStart={(e) => {
                                                 const img = new Image();
                                                 img.src = '/images/package.png'
                                                 e.dataTransfer.setDragImage(img, 50, 50)
+                                                dragItem.current = index
                                                 if (partPackaging) {
-
                                                     e.dataTransfer.setData('item',
                                                         JSON.stringify({ summary: partPackaging[picked.id], key: picked.id, data: partPackaging, mode: 'repair' }))
                                                 }
+                                            }}
+                                            onDragEnter={() => {
+                                                dragOverItem.current = index
+                                            }}
+                                            onDragOver={e => { e.preventDefault() }}
+                                            onDrop={() => {
+                                                const copyList: { id: number; ItemId: number; check: boolean; itemName: string; unit: string; im_price: number; ex_price: number; quantity: number; CT_qty: number; weight: number; cbm: number; }[] = JSON.parse(JSON.stringify(pickedData));
+                                                const temp = copyList[dragOverItem.current]
+                                                copyList[dragOverItem.current] = copyList[dragItem.current];
+                                                copyList[dragItem.current] = temp
+                                                dragOverItem.current = null;
+                                                dragItem.current = null;
+                                                console.log('copyList', copyList)
+                                                dispatch(itemActions.changeRepair(copyList))
                                             }}
                                         >
                                             <div className='item'><input type="checkbox" name="check" id={String(picked.ItemId)} checked={picked.check}

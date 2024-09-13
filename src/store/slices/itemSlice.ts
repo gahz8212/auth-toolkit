@@ -598,6 +598,9 @@ const itemSlice = createSlice({
     allClear: (state) => {
       state.pickedData?.map((pick) => (pick.check = false));
     },
+    changeRepair: (state, { payload: newPicked }) => {
+      if (newPicked) state.pickedData = newPicked;
+    },
   },
 });
 export default itemSlice.reducer;

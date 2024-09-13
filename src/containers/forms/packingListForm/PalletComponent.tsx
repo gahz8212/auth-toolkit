@@ -132,22 +132,19 @@ const PalletComponent: React.FC<Props> = ({ palletData, settingPallet, addCount,
     const values = Object.values(palletData)
     if (!palletData) { return null }
     return (
-        <div>
-            <div className='wrap-pallet'
-            >
+        <div className='wrap-pallets'>
+            <div className="title">PALLET</div>
+            <div className='wrap-pallet'>
                 {values.map((data, index) => <div
                     className='outline-pallet'
 
                     key={index}
-                    // draggable
-
                     onDragLeave={(e) => { e.currentTarget.style.background = "white" }}
                     onDragOver={(e) => {
                         e.preventDefault();
                         e.currentTarget.style.background = "pink"
                     }}
                     onDrop={(e) => {
-                        // e.preventDefault()
                         const { name, CT_qty, quantity, weight, moq, cbm, sets, mode } = JSON.parse(e.dataTransfer.getData('item'))
 
                         if (mode === 'move' || mode === 'copy') {

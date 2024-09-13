@@ -1,5 +1,4 @@
 .form-type {
-  z-index: 2;
   user-select: none;
   position: relative;
   width: 300px;
@@ -7,14 +6,23 @@
   border: 3px solid red;
   // border-radius: 8px;
 
-  &.SET {
-    background-color: darkcyan;
-  }
-  &.ASSY {
-    background-color: tomato;
-  }
-  &.PARTS {
-    background-color: orange;
+  .title {
+    &.SET {
+      background-color: darkcyan;
+    }
+    &.ASSY {
+      background-color: tomato;
+    }
+    &.PARTS {
+      background-color: orange;
+    }
+    color: black;
+    font-weight: 700;
+    // background-color: white;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .input-form,
   .edit-form {
@@ -50,7 +58,7 @@
         background-color: lightgray;
       }
       .selection {
-        margin-top: 30px;
+        // margin-top: 30px;
 
         input[type="radio"] {
           width: 20px;

@@ -58,7 +58,7 @@ export const formSelector = createSelector(
   relateFormSelector,
   palletFormSelector,
   pickerFormSelector,
-  (input, edit, invoice, packing, addItem, relate, pallet,picker) => ({
+  (input, edit, invoice, packing, addItem, relate, pallet, picker) => ({
     input,
     edit,
     invoice,
@@ -66,7 +66,7 @@ export const formSelector = createSelector(
     addItem,
     relate,
     pallet,
-    picker
+    picker,
   })
 );
 const formSlice = createSlice({
@@ -77,8 +77,26 @@ const formSlice = createSlice({
       state[form].visible = value;
     },
     changePosition: (state, { payload: { form, position } }) => {
-      // console.log(form, position);
-      state[form].position = position;
+      if (position.x > 0 && position.y > 160 && position.y < 900) {
+        state[form].position = position;
+      } else {
+        if (position.x < 0 && position.y < 160) {
+          state[form].position.x = 0;
+          state[form].position.y = 160;
+        } else if (position.x < 0 && position.y > 900) {
+          state[form].position.x = 0;
+          state[form].position.y = 900;
+        } else if (position.x < 0) {
+          state[form].position = position;
+          state[form].position.x = 0;
+        } else if (position.y < 160) {
+          state[form].position = position;
+          state[form].position.y = 160;
+        } else if (position.y > 900) {
+          state[form].position = position;
+          state[form].position.y = 900;
+        }
+      }
     },
     initPosition: (state, { payload: form }) => {
       state[form].position.x = initialState[form].position.x;
