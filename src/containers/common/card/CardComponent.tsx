@@ -158,6 +158,15 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             onDragEnd={onDrop}
                         >
                             <div className={`info text`}>
+
+                                {/* <div>{item.id}</div> */}
+                                {/* <div>{item.category}</div> */}
+
+                                <div>{item.itemName}</div>
+
+                                <div>합산 {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
+                                {item.im_price > 0 && <div>입고\{item.im_price}</div>}
+                                {item.ex_price > 0 && <div>수출${item.ex_price}</div>}
                                 <div className="footer">
                                     <div className="edit">
                                         <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
@@ -179,25 +188,15 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                         </span>
                                     </div>
                                 </div>
-
-                                {/* <div>{item.id}</div> */}
-                                {/* <div>{item.category}</div> */}
-
-                                <div>{item.itemName}</div>
-
-                                <div>합산 {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
-                                {item.im_price > 0 && <div>입고\{item.im_price}</div>}
-                                {item.ex_price > 0 && <div>수출${item.ex_price}</div>}
-
-
                             </div>
-                            <div className={`info image  ${item.category} `}>
+
+                            <div className={`info image  `}>
+                                {(item.Images && item.Images.length > 0) && <img src={item.Images[0].url} alt=''  ></img>}
                                 <div className="undo">
                                     <span className="material-symbols-outlined undo" onClick={() => { removeBack(item.id) }}>
                                         Undo
                                     </span>
                                 </div>
-                                {item.Images && item.Images.length > 0 && <img src={item.Images[0].url} alt='' width="100%"></img>}
 
                             </div>
                         </div>)}
