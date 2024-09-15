@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { select_modelname } from '../../../lib/utils/parseModelName'
 type Props = {
     items: {
         id: number,
@@ -72,6 +72,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         className={`infos 
                     ${selected === item.id ? 'selected' : ''} 
                     ${shows.includes(item.id) ? 'back' : ""}
+                    ${item.category}
                     ${visibles.includes(item.id) && item.type === 'PARTS' ? 'visible' : ""}
                 ${item.type === 'SET' ? 'SET' : item.type === 'ASSY' ? 'ASSY' : 'PARTS'}
                 ${viewMode === true ? 'absolute' : 'relative'}`
@@ -87,7 +88,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         onDragEnd={onDrop}
 
                     >
-                        <div className={`info text ${item.category} `}>
+                        <div className={`info text `}>
                             <div className="footer">
 
                                 <div className="edit">
@@ -106,7 +107,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </span>
                                 </div>
                             </div>
-                            <div>{item.itemName}</div>
+                            <div>{select_modelname(item.itemName)}</div>
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
                             {item.type !== 'SET' &&
                                 <>
@@ -118,7 +119,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             {item.ex_price > 0 && <div>수출가:${item.ex_price}</div>}
 
                         </div>
-                        <div className={`info image  ${item.category} `}>
+                        <div className={`info image`}>
                             <div className="undo">
                                 <span className="material-symbols-outlined undo" onClick={() => { removeBack(item.id) }}>
                                     Undo
@@ -162,7 +163,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 {/* <div>{item.id}</div> */}
                                 {/* <div>{item.category}</div> */}
 
-                                <div>{item.itemName}</div>
+                                <div>{select_modelname(item.itemName) || (item.itemName)}</div>
 
                                 <div>합산 {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
                                 {item.im_price > 0 && <div>입고\{item.im_price}</div>}

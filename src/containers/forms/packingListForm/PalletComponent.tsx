@@ -7,7 +7,7 @@ type Props = {
     }
     settingPallet: (Pnumber: number, itemData: { item: string, CT_qty: number, quantity: number, weight: number, moq: number, cbm: number, sets: string, mode: string }) => void
     addCount: (id: number, item: string, value: number) => void;
-    removeCount: (id: number, item: string) => void;
+    removeCount: (id: number, item: string, value: number) => void;
     onInputPallet: () => void
     removeItem: (id: number, item: string) => void
     resetPallet: () => void
@@ -17,7 +17,7 @@ type Items = {
         [key: string]: string | number;
     }[];
     addCount: (id: number, item: string, value: number) => void;
-    removeCount: (id: number, item: string) => void;
+    removeCount: (id: number, item: string, value: number) => void;
     removeItem: (id: number, item: string) => void;
     index: number;
     resetPallet: () => void
@@ -33,9 +33,9 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
 
         )
     }
-    function deCrease(id: number, item: string) {
+    function deCrease(id: number, item: string, value: number) {
         setInter(setInterval(() => {
-            removeCount(id, item)
+            removeCount(id, item, value)
         }, 100))
     }
     return <div>
@@ -84,10 +84,10 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                 <span className="material-symbols-outlined remove "
 
                     onClick={() => {
-                        if (typeof item.item === 'string') {
-
-                            removeCount(index, item.item)
+                        if (typeof item.item === 'string' && typeof item.CT_qty === 'number') {
+                            removeCount(index, item.item, item.CT_qty)
                         }
+
                         if (item.CT_qty === 1) {
 
                             // eslint-disable-next-line no-restricted-globals
@@ -99,6 +99,14 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                             }
                         }
                     }}
+                    onMouseDown={() => {
+                        if (typeof item.item === 'string' && typeof item.CT_qty === 'number')
+                            deCrease(index, item.item, item.CT_qty)
+                    }}
+                    onMouseUp={() => {
+                        clearInterval(inter)
+                    }}
+
                 >
                     do_not_disturb_on
                 </span>

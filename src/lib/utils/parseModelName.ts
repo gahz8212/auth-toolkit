@@ -1,6 +1,7 @@
 export const select_modelname = (modelname: string) => {
   let firstname = modelname.split(" ")[0];
   let color = modelname.match(/(?<=\()\w+(?=\))/)!;
+  console.log(modelname, color);
   switch (firstname) {
     case "SPR":
       if (/5000/.test(modelname)) {
@@ -45,23 +46,22 @@ export const select_modelname = (modelname: string) => {
 
     case "H2O":
       if (/1820/.test(modelname)) {
-        if (/camo/i.test(modelname)) {
-          return "H2O 1820 CAMO";
+        if (/add-on rx/i.test(modelname)) {
+          return "H2O 1820 ADD (" + color[0][0] + ")";
         } else {
           return "H2O 1820 PLUS";
         }
       } else if (/1850/.test(modelname)) {
         if (/add-on rx/i.test(modelname)) {
-          // let color = modelname.match(/(?<=\()\w+(?=\))/)!;
           return "H2O 1850 ADD (" + color[0][0] + ")";
         } else {
           return "H2O 1850 PLUS";
         }
       } else {
-        if (/camo/i.test(modelname)) {
+        if (/add-on rx/i.test(modelname)) {
           return "H2O C ADD (" + color[0][0] + ")";
         } else {
-          return "H2O ADD(" + color[0][0] + ")";
+          return "H2O 1820 CAMO";
         }
       }
 

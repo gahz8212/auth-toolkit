@@ -24,8 +24,8 @@ const PalletContainer: React.FC<Props> = ({ selectedMonth }) => {
     const addCount = (id: number, item: string, value: number) => {
         dispatch(OrderAction.addCount({ id, item, value }))
     }
-    const removeCount = (id: number, item: string) => {
-        dispatch(OrderAction.removeCount({ id, item }))
+    const removeCount = (id: number, item: string, value: number) => {
+        dispatch(OrderAction.removeCount({ id, item, value }))
 
     }
     const onInputPallet = () => {

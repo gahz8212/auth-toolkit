@@ -118,7 +118,7 @@ export const makeRelateData_View_Horizon = (
         );
       }
       if (children.length === 0) {
-        lastTop = top > lastTop ? top + 30 : lastTop;
+        lastTop = top > lastTop ? top + 60 : lastTop;
         inheritPointArray.pop();
         history.pop();
         return;
@@ -144,10 +144,10 @@ export const makeRelateData_View_Horizon = (
         findChildren(
           children[index].current,
           itemName,
-          children[index].type === "PARTS" ? top + 80 * extraTop : top + 80,
+          children[index].type === "PARTS" ? top + 110 * extraTop : top + 110,
           children[index].type === "PARTS"
-            ? left + 80 * (extraLeft + 1)
-            : left + 40,
+            ? left + 110 * (extraLeft + 1)
+            : left + 70,
           children[index].im_price,
           children[index].ex_price,
           inheritPoint,
@@ -291,7 +291,7 @@ export const makeRelateData_View = (
         );
       }
       if (children.length === 0) {
-        lastTop = top > lastTop ? top + 30 : lastTop;
+        lastTop = top > lastTop ? top + 60 : lastTop;
         inheritPointArray.pop();
         history.pop();
         return;
@@ -317,10 +317,10 @@ export const makeRelateData_View = (
         findChildren(
           children[index].current,
           itemName,
-          children[index].type === "PARTS" ? top + 80 * extraTop : top + 80,
+          children[index].type === "PARTS" ? top + 110 * extraTop : top + 110,
           children[index].type === "PARTS"
-            ? left + 80 * (extraLeft + 1)
-            : left + 40,
+            ? left + 110 * (extraLeft + 1)
+            : left + 70,
           children[index].im_price,
           children[index].ex_price,
           inheritPoint,
