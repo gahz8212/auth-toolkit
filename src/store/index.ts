@@ -6,6 +6,7 @@ import { itemSaga } from "./sagas/itemSaga";
 import { editSaga } from "./sagas/editSaga";
 import { excelSaga } from "./sagas/excelSaga";
 import { orderSaga } from "./sagas/orderSaga";
+import { currencySaga } from "./sagas/currencySaga";
 import authSlice from "./slices/authSlice";
 import itemSlice from "./slices/itemSlice";
 import editSlice from "./slices/editSlice";
@@ -15,7 +16,9 @@ import searchSlice from "./slices/searchSlice";
 import pageSlice from "./slices/pageSlice";
 import orderSlice from "./slices/orderSlice";
 import relateSlice from "./slices/relationSlice";
+import currencySlice from "./slices/currencySlice";
 import { authActions } from "./slices/authSlice";
+
 const reducers = combineReducers({
   auth: authSlice,
   item: itemSlice,
@@ -26,6 +29,7 @@ const reducers = combineReducers({
   page: pageSlice,
   order: orderSlice,
   relate: relateSlice,
+  currency: currencySlice,
 });
 function* rootSaga() {
   yield all([
@@ -34,6 +38,7 @@ function* rootSaga() {
     call(editSaga),
     call(excelSaga),
     call(orderSaga),
+    call(currencySaga),
   ]);
 }
 const sagaMiddleware = createSagaMiddleware();
