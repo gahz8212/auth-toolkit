@@ -3,18 +3,28 @@ import { useSelector, useDispatch } from 'react-redux'
 import { itemData, itemActions } from '../../store/slices/itemSlice';
 import { relateActions } from '../../store/slices/relationSlice'
 import { editActions } from '../../store/slices/editSlice';
+import { currencyActions, currencyData } from '../../store/slices/currencySlice';
 import { makeRelateData_Price } from '../../lib/utils/createRelateData'
 
 import HomeComponent from './HomeComponent';
 
 
 
+
 const HomeContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, relations } = useSelector(itemData)
+    const { toCurrency, fromCurrency } = useSelector(currencyData)
 
+    const changeCurrency = (type: string, currency: string) => {
 
+        dispatch(currencyActions.changeCurrency({ type, currency }))
+    }
 
+    const searchCurrency = () => {
+        // alert('search')
+        dispatch(currencyActions.searchCurrency({ toCurrency, fromCurrency }))
+    }
 
 
     useEffect(() => {
@@ -51,7 +61,7 @@ const HomeContainer = () => {
                             acc[curr.targetId] = price + acc[curr.targetId]
                         } else {
                             acc[curr.targetId] = price
-                            
+
                         }
                     }
                 } else {
@@ -69,6 +79,8 @@ const HomeContainer = () => {
 
     return (
         <HomeComponent
+            changeCurrency={changeCurrency}
+            searchCurrency={searchCurrency}
         // list={orders}
 
         />
