@@ -1,9 +1,7 @@
-import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
 type State = {
-  [key: string]: string | number | {} | null;
-  endPoint: string;
   fromCurrency: string;
   resultCurrency: {} | null;
 
@@ -15,13 +13,12 @@ type State = {
   };
 };
 const initialState: State = {
-  endPoint: "usd",
   fromCurrency: "krw",
   resultCurrency: null,
   status: { message: "", error: "", loading: false },
 };
-const endPointSelector = (state: RootState) => {
-  return state.currency.endPoint;
+const fromCurrencySelector = (state: RootState) => {
+  return state.currency.fromCurrency;
 };
 const resultSelector = (state: RootState) => {
   return state.currency.resultCurrency;
@@ -30,11 +27,11 @@ const currencyStatusSelector = (state: RootState) => {
   return state.currency.status;
 };
 export const currencyData = createSelector(
-  endPointSelector,
+  fromCurrencySelector,
   resultSelector,
   currencyStatusSelector,
-  (endPoint, resultCurrency, status) => ({
-    endPoint,
+  (fromCurrency, resultCurrency, status) => ({
+    fromCurrency,
     resultCurrency,
     status,
   })
@@ -43,7 +40,7 @@ const currencySlice = createSlice({
   name: "currency",
   initialState,
   reducers: {
-    searchCurrency: (state, action: PayloadAction<{ endPoint: string }>) => {
+    searchCurrency: (state) => {
       state.status.message = "";
       state.status.error = "";
       state.status.loading = true;
@@ -56,9 +53,6 @@ const currencySlice = createSlice({
     searchCurrencyFailure: (state, { payload: error }) => {
       state.status.loading = false;
       state.status.error = error;
-    },
-    changeCurrency: (state, { payload: select }) => {
-      state.endPoint = select;
     },
   },
 });
