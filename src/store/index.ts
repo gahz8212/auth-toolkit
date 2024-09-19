@@ -7,7 +7,7 @@ import { editSaga } from "./sagas/editSaga";
 import { excelSaga } from "./sagas/excelSaga";
 import { orderSaga } from "./sagas/orderSaga";
 import { currencySaga } from "./sagas/currencySaga";
-import authSlice from "./slices/authSlice";
+import authSlice, { authActions } from "./slices/authSlice";
 import itemSlice from "./slices/itemSlice";
 import editSlice from "./slices/editSlice";
 import formSlice from "./slices/formSlice";
@@ -17,7 +17,6 @@ import pageSlice from "./slices/pageSlice";
 import orderSlice from "./slices/orderSlice";
 import relateSlice from "./slices/relationSlice";
 import currencySlice from "./slices/currencySlice";
-import { authActions } from "./slices/authSlice";
 
 const reducers = combineReducers({
   auth: authSlice,

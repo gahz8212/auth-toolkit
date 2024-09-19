@@ -48,12 +48,12 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         <div className='itemInfo'>
                             <div className="image">
                                 {item.Images.length > 0 ? <img src={item.Images[0].url} alt='' width='170px'></img> :
-                                    <img src="http://via.placeholder.com/200x320" alt=""></img>}
+                                    <img src="http://via.placeholder.com/170x190" alt=""></img>}
                             </div>
                             <div className='info'>
                                 <div>카테고리: {item.category}</div>
-                                <div>입고가: {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
-                                <div>출고가: ${item.ex_price}</div>
+                                <div>출고 가격: ${item.ex_price}</div>
+                                <div>합산 가격: {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
                                 <div>설명: {item.descript}</div>
                             </div>
                         </div>

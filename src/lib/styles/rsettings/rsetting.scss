@@ -2,32 +2,34 @@
   display: flex;
 
   .left {
-    width: 25%;
+    width: 450px;
     height: 80%;
     // background: yellow;
-    border-right: 1px solid black;
+    border-right: 5px solid black;
     position: fixed;
     top: 10rem;
     overflow-y: auto;
     .items {
-      // position: absolute;
-      width: 80%;
+      width: 100%;
       margin-left: 2rem;
-      // background: green;
-      border: 1px solid black;
+
       .item {
+        border-bottom: 5px solid green;
         padding: 1rem 0;
+        &:nth-of-type(2n + 1) {
+          background: rgba(211, 211, 211, 0.2);
+        }
         .title {
           font-weight: 700;
           margin-bottom: 0.5rem;
         }
-
         .itemInfo {
           display: flex;
           .image {
+            width: 50%;
           }
           .info {
-            margin-left: 1rem;
+            width: 50%;
           }
         }
       }

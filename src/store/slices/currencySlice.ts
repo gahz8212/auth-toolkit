@@ -2,11 +2,11 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
 type State = {
-  [key: string]: string | number | {};
-  type: string;
-  toCurrency: string;
+  [key: string]: string | number | {} | null;
+  endPoint: string;
   fromCurrency: string;
-  resultCurrency: number;
+  resultCurrency: {} | null;
+
   status: {
     [key: string]: string | boolean;
     message: string;
@@ -15,28 +15,27 @@ type State = {
   };
 };
 const initialState: State = {
-  toCurrency: "krw",
-  fromCurrency: "eur",
-  type: "",
-  resultCurrency: 0,
+  endPoint: "usd",
+  fromCurrency: "krw",
+  resultCurrency: null,
   status: { message: "", error: "", loading: false },
 };
-const toCurrencySelector = (state: RootState) => {
-  return state.currency.toCurrency;
+const endPointSelector = (state: RootState) => {
+  return state.currency.endPoint;
 };
-const fromCurrencySelector = (state: RootState) => {
-  return state.currency.fromCurrency;
+const resultSelector = (state: RootState) => {
+  return state.currency.resultCurrency;
 };
 const currencyStatusSelector = (state: RootState) => {
   return state.currency.status;
 };
 export const currencyData = createSelector(
-  toCurrencySelector,
-  fromCurrencySelector,
+  endPointSelector,
+  resultSelector,
   currencyStatusSelector,
-  (toCurrency, fromCurrency, status) => ({
-    toCurrency,
-    fromCurrency,
+  (endPoint, resultCurrency, status) => ({
+    endPoint,
+    resultCurrency,
     status,
   })
 );
@@ -44,10 +43,7 @@ const currencySlice = createSlice({
   name: "currency",
   initialState,
   reducers: {
-    searchCurrency: (
-      state,
-      action: PayloadAction<{ toCurrency: string; fromCurrency: string }>
-    ) => {
+    searchCurrency: (state, action: PayloadAction<{ endPoint: string }>) => {
       state.status.message = "";
       state.status.error = "";
       state.status.loading = true;
@@ -61,9 +57,8 @@ const currencySlice = createSlice({
       state.status.loading = false;
       state.status.error = error;
     },
-    changeCurrency: (state, { payload: currencies }) => {
-      const { type, currency } = currencies;
-      state[type] = currency;
+    changeCurrency: (state, { payload: select }) => {
+      state.endPoint = select;
     },
   },
 });

@@ -14,16 +14,16 @@ import HomeComponent from './HomeComponent';
 const HomeContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, relations } = useSelector(itemData)
-    const { toCurrency, fromCurrency } = useSelector(currencyData)
+    const { endPoint, resultCurrency } = useSelector(currencyData)
 
-    const changeCurrency = (type: string, currency: string) => {
+    const changeCurrency = (endPoint: string) => {
 
-        dispatch(currencyActions.changeCurrency({ type, currency }))
+        dispatch(currencyActions.changeCurrency(endPoint))
     }
 
     const searchCurrency = () => {
         // alert('search')
-        dispatch(currencyActions.searchCurrency({ toCurrency, fromCurrency }))
+        dispatch(currencyActions.searchCurrency({ endPoint }))
     }
 
 
@@ -81,6 +81,7 @@ const HomeContainer = () => {
         <HomeComponent
             changeCurrency={changeCurrency}
             searchCurrency={searchCurrency}
+            resultCurrency={resultCurrency}
         // list={orders}
 
         />
