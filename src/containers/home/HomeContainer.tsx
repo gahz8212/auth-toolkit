@@ -45,7 +45,6 @@ const HomeContainer = () => {
         dispatch(itemActions.inputDragItems(newArray))
     }, [])
 
-
     useEffect(() => {
         if (dragItems) {
             const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
@@ -71,7 +70,7 @@ const HomeContainer = () => {
             }, {})
             dispatch(relateActions.calculateTotalPrice(result))
         }
-    }, [dragItems])
+    }, [dragItems, dispatch, items, relations])
     useEffect(() => { dispatch(currencyActions.searchCurrency()) }, [dispatch])
     return (
         <HomeComponent

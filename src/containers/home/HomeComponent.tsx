@@ -5,14 +5,20 @@ type Props = {
     resultCurrency: { [key: string]: { [key: string]: number } } | null
 }
 const HomeComponent: React.FC<Props> = ({ fromCurrency, resultCurrency }) => {
-
-
     if (!resultCurrency) return null;
-    return (<div style={{ margin: '7rem 0' }}>
+    return (<div style={{ margin: '7rem auto', width: '1000px' }}>
+        <div className="title">환율계산기</div>
+        <div className="curr">
 
-        <div>{(1 / resultCurrency![fromCurrency]!.usd).toFixed(1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
-        <div>{(1 / resultCurrency![fromCurrency]!.jpy).toFixed(1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
-
+            <div className='currData'>
+                <span className='unit'>1$</span>
+                <span>\{(1 / resultCurrency![fromCurrency]!.usd).toFixed(1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+            </div>
+            <div className='currData'>
+                <span className='unit'>1￥</span>
+                <span>\{(1 / resultCurrency![fromCurrency]!.jpy).toFixed(1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+            </div>
+        </div>
     </div>)
 };
 

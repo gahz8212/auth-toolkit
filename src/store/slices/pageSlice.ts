@@ -14,7 +14,7 @@ const pageSlice = createSlice({
   name: "page",
   initialState,
   reducers: {
-    initForm: (state) => {
+    initPage: (state) => {
       state.currentPage = initialState.currentPage;
     },
     changePage: (state, { payload: page }) => {

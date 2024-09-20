@@ -229,7 +229,32 @@ const RsettingContainer = () => {
         }
     }, [dispatch, status.message, selectedGoodId, items, relations])
 
+    useEffect(() => {
+        if (dragItems) {
+            const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
+                if (curr.type === 'SET' || curr.type === 'ASSY') {
+                    if (items) {
+                        const view = makeRelateData_Price(curr.id, relations, items)
+                        const price = view[0].sum_im_price * curr.point;
+                        if (acc[curr.targetId]) {
+                            acc[curr.targetId] = price + acc[curr.targetId]
+                        } else {
+                            acc[curr.targetId] = price
 
+                        }
+                    }
+                } else {
+                    if (acc[curr.targetId]) {
+                        acc[curr.targetId] += curr.im_price * curr.point
+                    } else {
+                        acc[curr.targetId] = curr.im_price * curr.point
+                    }
+                }
+                return acc;
+            }, {})
+            dispatch(relateActions.calculateTotalPrice(result))
+        }
+    }, [dragItems, dispatch, items, relations])
 
 
 

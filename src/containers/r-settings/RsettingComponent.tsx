@@ -87,7 +87,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
             </div>}
             {input.visible && <div >
                 <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 입력</span>
+                    <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 1 }}>
 
@@ -96,7 +96,7 @@ const RsettingComponent: React.FC<Props> = ({ input,
             </div>}
             {edit.visible && <div>
                 <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>아이템 수정</span>
+                    <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
                 <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
                     <EditFormContainer />

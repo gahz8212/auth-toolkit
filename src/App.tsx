@@ -24,10 +24,10 @@ const App = () => {
       <Routes>
         <Route path='/' element={<LoginForm />} />
         <Route path='/join' element={<JoinForm />} />
-        <Route path='/home' element={<HomeForm />} />
-        <Route path='/Export' element={<ExportForm />} />
-        <Route path='/settings' element={<SettingForm />} />
-        <Route path='/view' element={<RViewForm />} />
+        {auth && <><Route path='/home' element={<HomeForm />} />
+          <Route path='/Export' element={<ExportForm />} />
+          <Route path='/settings' element={<SettingForm />} />
+          <Route path='/view' element={<RViewForm />} /></>}
         {/* <Route path='/search' element={<SearchForm />} /> */}
       </Routes>
     </>
