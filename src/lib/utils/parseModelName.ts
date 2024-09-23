@@ -1,7 +1,6 @@
 export const select_modelname = (modelname: string) => {
   let firstname = modelname.split(" ")[0];
   let color = modelname.match(/(?<=\()\w+(?=\))/)!;
-  console.log(modelname, color);
   switch (firstname) {
     case "SPR":
       if (/5000/.test(modelname)) {

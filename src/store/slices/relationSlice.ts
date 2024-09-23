@@ -93,6 +93,7 @@ const relateSlice = createSlice({
       }
     },
     calculateTotalPrice: (state, { payload: totalPrice }) => {
+
       state.totalPrice = totalPrice;
     },
   },

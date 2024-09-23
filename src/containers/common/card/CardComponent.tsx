@@ -112,7 +112,9 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             {item.type !== 'SET' &&
                                 <>
                                     {item.im_price > 0 && <div>입고단가:{item.unit === '\\' ? '￦' : item.unit}{item.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
-                                    <div className='point'>x{item.point}</div>
+                                    <div className="badge">
+                                        <div className='point'>x{item.point}</div>
+                                    </div>
                                 </>}
                             {item.type !== 'PARTS' && <div> {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>}
 
@@ -190,7 +192,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </div>
                                 </div>
                             </div>
-                                        
+
                             <div className={`info image  `}>
                                 {(item.Images && item.Images.length > 0) && <img src={item.Images[0].url} alt=''  ></img>}
                                 <div className="undo">

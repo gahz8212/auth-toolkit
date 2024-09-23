@@ -70,6 +70,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                         }}>Relations</button>
                         {openId.includes(item.id) && <button onClick={() => {
 
+                            insertRelation_view(item.id)
                             setOpenView(!openView);
                             changeView(!openView)
 

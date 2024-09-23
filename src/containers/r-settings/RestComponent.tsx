@@ -42,11 +42,12 @@ const RestComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
         return (
 
             <div className="right">
-
-                <CardComponent items={parts} selectItem={selectItem} relations={relations} showRelate={() => undefined}
-                    dragItem={dragItem}
-                    onDrop={onDrop} viewMode={viewMode}
-                    totalPrice={totalPrice} />
+                <div className="cards">
+                    <CardComponent items={parts} selectItem={selectItem} relations={relations} showRelate={() => undefined}
+                        dragItem={dragItem}
+                        onDrop={onDrop} viewMode={viewMode}
+                        totalPrice={totalPrice} />
+                </div>
             </div>
 
         );

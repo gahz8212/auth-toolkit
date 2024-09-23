@@ -44,14 +44,12 @@ const RsettingContainer = () => {
             })
             )
         dispatch(editActions.inputDragItems(newItems))
+        // console.log('newItems', newItems)
         if (items) {
-
             const item = items.filter(item => item.id === id);
             if (typeof id === 'number') {
-
                 const result = makeRelateData_View(id, relations, items)
                 if (result) {
-
                     if (!openBasket)
                         dispatch(relateActions.insertRelation_view(result))
                 }
@@ -74,7 +72,6 @@ const RsettingContainer = () => {
                     unit: item.unit,
                     im_price: item.im_price,
                     point: 0,
-
                     // desript: item.descript,
                     // use: item.use,
                 }
@@ -92,7 +89,6 @@ const RsettingContainer = () => {
             dispatch(itemActions.drag_on(targetId))
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
-
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount({ idx, targetId }))
@@ -120,6 +116,7 @@ const RsettingContainer = () => {
     const addRelations = (id: number) => {
         const createdRelations = dragItems?.filter(dragItem => dragItem.targetId === id)
             .map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
+        // console.log('createRelations', createdRelations)
         // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
         // console.log('dragedItem', dragItem)
         if (createdRelations) {
@@ -136,9 +133,11 @@ const RsettingContainer = () => {
                     dispatch(relateActions.calculateTotalPrice(totalPrice))
 
                 }
+
                 dispatch(itemActions.updateRelation(newCreateRelations)
                     //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
                 )
+
             }
         }
     }
@@ -148,8 +147,10 @@ const RsettingContainer = () => {
 
     }
     const insertRelation_view = (selectedItem: number) => {
+        // alert(selectedItem)
         if (items) {
-            items.filter(item => item.id === selectedItem);
+            // items.filter(item => item.id === selectedItem);
+            console.log('relations', relations)
             if (typeof selectedItem === 'number') {
                 const result = makeRelateData_View(selectedItem, relations, items)
                 if (result) {
@@ -168,7 +169,7 @@ const RsettingContainer = () => {
         //items의 point를 item.dragItems의 포인트로 변경
 
         if (typeof item.id === 'number') {
-            addRelations(item.id)
+            addRelations(item.id)//이미 relation이 추가 되어 필요없을것 같은데
             setSelectedGoodId(item.id)
             // console.log(item.id)
             // insertRelation_view(item.id)
@@ -178,6 +179,8 @@ const RsettingContainer = () => {
         setViewMode(toggle)
         if (toggle) {
             let newItem: {}[] = [];
+            console.log('relate_view', relate_view)
+            //relate_view가 바뀌지 않아
             relate_view?.map(view => items?.map(item => {
                 if (item.id === view.currentId) {
                     newItem.push({
@@ -187,6 +190,7 @@ const RsettingContainer = () => {
                         sum_im_price: view.sum_im_price,
                         point: view.point
                     })
+                    // console.log('newItem', newItem)
                     return newItem;
                 } else { return null }
             }
@@ -254,7 +258,7 @@ const RsettingContainer = () => {
             }, {})
             dispatch(relateActions.calculateTotalPrice(result))
         }
-    }, [dragItems, dispatch, items, relations])
+    }, [dragItems])
 
 
 

@@ -3,7 +3,7 @@
 
   .left {
     width: 450px;
-    height: 80%;
+    height: 85%;
     // background: yellow;
     border-right: 5px solid black;
     position: fixed;
@@ -104,14 +104,10 @@
     }
   }
   .right {
-    width: 75%;
-    height: 90vh;
-    margin-left: 25%;
-    background: white;
-    .title {
-      position: relative;
-      top: 100px;
-      left: 500px;
+    margin-left: 450px;
+    display: flex;
+    .cards {
+      background-color: white;
     }
   }
 }

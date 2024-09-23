@@ -118,8 +118,8 @@ const EditFormContainer = () => {
                 const newBItems = [...backups];
                 newBItems.splice(Bidx, 1, next)
                 dispatch(itemActions.changeBItems(newBItems))
-            }                             ////
-            ////                                                         ////
+            }
+            ////                                                         
             const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
             // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
             if (createdRelations) {
@@ -131,13 +131,15 @@ const EditFormContainer = () => {
                 if (createdRelations && newRelations) {
                     // console.log('updateRelations', [...createdRelations, ...newRelations])
                     const newCreateRelations = [...createdRelations, ...newRelations]
+                    // console.log('newCreateRelations', newCreateRelations)
                     //newCreateRelations:새로운 relations을 dragItems로 totalPrices를 만들자
                     // console.log('newCreateRelations', newCreateRelations)
-                    const newArray = changeRelationToDragItems(items, newCreateRelations)
+                    const newArray = changeRelationToDragItems(newItems, newCreateRelations)
                     // console.log('newArray', newArray)
 
                     if (relations) {
                         const totalPrice = returnTotalPrice(newItems, newCreateRelations, newArray);
+                        // console.log('newArray', newArray)
                         dispatch(relateActions.calculateTotalPrice(totalPrice))
 
                     }
@@ -149,7 +151,7 @@ const EditFormContainer = () => {
 
             }
         }
-    }, [status, dispatch,])
+    }, [status, dispatch, dragItems])
     useEffect(() => {
         if (status.message === 'remove_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
@@ -177,6 +179,7 @@ const EditFormContainer = () => {
                 return acc
             }, 0)
             // console.log(result)
+
             setTotalPrice(result)
         }
     }, [dragItems])

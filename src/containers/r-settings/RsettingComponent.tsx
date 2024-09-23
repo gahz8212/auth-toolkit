@@ -68,24 +68,24 @@ const RsettingComponent: React.FC<Props> = ({ input,
     , selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, relate_view,
     addRelateGood, relations, changeView, viewMode, setOpenBasket, totalPrice, insertRelation_view }) => {
 
-    const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
-    const relatePos = useDrag(params => { changePosition('relate', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+    // const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
+    // const relatePos = useDrag(params => { changePosition('relate', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
 
 
 
     return (
         <div className='home-wraper'>
-            {relate.visible && <div >
+            {/* {relate.visible && <div >
                 <div {...relatePos()} style={{ color: 'white', position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
                     <span style={{ display: 'inline-block', width: '300px', padding: '.3rem', userSelect: 'none' }}>Relation View</span>
                 </div>
                 <div style={{ position: 'fixed', top: relate.position.y, left: relate.position.x, zIndex: 1 }}>
 
-                    {/* <RViewComponent  /> */}
-                </div>
-            </div>}
-            {input.visible && <div >
+                     <RViewComponent  /> 
+        </div>
+            </div >} 
+             {input.visible && <div >
                 <div {...inputPos()} style={{ color: 'white', position: 'fixed', top: input.position.y, left: input.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
                     <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
                 </div>
@@ -93,15 +93,17 @@ const RsettingComponent: React.FC<Props> = ({ input,
 
                     <InputFormContainer />
                 </div>
-            </div>}
-            {edit.visible && <div>
-                <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
-                    <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
+            </div>} */}
+            {
+                edit.visible && <div>
+                    <div {...editPos()} style={{ color: 'white', position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 2, textAlign: 'center', width: '300px' }}>
+                        <div style={{ width: '300px', padding: '1rem', userSelect: 'none' }}></div>
+                    </div>
+                    <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
+                        <EditFormContainer />
+                    </div>
                 </div>
-                <div style={{ position: 'fixed', top: edit.position.y, left: edit.position.x, zIndex: 1 }}>
-                    <EditFormContainer />
-                </div>
-            </div>}
+            }
             <div className="rsettingComponent">
                 <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation} selectItem={selectItem}
                     addRelateGood={addRelateGood} relations={relations} changeView={changeView}

@@ -148,8 +148,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 {next.Good ?
                                     <input type="text" name="groupName" value={next.Good.groupName} onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} /> :
                                     <input type="text" name="groupName" onChange={onChange} placeholder='DT 품명 입력' onFocus={e => e.target.select()} />}
-
-
                                 <input type="text" name="itemName" value={next.itemName} onChange={onChange} placeholder='은기 품명 입력' onFocus={e => e.target.select()} />
                                 <textarea name="descript" value={next.descript} onChange={onChange} placeholder='설명 입력' onFocus={e => e.target.select()}>{next.descript}</textarea>
                             </div>
@@ -178,7 +176,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                         </div>
                                     </div>)}
                             </div>
-
                             <div className="currency">
                                 <div>
 
@@ -202,24 +199,15 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     </div>
                                 </div>
                             </div>
-
-
                             <div className="packingInfo">
                                 <label htmlFor="weight">weight</label>
                                 <input type="text" name="weight" id="weight" onChange={onChange} value={next.weight} />
-
-
                                 <label htmlFor="cbm">cbm</label>
                                 <input type="text" name="cbm" id="cbm" onChange={onChange} value={next.cbm} />
-
-
                                 <label htmlFor="moq">moq</label>
                                 <input type="text" name="moq" id="moq" onChange={onChange} value={next.moq} />
-
                             </div>
-
                             <div className="uses">
-
                                 <select name="supplyer" id="supplyer" onChange={onChange}>
                                     <option value="자체">자체</option>
                                     <option value="유성엔지니어링">유성엔지니어링</option>
@@ -229,8 +217,9 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 <input id='no-use' type="radio" name="use" value={0} onChange={onChange} checked={next.use === false} />
                                 <label htmlFor="no-use">미사용</label>
                             </div>
-
                         </div>}
+
+
                         {next.type === 'ASSY' && <div className={`sub ${next.type}`}>
                             <div className="categories">
                                 <input type="radio" id="회로물_edit" name="category" value="회로" checked={next.category === '회로'} onChange={onChange}
@@ -319,6 +308,10 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
 
                         </div>}
+
+
+
+                        
                         {next.type === 'PARTS' && <div className={`sub ${next.type}`}>
                             <div className="categories">
                                 <input type="radio" id="회로물_edit" name="category" value="회로" checked={next.category === '회로'} onChange={onChange}
