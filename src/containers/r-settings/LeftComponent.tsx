@@ -33,8 +33,9 @@ type Props = {
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
     totalPrice: { [key: number]: number } | undefined;
     insertRelation_view: (id: number) => void;
+    setSelectedItemId: (id: number | null) => void;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     // console.log(totalPrice)
@@ -62,17 +63,19 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             if (!openId.includes(item.id)) {
                                 setOpenId([item.id])
                                 setOpenBasket(true)
+                                setSelectedItemId(item.id)
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                                 setOpenBasket(false)
+                                
                             }
                             insertRelation_view(item.id)
                         }}>Relations</button>
                         {openId.includes(item.id) && <button onClick={() => {
-
-                            insertRelation_view(item.id)
                             setOpenView(!openView);
                             changeView(!openView)
+
+
 
 
                         }}>view Relation</button>}

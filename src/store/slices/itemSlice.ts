@@ -445,6 +445,7 @@ const itemSlice = createSlice({
     //   }
     // },
     addCount: (state, { payload: itemsId }) => {
+      console.log(itemsId.idx);
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
 
@@ -464,9 +465,12 @@ const itemSlice = createSlice({
         state.dragItems[itemsId.idx].sum_im_price =
           state.dragItems[itemsId.idx].point *
           state.dragItems[itemsId.idx].im_price;
-      } else if (state.dragItems && state.dragItems[itemsId.idx].point === 0) {
-        alert("제거할 수 없습니다.");
-      } else {
+      }
+      // else if (state.dragItems && state.dragItems[itemsId.idx].point === 0) {
+      //   // alert("제거할 수 없습니다.");
+      //   alert(itemsId.idx);
+      // }
+      else {
         if (state.dragItems) {
           state.dragItems.splice(itemsId.idx, 1);
         }

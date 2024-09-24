@@ -33,12 +33,14 @@ type State = {
         im_price: number;
       }[]
     | null;
+  selectedItemId: number | null;
 };
 const initialState: State = {
   totalPrice: undefined,
   relate_view: null,
   relate_view_horizon: null,
   relate_price: null,
+  selectedItemId: null,
 };
 const viewSelector = (state: RootState) => {
   return state.relate.relate_view;
@@ -52,16 +54,27 @@ const priceSelector = (state: RootState) => {
 const totalPriceSelector = (state: RootState) => {
   return state.relate.totalPrice;
 };
+const selectedSelector = (state: RootState) => {
+  return state.relate.selectedItemId;
+};
 export const relateData = createSelector(
   viewSelector,
   viewHorizonSelector,
   priceSelector,
   totalPriceSelector,
-  (relate_view, relate_view_horizon, relate_price, totalPrice) => ({
+  selectedSelector,
+  (
     relate_view,
     relate_view_horizon,
     relate_price,
     totalPrice,
+    selectedItem
+  ) => ({
+    relate_view,
+    relate_view_horizon,
+    relate_price,
+    totalPrice,
+    selectedItem,
   })
 );
 const relateSlice = createSlice({
@@ -73,7 +86,7 @@ const relateSlice = createSlice({
       state.relate_price = initialState.relate_price;
     },
     insertRelation_view: (state, { payload: relate }) => {
-      // console.log("relate", relate);
+      // console.log("final_relate", relate);
       state.relate_view = relate;
     },
     insertRelation_view_horizon: (state, { payload: relate }) => {
@@ -83,18 +96,29 @@ const relateSlice = createSlice({
     insertRelation_price: (state, { payload: relate }) => {
       state.relate_price = relate;
     },
-    // addCountRelateView: (state, { payload: itemId }) => {
-    //   if (state.relate_view) {
-    //   }
-    // },
-    removeCountRelateView: (state, { payload: idx }) => {
+    addCountRelateView: (state, { payload: currentId }) => {
       if (state.relate_view) {
-        state.relate_view[idx].point -= 1;
+        const idx = state.relate_view?.findIndex(
+          (view) => view.currentId === currentId
+        );
+        console.log(idx);
+        state.relate_view[idx].point += 1;
+      }
+    },
+    removeCountRelateView: (state, { payload: currentId }) => {
+      if (state.relate_view) {
+        const idx = state.relate_view?.findIndex(
+          (view) => view.currentId === currentId
+        );
+        console.log("idx", idx);
+        state.relate_view.splice(1, 1);
       }
     },
     calculateTotalPrice: (state, { payload: totalPrice }) => {
-
       state.totalPrice = totalPrice;
+    },
+    setSelectedItemId: (state, { payload: selectedId }) => {
+      state.selectedItemId = selectedId;
     },
   },
 });

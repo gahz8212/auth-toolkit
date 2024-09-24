@@ -220,7 +220,7 @@ const editSlice = createSlice({
     editItemSuccess: (state, { payload: message }) => {
       // console.log(result.relations);
       state.status.message = message;
- 
+
       state.status.error = "";
     },
     editItemFailure: (state, { payload: error }) => {
@@ -243,7 +243,7 @@ const editSlice = createSlice({
       state.next.Images = image;
     },
     addCount: (state, { payload: itemsId }) => {
-      // console.log(itemsId.idx);
+      console.log("itemsId.idx", itemsId.idx);
       if (state.dragItems) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point + 1;

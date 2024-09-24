@@ -14,8 +14,8 @@ const RsettingContainer = () => {
     const dispatch = useDispatch();
     const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
-    const { status } = useSelector(editData);
-    const { relate_view, totalPrice } = useSelector(relateData);
+    const { status, dragItems: dragItems_item } = useSelector(editData);
+    const { relate_view, totalPrice, selectedItem } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [viewMode, setViewMode] = useState(false)
     const [openBasket, setOpenBasket] = useState(false)
@@ -52,6 +52,7 @@ const RsettingContainer = () => {
                 if (result) {
                     if (!openBasket)
                         dispatch(relateActions.insertRelation_view(result))
+
                 }
             }
             dispatch(editActions.selectItem(item[0]));
@@ -95,8 +96,10 @@ const RsettingContainer = () => {
             // console.log('viewMode', viewMode)
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
                 dispatch(itemActions.addCount_relate(idx))
-                // dispatch(relateActions.addCountRelateView(itemId))
+                dispatch(relateActions.addCountRelateView(itemId))
+                dispatch(editActions.addCount({ idx: idx_drag }))
             }
         }
     }
@@ -108,8 +111,13 @@ const RsettingContainer = () => {
             // console.log('idx', itemId)
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+                // console.log('idx_drag', idx_drag)
                 dispatch(itemActions.removeCount_relate(idx))
-                // dispatch(relateActions.addCountRelateView(itemId))
+                dispatch(editActions.removeCount({ idx: idx_drag }))
+
+                if (items[idx].point === 0)
+                    dispatch(relateActions.removeCountRelateView(itemId))
             }
         }
     }
@@ -150,9 +158,10 @@ const RsettingContainer = () => {
         // alert(selectedItem)
         if (items) {
             // items.filter(item => item.id === selectedItem);
-            console.log('relations', relations)
+            // console.log('relations', relations)
             if (typeof selectedItem === 'number') {
                 const result = makeRelateData_View(selectedItem, relations, items)
+                // console.log('result', result)
                 if (result) {
                     dispatch(relateActions.insertRelation_view(result))
                 }
@@ -169,17 +178,18 @@ const RsettingContainer = () => {
         //items의 point를 item.dragItems의 포인트로 변경
 
         if (typeof item.id === 'number') {
-            addRelations(item.id)//이미 relation이 추가 되어 필요없을것 같은데
+            addRelations(item.id)
             setSelectedGoodId(item.id)
             // console.log(item.id)
             // insertRelation_view(item.id)
         }
     }
     const changeView = (toggle: boolean) => {
+        // insertRelation_view(itemId)
         setViewMode(toggle)
         if (toggle) {
             let newItem: {}[] = [];
-            console.log('relate_view', relate_view)
+            // console.log('relate_view', relate_view)
             //relate_view가 바뀌지 않아
             relate_view?.map(view => items?.map(item => {
                 if (item.id === view.currentId) {
@@ -198,6 +208,11 @@ const RsettingContainer = () => {
             dispatch(itemActions.viewMatrix(newItem))
         } else {
             dispatch(itemActions.backupItems())
+        }
+    }
+    const setSelectedItemId = (id: number | null) => {
+        if (typeof id === 'number') {
+            dispatch(relateActions.setSelectedItemId(id))
         }
     }
     useEffect(() => {
@@ -221,7 +236,11 @@ const RsettingContainer = () => {
 
         dispatch(itemActions.inputDragItems(newArray))
     }, [])
-
+    useEffect(() => {
+        if (selectedItem) {
+            insertRelation_view(selectedItem)
+        }
+    }, [selectedItem, relations])
     useEffect(() => {
         if (status.message === 'good_ok') {
             if (items) {
@@ -270,7 +289,7 @@ const RsettingContainer = () => {
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
             changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
             totalPrice={totalPrice}
-            insertRelation_view={insertRelation_view} />
+            insertRelation_view={insertRelation_view} setSelectedItemId={setSelectedItemId} />
     );
 };
 

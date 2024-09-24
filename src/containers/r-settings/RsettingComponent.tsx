@@ -61,12 +61,13 @@ type Props = {
     setOpenBasket: React.Dispatch<React.SetStateAction<boolean>>;
     totalPrice: { [key: number]: number } | undefined;
     insertRelation_view: (id: number) => void;
+    setSelectedItemId: (id: number | null) => void;
 };
 
 const RsettingComponent: React.FC<Props> = ({ input,
     edit, openAddForm, changePosition, items, relate
     , selectItem, onDrop, dragItem, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, relate_view,
-    addRelateGood, relations, changeView, viewMode, setOpenBasket, totalPrice, insertRelation_view }) => {
+    addRelateGood, relations, changeView, viewMode, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId }) => {
 
     const editPos = useDrag(params => { changePosition('edit', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
     // const inputPos = useDrag(params => { changePosition('input', { x: params.offset[0] + 250, y: params.offset[1] + 300 }) })
@@ -107,7 +108,8 @@ const RsettingComponent: React.FC<Props> = ({ input,
             <div className="rsettingComponent">
                 <LeftComponent items={items} dragItems={dragItems} drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} viewRelation={viewRelation} selectItem={selectItem}
                     addRelateGood={addRelateGood} relations={relations} changeView={changeView}
-                    setOpenBasket={setOpenBasket} totalPrice={totalPrice} insertRelation_view={insertRelation_view} />
+                    setOpenBasket={setOpenBasket} totalPrice={totalPrice} insertRelation_view={insertRelation_view}
+                    setSelectedItemId={setSelectedItemId} />
                 <RestComponent items={items} selectItem={selectItem} dragItem={dragItem} onDrop={onDrop} viewMode={viewMode} relations={relations} totalPrice={totalPrice} />
             </div>
         </div >

@@ -12,7 +12,7 @@ import { relateActions } from '../../../store/slices/relationSlice';
 const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
-    const { items, relations, backup: backups } = useSelector(itemData)
+    const { items, relations, backup: backups, dragItems: dragItems_item } = useSelector(itemData)
     const { dragItems, dragItem: dragedItem } = useSelector(editData)
     const [totalPrice, setTotalPrice] = useState(0)
     const [goodType, setGoodType] = useState<{
@@ -90,7 +90,10 @@ const EditFormContainer = () => {
         }
         if (items) {
             let idx = items.findIndex(item => item.id === itemId)
+            let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+
             dispatch(itemActions.addCount_relate(idx))
+            dispatch(itemActions.addCount({ idx: idx_drag }))
         }
     }
 
@@ -100,7 +103,9 @@ const EditFormContainer = () => {
             dispatch(editActions.removeCount({ idx, targetId }))
             if (items) {
                 let idx = items.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
                 dispatch(itemActions.removeCount_relate(idx))
+                dispatch(itemActions.removeCount({ idx: idx_drag }))
             }
         }
     }
