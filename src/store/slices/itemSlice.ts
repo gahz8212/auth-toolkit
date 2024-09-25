@@ -477,14 +477,12 @@ const itemSlice = createSlice({
       }
     },
     removeCount_relate: (state, { payload: itemsId }) => {
+      // console.log("itemsId", itemsId);
       if (state.items) {
-        if (state.items && state.items[itemsId].point > 0) {
+        if (state.items[itemsId].point > 0) {
           state.items[itemsId].point = state.items[itemsId].point - 1;
-          // state.items[itemsId].sum_im_price =
-          //   state.items[itemsId].point *
-          //   state.items[itemsId].im_price;
         } else {
-          // state.items.splice(itemsId, 1);
+          state.items.splice(itemsId, 1);
         }
       }
     },

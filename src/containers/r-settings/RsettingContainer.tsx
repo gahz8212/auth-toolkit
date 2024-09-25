@@ -117,7 +117,9 @@ const RsettingContainer = () => {
                 dispatch(editActions.removeCount({ idx: idx_drag }))
 
                 if (items[idx].point === 0)
+                    // console.log('itemId', itemId)
                     dispatch(relateActions.removeCountRelateView(itemId))
+
             }
         }
     }
@@ -157,7 +159,7 @@ const RsettingContainer = () => {
     const insertRelation_view = (selectedItem: number) => {
         // alert(selectedItem)
         if (items) {
-            // items.filter(item => item.id === selectedItem);
+            items.filter(item => item.id === selectedItem);
             // console.log('relations', relations)
             if (typeof selectedItem === 'number') {
                 const result = makeRelateData_View(selectedItem, relations, items)
@@ -173,6 +175,7 @@ const RsettingContainer = () => {
             [key: string]: number | string | {}[]
         },
     ) => {
+        // console.log('item', item)
         dispatch(editActions.editItem(item))
         // console.log('item.dragItems', item.dragItems)
         //items의 point를 item.dragItems의 포인트로 변경
@@ -189,8 +192,6 @@ const RsettingContainer = () => {
         setViewMode(toggle)
         if (toggle) {
             let newItem: {}[] = [];
-            // console.log('relate_view', relate_view)
-            //relate_view가 바뀌지 않아
             relate_view?.map(view => items?.map(item => {
                 if (item.id === view.currentId) {
                     newItem.push({

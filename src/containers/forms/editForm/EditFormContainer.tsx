@@ -41,7 +41,12 @@ const EditFormContainer = () => {
         dispatch(itemActions.updatePicked(item))
     }
     const removeItem = (id: number | '') => {
-        dispatch(editActions.removeItem(id))
+        if (relations?.findIndex(relation => relation.LowerId === id) === -1) {
+            dispatch(editActions.removeItem(id))
+        } else {
+            alert('연결되어 있는 아이템이 있으면 삭제되지 않습니다.')
+
+        }
     }
     const removeImage = (id: number | '', url: string) => {
         const newNextImage = next.Images.filter(image => image.url !== url)
@@ -80,7 +85,7 @@ const EditFormContainer = () => {
 
         }
     }
-    const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+    const addCount = (targetId: number | string | boolean, itemId: number | string | boolean, type: string | undefined) => {
 
         let idx = dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number' && items) {
@@ -90,20 +95,21 @@ const EditFormContainer = () => {
         }
         if (items) {
             let idx = items.findIndex(item => item.id === itemId)
-            let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
-
+            let idx_drag = type ? dragItems?.findIndex(item => item.id === itemId) :
+                dragItems_item?.findIndex(item => item.id === itemId)
             dispatch(itemActions.addCount_relate(idx))
             dispatch(itemActions.addCount({ idx: idx_drag }))
         }
     }
 
-    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean, type: string | undefined) => {
         let idx = dragItems?.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.removeCount({ idx, targetId }))
             if (items) {
                 let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+                let idx_drag = type ? dragItems?.findIndex(item => item.id === itemId) :
+                    dragItems_item?.findIndex(item => item.id === itemId)
                 dispatch(itemActions.removeCount_relate(idx))
                 dispatch(itemActions.removeCount({ idx: idx_drag }))
             }

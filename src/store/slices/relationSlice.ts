@@ -101,17 +101,18 @@ const relateSlice = createSlice({
         const idx = state.relate_view?.findIndex(
           (view) => view.currentId === currentId
         );
-        console.log(idx);
+        console.log("idx of addCountRelateView", currentId, idx);
         state.relate_view[idx].point += 1;
       }
     },
     removeCountRelateView: (state, { payload: currentId }) => {
       if (state.relate_view) {
+        console.log("currentId", currentId);
         const idx = state.relate_view?.findIndex(
           (view) => view.currentId === currentId
         );
         console.log("idx", idx);
-        state.relate_view.splice(1, 1);
+        state.relate_view.splice(idx, 1);
       }
     },
     calculateTotalPrice: (state, { payload: totalPrice }) => {

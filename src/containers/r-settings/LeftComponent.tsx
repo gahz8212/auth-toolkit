@@ -67,13 +67,21 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                                 setOpenBasket(false)
-                                
+
                             }
                             insertRelation_view(item.id)
                         }}>Relations</button>
                         {openId.includes(item.id) && <button onClick={() => {
                             setOpenView(!openView);
                             changeView(!openView)
+                            if (openView) {
+                                // alert('close')
+                                addRelateGood({
+                                    id: item.id,
+                                    dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
+                                    type: 'left'
+                                })
+                            }
 
 
 
@@ -84,9 +92,15 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
 
                         <div className={`relation-list ${openId.includes(item.id) ? 'open' : 'close'} item_basket`}
-
-                            onDragEnter={() => {
+                            onDragOver={(e) => e.preventDefault()}
+                            onDrop={() => {
                                 if (dragedItem) drag_on(item.id, dragedItem.id)
+                                addRelateGood({
+                                    id: item.id,
+                                    dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
+                                    type: 'left'
+                                })
+
                             }}
                         >
                             {dragItems.filter(dragitem => dragitem.targetId === item.id).map((dragitem) =>
@@ -110,13 +124,13 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     </div>
                                 </div>)}
                         </div>
-                        {openId.includes(item.id) && <button onClick={() => {
+                        {!openView && openId.includes(item.id) && <button onClick={() => {
                             addRelateGood({
                                 id: item.id,
                                 dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
                                 type: 'left'
                             })
-                        }}>연결</button>}
+                        }}>저장</button>}
                     </div>)}
             </div>
         </div>
