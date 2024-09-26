@@ -23,6 +23,7 @@ type State = {
     left: number;
     top: number;
     point: number;
+
     // visible: boolean;
   };
   next: {
@@ -53,6 +54,7 @@ type State = {
     left: number;
     top: number;
     point: number;
+    upperId: number;
     // visible: boolean;
   };
   dragItem: {
@@ -139,6 +141,7 @@ const initialState: State = {
     top: 0,
     point: 0,
     visible: false,
+    upperId: -1,
   },
   dragItem: null,
   dragItems: null,
@@ -242,7 +245,7 @@ const editSlice = createSlice({
       state.next.Images = image;
     },
     addCount: (state, { payload: itemsId }) => {
-      console.log("itemsId.idx", itemsId.idx);
+      console.log("edit_itemsId.idx", itemsId.idx);
       if (state.dragItems) {
         // state.status.message = "point changed";
         state.dragItems[itemsId.idx].point =
@@ -277,6 +280,7 @@ const editSlice = createSlice({
       }
     },
     inputDragItems: (state, { payload: dragItems }) => {
+      console.log(dragItems);
       state.dragItems = dragItems;
     },
     initialDragItem: (state) => {

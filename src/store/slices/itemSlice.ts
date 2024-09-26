@@ -24,6 +24,7 @@ type State = {
         left: number;
         top: number;
         point: number;
+        upperId: number;
         // visible: boolean;
       }[]
     | null;
@@ -50,6 +51,7 @@ type State = {
         left: number;
         top: number;
         point: number;
+        upperId: number;
         // visible: boolean;
       }[]
     | null;
@@ -145,6 +147,7 @@ type State = {
         left: number;
         top: number;
         point: number;
+        upperId: number;
         // visible: boolean;
       }[]
     | null;
@@ -465,24 +468,20 @@ const itemSlice = createSlice({
         state.dragItems[itemsId.idx].sum_im_price =
           state.dragItems[itemsId.idx].point *
           state.dragItems[itemsId.idx].im_price;
-      }
-      // else if (state.dragItems && state.dragItems[itemsId.idx].point === 0) {
-      //   // alert("제거할 수 없습니다.");
-      //   alert(itemsId.idx);
-      // }
-      else {
+      } else {
         if (state.dragItems) {
-          state.dragItems.splice(itemsId.idx, 1);
+          console.log("dragItems", itemsId.idx);
+          if (itemsId.idx) state.dragItems.splice(itemsId.idx, 1);
         }
       }
     },
     removeCount_relate: (state, { payload: itemsId }) => {
-      // console.log("itemsId", itemsId);
+      console.log("itemsId", itemsId.idx);
       if (state.items) {
-        if (state.items[itemsId].point > 0) {
-          state.items[itemsId].point = state.items[itemsId].point - 1;
+        if (state.items[itemsId.idx].point > 0) {
+          state.items[itemsId.idx].point = state.items[itemsId.idx].point - 1;
         } else {
-          state.items.splice(itemsId, 1);
+          if (itemsId.viewMode) state.items.splice(itemsId.idx, 1);
         }
       }
     },
@@ -603,6 +602,7 @@ const itemSlice = createSlice({
     changeRepair: (state, { payload: newPicked }) => {
       if (newPicked) state.pickedData = newPicked;
     },
+    removeDragItems: () => {},
   },
 });
 export default itemSlice.reducer;

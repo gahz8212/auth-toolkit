@@ -92,12 +92,16 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                             <div className="footer">
 
                                 <div className="edit">
-                                    <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                                    <span className="material-symbols-outlined edit" onClick={() => {
+
+                                        selectItem(item.id);
+                                        setSelected(item.id)
+                                    }}>
                                         Edit
                                     </span>
                                 </div>
                                 <div className="check">
-                                    <span className="material-symbols-outlined check" onClick={() => { checkedItem(item.id); setSelected(item.id) }}>
+                                    <span className="material-symbols-outlined check" onClick={() => { alert('aaa'); checkedItem(item.id); setSelected(item.id) }}>
                                         Check
                                     </span>
                                 </div>
@@ -172,7 +176,10 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 {item.ex_price > 0 && <div>수출단가: ${item.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
                                 <div className="footer">
                                     <div className="edit">
-                                        <span className="material-symbols-outlined edit" onClick={() => { selectItem(item.id); setSelected(item.id) }}>
+                                        <span className="material-symbols-outlined edit" onClick={() => {
+                                            selectItem(item.id);
+                                            setSelected(item.id)
+                                        }}>
                                             Edit
                                         </span>
                                     </div>

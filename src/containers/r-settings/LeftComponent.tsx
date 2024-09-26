@@ -34,8 +34,9 @@ type Props = {
     totalPrice: { [key: number]: number } | undefined;
     insertRelation_view: (id: number) => void;
     setSelectedItemId: (id: number | null) => void;
+    setViewMode: (mode: boolean) => void;
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId, setViewMode }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     // console.log(totalPrice)
@@ -76,11 +77,14 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             changeView(!openView)
                             if (openView) {
                                 // alert('close')
+                                setViewMode(false)
                                 addRelateGood({
                                     id: item.id,
                                     dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
                                     type: 'left'
                                 })
+                            } else {
+                                setViewMode(true)
                             }
 
 

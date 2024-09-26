@@ -43,6 +43,7 @@ type Props = {
         Good: { groupName: string },
         Images: { url: string }[],
         point: number,
+        upperId: number,
 
 
     };
@@ -60,8 +61,8 @@ type Props = {
     insertGroupType: () => void
     insertSupplyer: () => void
     dragItems: { [key: string]: string | number | boolean }[] | null;
-    addCount: (targetId: number | string | boolean, itemId: number | string | boolean, type: string | undefined) => void;
-    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean, type: string | undefined) => void;
+    addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
@@ -163,14 +164,14 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                         <div className='material-symbols'>
                                             <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
                                                 onClick={() => {
-                                                    addCount(dragitem.targetId, dragitem.id, 'set')
+                                                    addCount(dragitem.targetId, dragitem.id)
                                                 }}
                                             >
                                                 add_circle
                                             </span>
                                             <span>{dragitem.point}</span>
                                             <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id, 'set') }}>
+                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
                                                 do_not_disturb_on
                                             </span>
                                         </div>
@@ -254,14 +255,14 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                         <div className='material-symbols'>
                                             <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
                                                 onClick={() => {
-                                                    addCount(dragitem.targetId, dragitem.id, 'assy')
+                                                    addCount(dragitem.targetId, dragitem.id)
                                                 }}
                                             >
                                                 add_circle
                                             </span>
                                             <span>{dragitem.point}</span>
                                             <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id, 'assy') }}>
+                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
                                                 do_not_disturb_on
                                             </span>
                                         </div>

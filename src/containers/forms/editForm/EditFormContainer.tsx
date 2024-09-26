@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editActions, editData } from '../../../store/slices/editSlice';
 import { itemActions, itemData } from '../../../store/slices/itemSlice';
 import { formSelector, formActions } from '../../../store/slices/formSlice';
+import { relateData } from '../../../store/slices/relationSlice';
 import { imageInsert } from '../../../lib/utils/createFormData'
-
 import EditFormComponent from './EditFormComponent';
 import { makeRelateData_Price } from '../../../lib/utils/createRelateData'
 import { changeRelationToDragItems, returnTotalPrice } from '../../../lib/utils/returnTotalPrice';
@@ -14,6 +14,7 @@ const EditFormContainer = () => {
     const { prev, next, status } = useSelector(editData)
     const { items, relations, backup: backups, dragItems: dragItems_item } = useSelector(itemData)
     const { dragItems, dragItem: dragedItem } = useSelector(editData)
+    const { viewMode } = useSelector(relateData)
     const [totalPrice, setTotalPrice] = useState(0)
     const [goodType, setGoodType] = useState<{
         category: string, type: string,
@@ -85,8 +86,17 @@ const EditFormContainer = () => {
 
         }
     }
-    const addCount = (targetId: number | string | boolean, itemId: number | string | boolean, type: string | undefined) => {
 
+    //edit폼 내부의 dragItem의 수량을 변경시키면 editSlice의 dragItems뿐만 아니라
+    //itemSlice의 dragItems도 변경시켜야 한다.
+    //그러면 viewMode(true)화면에서도 그 변화를 시각적으로 표현이 가능하다.
+    //그러나 복수의 item이 표시되어 있을 경우에 어떤 아이템을 선택해야 할지 알 수 없으므로
+    //UpperId의 속성이 있으면 선택이 가능해 진다.
+    //하지만 UpperId 속성은 연결상태에 따라 계속 변경되므로 화면에 보여지기 직전에 기록이 되어야 한다.
+    //매개변수로 받은 trgetId를 이용하면 정확한 idx를 받아낼 수 있다.
+    //dragItems가 종류가 많으므로
+    //dragItems_item:item, dragItems:edit 등으로 분류한다.
+    const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number' && items) {
             dispatch(editActions.addCount({ idx, targetId }))
@@ -95,23 +105,23 @@ const EditFormContainer = () => {
         }
         if (items) {
             let idx = items.findIndex(item => item.id === itemId)
-            let idx_drag = type ? dragItems?.findIndex(item => item.id === itemId) :
-                dragItems_item?.findIndex(item => item.id === itemId)
+            let idx_drag = viewMode ? dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId) :
+                dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
             dispatch(itemActions.addCount_relate(idx))
-            dispatch(itemActions.addCount({ idx: idx_drag }))
+            if (viewMode) dispatch(itemActions.addCount({ idx: idx_drag }))
         }
     }
 
-    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean, type: string | undefined) => {
+    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean,) => {
         let idx = dragItems?.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.removeCount({ idx, targetId }))
             if (items) {
                 let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = type ? dragItems?.findIndex(item => item.id === itemId) :
-                    dragItems_item?.findIndex(item => item.id === itemId)
-                dispatch(itemActions.removeCount_relate(idx))
-                dispatch(itemActions.removeCount({ idx: idx_drag }))
+                let idx_drag = viewMode ? dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId) :
+                    dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
+                dispatch(itemActions.removeCount_relate({ idx, viewMode }))
+                if (viewMode) dispatch(itemActions.removeCount({ idx: idx_drag }))
             }
         }
     }

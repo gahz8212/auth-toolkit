@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { Root } from "react-dom/client";
 type State = {
   totalPrice: { [key: number]: number } | undefined;
   relate_view:
@@ -34,6 +35,7 @@ type State = {
       }[]
     | null;
   selectedItemId: number | null;
+  viewMode: boolean;
 };
 const initialState: State = {
   totalPrice: undefined,
@@ -41,6 +43,7 @@ const initialState: State = {
   relate_view_horizon: null,
   relate_price: null,
   selectedItemId: null,
+  viewMode: false,
 };
 const viewSelector = (state: RootState) => {
   return state.relate.relate_view;
@@ -57,24 +60,30 @@ const totalPriceSelector = (state: RootState) => {
 const selectedSelector = (state: RootState) => {
   return state.relate.selectedItemId;
 };
+const viewModeSelector = (state: RootState) => {
+  return state.relate.viewMode;
+};
 export const relateData = createSelector(
   viewSelector,
   viewHorizonSelector,
   priceSelector,
   totalPriceSelector,
   selectedSelector,
+  viewModeSelector,
   (
     relate_view,
     relate_view_horizon,
     relate_price,
     totalPrice,
-    selectedItem
+    selectedItem,
+    viewMode
   ) => ({
     relate_view,
     relate_view_horizon,
     relate_price,
     totalPrice,
     selectedItem,
+    viewMode,
   })
 );
 const relateSlice = createSlice({
@@ -120,6 +129,9 @@ const relateSlice = createSlice({
     },
     setSelectedItemId: (state, { payload: selectedId }) => {
       state.selectedItemId = selectedId;
+    },
+    setViewMode: (state, { payload: mode }) => {
+      state.viewMode = mode;
     },
   },
 });

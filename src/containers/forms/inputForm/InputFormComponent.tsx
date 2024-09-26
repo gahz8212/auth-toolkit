@@ -80,10 +80,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
 
     return (
         <div className={`form-type ${input.type}`}>
-            <div className={ `title ${input.type}`}>INPUT</div>
+            <div className={`title ${input.type}`}>INPUT</div>
             <form className='input-form' onSubmit={(e) => {
                 e.preventDefault();
-                
+
                 addItem({
                     type: input.type,
                     groupType: input.groupType,
@@ -104,7 +104,7 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                     dragItems: T_dragItems,
                     // visible: false
                 })
-                
+
             }}>
                 <div className={`form-category ${input.category}`}>
 
@@ -282,14 +282,10 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                                 do_not_disturb_on
                                             </span>
                                         </div>
-
-
                                     </div>)}
                             </div>
-
                             <div className="currency">
                                 <div>
-
                                     <div className="im_price">
                                         <label htmlFor="￦_input">입고가격</label>
                                         <label htmlFor="￦_input">￦</label>

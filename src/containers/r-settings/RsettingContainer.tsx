@@ -12,12 +12,12 @@ import { changeRelationToDragItems, returnTotalPrice } from '../../lib/utils/ret
 
 const RsettingContainer = () => {
     const dispatch = useDispatch();
-    const { items, dragItems, dragItem: dragedItem, relations } = useSelector(itemData)
+    const { items, dragItems, dragItem: dragedItem, relations, backup } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
     const { status, dragItems: dragItems_item } = useSelector(editData);
-    const { relate_view, totalPrice, selectedItem } = useSelector(relateData);
+    const { relate_view, totalPrice, selectedItem, viewMode } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
-    const [viewMode, setViewMode] = useState(false)
+
     const [openBasket, setOpenBasket] = useState(false)
 
     const openAddForm = () => {
@@ -27,10 +27,14 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-
+        console.log('id', id)
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
-            .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
+
+            .map(id => backup?.filter(item => item.id === id))
+            .flat()
+
+            .map((arr => {
                 if (arr) {
                     const point = relations.filter(relation => relation.UpperId === id && relation.LowerId === arr.id).map(relation => relation.point)[0];
                     return ({
@@ -43,8 +47,9 @@ const RsettingContainer = () => {
                 }
             })
             )
+
         dispatch(editActions.inputDragItems(newItems))
-        // console.log('newItems', newItems)
+
         if (items) {
             const item = items.filter(item => item.id === id);
             if (typeof id === 'number') {
@@ -96,7 +101,7 @@ const RsettingContainer = () => {
             // console.log('viewMode', viewMode)
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
                 dispatch(itemActions.addCount_relate(idx))
                 dispatch(relateActions.addCountRelateView(itemId))
                 dispatch(editActions.addCount({ idx: idx_drag }))
@@ -111,14 +116,15 @@ const RsettingContainer = () => {
             // console.log('idx', itemId)
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
                 // console.log('idx_drag', idx_drag)
-                dispatch(itemActions.removeCount_relate(idx))
+                dispatch(itemActions.removeCount_relate({ idx, viewMode }))
                 dispatch(editActions.removeCount({ idx: idx_drag }))
 
+                console.log('rsetting', itemId)
                 if (items[idx].point === 0)
-                    // console.log('itemId', itemId)
                     dispatch(relateActions.removeCountRelateView(itemId))
+
 
             }
         }
@@ -216,6 +222,9 @@ const RsettingContainer = () => {
             dispatch(relateActions.setSelectedItemId(id))
         }
     }
+    const setViewMode = (mode: boolean) => {
+        dispatch(relateActions.setViewMode(mode))
+    }
     useEffect(() => {
         dispatch(itemActions.initForm())
         dispatch(editActions.initForm())
@@ -290,7 +299,8 @@ const RsettingContainer = () => {
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}
             changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
             totalPrice={totalPrice}
-            insertRelation_view={insertRelation_view} setSelectedItemId={setSelectedItemId} />
+            insertRelation_view={insertRelation_view} setSelectedItemId={setSelectedItemId}
+            setViewMode={setViewMode} />
     );
 };
 
