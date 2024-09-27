@@ -100,8 +100,8 @@ const RsettingContainer = () => {
             dispatch(itemActions.addCount({ idx, targetId }))
             // console.log('viewMode', viewMode)
             if (items && viewMode) {
-                let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
+                let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
                 dispatch(itemActions.addCount_relate(idx))
                 dispatch(relateActions.addCountRelateView(itemId))
                 dispatch(editActions.addCount({ idx: idx_drag }))
@@ -115,13 +115,11 @@ const RsettingContainer = () => {
             dispatch(itemActions.removeCount({ idx, targetId }))
             // console.log('idx', itemId)
             if (items && viewMode) {
-                let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
+                let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
+                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
                 // console.log('idx_drag', idx_drag)
                 dispatch(itemActions.removeCount_relate({ idx, viewMode }))
                 dispatch(editActions.removeCount({ idx: idx_drag }))
-
-                console.log('rsetting', itemId)
                 if (items[idx].point === 0)
                     dispatch(relateActions.removeCountRelateView(itemId))
 
@@ -205,7 +203,8 @@ const RsettingContainer = () => {
                         top: view.top,
                         left: view.left,
                         sum_im_price: view.sum_im_price,
-                        point: view.point
+                        point: view.point,
+                        upperId: view.upperId
                     })
                     // console.log('newItem', newItem)
                     return newItem;

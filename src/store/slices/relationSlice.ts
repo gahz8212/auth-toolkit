@@ -93,6 +93,7 @@ const relateSlice = createSlice({
     initRelate: (state) => {
       state.relate_view = initialState.relate_view;
       state.relate_price = initialState.relate_price;
+      state.viewMode = false;
     },
     insertRelation_view: (state, { payload: relate }) => {
       // console.log("final_relate", relate);

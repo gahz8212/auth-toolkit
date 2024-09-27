@@ -44,6 +44,7 @@ const CardContainer = () => {
         if (items) {
             if (typeof id === 'number' && type !== 'PARTS') {
                 const result = makeRelateData_View_Horizon(id, relations, items)
+                console.log('result', result)
                 if (result) {
                     dispatch(relateActions.insertRelation_view_horizon(result))
                 }

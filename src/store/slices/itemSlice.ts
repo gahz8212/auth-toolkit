@@ -427,6 +427,7 @@ const itemSlice = createSlice({
         state.dragItem = null;
       }
     },
+    //input폼의 dragItems에서 사용
     Tdrag_on: (state) => {
       if (state.dragItem) {
         state.T_dragItems = [...state.T_dragItems, state.dragItem];
@@ -436,19 +437,9 @@ const itemSlice = createSlice({
     initialDragItem: (state) => {
       state.dragItem = null;
     },
-    // addCount: (state, { payload: itemsId }) => {
-    //   state.dragItems[itemsId.idx].point =
-    //     state.dragItems[itemsId.idx].point + 1;
-    //   if (state.items) {
-    //     state.items[itemsId.targetId - 1].sum_im_price = state.dragItems.reduce(
-    //       (prev, curr) =>
-    //         prev + curr.point * curr.im_price + curr.point * curr.sum_im_price,
-    //       0
-    //     );
-    //   }
-    // },
+    //items의 dragItems의 point를 수정
     addCount: (state, { payload: itemsId }) => {
-      console.log(itemsId.idx);
+      console.log("itemSlice", itemsId.idx);
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
 
@@ -456,12 +447,14 @@ const itemSlice = createSlice({
         state.dragItems[itemsId.idx].point *
         state.dragItems[itemsId.idx].im_price;
     },
+    //items의 포인트를 수정
     addCount_relate: (state, { payload: itemsId }) => {
       if (state.items) {
         state.items[itemsId].point = state.items[itemsId].point + 1;
       }
     },
     removeCount: (state, { payload: itemsId }) => {
+      console.log("itemSlice", itemsId.idx);
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
@@ -470,13 +463,13 @@ const itemSlice = createSlice({
           state.dragItems[itemsId.idx].im_price;
       } else {
         if (state.dragItems) {
-          console.log("dragItems", itemsId.idx);
+          // console.log("dragItems", itemsId.idx);
           if (itemsId.idx) state.dragItems.splice(itemsId.idx, 1);
         }
       }
     },
     removeCount_relate: (state, { payload: itemsId }) => {
-      console.log("itemsId", itemsId.idx);
+      // console.log("itemsId", itemsId.idx);
       if (state.items) {
         if (state.items[itemsId.idx].point > 0) {
           state.items[itemsId.idx].point = state.items[itemsId.idx].point - 1;

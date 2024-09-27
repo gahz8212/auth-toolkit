@@ -245,9 +245,8 @@ const editSlice = createSlice({
       state.next.Images = image;
     },
     addCount: (state, { payload: itemsId }) => {
-      console.log("edit_itemsId.idx", itemsId.idx);
+      // console.log("edit_itemsId.idx", itemsId.idx);
       if (state.dragItems) {
-        // state.status.message = "point changed";
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point + 1;
         state.dragItems[itemsId.idx].sum_im_price =
@@ -256,6 +255,7 @@ const editSlice = createSlice({
       }
     },
     removeCount: (state, { payload: itemsId }) => {
+      // console.log("editSlice", itemsId);
       // state.status.message = "point changed";
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =

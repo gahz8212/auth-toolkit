@@ -68,11 +68,13 @@ type Props = {
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
 
     totalPrice: number;
+    viewMode: boolean;
+    drag_on_relation: (targetId: number, itemId: number) => void
     // dragItem: (id: number) => void;
     // onDrop: () => void;
 }
-const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers, insertGroupType,
-    insertSupplyer, dragItems, addCount, removeCount, drag_on, dragedItem, relations, totalPrice }) => {
+const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers,
+    insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, drag_on_relation, dragedItem, relations, totalPrice, viewMode }) => {
     const [openViewer, setOpenViewer] = useState<boolean>(true);
 
     return (
@@ -223,8 +225,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
 
                         {next.type === 'ASSY' && <div className={`sub ${next.type}`}>
                             <div className="categories">
-                                <input type="radio" id="회로물_edit" name="category" value="회로" checked={next.category === '회로'} onChange={onChange}
-                                />
+                                <input type="radio" id="회로물_edit" name="category" value="회로" checked={next.category === '회로'} onChange={onChange} />
                                 <label htmlFor="회로물_edit">회로</label>
                                 <input type="radio" id="전장물_edit" name="category" value="전장" checked={next.category === "전장"} onChange={onChange} />
                                 <label htmlFor="전장물_edit">전장</label>
@@ -244,11 +245,18 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 </div>
                             </div>
 
-                            <div className="item_basket" onDragEnter={() => {
-                                if (dragedItem) drag_on(next.id, dragedItem.id)
-                            }}>
-                                {dragItems && dragItems.map((dragitem) =>
-                                    <div className="countControl" key={dragitem.id.toString()}>
+                            <div className="item_basket"
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={() => {
+                                    if (viewMode) {
+                                        if (dragedItem) drag_on_relation(next.id, dragedItem.id)
+                                    } else {
+                                        if (dragedItem) drag_on(next.id, dragedItem.id)
+                                    }
+                                }}>
+                                {dragItems && dragItems.map((dragitem) => {
+                                    // console.log('dragitem', dragitem)
+                                    return <div className="countControl" key={dragitem.id.toString()}>
                                         <div className={`itemName ${dragitem.type} ${dragitem.category}`}>
                                             {dragitem.itemName}
                                         </div>
@@ -266,7 +274,8 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                                 do_not_disturb_on
                                             </span>
                                         </div>
-                                    </div>)}
+                                    </div>
+                                })}
                             </div>
                             <div className="currency">
                                 <div className="im_price">

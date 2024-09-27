@@ -83,10 +83,13 @@ const EditFormContainer = () => {
 
         if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
             dispatch(editActions.drag_on(targetId))
-
         }
     }
+    const drag_on_relation = (targetId: number, itemId: number) => {
+        // console.log(targetId, itemId)
+        let backupItem = backups?.filter(backup => backup.id === itemId)
 
+    }
     //edit폼 내부의 dragItem의 수량을 변경시키면 editSlice의 dragItems뿐만 아니라
     //itemSlice의 dragItems도 변경시켜야 한다.
     //그러면 viewMode(true)화면에서도 그 변화를 시각적으로 표현이 가능하다.
@@ -104,11 +107,16 @@ const EditFormContainer = () => {
             setTotalPrice(price)
         }
         if (items) {
-            let idx = items.findIndex(item => item.id === itemId)
-            let idx_drag = viewMode ? dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId) :
-                dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
+
+            let idx = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
+            let idx_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
+                dragItems?.findIndex(item => item.id === itemId)
+            console.log('idx of editFormContainer', targetId, itemId, idx, viewMode)
             dispatch(itemActions.addCount_relate(idx))
-            if (viewMode) dispatch(itemActions.addCount({ idx: idx_drag }))
+            if (viewMode) {
+                dispatch(itemActions.addCount({ idx: idx_drag }))
+
+            }
         }
     }
 
@@ -117,9 +125,9 @@ const EditFormContainer = () => {
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.removeCount({ idx, targetId }))
             if (items) {
-                let idx = items.findIndex(item => item.id === itemId)
-                let idx_drag = viewMode ? dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId) :
-                    dragItems_item?.findIndex(item => item.id === itemId && item.targetId === targetId)
+                let idx = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
+                let idx_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
+                    dragItems?.findIndex(item => item.id === itemId)
                 dispatch(itemActions.removeCount_relate({ idx, viewMode }))
                 if (viewMode) dispatch(itemActions.removeCount({ idx: idx_drag }))
             }
@@ -226,6 +234,8 @@ const EditFormContainer = () => {
             relations={relations}
 
             totalPrice={totalPrice}
+            viewMode={viewMode}
+            drag_on_relation={drag_on_relation}
         // dragItem={dragItem} 
         // onDrop={onDrop}
         />
