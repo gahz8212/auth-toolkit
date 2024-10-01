@@ -111,7 +111,7 @@ const relateSlice = createSlice({
         const idx = state.relate_view?.findIndex(
           (view) => view.currentId === currentId
         );
-        console.log("idx of addCountRelateView", currentId, idx);
+        // console.log("idx of addCountRelateView", currentId, idx);
         state.relate_view[idx].point += 1;
       }
     },

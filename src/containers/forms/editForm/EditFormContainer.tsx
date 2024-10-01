@@ -7,6 +7,7 @@ import { relateData } from '../../../store/slices/relationSlice';
 import { imageInsert } from '../../../lib/utils/createFormData'
 import EditFormComponent from './EditFormComponent';
 import { makeRelateData_Price } from '../../../lib/utils/createRelateData'
+import { makeRelateData_View } from '../../../lib/utils/createRelateData copy'
 import { changeRelationToDragItems, returnTotalPrice } from '../../../lib/utils/returnTotalPrice';
 import { relateActions } from '../../../store/slices/relationSlice';
 const EditFormContainer = () => {
@@ -86,10 +87,47 @@ const EditFormContainer = () => {
         }
     }
     const drag_on_relation = (targetId: number, itemId: number) => {
-        // console.log(targetId, itemId)
-        let backupItem = backups?.filter(backup => backup.id === itemId)
+        console.log('editForm', targetId, itemId)
+        if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
+            dispatch(editActions.drag_on(targetId))
+        }
+        let currItemIndex = items?.findIndex(item => item.id === itemId)
+        let upperItemIndex = items?.findIndex(item => item.id === targetId)
+        let top = 0;
+        let left = 0;
+        if (items && currItemIndex && upperItemIndex && backups) {
+            let type = items[currItemIndex].type;
+            let childrenLength = items.filter(item => item.upperId === targetId).length + 1
+            console.log('childrenLength', childrenLength)
+            let position = { top: items[upperItemIndex].top, left: items[upperItemIndex].left }
+            if (type === 'PARTS') {
+                top = position.top;
+                left = (position.left) * childrenLength + 65///*상위아이템의 자식아이템 갯수 _를 구해서 곱해줘야 한다.
+            } else {
+                top = position.top + 110;
+                left = position.left + 110
 
+            }
+
+            const lists = makeRelateData_View(itemId, relations, backups, top, left);
+            const newItems: {}[] = [];
+            // console.log('lists', lists)
+            lists.forEach(list => items.forEach(item => {
+                if (item.id === list.currentId) {
+                    // newItems.push(item)
+                    newItems.push({ ...item, ...list, ...{ point: 0 }, ...{ upperId: targetId } })
+                }
+            }))
+            newItems.map(newItem => dispatch(itemActions.addItems(newItem)))
+            // dispatch(relateActions.insertRelation_view(newItems))
+            // 
+        }
     }
+
+
+
+
+
     //edit폼 내부의 dragItem의 수량을 변경시키면 editSlice의 dragItems뿐만 아니라
     //itemSlice의 dragItems도 변경시켜야 한다.
     //그러면 viewMode(true)화면에서도 그 변화를 시각적으로 표현이 가능하다.

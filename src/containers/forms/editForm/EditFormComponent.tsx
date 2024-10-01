@@ -248,8 +248,10 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                             <div className="item_basket"
                                 onDragOver={(e) => e.preventDefault()}
                                 onDrop={() => {
+                                    // if (dragedItem) drag_on(next.id, dragedItem.id)
                                     if (viewMode) {
-                                        if (dragedItem) drag_on_relation(next.id, dragedItem.id)
+                                        // if (dragedItem) drag_on_relation(next.id, dragedItem.id)
+                                        alert('여기선 하지마!')
                                     } else {
                                         if (dragedItem) drag_on(next.id, dragedItem.id)
                                     }

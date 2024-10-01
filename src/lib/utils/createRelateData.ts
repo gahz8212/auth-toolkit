@@ -199,6 +199,7 @@ export const makeRelateData_View = (
     upperId: number;
   }[]
 ) => {
+  console.log("selectedItem", selectedItem);
   let extraTop = 0;
   let extraLeft = 0;
   let origin = 15;
