@@ -196,8 +196,8 @@ router.get("/items", async (req, res) => {
   }
 });
 
-router.post("/edit", async (req, res) => {
-  let { id, Images, dragItems, type, ...rest } = req.body;
+router.patch("/edit", async (req, res) => {
+  let { id, Images, dragItems, mode, ...rest } = req.body;
 
   const relations = dragItems.map((dragItem) => ({
     LowerId: dragItem.id,
@@ -208,6 +208,7 @@ router.post("/edit", async (req, res) => {
   // console.log("relations", relations, id);
   try {
     id = parseInt(id, 10);
+    console.log(id, rest);
     await Item.update(rest, { where: { id }, individualHooks: true });
 
     if (Images) {
@@ -224,7 +225,7 @@ router.post("/edit", async (req, res) => {
         })
       );
     }
-    if (type === "rest") {
+    if (mode === "rest") {
       return res.status(200).json("edit_ok");
     } else {
       return res.status(200).json("good_ok");

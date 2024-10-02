@@ -33,7 +33,7 @@ export const editItem = (item: {
   [key: string]: "" | number | string | { url: string }[] | boolean | {}[];
 }) => {
   // console.log(item);
-  return client.post("/item/edit", item);
+  return client.patch("/item/edit", item);
 };
 export const removeItem = (id: number | "") => {
   // console.log("deleteID", id);

@@ -111,7 +111,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     </span>
                                 </div>
                             </div>
-                            <div>{select_modelname(item.itemName)}</div>
+                            {/* <div>{select_modelname(item.itemName)}</div> */}
+                            <div>{item.itemName}</div>
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
                             {item.type !== 'SET' &&
                                 <>
@@ -169,7 +170,8 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 {/* <div>{item.id}</div> */}
                                 {/* <div>{item.category}</div> */}
 
-                                <div>{select_modelname(item.itemName) || (item.itemName)}</div>
+                                {/* <div>{select_modelname(item.itemName) || (item.itemName)}</div> */}
+                                <div>{(item.itemName)}</div>
 
                                 <div>합산가격: {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
                                 {item.im_price > 0 && <div>입고단가: \{item.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}

@@ -94,7 +94,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                     }
                 }
                 if (dragItems) {
-                    const newItem = ({ id: next.id, ...changedProps, dragItems, type: 'rest' })
+                    const newItem = ({ id: next.id, ...changedProps, dragItems, mode: 'rest' })
                     // Object.keys(changedProps)
 
                     editItem(newItem)
@@ -251,7 +251,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                     // if (dragedItem) drag_on(next.id, dragedItem.id)
                                     if (viewMode) {
                                         // if (dragedItem) drag_on_relation(next.id, dragedItem.id)
-                                        alert('여기선 하지마!')
+                                        alert('구현 준비 중 입니다.')
                                     } else {
                                         if (dragedItem) drag_on(next.id, dragedItem.id)
                                     }
@@ -259,7 +259,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 {dragItems && dragItems.map((dragitem) => {
                                     // console.log('dragitem', dragitem)
                                     return <div className="countControl" key={dragitem.id.toString()}>
-                                        <div className={`itemName ${dragitem.type} ${dragitem.category}`}>
+                                        <div className={`itemName ${dragitem.type || ''} ${dragitem.category}`}>
                                             {dragitem.itemName}
                                         </div>
                                         <div className='material-symbols'>
