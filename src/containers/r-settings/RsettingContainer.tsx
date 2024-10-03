@@ -290,7 +290,7 @@ const RsettingContainer = () => {
 
 
 
-
+ 
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}

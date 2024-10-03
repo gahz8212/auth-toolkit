@@ -40,6 +40,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     // console.log(totalPrice)
+
     return (
         <div className='left'>
             <div className="items">
@@ -65,10 +66,10 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 setOpenId([item.id])
                                 setOpenBasket(true)
                                 setSelectedItemId(item.id)
+
                             } else {
                                 setOpenId(openId.filter(ids => ids !== item.id))
                                 setOpenBasket(false)
-
                             }
                             insertRelation_view(item.id)
                         }}>Relations</button>
@@ -84,12 +85,9 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     type: 'left'
                                 })
                             } else {
+                                // alert('open')
                                 setViewMode(true)
                             }
-
-
-
-
                         }}>view Relation</button>}
                         {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
