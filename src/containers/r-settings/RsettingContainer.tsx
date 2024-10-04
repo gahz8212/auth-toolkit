@@ -281,9 +281,13 @@ const RsettingContainer = () => {
             }, {})
             dispatch(relateActions.calculateTotalPrice(result))
         }
-    }, [dragItems, items])
+    }, [dragItems, dispatch, items, relations])
 
-
+    useEffect(() => {
+        return () => {
+            localStorage.removeItem('scrollPosition')
+        }
+    }, [])
 
 
     return (

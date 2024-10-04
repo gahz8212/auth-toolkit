@@ -49,6 +49,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
             // localStorage.removeItem('scrollPosition')
         }
     }, [items])
+   
     return (
         <div className='left' ref={itemsList}>
             <div className="items">
