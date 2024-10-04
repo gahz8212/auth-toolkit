@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 type Props = {
     items: {
         id: number,
@@ -35,14 +35,22 @@ type Props = {
     insertRelation_view: (id: number) => void;
     setSelectedItemId: (id: number | null) => void;
     setViewMode: (mode: boolean) => void;
+
 }
 const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId, setViewMode }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
-    // console.log(totalPrice)
+    const itemsList = useRef<HTMLDivElement>(null)
+    useEffect(() => {
+        const savedScrollPosition = localStorage.getItem('scrollPosition');
 
+        if (itemsList.current && savedScrollPosition) {
+            itemsList.current.scrollTo(0, parseInt(savedScrollPosition, 10))
+            // localStorage.removeItem('scrollPosition')
+        }
+    }, [items])
     return (
-        <div className='left'>
+        <div className='left' ref={itemsList}>
             <div className="items">
                 {items && items.filter(item => item.type === 'SET').map(item =>
                     <div key={item.id} className='item'>
@@ -77,19 +85,22 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             setOpenView(!openView);
                             changeView(!openView)
                             if (openView) {
-                                // alert('close')
+
                                 setViewMode(false)
                                 addRelateGood({
                                     id: item.id,
                                     dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
-                                    type: 'left'
+                                    mode: 'left'
                                 })
                             } else {
-                                // alert('open')
                                 setViewMode(true)
+                                if (itemsList.current) {
+                                    const scrollPosition = itemsList.current.scrollTop;
+                                    localStorage.setItem('scrollPosition', scrollPosition.toString())
+                                }
                             }
                         }}>view Relation</button>}
-                        {/* <button onClick={() => { viewRelation(false) }}>close view</button> */}
+
                         {dragItems.filter(dragItem => dragItem.targetId === item.id).length > 0 &&
                             <div className='lowerList'>총 {dragItems.filter(dragItem => dragItem.targetId === item.id).length}건의 하위 아이템</div>}
 
@@ -130,7 +141,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             addRelateGood({
                                 id: item.id,
                                 dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
-                                type: 'left'
+                                mode: 'left'
                             })
                         }}>저장</button>}
                     </div>)}

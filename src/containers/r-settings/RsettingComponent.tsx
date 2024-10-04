@@ -63,6 +63,7 @@ type Props = {
     insertRelation_view: (id: number) => void;
     setSelectedItemId: (id: number | null) => void;
     setViewMode: (mode: boolean) => void;
+
 };
 
 const RsettingComponent: React.FC<Props> = ({ input,

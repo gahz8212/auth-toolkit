@@ -17,9 +17,7 @@ const RsettingContainer = () => {
     const { status, dragItems: dragItems_item } = useSelector(editData);
     const { relate_view, totalPrice, selectedItem, viewMode } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
-
     const [openBasket, setOpenBasket] = useState(false)
-
     const openAddForm = () => {
         dispatch(formActions.toggle_form({ form: 'input', value: !input.visible }))
     }
@@ -27,7 +25,6 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-        console.log('id', id)
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
 
@@ -122,8 +119,6 @@ const RsettingContainer = () => {
                 dispatch(editActions.removeCount({ idx: idx_drag }))
                 if (items[idx].point === 0)
                     dispatch(relateActions.removeCountRelateView(itemId))
-
-
             }
         }
     }
@@ -286,11 +281,11 @@ const RsettingContainer = () => {
             }, {})
             dispatch(relateActions.calculateTotalPrice(result))
         }
-    }, [dragItems])
+    }, [dragItems, items])
 
 
 
- 
+
     return (
         <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
