@@ -49,7 +49,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
             // localStorage.removeItem('scrollPosition')
         }
     }, [items])
-   
+
     return (
         <div className='left' ref={itemsList}>
             <div className="items">
@@ -112,7 +112,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 addRelateGood({
                                     id: item.id,
                                     dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
-                                    type: 'left'
+                                    mode: 'left'
                                 })
 
                             }}
@@ -125,6 +125,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     <div className='material-symbols'>
                                         <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
                                             onClick={() => {
+                                                console.log('dragitem.targetId:', dragitem.targetId, 'dragitem.id:', dragitem.id)
                                                 addCount(dragitem.targetId, dragitem.id)
                                             }}
                                         >
