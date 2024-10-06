@@ -91,7 +91,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         <div className={`info text `}>
                             <div className="footer">
 
-                                <div className="edit">
+                                {item.type !== 'SET' && <div className="edit">
                                     <span className="material-symbols-outlined edit" onClick={() => {
 
                                         selectItem(item.id);
@@ -99,7 +99,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                     }}>
                                         Edit
                                     </span>
-                                </div>
+                                </div>}
                                 <div className="check">
                                     <span className="material-symbols-outlined check" onClick={() => { alert('aaa'); checkedItem(item.id); setSelected(item.id) }}>
                                         Check

@@ -35,9 +35,10 @@ type Props = {
     insertRelation_view: (id: number) => void;
     setSelectedItemId: (id: number | null) => void;
     setViewMode: (mode: boolean) => void;
+    inputDragItems_edit: (id: number) => void;
 
 }
-const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId, setViewMode }) => {
+const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCount, drag_on, dragedItem, viewRelation, addRelateGood, relations, changeView, selectItem, setOpenBasket, totalPrice, insertRelation_view, setSelectedItemId, setViewMode, inputDragItems_edit }) => {
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     const itemsList = useRef<HTMLDivElement>(null)
@@ -95,6 +96,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 })
                             } else {
                                 setViewMode(true)
+                                inputDragItems_edit(item.id)
                                 if (itemsList.current) {
                                     const scrollPosition = itemsList.current.scrollTop;
                                     localStorage.setItem('scrollPosition', scrollPosition.toString())

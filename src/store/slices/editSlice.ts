@@ -280,7 +280,7 @@ const editSlice = createSlice({
       }
     },
     inputDragItems: (state, { payload: dragItems }) => {
-      console.log(dragItems);
+      console.log("dragItems", dragItems);
       state.dragItems = dragItems;
     },
     initialDragItem: (state) => {

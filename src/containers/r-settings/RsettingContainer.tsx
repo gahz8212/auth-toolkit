@@ -150,10 +150,24 @@ const RsettingContainer = () => {
             }
         }
     }
-    const inputDragItems = (dragItems: {}[],) => {
-        dispatch(itemActions.inputDragItems(dragItems))
+    const inputDragItems_edit = (id: number) => {
 
+        // const newItems = relations?.filter(relation => relation.UpperId === id)
+        //     .map(relation => relation.LowerId)
+        //     .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
+        //         if (arr) {
+        //             const point = relations.filter(relation => relation.UpperId === id && relation.LowerId === arr.id).map(relation => relation.point)[0];
+        //             return ({
+        //                 id: arr.id, type: arr.type, category: arr.category, point: point,
+        //                 im_price: arr.im_price, itemName: arr.itemName, targetId: id, unit: arr.unit
 
+        //             })
+        //         } else {
+        //             return null
+        //         }
+        //     })
+        //     )
+        // dispatch(editActions.inputDragItems(newItems))
     }
     const insertRelation_view = (selectedItem: number) => {
         // alert(selectedItem)
@@ -298,7 +312,8 @@ const RsettingContainer = () => {
             changeView={changeView} viewMode={viewMode} setOpenBasket={setOpenBasket}
             totalPrice={totalPrice}
             insertRelation_view={insertRelation_view} setSelectedItemId={setSelectedItemId}
-            setViewMode={setViewMode} />
+            setViewMode={setViewMode}
+            inputDragItems_edit={inputDragItems_edit} />
     );
 };
 
