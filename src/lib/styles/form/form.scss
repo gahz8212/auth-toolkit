@@ -252,6 +252,8 @@
                 padding-top: 0.2rem;
                 padding-bottom: 0.2rem;
                 .material-symbols {
+                  user-select: none;
+                  cursor: pointer;
                   display: flex;
                   align-items: center;
                   span {
@@ -428,6 +430,8 @@
                 padding-top: 0.2rem;
                 padding-bottom: 0.2rem;
                 .material-symbols {
+                  user-select: none;
+                  cursor: pointer;
                   display: flex;
                   align-items: center;
                   span {

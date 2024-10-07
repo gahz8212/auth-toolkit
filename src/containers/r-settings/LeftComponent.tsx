@@ -42,6 +42,25 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
     const [openId, setOpenId] = useState<number[]>([])
     const [openView, setOpenView] = useState<boolean>(false)
     const itemsList = useRef<HTMLDivElement>(null)
+    const [inter, setInter] = useState<NodeJS.Timeout | undefined>(undefined)
+    const [tout, setTout] = useState<NodeJS.Timeout | undefined>(undefined)
+
+    const inCrease = (targetId: number, id: number) => {
+        setTout(setTimeout(() => {
+            setInter(
+                setInterval(() => {
+                    addCount(targetId, id)
+                }, 100))
+        }, 500))
+    }
+    const deCrease = (targetId: number, id: number) => {
+        setTout(setTimeout(() => {
+            setInter(
+                setInterval(() => {
+                    removeCount(targetId, id)
+                }, 100))
+        }, 500))
+    }
     useEffect(() => {
         const savedScrollPosition = localStorage.getItem('scrollPosition');
 
@@ -127,15 +146,32 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                     <div className='material-symbols'>
                                         <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
                                             onClick={() => {
-                                                console.log('dragitem.targetId:', dragitem.targetId, 'dragitem.id:', dragitem.id)
+                                                // console.log('dragitem.targetId:', dragitem.targetId, 'dragitem.id:', dragitem.id)
                                                 addCount(dragitem.targetId, dragitem.id)
+                                            }}
+                                            onMouseDown={() => {
+                                                if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number')
+                                                    inCrease(dragitem.targetId, dragitem.id)
+                                            }}
+                                            onMouseUp={() => {
+                                                clearInterval(inter)
+                                                clearTimeout(tout)
                                             }}
                                         >
                                             add_circle
                                         </span>
                                         <span>{dragitem.point}</span>
                                         <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}>
+                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}
+                                            onMouseDown={() => {
+                                                if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number')
+                                                    deCrease(dragitem.targetId, dragitem.id)
+                                            }}
+                                            onMouseUp={() => {
+                                                clearInterval(inter)
+                                                clearTimeout(tout)
+                                            }}
+                                        >
                                             do_not_disturb_on
                                         </span>
                                     </div>

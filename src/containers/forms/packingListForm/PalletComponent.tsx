@@ -24,19 +24,24 @@ type Items = {
 }
 const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, removeItem, resetPallet }) => {
     const [inter, setInter] = useState<NodeJS.Timeout | undefined>(undefined)
+    const [tout, setTout] = useState<NodeJS.Timeout | undefined>(undefined)
 
     function inCrease(id: number, item: string, value: number) {
-        setInter(
-            setInterval(() => {
-                addCount(id, item, value)
-            }, 100)
-
-        )
+        setTout(setTimeout(() => {
+            setInter(
+                setInterval(() => {
+                    addCount(id, item, value)
+                }, 100))
+        }, 500))
     }
+
     function deCrease(id: number, item: string, value: number) {
-        setInter(setInterval(() => {
-            removeCount(id, item, value)
-        }, 100))
+        setTout(setTimeout(() => {
+            setInter(
+                setInterval(() => {
+                    removeCount(id, item, value)
+                }, 100))
+        }, 500))
     }
     return <div>
         {items.map(item => item.item && <div
@@ -76,6 +81,7 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                     }}
                     onMouseUp={() => {
                         clearInterval(inter)
+                        clearTimeout(tout)
                     }}
                 >
                     add_circle
@@ -105,6 +111,7 @@ const PalletItems: React.FC<Items> = ({ items, addCount, removeCount, index, rem
                     }}
                     onMouseUp={() => {
                         clearInterval(inter)
+                        clearTimeout(tout)
                     }}
 
                 >

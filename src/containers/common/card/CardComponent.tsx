@@ -173,7 +173,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 {/* <div>{select_modelname(item.itemName) || (item.itemName)}</div> */}
                                 <div>{(item.itemName)}</div>
 
-                                <div>합산가격: {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>
+                                {item.type !== 'PARTS' && <div>합산단가: {item.unit}{totalPrice && totalPrice[item.id] > 0 ? totalPrice && totalPrice[item.id].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</div>}
                                 {item.im_price > 0 && <div>입고단가: \{item.im_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
                                 {item.ex_price > 0 && <div>수출단가: ${item.ex_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>}
                                 <div className="footer">

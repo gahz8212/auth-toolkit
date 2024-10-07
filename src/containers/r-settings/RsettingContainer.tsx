@@ -5,9 +5,7 @@ import { relateData, relateActions } from '../../store/slices/relationSlice'
 import { editActions, editData } from '../../store/slices/editSlice';
 import { formSelector, formActions } from '../../store/slices/formSlice';
 import RsettingComponent from './RsettingComponent';
-
 import { makeRelateData_View, makeRelateData_Price } from '../../lib/utils/createRelateData'
-
 import { changeRelationToDragItems, returnTotalPrice } from '../../lib/utils/returnTotalPrice';
 
 const RsettingContainer = () => {
@@ -27,26 +25,21 @@ const RsettingContainer = () => {
     const selectItem = (id: number | '') => {
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
-
             .map(id => backup?.filter(item => item.id === id))
             .flat()
-
             .map((arr => {
                 if (arr) {
                     const point = relations.filter(relation => relation.UpperId === id && relation.LowerId === arr.id).map(relation => relation.point)[0];
                     return ({
                         id: arr.id, type: arr.type, category: arr.category, point: point,
                         im_price: arr.im_price, itemName: arr.itemName, targetId: id, unit: arr.unit
-
                     })
                 } else {
                     return null
                 }
             })
             )
-
         dispatch(editActions.inputDragItems(newItems))
-
         if (items) {
             const item = items.filter(item => item.id === id);
             if (typeof id === 'number') {
@@ -54,7 +47,6 @@ const RsettingContainer = () => {
                 if (result) {
                     if (!openBasket)
                         dispatch(relateActions.insertRelation_view(result))
-
                 }
             }
             dispatch(editActions.selectItem(item[0]));
@@ -95,7 +87,6 @@ const RsettingContainer = () => {
         let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount({ idx, targetId }))
-            // console.log('viewMode', viewMode)
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
                 let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
@@ -108,9 +99,7 @@ const RsettingContainer = () => {
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
-
             dispatch(itemActions.removeCount({ idx, targetId }))
-            // console.log('idx', itemId)
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
                 let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
@@ -140,13 +129,10 @@ const RsettingContainer = () => {
                 if (relations) {
                     const totalPrice = returnTotalPrice(items, newCreateRelations, newArray);
                     dispatch(relateActions.calculateTotalPrice(totalPrice))
-
                 }
-
                 dispatch(itemActions.updateRelation(newCreateRelations)
                     //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
                 )
-
             }
         }
     }
