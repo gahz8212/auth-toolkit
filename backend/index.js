@@ -14,7 +14,7 @@ passportConfig();
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.log("db연결됨.");
+    console.log("data base연결됨.");
   })
   .catch((e) => {
     console.error(e);
