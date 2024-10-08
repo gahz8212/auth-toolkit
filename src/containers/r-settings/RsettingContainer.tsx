@@ -25,7 +25,7 @@ const RsettingContainer = () => {
     const selectItem = (id: number | '') => {
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
-            .map(id => backup?.filter(item => item.id === id))
+            .map(id => viewMode ? backup?.filter(item => item.id === id) : items?.filter(item => item.id === id))
             .flat()
             .map((arr => {
                 if (arr) {
