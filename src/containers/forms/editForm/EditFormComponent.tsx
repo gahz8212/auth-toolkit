@@ -291,7 +291,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                 {dragItems && dragItems.map((dragitem) => {
                                     // console.log('dragitem', dragitem)
                                     return <div className="countControl" key={dragitem.id.toString()}>
-                                        <div className={`itemName ${dragitem.type || ''} ${dragitem.category}`}>
+                                        <div className={`itemName ${dragitem.type} ${dragitem.category}`}>
                                             {dragitem.itemName}
                                         </div>
                                         <div className='material-symbols'>

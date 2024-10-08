@@ -137,6 +137,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         </div>
                     </div>)}
             </div > :
+            //viewMode가 false일때
                 <div className="item-list">
 
                     {items?.map((item, index) =>

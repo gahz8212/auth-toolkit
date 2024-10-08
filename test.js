@@ -1,40 +1,63 @@
-const result = {
-  date: "2024-09-18",
-  eur: {
-    "1000sats": 3829.4922872,
-    "1inch": 4.65631859,
-    aave: 0.0079913615,
-    ada: 3.33289684,
-    aed: 4.08594635,
-    afn: 77.22731742,
-    agix: 1.91852983,
-    akt: 0.45613731,
-    algo: 9.02286915,
-    all: 99.27191515,
-    amd: 428.59454959,
-    amp: 302.60477707,
-    ang: 1.99448734,
-    aoa: 1041.76799657,
-    ape: 1.48100794,
-    apt: 0.18811292,
-    ar: 0.060702667,
-    arb: 2.14380992,
-    ars: 1069.5243187,
-    atom: 0.2668824,
-    ats: 13.7603,
-    aud: 1.64475723,
-    avax: 0.046907716,
-    awg: 1.9915164,
-    axs: 0.23909118,
-    azm: 9456.67442221,
-    azn: 1.89133488,
-    bake: 4.57272314,
-    bam: 1.95583,
-    bat: 6.36154023,
-    bbd: 2.22515798,
+// const relationship2 = {
+//   name: "zero",
+//   friends: ["hero", "nero", "xero"],
+//   logFriends() {
+//     this.friends.forEach((friend) =>
+//       console.log("this.name", this.name, "friend", friend)
+//     );
+//   },
+// };
+// relationship2.logFriends();
+var relationship1 = {
+  name: "zero",
+  friends: { hero: "aaa", nero: "bbb" },
+  logFriends: function () {
+    console.log(this.friends.hero);
+    // var that = this;
+    // this.friends.forEach(function (friend) {
+    //   console.log("this.name", this.name, "friend", );
+    // });
   },
 };
-console.log(result.eur.axs);
+relationship1.logFriends();
+// relationship2.logFriends();
+// const result = {
+//   date: "2024-09-18",
+//   eur: {
+//     "1000sats": 3829.4922872,
+//     "1inch": 4.65631859,
+//     aave: 0.0079913615,
+//     ada: 3.33289684,
+//     aed: 4.08594635,
+//     afn: 77.22731742,
+//     agix: 1.91852983,
+//     akt: 0.45613731,
+//     algo: 9.02286915,
+//     all: 99.27191515,
+//     amd: 428.59454959,
+//     amp: 302.60477707,
+//     ang: 1.99448734,
+//     aoa: 1041.76799657,
+//     ape: 1.48100794,
+//     apt: 0.18811292,
+//     ar: 0.060702667,
+//     arb: 2.14380992,
+//     ars: 1069.5243187,
+//     atom: 0.2668824,
+//     ats: 13.7603,
+//     aud: 1.64475723,
+//     avax: 0.046907716,
+//     awg: 1.9915164,
+//     axs: 0.23909118,
+//     azm: 9456.67442221,
+//     azn: 1.89133488,
+//     bake: 4.57272314,
+//     bam: 1.95583,
+//     bat: 6.36154023,
+//     bbd: 2.22515798,
+//   },
+// };
+// console.log(result.eur.axs);
 // const obj = {};
 // const arr = [1, 2, 3];
 // for (let i = 0; i < 30; i += 2) {

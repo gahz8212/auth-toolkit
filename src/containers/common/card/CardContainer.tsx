@@ -16,7 +16,6 @@ const CardContainer = () => {
 
 
     const selectItem = (id: number | '') => {
-
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => items?.filter(item => item.id === id)).flat().map((arr => {
@@ -32,7 +31,7 @@ const CardContainer = () => {
                 }
             })
             )
-
+        console.log('newItems', newItems)
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
             const item = items.filter(item => item.id === id);
