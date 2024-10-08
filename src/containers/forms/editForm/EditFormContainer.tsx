@@ -138,23 +138,25 @@ const EditFormContainer = () => {
     //dragItems가 종류가 많으므로
     //dragItems_item:item, dragItems:edit 등으로 분류한다.
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+        // alert('넌 이거야')
         let idx = dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId)
+        // console.log(idx, targetId, itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number' && items) {
             dispatch(editActions.addCount({ idx, targetId }))
             const price = makeRelateData_Price(targetId, relations, items)[0].sum_im_price
+            console.log('price', price)
             setTotalPrice(price)
-        }
-        if (items) {
+            // }
+            // if (items) {
 
-            let idx = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
-            let idx_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
+            let idx_item = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
+            let idx_item_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
                 dragItems?.findIndex(item => item.id === itemId)
-            console.log('idx of editFormContainer', targetId, itemId, idx, viewMode)
-            dispatch(itemActions.addCount_relate(idx))
+            dispatch(itemActions.addCount_relate(idx_item))
             if (viewMode) {
-                dispatch(itemActions.addCount({ idx: idx_drag }))
-
+                
             }
+            dispatch(itemActions.addCount({ idx: idx_item_drag }))
         }
     }
 
@@ -167,14 +169,14 @@ const EditFormContainer = () => {
                 let idx_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
                     dragItems?.findIndex(item => item.id === itemId)
                 dispatch(itemActions.removeCount_relate({ idx, viewMode }))
-                if (viewMode) dispatch(itemActions.removeCount({ idx: idx_drag }))
+                dispatch(itemActions.removeCount({ idx: idx_drag }))
             }
         }
     }
 
 
     useEffect(() => {
-        if (status.message === 'edit_ok' && items) {
+        if (items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
@@ -232,7 +234,6 @@ const EditFormContainer = () => {
     useEffect(() => {
         if (dragItems) {
             const result = dragItems.reduce((acc, curr) => {
-                // console.log(curr.type)
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
 

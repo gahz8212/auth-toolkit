@@ -112,7 +112,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                 if (dragItems) {
                     const newItem = ({ id: next.id, ...changedProps, dragItems, mode: 'rest' })
                     // Object.keys(changedProps)
-
+                    console.log('newItem', newItem)
                     editItem(newItem)
                 }
             }
@@ -190,6 +190,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                                 }}
                                                 onMouseUp={() => {
                                                     clearInterval(inter)
+                                                    clearTimeout(tout)
                                                 }}
                                             >
                                                 add_circle
@@ -322,7 +323,6 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                                     clearTimeout(tout)
                                                 }}
                                             >
-
                                                 do_not_disturb_on
                                             </span>
                                         </div>

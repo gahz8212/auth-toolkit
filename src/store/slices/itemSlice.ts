@@ -554,7 +554,7 @@ const itemSlice = createSlice({
       let idx = state.pickedData?.findIndex((picked) =>
         picked.ItemId ? picked.ItemId === ItemId : picked.id === ItemId
       );
-      console.log(ItemId, idx, rests);
+      // console.log(ItemId, idx, rests);
       const keys = Object.keys(rests);
       const values: number[] = Object.values(rests);
 
