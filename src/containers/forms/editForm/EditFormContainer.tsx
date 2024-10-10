@@ -137,6 +137,8 @@ const EditFormContainer = () => {
     //매개변수로 받은 trgetId를 이용하면 정확한 idx를 받아낼 수 있다.
     //dragItems가 종류가 많으므로
     //dragItems_item:item, dragItems:edit 등으로 분류한다.
+
+
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
         let idx = dragItems_edit?.findIndex(dragItem_edit => dragItem_edit.id === itemId && dragItem_edit.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number' && items) {

@@ -78,7 +78,7 @@ export const returnTotalPrice = (
             if (acc[curr.targetId]) {
               acc[curr.targetId] = price + acc[curr.targetId];
             } else {
-              acc[curr.targetId] = price;
+              acc[curr.targetId] = price + acc[curr.targetId];
             }
           }
         } else {
