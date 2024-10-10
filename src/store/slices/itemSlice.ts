@@ -463,13 +463,11 @@ const itemSlice = createSlice({
           state.dragItems[itemsId.idx].im_price;
       } else {
         if (state.dragItems) {
-          // console.log("dragItems", itemsId.idx);
           if (itemsId.idx) state.dragItems.splice(itemsId.idx, 1);
         }
       }
     },
     removeCount_relate: (state, { payload: itemsId }) => {
-      // console.log("itemsId", itemsId.idx);
       if (state.items) {
         if (state.items[itemsId.idx].point > 0) {
           state.items[itemsId.idx].point = state.items[itemsId.idx].point - 1;

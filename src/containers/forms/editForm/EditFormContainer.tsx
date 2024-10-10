@@ -14,7 +14,7 @@ const EditFormContainer = () => {
     const dispatch = useDispatch();
     const { prev, next, status } = useSelector(editData)
     const { items, relations, backup: backups, dragItems: dragItems_item } = useSelector(itemData)
-    const { dragItems, dragItem: dragedItem } = useSelector(editData)
+    const { dragItems: dragItems_edit, dragItem: dragedItem } = useSelector(editData)
     const { viewMode } = useSelector(relateData)
     const [totalPrice, setTotalPrice] = useState(0)
     const [goodType, setGoodType] = useState<{
@@ -82,13 +82,13 @@ const EditFormContainer = () => {
 
     const drag_on = (targetId: number, itemId: number) => {
 
-        if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
+        if ((dragItems_edit?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
             dispatch(editActions.drag_on(targetId))
         }
     }
     const drag_on_relation = (targetId: number, itemId: number) => {
         console.log('editForm', targetId, itemId)
-        if ((dragItems?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
+        if ((dragItems_edit?.filter(dragItem_edit => dragItem_edit.id === itemId && dragItem_edit.targetId === targetId).length === 0) && targetId !== itemId) {
             dispatch(editActions.drag_on(targetId))
         }
         let currItemIndex = items?.findIndex(item => item.id === itemId)
@@ -138,44 +138,37 @@ const EditFormContainer = () => {
     //dragItems가 종류가 많으므로
     //dragItems_item:item, dragItems:edit 등으로 분류한다.
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
-        // alert('넌 이거야')
-        let idx = dragItems?.findIndex(item => item.id === itemId && item.targetId === targetId)
-        // console.log(idx, targetId, itemId)
+        let idx = dragItems_edit?.findIndex(dragItem_edit => dragItem_edit.id === itemId && dragItem_edit.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number' && items) {
             dispatch(editActions.addCount({ idx, targetId }))
             const price = makeRelateData_Price(targetId, relations, items)[0].sum_im_price
-            console.log('price', price)
             setTotalPrice(price)
-            // }
-            // if (items) {
-
-            let idx_item = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
-            let idx_item_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
-                dragItems?.findIndex(item => item.id === itemId)
-            dispatch(itemActions.addCount_relate(idx_item))
-            if (viewMode) {
-                
-            }
+            console.log('id:', targetId, 'price:', price)
+            let idx_item = viewMode ?
+                items.findIndex(item => item.id === itemId && item.upperId === targetId)
+                : items.findIndex(item => item.id === itemId)//viewMode가 아닐경우에는 items에 upperId가 없다.
+            let idx_item_drag = dragItems_item?.findIndex(dragItem_item => dragItem_item.id === itemId)
             dispatch(itemActions.addCount({ idx: idx_item_drag }))
+            dispatch(itemActions.addCount_relate(idx_item))
         }
     }
 
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean,) => {
-        let idx = dragItems?.findIndex(item => item.targetId === targetId && item.id === itemId)
+        let idx = dragItems_edit?.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(editActions.removeCount({ idx, targetId }))
             if (items) {
                 let idx = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
-                let idx_drag = viewMode ? dragItems_item?.findIndex(item => item.id === itemId) :
-                    dragItems?.findIndex(item => item.id === itemId)
-                dispatch(itemActions.removeCount_relate({ idx, viewMode }))
+                let idx_drag = dragItems_item?.findIndex(dragItem_item => dragItem_item.id === itemId)
                 dispatch(itemActions.removeCount({ idx: idx_drag }))
+                dispatch(itemActions.removeCount_relate({ idx, viewMode }))
             }
         }
     }
 
-
+    //아래 코드는
     useEffect(() => {
+        // alert('여기')
         if (items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
@@ -189,8 +182,8 @@ const EditFormContainer = () => {
                 dispatch(itemActions.changeBItems(newBItems))
             }
             ////                                                         
-            const createdRelations = dragItems?.map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
-            // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
+            const createdRelations = dragItems_edit?.map(dragItem_edit => ({ UpperId: dragItem_edit.targetId, LowerId: dragItem_edit.id, point: dragItem_edit.point }));
+            // 현재 그룹창에 있는 새로운 dragItems_edit를 relation 형식으로 변환
             if (createdRelations) {
                 const newRelations =
                     relations?.filter(relation => relation.UpperId !== next.id)
@@ -208,19 +201,17 @@ const EditFormContainer = () => {
 
                     if (relations) {
                         const totalPrice = returnTotalPrice(newItems, newCreateRelations, newArray);
-                        // console.log('newArray', newArray)
+                        console.log('totalPrice', totalPrice)
                         dispatch(relateActions.calculateTotalPrice(totalPrice))
 
                     }
-                    dispatch(itemActions.updateRelation(newCreateRelations)
-                        //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
+                    dispatch(itemActions.updateRelation(newCreateRelations))
+                    //  변환된 dragItems가 없는 relations에 새로운 dragItems 주입
 
-                    )
                 }
-
             }
         }
-    }, [status, dispatch, dragItems])
+    }, [dispatch, dragItems_edit])
     useEffect(() => {
         if (status.message === 'remove_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
@@ -232,8 +223,8 @@ const EditFormContainer = () => {
     }, [status, dispatch,])
 
     useEffect(() => {
-        if (dragItems) {
-            const result = dragItems.reduce((acc, curr) => {
+        if (dragItems_edit) {
+            const result = dragItems_edit.reduce((acc, curr) => {
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
 
@@ -250,7 +241,7 @@ const EditFormContainer = () => {
 
             setTotalPrice(result)
         }
-    }, [dragItems])
+    }, [dragItems_edit])
 
 
     return (
@@ -269,9 +260,8 @@ const EditFormContainer = () => {
             insertSupplyer={insertSupplyer}
             dragedItem={dragedItem}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount}
-            dragItems={dragItems}
+            dragItems={dragItems_edit}
             relations={relations}
-
             totalPrice={totalPrice}
             viewMode={viewMode}
             drag_on_relation={drag_on_relation}

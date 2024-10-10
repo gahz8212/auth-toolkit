@@ -112,6 +112,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                                 </div>
                             </div>
                             {/* <div>{select_modelname(item.itemName)}</div> */}
+                            <div>{item.id}</div>
                             <div>{item.itemName}</div>
                             {/* {item.type !== 'SET' && <div>{item.unit === '\\' ? '￦' : item.unit}{item.im_price}</div>} */}
                             {item.type !== 'SET' &&
@@ -137,7 +138,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         </div>
                     </div>)}
             </div > :
-            //viewMode가 false일때
+                //viewMode가 false일때
                 <div className="item-list">
 
                     {items?.map((item, index) =>
@@ -168,7 +169,7 @@ const CardComponent: React.FC<Props> = ({ items, selectItem, dragItem, onDrop, v
                         >
                             <div className={`info text`}>
 
-                                {/* <div>{item.id}</div> */}
+                                <div>{item.id}</div>
                                 {/* <div>{item.category}</div> */}
 
                                 {/* <div>{select_modelname(item.itemName) || (item.itemName)}</div> */}

@@ -10,9 +10,9 @@ import { changeRelationToDragItems, returnTotalPrice } from '../../lib/utils/ret
 
 const RsettingContainer = () => {
     const dispatch = useDispatch();
-    const { items, dragItems, dragItem: dragedItem, relations, backup } = useSelector(itemData)
+    const { items, dragItems: dragItems_item, dragItem: dragedItem, relations, backup } = useSelector(itemData)
     const { input, edit, relate } = useSelector(formSelector)
-    const { status, dragItems: dragItems_item } = useSelector(editData);
+    const { status, dragItems: dragItems_edit } = useSelector(editData);
     const { relate_view, totalPrice, selectedItem, viewMode } = useSelector(relateData);
     const [selectedGoodId, setSelectedGoodId] = useState<number>(-1)
     const [openBasket, setOpenBasket] = useState(false)
@@ -23,6 +23,7 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
+        // alert('aaa')
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => viewMode ? backup?.filter(item => item.id === id) : items?.filter(item => item.id === id))
@@ -80,17 +81,17 @@ const RsettingContainer = () => {
         dispatch(editActions.initialDragItem())
     }
     const drag_on = (targetId: number, itemId: number) => {
-        if ((dragItems.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && itemId !== targetId)
+        if ((dragItems_item.filter(dragItem_edit => dragItem_edit.id === itemId && dragItem_edit.targetId === targetId).length === 0) && itemId !== targetId)
             dispatch(itemActions.drag_on(targetId))
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
-    
-        let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
+
+        let idx = dragItems_item.findIndex(dragItem_item => dragItem_item.id === itemId && dragItem_item.targetId === targetId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount({ idx, targetId }))
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_edit?.findIndex(dragItem_edit => dragItem_edit.id === itemId)
                 dispatch(itemActions.addCount_relate(idx))
                 dispatch(relateActions.addCountRelateView(itemId))
                 dispatch(editActions.addCount({ idx: idx_drag }))
@@ -98,12 +99,12 @@ const RsettingContainer = () => {
         }
     }
     const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
-        let idx = dragItems.findIndex(item => item.targetId === targetId && item.id === itemId)
+        let idx = dragItems_item.findIndex(dragItem_item => dragItem_item.targetId === targetId && dragItem_item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.removeCount({ idx, targetId }))
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
-                let idx_drag = dragItems_item?.findIndex(item => item.id === itemId)
+                let idx_drag = dragItems_edit?.findIndex(dragItem_edit => dragItem_edit.id === itemId)
                 // console.log('idx_drag', idx_drag)
                 dispatch(itemActions.removeCount_relate({ idx, viewMode }))
                 dispatch(editActions.removeCount({ idx: idx_drag }))
@@ -113,7 +114,8 @@ const RsettingContainer = () => {
         }
     }
     const addRelations = (id: number) => {
-        const createdRelations = dragItems?.filter(dragItem => dragItem.targetId === id)
+
+        const createdRelations = dragItems_item?.filter(dragItem_item => dragItem_item.targetId === id)
             .map(dragItem => ({ UpperId: dragItem.targetId, LowerId: dragItem.id, point: dragItem.point }));
         // console.log('createRelations', createdRelations)
         // 현재 그룹창에 있는 새로운 dragItems를 relation 형식으로 변환
@@ -129,6 +131,7 @@ const RsettingContainer = () => {
                 const newArray = changeRelationToDragItems(items, newCreateRelations)
                 if (relations) {
                     const totalPrice = returnTotalPrice(items, newCreateRelations, newArray);
+                    console.log('totalPrice', totalPrice)
                     dispatch(relateActions.calculateTotalPrice(totalPrice))
                 }
                 dispatch(itemActions.updateRelation(newCreateRelations)
@@ -257,32 +260,36 @@ const RsettingContainer = () => {
         }
     }, [dispatch, status.message, selectedGoodId, items, relations])
 
-    useEffect(() => {
-        if (dragItems) {
-            const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
-                if (curr.type === 'SET' || curr.type === 'ASSY') {
-                    if (items) {
-                        const view = makeRelateData_Price(curr.id, relations, items)
-                        const price = view[0].sum_im_price * curr.point;
-                        if (acc[curr.targetId]) {
-                            acc[curr.targetId] = price + acc[curr.targetId]
-                        } else {
-                            acc[curr.targetId] = price
-
-                        }
-                    }
-                } else {
-                    if (acc[curr.targetId]) {
-                        acc[curr.targetId] += curr.im_price * curr.point
-                    } else {
-                        acc[curr.targetId] = curr.im_price * curr.point
-                    }
-                }
-                return acc;
-            }, {})
-            dispatch(relateActions.calculateTotalPrice(result))
-        }
-    }, [dragItems, dispatch, items, relations])
+    //아래 코드는 전체 아이템중에 하위아이템이 있는 SET의 최종 합산가격입니다.
+    //아래 코드가 없다면 선택된 SET만 최종 합산가격을 표시합니다. 
+    //아래 코드가 있어야 선택된 SET를 포함하여 모든 SET의 최종 합산가격을 표시하지만
+    //
+    // useEffect(() => {
+    //     if (dragItems && !viewMode) {
+    //         const result = dragItems_item.reduce((acc: { [key: number]: number }, curr) => {
+    //             if (curr.type === 'SET' || curr.type === 'ASSY') {
+    //                 if (items) {
+    //                     const view = makeRelateData_Price(curr.id, relations, items)
+    //                     const price = view[0].sum_im_price * curr.point;
+    //                     if (acc[curr.targetId]) {
+    //                         acc[curr.targetId] = price + acc[curr.targetId]
+    //                     } else {
+    //                         acc[curr.targetId] = price
+    //                     }
+    //                 }
+    //             } else {
+    //                 if (acc[curr.targetId]) {
+    //                     acc[curr.targetId] += curr.im_price * curr.point
+    //                 } else {
+    //                     acc[curr.targetId] = curr.im_price * curr.point
+    //                 }
+    //             }
+    //             return acc;
+    //         }, {})
+    //         console.log('result', result)
+    //         dispatch(relateActions.calculateTotalPrice(result))
+    //     }
+    // }, [dragItems, dispatch, items, relations])
 
     useEffect(() => {
         return () => {
@@ -292,7 +299,7 @@ const RsettingContainer = () => {
 
 
     return (
-        <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems}
+        <RsettingComponent items={items} selectItem={selectItem} onDrop={onDrop} dragItem={dragItem} dragItems={dragItems_item}
             input={input} edit={edit} openAddForm={openAddForm} changePosition={changePosition}
             drag_on={drag_on} addCount={addCount} removeCount={removeCount} dragedItem={dragedItem} relate={relate}
             viewRelation={viewRelation} relations={relations} relate_view={relate_view} addRelateGood={addRelateGood}

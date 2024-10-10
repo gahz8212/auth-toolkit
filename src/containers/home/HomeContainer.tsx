@@ -68,6 +68,7 @@ const HomeContainer = () => {
                 }
                 return acc;
             }, {})
+            console.log('result', result)
             dispatch(relateActions.calculateTotalPrice(result))
         }
     }, [dragItems, dispatch, items, relations])

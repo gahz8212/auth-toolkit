@@ -106,13 +106,18 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                             setOpenView(!openView);
                             changeView(!openView)
                             if (openView) {
-
+                                //닫힐때
                                 setViewMode(false)
-                                addRelateGood({
-                                    id: item.id,
-                                    dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
-                                    mode: 'left'
-                                })
+
+                                // addRelateGood({
+                                //     id: item.id,
+                                //     dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
+                                //     mode: 'left'
+                                // })
+                                selectItem(item.id)
+
+
+                                
                             } else {
                                 setViewMode(true)
                                 inputDragItems_edit(item.id)
