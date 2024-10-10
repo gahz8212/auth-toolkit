@@ -85,13 +85,8 @@ const RsettingContainer = () => {
             dispatch(itemActions.drag_on(targetId))
     }
     const addCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
-<<<<<<< HEAD
 
         let idx = dragItems_item.findIndex(dragItem_item => dragItem_item.id === itemId && dragItem_item.targetId === targetId)
-=======
-  
-        let idx = dragItems.findIndex(item => item.id === itemId && item.targetId === targetId)
->>>>>>> 8d8da2cf0d5b1fa56a83f395f6c05a953c8fbcd7
         if (typeof targetId === 'number' && typeof itemId === 'number') {
             dispatch(itemActions.addCount({ idx, targetId }))
             if (items && viewMode) {
@@ -265,41 +260,13 @@ const RsettingContainer = () => {
         }
     }, [dispatch, status.message, selectedGoodId, items, relations])
 
-<<<<<<< HEAD
     //아래 코드는 전체 아이템중에 하위아이템이 있는 SET의 최종 합산가격입니다.
     //아래 코드가 없다면 선택된 SET만 최종 합산가격을 표시합니다. 
     //아래 코드가 있어야 선택된 SET를 포함하여 모든 SET의 최종 합산가격을 표시하지만
     //
-    // useEffect(() => {
-    //     if (dragItems && !viewMode) {
-    //         const result = dragItems_item.reduce((acc: { [key: number]: number }, curr) => {
-    //             if (curr.type === 'SET' || curr.type === 'ASSY') {
-    //                 if (items) {
-    //                     const view = makeRelateData_Price(curr.id, relations, items)
-    //                     const price = view[0].sum_im_price * curr.point;
-    //                     if (acc[curr.targetId]) {
-    //                         acc[curr.targetId] = price + acc[curr.targetId]
-    //                     } else {
-    //                         acc[curr.targetId] = price
-    //                     }
-    //                 }
-    //             } else {
-    //                 if (acc[curr.targetId]) {
-    //                     acc[curr.targetId] += curr.im_price * curr.point
-    //                 } else {
-    //                     acc[curr.targetId] = curr.im_price * curr.point
-    //                 }
-    //             }
-    //             return acc;
-    //         }, {})
-    //         console.log('result', result)
-    //         dispatch(relateActions.calculateTotalPrice(result))
-    //     }
-    // }, [dragItems, dispatch, items, relations])
-=======
     useEffect(() => {
-        if (dragItems) {
-            const result = dragItems.reduce((acc: { [key: number]: number }, curr) => {
+        if (dragItems_item) {
+            const result = dragItems_item.reduce((acc: { [key: number]: number }, curr) => {
                 if (curr.type === 'SET' || curr.type === 'ASSY') {
                     if (items) {
                         const view = makeRelateData_Price(curr.id, relations, items)
@@ -307,8 +274,7 @@ const RsettingContainer = () => {
                         if (acc[curr.targetId]) {
                             acc[curr.targetId] = price + acc[curr.targetId]
                         } else {
-                            acc[curr.targetId] = price+ acc[curr.targetId]
-
+                            acc[curr.targetId] = price
                         }
                     }
                 } else {
@@ -320,10 +286,10 @@ const RsettingContainer = () => {
                 }
                 return acc;
             }, {})
+            console.log('result', result)
             dispatch(relateActions.calculateTotalPrice(result))
         }
-    }, [dragItems, dispatch, items, relations])
->>>>>>> 8d8da2cf0d5b1fa56a83f395f6c05a953c8fbcd7
+    }, [dragItems_item, dispatch, items, relations])
 
     useEffect(() => {
         return () => {

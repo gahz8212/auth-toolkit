@@ -150,6 +150,7 @@ const EditFormContainer = () => {
                 items.findIndex(item => item.id === itemId && item.upperId === targetId)
                 : items.findIndex(item => item.id === itemId)//viewMode가 아닐경우에는 items에 upperId가 없다.
             let idx_item_drag = dragItems_item?.findIndex(dragItem_item => dragItem_item.id === itemId)
+            // console.log('idx_item_drag', idx_item_drag)
             dispatch(itemActions.addCount({ idx: idx_item_drag }))
             dispatch(itemActions.addCount_relate(idx_item))
         }
@@ -171,7 +172,7 @@ const EditFormContainer = () => {
     //아래 코드는
     useEffect(() => {
         // alert('여기')
-        if (items) {
+        if (items && status.message === 'edit_ok') {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
@@ -213,7 +214,7 @@ const EditFormContainer = () => {
                 }
             }
         }
-    }, [dispatch, dragItems_edit])
+    }, [status, dispatch, dragItems_edit])
     useEffect(() => {
         if (status.message === 'remove_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))
