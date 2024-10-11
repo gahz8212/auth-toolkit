@@ -439,7 +439,7 @@ const itemSlice = createSlice({
     },
     //items의 dragItems의 point를 수정
     addCount: (state, { payload: itemsId }) => {
-      console.log("itemSlice", itemsId.idx);
+      // console.log("itemSlice", itemsId.idx);
       state.dragItems[itemsId.idx].point =
         state.dragItems[itemsId.idx].point + 1;
 

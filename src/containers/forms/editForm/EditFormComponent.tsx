@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 type Props = {
     prev: {
         [key: string]: string | number | boolean | { groupName: string } | { url: string }[],
@@ -75,10 +75,9 @@ type Props = {
 }
 const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, editItem, removeItem, removeImage, closeForm, goodType, supplyers,
     insertGroupType, insertSupplyer, dragItems, addCount, removeCount, drag_on, drag_on_relation, dragedItem, relations, totalPrice, viewMode }) => {
-    const [openViewer, setOpenViewer] = useState<boolean>(true);
+    // const [openViewer, setOpenViewer] = useState<boolean>(true);
     const [inter, setInter] = useState<NodeJS.Timeout | undefined>(undefined)
     const [tout, setTout] = useState<NodeJS.Timeout | undefined>(undefined)
-
     const inCrease = (targetId: number, id: number) => {
         setTout(setTimeout(() => {
             setInter(setInterval(() => {
@@ -301,8 +300,9 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                                     addCount(dragitem.targetId, dragitem.id)
                                                 }}
                                                 onMouseDown={() => {
-                                                    if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number')
+                                                    if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number') {
                                                         inCrease(dragitem.targetId, dragitem.id)
+                                                    }
                                                 }}
                                                 onMouseUp={() => {
                                                     clearInterval(inter)
@@ -315,8 +315,9 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                             <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
                                                 onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}
                                                 onMouseDown={() => {
-                                                    if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number')
+                                                    if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number') {
                                                         deCrease(dragitem.targetId, dragitem.id)
+                                                    }
                                                 }}
                                                 onMouseUp={() => {
                                                     clearInterval(inter)

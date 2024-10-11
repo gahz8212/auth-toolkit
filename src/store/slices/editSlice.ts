@@ -257,17 +257,21 @@ const editSlice = createSlice({
     removeCount: (state, { payload: itemsId }) => {
       // console.log("editSlice", itemsId);
       // state.status.message = "point changed";
-      if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
-        state.dragItems[itemsId.idx].point =
-          state.dragItems[itemsId.idx].point - 1;
-        state.dragItems[itemsId.idx].sum_im_price =
-          state.dragItems[itemsId.idx].point *
-          state.dragItems[itemsId.idx].im_price;
-      } else {
-        if (state.dragItems) {
-          state.dragItems.splice(itemsId.idx, 1);
-        }
+      console.log("itemsId.idx", itemsId.idx);
+
+      if (itemsId.idx >= 0) {
       }
+        if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
+          state.dragItems[itemsId.idx].point =
+            state.dragItems[itemsId.idx].point - 1;
+          state.dragItems[itemsId.idx].sum_im_price =
+            state.dragItems[itemsId.idx].point *
+            state.dragItems[itemsId.idx].im_price;
+        } else {
+          if (state.dragItems) {
+            state.dragItems.splice(itemsId.idx, 1);
+          }
+        }
     },
     inputDragItem: (state, { payload: item }) => {
       state.dragItem = item;

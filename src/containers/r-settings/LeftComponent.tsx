@@ -114,10 +114,10 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 //     dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
                                 //     mode: 'left'
                                 // })
-                                selectItem(item.id)
+                                // selectItem(item.id)
 
 
-                                
+
                             } else {
                                 setViewMode(true)
                                 inputDragItems_edit(item.id)

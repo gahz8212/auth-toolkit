@@ -84,10 +84,11 @@ const EditFormContainer = () => {
 
         if ((dragItems_edit?.filter(dragItem => dragItem.id === itemId && dragItem.targetId === targetId).length === 0) && targetId !== itemId) {
             dispatch(editActions.drag_on(targetId))
+            dispatch(itemActions.drag_on(targetId))
         }
     }
     const drag_on_relation = (targetId: number, itemId: number) => {
-        console.log('editForm', targetId, itemId)
+        // console.log('editForm', targetId, itemId)
         if ((dragItems_edit?.filter(dragItem_edit => dragItem_edit.id === itemId && dragItem_edit.targetId === targetId).length === 0) && targetId !== itemId) {
             dispatch(editActions.drag_on(targetId))
         }
@@ -172,7 +173,7 @@ const EditFormContainer = () => {
     //아래 코드는
     useEffect(() => {
         // alert('여기')
-        if (items && status.message === 'edit_ok') {
+        if (items) {
             const idx = (items.findIndex(item => item.id === next.id))
             const newItems = [...items];
             newItems.splice(idx, 1, next)
@@ -214,7 +215,7 @@ const EditFormContainer = () => {
                 }
             }
         }
-    }, [status, dispatch, dragItems_edit])
+    }, [status.message, dispatch, dragItems_edit])
     useEffect(() => {
         if (status.message === 'remove_ok' && items) {
             const idx = (items.findIndex(item => item.id === next.id))

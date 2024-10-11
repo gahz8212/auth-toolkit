@@ -23,7 +23,7 @@ const RsettingContainer = () => {
         dispatch(formActions.changePosition({ form, position }))
     }
     const selectItem = (id: number | '') => {
-        // alert('aaa')
+
         const newItems = relations?.filter(relation => relation.UpperId === id)
             .map(relation => relation.LowerId)
             .map(id => viewMode ? backup?.filter(item => item.id === id) : items?.filter(item => item.id === id))
@@ -40,6 +40,7 @@ const RsettingContainer = () => {
                 }
             })
             )
+        console.log('newItems', newItems)
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
             const item = items.filter(item => item.id === id);
