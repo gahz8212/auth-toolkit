@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 
 type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>
@@ -60,7 +60,7 @@ type Props = {
     file: ArrayBuffer | undefined | string | null;
     excelFile: React.LegacyRef<HTMLInputElement> | undefined
     addCount: (id: number | string | boolean) => void;
-    removeCount: (id: number | string | boolean) => void;
+    removeCount: (id: number | string | boolean, mode: string) => void;
     setIsBasket: React.Dispatch<React.SetStateAction<boolean>>
     isBasket: boolean;
     totalPrice: number;
@@ -68,6 +68,8 @@ type Props = {
 const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, imageList, addItem, formClose,
     excel_onChange, excel_onSubmit, file, excelFile, insertGroupType, goodType, supplyers, insertSupplyer, drag_on, dragItems, T_dragItems, addCount, removeCount, isBasket, setIsBasket, totalPrice
 }) => {
+    const [inter, setInter] = useState<NodeJS.Timeout | undefined>(undefined)
+    const [tout, setTout] = useState<NodeJS.Timeout | undefined>(undefined)
     let sum_im_price = T_dragItems.reduce((acc, curr) => {
         if (typeof curr.sum_im_price === 'number') {
             if (curr.type === 'SET' || curr.type === 'ASSY') {
@@ -77,7 +79,21 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
         }
         return acc;
     }, 0)
+    const inCrease = (id: number) => {
 
+        setTout(setTimeout(() => {
+            setInter(setInterval(() => {
+                addCount(id)
+            }, 100))
+        }, 500))
+    }
+    const deCrease = (id: number) => {
+        setTout(setTimeout(() => {
+            setInter(setInterval(() => {
+                removeCount(id, 'cont')
+            }, 100))
+        }, 500))
+    }
     return (
         <div className={`form-type ${input.type}`}>
             <div className={`title ${input.type}`}>INPUT</div>
@@ -176,12 +192,29 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                             <div className='material-symbols'>
                                                 <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
                                                     onClick={() => { addCount(item.id) }}
+                                                    onMouseDown={() => {
+                                                        if (typeof item.id === 'number')
+                                                            inCrease(item.id)
+                                                    }}
+                                                    onMouseUp={() => {
+                                                        clearInterval(inter)
+                                                        clearTimeout(tout)
+                                                    }}
                                                 >
                                                     add_circle
                                                 </span>
                                                 <span>{item.point}</span>
                                                 <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                                    onClick={() => { removeCount(item.id) }}>
+                                                    onClick={() => { removeCount(item.id, '') }}
+                                                    onMouseDown={() => {
+                                                        if (typeof item.id === 'number')
+                                                            inCrease(item.id)
+                                                    }}
+                                                    onMouseUp={() => {
+                                                        clearInterval(inter)
+                                                        clearTimeout(tout)
+                                                    }}
+                                                >
                                                     do_not_disturb_on
                                                 </span>
                                             </div>
@@ -272,13 +305,34 @@ const InputFormComponent: React.FC<Props> = ({ onChange, input, insertImage, ima
                                         <div className='material-symbols'>
 
                                             <span className="material-symbols-outlined add" style={{ fontSize: '20px' }}
-                                                onClick={() => { addCount(item.id) }}
+                                                onClick={() => {
+
+                                                    addCount(item.id)
+                                                }}
+                                                onMouseDown={() => {
+                                                    if (typeof item.id === 'number')
+                                                        inCrease(item.id)
+                                                }}
+                                                onMouseUp={() => {
+                                                    clearInterval(inter)
+                                                    clearTimeout(tout)
+                                                }}
                                             >
                                                 add_circle
                                             </span>
                                             <span>{item.point}</span>
                                             <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                                onClick={() => { removeCount(item.id) }}>
+                                                onClick={() => { removeCount(item.id, '') }}
+                                                onMouseDown={() => {
+                                                    if (typeof item.id === 'number')
+                                                        deCrease(item.id,)
+                                                }}
+                                                onMouseUp={() => {
+                                                    clearInterval(inter)
+                                                    clearTimeout(tout)
+                                                }}
+                                            >
+
                                                 do_not_disturb_on
                                             </span>
                                         </div>

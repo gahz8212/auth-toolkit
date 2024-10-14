@@ -454,7 +454,7 @@ const itemSlice = createSlice({
       }
     },
     removeCount: (state, { payload: itemsId }) => {
-      console.log("itemSlice", itemsId.idx);
+      // console.log("itemSlice", itemsId.idx);
       if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
         state.dragItems[itemsId.idx].point =
           state.dragItems[itemsId.idx].point - 1;
@@ -463,7 +463,10 @@ const itemSlice = createSlice({
           state.dragItems[itemsId.idx].im_price;
       } else {
         if (state.dragItems) {
-          if (itemsId.idx) state.dragItems.splice(itemsId.idx, 1);
+          if (itemsId.mode === "cont") {
+          } else {
+            state.dragItems.splice(itemsId.idx, 1);
+          }
         }
       }
     },
@@ -472,7 +475,12 @@ const itemSlice = createSlice({
         if (state.items[itemsId.idx].point > 0) {
           state.items[itemsId.idx].point = state.items[itemsId.idx].point - 1;
         } else {
-          if (itemsId.viewMode) state.items.splice(itemsId.idx, 1);
+          if (itemsId.viewMode) {
+            if (itemsId.mode === "cont") {
+            } else {
+              state.items.splice(itemsId.idx, 1);
+            }
+          }
         }
       }
     },
@@ -481,13 +489,18 @@ const itemSlice = createSlice({
       state.T_dragItems[idx].sum_im_price =
         state.T_dragItems[idx].point * state.T_dragItems[idx].im_price;
     },
-    T_removeCount: (state, { payload: idx }) => {
-      if (state.T_dragItems[idx].point > 0) {
-        state.T_dragItems[idx].point = state.T_dragItems[idx].point - 1;
-        state.T_dragItems[idx].sum_im_price =
-          state.T_dragItems[idx].point * state.T_dragItems[idx].im_price;
+    T_removeCount: (state, { payload: itemIds }) => {
+      if (state.T_dragItems[itemIds.idx].point > 0) {
+        state.T_dragItems[itemIds.idx].point =
+          state.T_dragItems[itemIds.idx].point - 1;
+        state.T_dragItems[itemIds.idx].sum_im_price =
+          state.T_dragItems[itemIds.idx].point *
+          state.T_dragItems[itemIds.idx].im_price;
       } else {
-        state.T_dragItems.splice(idx, 1);
+        if (itemIds.mode === "cont") {
+        } else {
+          state.T_dragItems.splice(itemIds.idx, 1);
+        }
       }
     },
     updateRelation: (state, { payload: newRelations }) => {

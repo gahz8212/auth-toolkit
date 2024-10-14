@@ -62,7 +62,7 @@ type Props = {
     insertSupplyer: () => void
     dragItems: { [key: string]: string | number | boolean }[] | null;
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
-    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean,mode:string) => void;
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     relations: { UpperId: number, LowerId: number, point: number }[] | null;
@@ -88,7 +88,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
     const deCrease = (targetId: number, id: number) => {
         setTout(setTimeout(() => {
             setInter(setInterval(() => {
-                removeCount(targetId, id)
+          removeCount(targetId, id,'cont')
             }, 100))
         }, 500))
     }
@@ -111,7 +111,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                 if (dragItems) {
                     const newItem = ({ id: next.id, ...changedProps, dragItems, mode: 'rest' })
                     // Object.keys(changedProps)
-                    console.log('newItem', newItem)
+                    // console.log('newItem', newItem)
                     editItem(newItem)
                 }
             }
@@ -196,7 +196,7 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                             </span>
                                             <span>{dragitem.point}</span>
                                             <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}
+                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id,'') }}
                                                 onMouseDown={() => {
                                                     if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number')
                                                         deCrease(dragitem.targetId, dragitem.id)
@@ -313,8 +313,9 @@ const EditFormComponent: React.FC<Props> = ({ prev, next, onChange, editImage, e
                                             </span>
                                             <span>{dragitem.point}</span>
                                             <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}
+                                                onClick={() => { removeCount(dragitem.targetId, dragitem.id,'') }}
                                                 onMouseDown={() => {
+
                                                     if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number') {
                                                         deCrease(dragitem.targetId, dragitem.id)
                                                     }

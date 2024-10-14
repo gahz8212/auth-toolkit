@@ -1,3 +1,16 @@
+let i = 0;
+let inter;
+const outer = setTimeout(() => {
+  inter = setInterval(() => {
+    console.log(i);
+    i++;
+    if (i > 20) {
+      // clearTimeout(outer);
+      clearInterval(inter);
+    }
+  }, 100);
+}, 1000);
+
 // const relationship2 = {
 //   name: "zero",
 //   friends: ["hero", "nero", "xero"],

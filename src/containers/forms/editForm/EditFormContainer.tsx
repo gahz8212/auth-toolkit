@@ -99,7 +99,7 @@ const EditFormContainer = () => {
         if (items && currItemIndex && upperItemIndex && backups) {
             let type = items[currItemIndex].type;
             let childrenLength = items.filter(item => item.upperId === targetId).length + 1
-            console.log('childrenLength', childrenLength)
+            // console.log('childrenLength', childrenLength)
             let position = { top: items[upperItemIndex].top, left: items[upperItemIndex].left }
             if (type === 'PARTS') {
                 top = position.top;
@@ -146,7 +146,7 @@ const EditFormContainer = () => {
             dispatch(editActions.addCount({ idx, targetId }))
             const price = makeRelateData_Price(targetId, relations, items)[0].sum_im_price
             setTotalPrice(price)
-            console.log('id:', targetId, 'price:', price)
+            // console.log('id:', targetId, 'price:', price)
             let idx_item = viewMode ?
                 items.findIndex(item => item.id === itemId && item.upperId === targetId)
                 : items.findIndex(item => item.id === itemId)//viewMode가 아닐경우에는 items에 upperId가 없다.
@@ -157,17 +157,19 @@ const EditFormContainer = () => {
         }
     }
 
-    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean,) => {
+    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean,mode:string) => {
         let idx = dragItems_edit?.findIndex(item => item.targetId === targetId && item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
-            dispatch(editActions.removeCount({ idx, targetId }))
+            dispatch(editActions.removeCount({ idx, targetId ,mode}))
             if (items) {
                 let idx = viewMode ? items.findIndex(item => item.id === itemId && item.upperId === targetId) : items.findIndex(item => item.id === itemId)
                 let idx_drag = dragItems_item?.findIndex(dragItem_item => dragItem_item.id === itemId)
-                dispatch(itemActions.removeCount({ idx: idx_drag }))
-                dispatch(itemActions.removeCount_relate({ idx, viewMode }))
+                dispatch(itemActions.removeCount({ idx: idx_drag,mode }))
+                dispatch(itemActions.removeCount_relate({ idx, viewMode,mode }))
             }
         }
+
+    
     }
 
     //아래 코드는
@@ -205,7 +207,7 @@ const EditFormContainer = () => {
 
                     if (relations) {
                         const totalPrice = returnTotalPrice(newItems, newCreateRelations, newArray);
-                        console.log('totalPrice', totalPrice)
+                        // console.log('totalPrice', totalPrice)
                         dispatch(relateActions.calculateTotalPrice(totalPrice))
 
                     }

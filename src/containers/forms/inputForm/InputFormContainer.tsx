@@ -134,8 +134,8 @@ const InputFormContainer = () => {
 
         dispatch(itemActions.Tdrag_on())
     }
-    const addCount = (id: number | string | boolean) => {
-        let idx = T_dragItems.findIndex(item => item.id === id)
+    const addCount = ( id: number | string | boolean) => {
+        let idx = T_dragItems.findIndex(item =>  item.id === id)
 
         if (typeof id === 'number' && items) {
             dispatch(itemActions.T_addCount(idx))
@@ -143,10 +143,10 @@ const InputFormContainer = () => {
             setTotalPrice(price)
         }
     }
-    const removeCount = (id: number | string | boolean) => {
-        let idx = T_dragItems.findIndex(item => item.id === id)
+    const removeCount = ( id: number | string | boolean, mode: string) => {
+        let idx = T_dragItems.findIndex(item =>  item.id === id)
         if (typeof id === 'number') {
-            dispatch(itemActions.T_removeCount(idx))
+            dispatch(itemActions.T_removeCount({ idx, mode }))
         }
     }
 

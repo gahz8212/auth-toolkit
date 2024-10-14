@@ -40,7 +40,7 @@ const RsettingContainer = () => {
                 }
             })
             )
-        console.log('newItems', newItems)
+        // console.log('newItems', newItems)
         dispatch(editActions.inputDragItems(newItems))
         if (items) {
             const item = items.filter(item => item.id === id);
@@ -132,7 +132,7 @@ const RsettingContainer = () => {
                 const newArray = changeRelationToDragItems(items, newCreateRelations)
                 if (relations) {
                     const totalPrice = returnTotalPrice(items, newCreateRelations, newArray);
-                    console.log('totalPrice', totalPrice)
+                    // console.log('totalPrice', totalPrice)
                     dispatch(relateActions.calculateTotalPrice(totalPrice))
                 }
                 dispatch(itemActions.updateRelation(newCreateRelations)
@@ -287,7 +287,7 @@ const RsettingContainer = () => {
                 }
                 return acc;
             }, {})
-            console.log('result', result)
+            // console.log('result', result)
             dispatch(relateActions.calculateTotalPrice(result))
         }
     }, [dragItems_item, dispatch, items, relations])
