@@ -255,16 +255,15 @@ const editSlice = createSlice({
       }
     },
     removeCount: (state, { payload: itemsId }) => {
-      if (state.dragItems && state.dragItems[itemsId.idx].point > 0) {
-        state.dragItems[itemsId.idx].point =
-          state.dragItems[itemsId.idx].point - 1;
-        state.dragItems[itemsId.idx].sum_im_price =
-          state.dragItems[itemsId.idx].point *
-          state.dragItems[itemsId.idx].im_price;
-      } else {
-        if (state.dragItems) {
-          if (itemsId.mode === "cont") {
-          } else {
+      if (state.dragItems) {
+        if (state.dragItems[itemsId.idx].point > 0) {
+          state.dragItems[itemsId.idx].point =
+            state.dragItems[itemsId.idx].point - 1;
+          state.dragItems[itemsId.idx].sum_im_price =
+            state.dragItems[itemsId.idx].point *
+            state.dragItems[itemsId.idx].im_price;
+        } else {
+          if (itemsId.mode === "") {
             state.dragItems.splice(itemsId.idx, 1);
           }
         }

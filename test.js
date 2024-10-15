@@ -1,39 +1,66 @@
-let i = 0;
-let inter;
-const outer = setTimeout(() => {
-  inter = setInterval(() => {
-    console.log(i);
-    i++;
-    if (i > 20) {
-      // clearTimeout(outer);
-      clearInterval(inter);
-    }
-  }, 100);
-}, 1000);
+function sayHi() {
+  console.log(this.name);
+}
+sayHi.test = 5;
+let bound = sayHi.bind({ name: "John" });
 
-// const relationship2 = {
-//   name: "zero",
-//   friends: ["hero", "nero", "xero"],
-//   logFriends() {
-//     this.friends.forEach((friend) =>
-//       console.log("this.name", this.name, "friend", friend)
-//     );
+console.log(bound());
+// function partial(func, ...argsBound) {
+//   return function (...args) {
+//     return func.call(this, ...argsBound, ...args);
+//   };
+// }
+// let user = {
+//   firstName: "John",
+//   say(time, phrase) {
+//     console.log(`[${time}] ${this.firstName}: ${phrase}`);
 //   },
 // };
-// relationship2.logFriends();
-var relationship1 = {
-  name: "zero",
-  friends: { hero: "aaa", nero: "bbb" },
-  logFriends: function () {
-    console.log(this.friends.hero);
-    // var that = this;
-    // this.friends.forEach(function (friend) {
-    //   console.log("this.name", this.name, "friend", );
-    // });
-  },
-};
-relationship1.logFriends();
-// relationship2.logFriends();
+
+// user.sayNow = partial(
+//   user.say,
+//   new Date().getHours() + ":" + new Date().getMinutes()
+// );
+// user.sayNow("hello");
+
+// function mul(a, b) {
+//   return a * b;
+// }
+// let double = mul.bind(null, 4);
+// console.log(double(3));
+// let user = {
+//   firstName: "John",
+//   hi(phrase) {
+//     console.log(`${phrase}  ${this.firstName}`);
+//   },
+//   bye(phrase) {
+//     console.log(`${phrase}  ${this.firstName}`);
+//   },
+// };
+
+// for (let key in user) {
+//   if (typeof user[key] === "function") {
+//     user[key] = user[key].bind(user);
+//   }
+// }
+// user.hi("hello");
+// let user = {
+//   firstName: "John",
+// };
+// function sayHi() {
+//   console.log(this.firstName);
+// }
+// let func = sayHi.bind(user);
+// setTimeout(func, 1000);
+// user = {
+//   sayHi() {
+//     console.log("bbb");
+//   },
+// };
+// user.sayHi();
+// setTimeout(() => {
+//   user.sayHi();
+// }, 1000);
 // const result = {
 //   date: "2024-09-18",
 //   eur: {
