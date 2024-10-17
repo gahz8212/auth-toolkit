@@ -40,7 +40,7 @@ type Props = {
     openAddForm: () => void;
     dragItems: { [key: string]: string | number | boolean }[];
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
-    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean, mode: string) => void;
     drag_on: (targetId: number, itemId: number) => void;
     // sum_input_price: number
     dragedItem: { id: number } | null;

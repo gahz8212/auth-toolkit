@@ -99,10 +99,10 @@ const RsettingContainer = () => {
             }
         }
     }
-    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean) => {
+    const removeCount = (targetId: number | string | boolean, itemId: number | string | boolean, mode: string) => {
         let idx = dragItems_item.findIndex(dragItem_item => dragItem_item.targetId === targetId && dragItem_item.id === itemId)
         if (typeof targetId === 'number' && typeof itemId === 'number') {
-            dispatch(itemActions.removeCount({ idx, targetId }))
+            dispatch(itemActions.removeCount({ idx, targetId, mode }))
             if (items && viewMode) {
                 let idx = items.findIndex(item => item.id === itemId && item.upperId === targetId)
                 let idx_drag = dragItems_edit?.findIndex(dragItem_edit => dragItem_edit.id === itemId)

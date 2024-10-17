@@ -121,7 +121,7 @@ const relateSlice = createSlice({
         const idx = state.relate_view?.findIndex(
           (view) => view.currentId === currentId
         );
-        console.log("idx", idx);
+        // console.log("idx", idx);
         state.relate_view.splice(idx, 1);
       }
     },

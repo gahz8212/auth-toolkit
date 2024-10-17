@@ -17,7 +17,7 @@ type Props = {
     }[] | null;
     dragItems: { [key: string]: string | number | boolean }[];
     addCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
-    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean) => void;
+    removeCount: (targetId: number | string | boolean, itemId: number | string | boolean, mode: string) => void;
     drag_on: (targetId: number, itemId: number) => void;
     dragedItem: { id: number } | null;
     viewRelation: (toggle: boolean) => void;
@@ -57,7 +57,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
         setTout(setTimeout(() => {
             setInter(
                 setInterval(() => {
-                    removeCount(targetId, id)
+                    removeCount(targetId, id, 'cont')
                 }, 100))
         }, 500))
     }
@@ -109,12 +109,12 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 //닫힐때
                                 setViewMode(false)
 
-                                // addRelateGood({
-                                //     id: item.id,
-                                //     dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
-                                //     mode: 'left'
-                                // })
-                                // selectItem(item.id)
+                                //현재 상황 저장
+                                addRelateGood({
+                                    id: item.id,
+                                    dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
+                                    mode: 'left'
+                                })
 
 
 
@@ -167,7 +167,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                         </span>
                                         <span>{dragitem.point}</span>
                                         <span className="material-symbols-outlined remove" style={{ fontSize: '20px' }}
-                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id) }}
+                                            onClick={() => { removeCount(dragitem.targetId, dragitem.id, '') }}
                                             onMouseDown={() => {
                                                 if (typeof dragitem.targetId === 'number' && typeof dragitem.id === 'number')
                                                     deCrease(dragitem.targetId, dragitem.id)
@@ -183,6 +183,7 @@ const LeftComponent: React.FC<Props> = ({ items, dragItems, addCount, removeCoun
                                 </div>)}
                         </div>
                         {!openView && openId.includes(item.id) && <button onClick={() => {
+                            //현재 상황 저장
                             addRelateGood({
                                 id: item.id,
                                 dragItems: dragItems.filter(dragItem => dragItem.targetId === item.id),
