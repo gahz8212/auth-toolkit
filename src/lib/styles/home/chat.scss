@@ -1,0 +1,42 @@
+.Wrap-chat-user {
+  display: flex;
+  width: 750px;
+  margin: 0 auto;
+  .Wrap-chat {
+    // margin: 0 auto;
+    width: 550px;
+    .control {
+      justify-content: flex-end;
+
+      display: flex;
+      align-items: center;
+    }
+    .chats {
+      border: 1px solid black;
+      height: 300px;
+      overflow-y: auto;
+      padding: 1rem;
+      & .username {
+        margin-bottom: 0.5rem;
+        color: gray;
+        font-size: 0.8rem;
+      }
+      & .chat + .chat {
+        margin-top: 1rem;
+      }
+      & .left {
+        text-align: left;
+      }
+      & .right {
+        text-align: right;
+      }
+      & .center {
+        text-align: center;
+      }
+    }
+  }
+  .userList {
+    width: 100px;
+    background: yellow;
+  }
+}
