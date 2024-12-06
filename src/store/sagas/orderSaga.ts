@@ -1,6 +1,6 @@
 import { call, put, take, takeLatest } from "redux-saga/effects";
 import { OrderAction } from "../slices/orderSlice";
-import * as orderAPI from "../../lib/api/orderAPI";
+import * as orderAPI from "../../lib/api/auth/orderAPI";
 function* getDummyItemSaga() {
   try {
     const response: { data: any[] } = yield call(orderAPI.getDummyItem);

@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import * as itemAPI from "../../lib/api/itemAPI";
+import * as itemAPI from "../../lib/api/auth/itemAPI";
 import { editActions } from "../slices/editSlice";
 
 function* editImageSaga(action: { payload: FormData }) {

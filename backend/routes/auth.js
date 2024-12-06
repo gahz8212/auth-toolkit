@@ -39,24 +39,58 @@ router.post("/login", async (req, res) => {
   })(req, res);
 });
 router.get("/check", async (req, res) => {
+  console.log("backend");
   try {
-    const { id, name } = req.user;
-    return res.status(200).json({ id, name });
+    const { id, name, rank } = req.user;
+
+    let expires = Date.now() + 1000 * 60 * 60;
+    req.session.cookie.expires = expires;
+    req.app
+      .get("io")
+      // .of("/room")
+      .to("chat")
+      .emit("chat", {
+        chat: `${req.user.name}님이 로그인 하셨습니다.`,
+        name: "system",
+      });
+
+    return res.status(200).json({
+      auth: { id, name, rank },
+      expires,
+    });
   } catch (e) {
     return res.status(400).json(e.message);
   }
 });
 router.post("/logout", async (req, res) => {
-  try {
-    return req.logout((e) => {
-      if (e) {
-        return;
-      }
-      req.session.destroy();
+  req.app
+    .get("io")
+    .to("chat")
+    .emit("chat", {
+      chat: `${req.user.name}님이 로그아웃 하셨습니다.`,
+      name: "system",
+    });
+  req.logout((e) => {
+    if (e) {
+      return;
+    }
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid", {
+        httpOnly: true,
+        secure: false,
+        path: "/",
+      });
       return res.send("logout_ok");
     });
-  } catch (e) {
-    console.error(e);
-  }
+  });
+});
+router.post("/extends", (req, res) => {
+  console.log("extends");
+
+  req.session.touch();
+
+  let expires = Date.now() + 1000 * 60 * 60;
+  req.session.cookie.expires = expires;
+  res.status(200).json(expires);
 });
 module.exports = router;

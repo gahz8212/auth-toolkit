@@ -1,10 +1,13 @@
-function sayHi() {
-  console.log(this.name);
-}
-sayHi.test = 5;
-let bound = sayHi.bind({ name: "John" });
 
-console.log(bound());
+
+
+// function sayHi() {
+//   console.log(this.name);
+// }
+// sayHi.test = 5;
+// let bound = sayHi.bind({ name: "John" });
+
+// console.log(bound());
 // function partial(func, ...argsBound) {
 //   return function (...args) {
 //     return func.call(this, ...argsBound, ...args);

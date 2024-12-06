@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 type Props = {
     type: string;
     error: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    form: { email: string, password: string, name?: string }
+    onChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
+    form: { email: string, password: string, name?: string, rank?: number }
     onSubmit: () => void;
 }
 const StyledButton = Styled.button <{ option: string }>`
@@ -38,8 +38,18 @@ const AuthForm: React.FC<Props> = ({ type, form, onChange, onSubmit, error }) =>
             <div className="formContainer">
 
                 <div className="inputs">
-                    <input type="email" placeholder='이메일 입력' name="email" value={form.email} onChange={onChange} autoComplete='off' />
-                    {type === 'join' && <input type="text" placeholder='이름 입력' name='name' value={form.name} onChange={onChange} />}
+                    {type === 'join' &&
+                        <div className="inputName">
+                            <input type="text" placeholder='이름 입력' name='name' value={form.name} onChange={onChange} />
+                            <select name="rank" id="" onChange={onChange} value={form.rank}>
+                                <option value="">직급</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>}
+                    <input type="email" placeholder='이메일 입력' name="email" value={form.email} onChange={onChange} autoComplete='on' />
+
                     <input type="password" placeholder='비밀번호 입력' name="password" value={form.password} onChange={onChange} />
                 </div>
                 <div>

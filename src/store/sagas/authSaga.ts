@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import * as authAPI from "../../lib/api/authAPI";
+import * as authAPI from "../../lib/api/auth/authAPI";
 import { authActions } from "../slices/authSlice";
 function* loginSaga(action: { payload: { email: string; password: string } }) {
   try {
@@ -22,36 +22,36 @@ function* joinSaga(action: {
     yield put(authActions.joinFailure(e.response.data));
   }
 }
-function* checkSaga() {
-  try {
-    const response: { data: { id: number; name: string } } = yield call(
-      authAPI.check
-    );
-    // console.log(response.data);
-    yield put(authActions.checkSuccess(response.data));
-  } catch (e: any) {
-    yield put(authActions.checkFailure(e.response.data));
-  }
-}
-function* logoutSaga() {
-  yield call(authAPI.logout);
-  try {
-    localStorage.removeItem("user");
-  } catch (e) {
-    console.error("localstorage is not working");
-  }
-}
-function checkFailureSaga() {
-  try {
-    localStorage.removeItem("user");
-  } catch (e) {
-    console.error("localstorage is not working");
-  }
-}
+// function* checkSaga() {
+//   try {
+//     const response: { data: { id: number; name: string } } = yield call(
+//       authAPI.check
+//     );
+//     // console.log(response.data);
+//     yield put(authActions.checkSuccess(response.data));
+//   } catch (e: any) {
+//     yield put(authActions.checkFailure(e.response.data));
+//   }
+// }
+// function* logoutSaga() {
+//   yield call(authAPI.logout);
+//   try {
+//     localStorage.removeItem("user");
+//   } catch (e) {
+//     console.error("localstorage is not working");
+//   }
+// }
+// function checkFailureSaga() {
+//   try {
+//     localStorage.removeItem("user");
+//   } catch (e) {
+//     console.error("localstorage is not working");
+//   }
+// }
 export function* authSaga() {
   yield takeLatest(authActions.login, loginSaga);
   yield takeLatest(authActions.join, joinSaga);
-  yield takeLatest(authActions.check, checkSaga);
-  yield takeLatest(authActions.logout, logoutSaga);
-  yield takeLatest(authActions.checkFailure, checkFailureSaga);
+  // yield takeLatest(authActions.check, checkSaga);
+  // yield takeLatest(authActions.logout, logoutSaga);
+  // yield takeLatest(authActions.checkFailure, checkFailureSaga);
 }

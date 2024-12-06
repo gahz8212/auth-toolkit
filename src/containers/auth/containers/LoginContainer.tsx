@@ -3,22 +3,23 @@ import AuthTemplate from '../components/AuthTemplate';
 import AuthForm from '../components/AuthForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { authActions } from '../../../store/slices/authSlice';
-
-import { response } from '../../../store/slices/authSlice';
+import { authData, authActions } from '../../../store/slices/authSlice';
+import { userData, userActions } from '../../../store/slices/userSlice';
+import io from 'socket.io-client';
+const socket = io('/', { withCredentials: true, path: '/socket.io' })
 const LoginContainer = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     // const { form } = useSelector((state: RootState) => ({ form: state.auth.login }))
-    const { error, message, auth, loginData } = useSelector(response)
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { changeField } = authActions;
+    const { error, message, loginData } = useSelector(authData)
+    const { auth } = useSelector(userData)
+    const onChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
-        dispatch(changeField({ form: 'login', key: name, value }))
+        dispatch(authActions.changeField({ form: 'login', key: name, value }))
     }
     const login = () => {
         if (!loginData.email || !loginData.password) return;
-        console.log(loginData.email, loginData.password)
+        // console.log(loginData.email, loginData.password)
 
         dispatch(authActions.login({ email: loginData.email, password: loginData.password }))
 
@@ -29,13 +30,14 @@ const LoginContainer = () => {
             return;
         }
         if (message === 'login_ok') {
-            dispatch(authActions.check())
+            dispatch(userActions.check())
         }
     }, [dispatch, error, message])
 
     useEffect(() => {
         if (auth) {
             navigate('/home')
+            socket.emit('login_user', auth.name)
             try {
                 localStorage.setItem('user', JSON.stringify(auth))
             } catch (e) {

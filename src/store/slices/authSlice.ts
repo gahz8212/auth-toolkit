@@ -1,22 +1,20 @@
 import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../";
 type State = {
-  [key: string]: {
-    [key: string]: string | { id: number | ""; name: string } | null;
-  };
+  [key: string]: { [key: string]: string | number | boolean };
   login: { email: string; password: string };
-  join: { email: string; password: string; name: string };
+  join: { email: string; password: string; name: string; rank: number };
   status: {
     message: string;
     error: string;
-    auth: { id: number | ""; name: string } | null;
+    loading: boolean;
   };
 };
 
 const initialState: State = {
   login: { email: "", password: "" },
-  join: { email: "", name: "", password: "" },
-  status: { message: "", error: "", auth: null },
+  join: { email: "", name: "", password: "", rank: 0 },
+  status: { message: "", error: "", loading: false },
 };
 const errorSelector = (state: RootState) => {
   return state.auth.status.error;
@@ -24,25 +22,21 @@ const errorSelector = (state: RootState) => {
 const messageSelector = (state: RootState) => {
   return state.auth.status.message;
 };
-const authSelector = (state: RootState) => {
-  return state.auth.status.auth;
-};
+
 const loginSelector = (state: RootState) => {
   return state.auth.login;
 };
 const joinSelector = (state: RootState) => {
   return state.auth.join;
 };
-export const response = createSelector(
+export const authData = createSelector(
   errorSelector,
   messageSelector,
-  authSelector,
   loginSelector,
   joinSelector,
-  (error, message, auth, loginData, joinData) => ({
+  (error, message, loginData, joinData) => ({
     error,
     message,
-    auth,
     loginData,
     joinData,
   })
@@ -79,7 +73,12 @@ const authSlice = createSlice({
     },
     join: (
       state,
-      action: PayloadAction<{ email: string; password: string; name: string }>
+      action: PayloadAction<{
+        email: string;
+        password: string;
+        name: string;
+        rank: number;
+      }>
     ) => {
       state.status.message = "";
       state.status.error = "";
@@ -91,21 +90,6 @@ const authSlice = createSlice({
     joinFailure: (state, { payload: error }) => {
       state.status.message = "";
       state.status.error = error;
-    },
-    check: (state) => {
-      state.status.error = "";
-      state.status.message = "";
-    },
-    checkSuccess: (state, { payload: auth }) => {
-      // console.log("auth", auth);
-      state.status.auth = auth;
-      state.status.error = "";
-    },
-    checkFailure: (state, { payload: error }) => {
-      state.status.error = error;
-    },
-    logout: (state) => {
-      state.status.auth = initialState.status.auth;
     },
   },
 });

@@ -41,6 +41,25 @@ a {
     align-items: flex-end;
     // justify-content: center;
     .inputs {
+      // border: 1px solid black;
+
+      .inputName {
+        display: flex;
+        justify-content: space-between;
+        input {
+          width: 50%;
+        }
+        select {
+          font-size: 1rem;
+          color: green;
+          text-align: center;
+          width: 30%;
+          border: none;
+          outline: none;
+          border-bottom: 2px solid black;
+          margin-right: 1rem;
+        }
+      }
       input {
         border: none;
         outline: none;

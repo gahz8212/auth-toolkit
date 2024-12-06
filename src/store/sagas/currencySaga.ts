@@ -1,5 +1,5 @@
 import { takeLatest, call, put } from "redux-saga/effects";
-import * as currencyAPI from "../../lib/api/currencyAPI";
+import * as currencyAPI from "../../lib/api/auth/currencyAPI";
 import { currencyActions } from "../slices/currencySlice";
 
 function* searchCurrencySaga() {

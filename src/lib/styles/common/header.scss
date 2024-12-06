@@ -42,6 +42,39 @@
       font-size: 1.1rem;
     }
   }
+  .expAlarm {
+    padding: 20px;
+    border-radius: 8px;
+    // background: lightblue;
+    position: fixed;
+    top: 30%;
+
+    left: 50%;
+    width: 400px;
+    height: 250px;
+    transition: 0.8s;
+    // transition: transform 0.8s;
+    &.red {
+      transition: 2s;
+      background-color: orange;
+    }
+    &.blue {
+      background-color: lightblue;
+    }
+    &.visible {
+      transform: translateX(-50%);
+      opacity: 1;
+    }
+    &.hidden {
+      transform: translateX(250%);
+      opacity: 0;
+    }
+    .buttons {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
 }
 .space {
   width: 100%;

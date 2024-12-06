@@ -13,6 +13,7 @@ const ItemBackup = require("./item-backup");
 const Relation = require("./relation");
 const Pallet = require("./pallet");
 const Picker = require("./picker");
+const Chat = require("./chat");
 
 const sequelize = new Sequelize(
   config.database,
@@ -32,21 +33,26 @@ db.ItemBackup = ItemBackup;
 db.Relation = Relation;
 db.Pallet = Pallet;
 db.Picker = Picker;
+db.Chat = Chat;
 // db.OrderSheet = OrderSheet;
 User.init(sequelize);
 Item.init(sequelize);
 Image.init(sequelize);
 Good.init(sequelize);
+Chat.init(sequelize);
 GoodBackup.init(sequelize);
 ItemBackup.init(sequelize);
 Order.init(sequelize);
 Relation.init(sequelize);
 Pallet.init(sequelize);
 Picker.init(sequelize);
+Chat.init(sequelize);
 
+User.associate(db);
 Image.associate(db);
 Good.associate(db);
 GoodBackup.associate(db);
 Item.associate(db);
 Picker.associate(db);
+Chat.associate(db);
 module.exports = db;
