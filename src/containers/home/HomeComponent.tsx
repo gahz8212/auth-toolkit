@@ -72,8 +72,9 @@ const HomeComponent: React.FC<Props> = ({ fromCurrency, resultCurrency, users, o
                     <form className="control"
                         onSubmit={onSubmit}>
                         <input type="text" onChange={onChange} value={message} />
-                        <button>전송</button>
-                        <input type="file" name="images" id="" onChange={onInsertImage} multiple accept='image/*' />
+                        <button className='btn'>전송</button>
+                        <label htmlFor="photo" className='btn'>사진</label>
+                        <input type="file" name="images" id="photo" onChange={onInsertImage} multiple accept='image/*' />
                     </form>
                 </div>
                 <div className="userList">
