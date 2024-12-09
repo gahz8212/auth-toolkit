@@ -99,11 +99,13 @@ const HomeContainer = () => {
                 }
                 return acc;
             }, {})
-            console.log('result', result)
+            // console.log('result', result)
             dispatch(relateActions.calculateTotalPrice(result))
         }
     }, [dragItems, dispatch, items, relations])
     useEffect(() => { dispatch(currencyActions.searchCurrency()) }, [dispatch])
+
+
     useEffect(() => {
         if (!io) return
         if (once.current) {
@@ -111,7 +113,7 @@ const HomeContainer = () => {
             return
         }
         socket.on('chat', (data: { chat: string, name: string, image: string, userList: string[] }) => {
-
+            console.log('data', data)
             setChats(prev => [...prev, data])
         })
         once.current = true;
@@ -180,13 +182,8 @@ const HomeContainer = () => {
         }
     }, [])
     useEffect(() => {
-        if (once.current) {
-            once.current = false;
-            return
-        }
         setChats(prev => prev.concat(messages))
         setTimeout(scrollToBottom, 100)
-        once.current = true
     }, [messages])
     useEffect(() => {
         setTimeout(scrollToBottom, 1000)
@@ -200,13 +197,11 @@ const HomeContainer = () => {
             users={users}
             auth={auth}
             onInsertImage={onInsertImage}
-            message={message}
             scrollRef={scrollRef}
             onChange={onChange}
             onSubmit={onSubmit}
-            messages={messages}
-        // list={orders}
-
+            message={message}
+            messages={chats}
         />
     );
 };

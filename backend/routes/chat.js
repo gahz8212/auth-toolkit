@@ -31,9 +31,12 @@ router.post("/images", upload.array("images"), async (req, res) => {
     images.split(",").map((image) => ({
       url: `${image}`,
     }));
-    console.log("images", images);
+    // console.log("images", images);
     // const { id } = req.params;
-    req.app.get("io").emit("chat", { name: req.user.name, image: images });
+    req.app
+      .get("io")
+      .to("chat")
+      .emit("chat", { name: req.user.name, image: images });
 
     return res.status(200).json("image_ok");
   } catch (e) {

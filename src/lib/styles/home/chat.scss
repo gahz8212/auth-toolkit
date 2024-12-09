@@ -1,59 +1,156 @@
-.Wrap-chat-user {
+.Wrap-home {
+  margin: 7rem auto;
+  width: 1200px;
+  height: 95%;
   display: flex;
-  width: 750px;
-  margin: 0 auto;
-  .Wrap-chat {
-    // margin: 0 auto;
-    width: 550px;
-    .control {
-      justify-content: flex-end;
-      display: flex;
-      align-items: center;
-      input[type="text"] {
-        width: 70%;
+  justify-content: space-between;
+
+  .currentcy_form {
+    position: absolute;
+    top: 11rem;
+    left: 100px;
+    width: 200px;
+    border: 1px solid green;
+  }
+  .myboard {
+    width: 600px;
+    height: 530px;
+    border: 1px solid black;
+    font-size: 2rem;
+    line-height: 15;
+    text-align: center;
+  }
+  .Wrap-chat-user {
+    // border: 1px solid red;
+
+    .Wrap-chat {
+      width: 550px;
+      .search {
+        display: flex;
+        padding-bottom: 0.5rem;
+        // text-align: center;
+
+        input[type="date"] {
+          border: none;
+          position: relative;
+          width: 50px;
+          // padding: 0;
+
+          &::-webkit-calendar-picker-indicator {
+            font-size: 1.5rem;
+            position: absolute;
+          }
+
+          //왼쪽위에 위치시키고 클릭 영역을 부모(input)의 크기만큼 가짐
+          // left: 0;
+          // right: 0;
+          // top: 10px;
+          // width: 100%;
+          // height: 100%;
+          // 배경과 글자를 투명하게 하여 기존의 아이콘이 없는 것처럼 보여줌
+          // background: transparent;
+          // color: transparent;
+          // cursor: pointer;
+          // }
+          // input[type="date"]::before {
+          //   // content: attr(placeholder);
+          //   line-height: 1;
+          //   // width: 100%;
+          //   // height: 100%;
+          &:not(:focus):invalid {
+            &::-webkit-datetime-edit-text,
+            &::-webkit-datetime-edit-month-field,
+            &::-webkit-datetime-edit-day-field,
+            &::-webkit-datetime-edit-year-field {
+              -webkit-appearance: none;
+              display: none;
+            }
+          }
+          &:valid::before {
+            display: none;
+          }
+        }
+        select {
+          padding: 0.5rem;
+        }
+        input[type="text"] {
+          width: 260px;
+          font-size: 1.1rem;
+          margin-left: 1rem;
+          &:focus {
+            background-color: yellow;
+          }
+        }
+      }
+      .control {
+        padding-top: 0.5rem;
+        justify-content: flex-start;
+        display: flex;
+        align-items: center;
+
+        input[type="text"] {
+          width: 70%;
+          padding: 0.5rem;
+          font-size: 1.1rem;
+          &:focus {
+            background-color: yellow;
+          }
+        }
+        input[type="file"] {
+          display: inline-block;
+          display: none;
+        }
       }
       .btn {
         border: none;
         outline: none;
-        padding: 0.2rem;
+        display: block;
         width: 50px;
         height: 30px;
-        font-size: 1rem;
-        background-color: green;
-      }
-      input[type="file"] {
-        display: inline-block;
-        display: none;
+        font-size: 0.9rem;
+        background-color: lightgray;
+        margin-left: 1rem;
+        border-radius: 6px;
         text-align: center;
+        line-height: 2;
+        cursor: pointer;
+        transition: background-color 0.5s;
+        &:hover {
+          background-color: gray;
+        }
+      }
+      .chats {
+        border: 1px solid black;
+        height: 400px;
+        overflow-y: auto;
+        padding: 1rem;
+        & .username {
+          margin-bottom: 0.5rem;
+          color: gray;
+          font-size: 0.8rem;
+        }
+        & .chat + .chat {
+          margin-top: 1rem;
+        }
+        & .left {
+          text-align: left;
+        }
+        & .right {
+          text-align: right;
+        }
+        & .center {
+          text-align: center;
+        }
       }
     }
-    .chats {
-      border: 1px solid black;
+    .userList {
+      width: 200px;
+      text-align: center;
+      border: 1px solid green;
+      position: absolute;
       height: 300px;
-      overflow-y: auto;
-      padding: 1rem;
-      & .username {
-        margin-bottom: 0.5rem;
-        color: gray;
-        font-size: 0.8rem;
-      }
-      & .chat + .chat {
-        margin-top: 1rem;
-      }
-      & .left {
-        text-align: left;
-      }
-      & .right {
-        text-align: right;
-      }
-      & .center {
-        text-align: center;
-      }
+      right: 100px;
+      top: 11rem;
     }
-  }
-  .userList {
-    width: 100px;
-    border: 1px solid black;
-    // background: yellow;
   }
 }

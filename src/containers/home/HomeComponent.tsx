@@ -14,11 +14,11 @@ type Props = {
     resultCurrency: { [key: string]: { [key: string]: number } } | null
 }
 const HomeComponent: React.FC<Props> = ({ fromCurrency, resultCurrency, users, onInsertImage, auth, scrollRef, message, onSubmit, onChange, messages }) => {
-    console.log(messages)
+    // console.log(messages)
     if (!resultCurrency) return null;
     return (
-        <div style={{ margin: '7rem auto', width: '1000px', height: '2000px' }}>
-            <div >
+        <div className='Wrap-home'>
+            <div className='currentcy_form'>
                 <div className="title">환율계산기</div>
                 <div className="curr">
 
@@ -36,14 +36,17 @@ const HomeComponent: React.FC<Props> = ({ fromCurrency, resultCurrency, users, o
                 </div>
             </div >
 
-
+            <div className="myboard">
+                게시판 자리
+            </div>
             <div className='Wrap-chat-user'>
-                Chatting
+
                 <div className="Wrap-chat">
 
                     <div className="search">
-                        <input type="date" name="startDay" id="" />
-                        <input type="date" name="endDay" id="" />
+
+                        <input type="date" name="startDay" id="sdate" required />
+                        <input type="date" name="endDay" id="edate" required />
                         <select name="user" id="" >
                             <option value="">전체</option>
                             {
@@ -53,7 +56,7 @@ const HomeComponent: React.FC<Props> = ({ fromCurrency, resultCurrency, users, o
                             }
                         </select>
                         <input type="text" name="phrase" id="" />
-                        <button>검색</button>
+                        <button className='btn'>검색</button>
                     </div>
                     <div className="chats" ref={scrollRef}>
                         {messages?.map((message, index) => {
@@ -72,12 +75,13 @@ const HomeComponent: React.FC<Props> = ({ fromCurrency, resultCurrency, users, o
                     <form className="control"
                         onSubmit={onSubmit}>
                         <input type="text" onChange={onChange} value={message} />
-                        <button className='btn'>전송</button>
+                        <button className='btn' >전송</button>
                         <label htmlFor="photo" className='btn'>사진</label>
                         <input type="file" name="images" id="photo" onChange={onInsertImage} multiple accept='image/*' />
                     </form>
                 </div>
                 <div className="userList">
+                    접속한 직원 명단
                     <ul>
                         {users && users.map(user => auth?.name !== user && <li key={user}>{user}</li>)}
                     </ul>
