@@ -113,8 +113,13 @@ const HomeContainer = () => {
             return
         }
         socket.on('chat', (data: { chat: string, name: string, image: string, userList: string[] }) => {
-            console.log('data', data)
+            // console.log('data', data)
             setChats(prev => [...prev, data])
+            if (data.image) {
+                setTimeout(scrollToBottom, 1000)
+            } else {
+                setTimeout(scrollToBottom, 100)
+            }
         })
         once.current = true;
         return () => {
@@ -166,8 +171,8 @@ const HomeContainer = () => {
             try {
                 localStorage.removeItem('users')
                 localStorage.setItem('users', usersString)
-                const result = localStorage.getItem('users')
-                console.log(result)
+                localStorage.getItem('users')
+                // console.log(result)
             } catch (e) { console.log('local storage is goes bad') }
             setUsers(users)
 
@@ -182,13 +187,14 @@ const HomeContainer = () => {
         }
     }, [])
     useEffect(() => {
-        setChats(prev => prev.concat(messages))
+        // setChats(prev => prev.concat(messages))
+        setChats(messages)
         setTimeout(scrollToBottom, 100)
     }, [messages])
-    useEffect(() => {
-        setTimeout(scrollToBottom, 1000)
-        // scrollToBottom()
-    }, [chats])
+    // useEffect(() => {
+    //     setTimeout(scrollToBottom, 1000)
+    //     // scrollToBottom()
+    // }, [chats])
     return (
         <HomeComponent
             fromCurrency={fromCurrency}
