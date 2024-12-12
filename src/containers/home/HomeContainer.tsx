@@ -187,14 +187,14 @@ const HomeContainer = () => {
         }
     }, [])
     useEffect(() => {
-        // setChats(prev => prev.concat(messages))
         setChats(messages)
-        setTimeout(scrollToBottom, 100)
+        setTimeout(scrollToBottom, 1000)
     }, [messages])
-    // useEffect(() => {
-    //     setTimeout(scrollToBottom, 1000)
-    //     // scrollToBottom()
-    // }, [chats])
+
+    useEffect(() => {
+        dispatch(chatActions.getChats())
+    }, [dispatch])
+
     return (
         <HomeComponent
             fromCurrency={fromCurrency}
