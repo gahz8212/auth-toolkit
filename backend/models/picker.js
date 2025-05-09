@@ -30,3 +30,4 @@ module.exports = class Picker extends Sequelize.Model {
     db.Picker.belongsTo(db.Item);
   }
 };
+//관계설정은 결국 join을 해서 데이터를 가져오기 위한 도구다.

@@ -17,3 +17,4 @@ module.exports = class Relation extends Sequelize.Model {
     );
   }
 };
+//아이템의 belongsToMany 관계의 through 모델이지만 point열을 넣어주기 위해 직접 지정함.

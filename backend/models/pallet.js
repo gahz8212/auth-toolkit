@@ -24,3 +24,4 @@ module.exports = class Pallet extends Sequelize.Model {
     );
   }
 };
+//여러부분에 Hash를 사용해야 하나 그러지 못했으니 Hash를 이용해보자

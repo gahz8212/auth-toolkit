@@ -127,3 +127,5 @@ module.exports = class Item extends Sequelize.Model {
     });
   }
 };
+//Item에서 시작해서 Item으로 끝난다. Item간 결합하고 해체하여 Item이 된다.
+//hooks도 적용했으니 제대로 동작하는지 확인해야 한다.
